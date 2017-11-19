@@ -5,7 +5,10 @@
 
 (defn lex [str]
   "Tokenizes the input stream"
-  (clojure.string/split str #"(?=<%=)|(?<=<%=)|(?=<%)|(?<=<%)|(?=%>)|(?<=%>)"))
+  ; Note: I haven't figured out how to isolate both <% and <%= in the
+  ; time I allotted myself. For the meantime, this regex splits <%=
+  ; into <% followed by = .
+  (clojure.string/split str #"(?=<%=?)|(?<=<%=?)|(?=%>)|(?<=%>)"))
 
 (defn echo [acc val & _]
   "Echoes the value literal to the rendered output"
@@ -29,14 +32,15 @@
 (fsm/defsm tokens->forms
            [[:echo
              "<%" -> :eval
-             "<%=" -> :echo-eval
+             ;"<%=" -> :echo-eval
              _ -> {:action echo} :echo]
             [:eval
+             "=" -> :echo-eval
              "%>" -> :echo
              _ -> {:action -eval} :eval]
             [:echo-eval
              "%>" -> :echo
-             _ -> {:action echo-eval} :echo]]
+             _ -> {:action echo-eval} :echo-eval]]
            :default-acc {:output []})
 
 (defn parse [tokens]
@@ -51,6 +55,7 @@
 
 (defn render [input]
   (println "INPUT:" input)
+  (println "LEXED:" (lex input))
   (println "FORMS:" (parse (lex input)))
   (println "EVALD:" (last (eval-soup/code->results (wrap-forms (parse (lex input))))))
   (last (eval-soup/code->results (wrap-forms (parse (lex input))))))

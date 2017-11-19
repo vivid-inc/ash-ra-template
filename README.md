@@ -11,15 +11,15 @@ We find the ERB syntax quite clear, and its ability to interpret code in-stream 
 
 ## Todo
 
+- Full ERB syntax as of Ruby 2.0. Investigate how to allow ``%>`` to be written in template code such that it can be in ERB.
+- Take an optional hash of defines.
+- Take an optional seq of code to insert at the beginning.
+- Expose fns to users: emit, include.
 - Declare version 1.0.0 once the community deems the codebase feature-complete, reliable, and properly documented.
 
 Appealing:
 - ClojureScript support.
 - Fully lazy implementation.
-- Full ERB syntax as of Ruby 2.0
-- Take an optional hash of defines.
-- Take an optional seq of code to insert at the beginning.
-- Expose fns to users: emit, include.
 
 ## Contribute
 
