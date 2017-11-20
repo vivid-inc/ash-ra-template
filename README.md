@@ -9,6 +9,8 @@ So to keep this expressive power we wrote Ash Ra Templates, or **ART**.
 
 ## Usage
 
+[![Clojars Project](https://img.shields.io/clojars/v/vivid/ash-ra-template.svg)](https://clojars.org/vivid/ash-ra-template)
+
 Note that until ART achieves version 1.0 status, the API may be subject to change.
 
 Include this library from Clojars by adding ``[vivid/ash-ra-template "0.1.0"]`` to ``:dependencies`` in your ``project.clj``.
@@ -65,16 +67,14 @@ Here is an example of intermixing text and Clojure code blocks that realizes the
 (defn join [sep xs]
       (apply str (interpose sep xs)))
 %>
-
 <p>
-  This research in the field of Chondrichthyes was published in <%= (join ", " publication_dates) %>.
+  Chondrichthyes research published in <%= (join ", " publication_dates) %>.
 </p>
 ```
 results in:
 ```html
-
 <p>
-  This research in the field of Chondrichthyes was published in 1987, 1989, 1992.
+  Chondrichthyes research published in 1987, 1989, 1992.
 </p>
 ```
 

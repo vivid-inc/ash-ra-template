@@ -43,23 +43,36 @@
            (render "")))))
 
 (deftest well-formed-templates
-  (testing "Well-formed templates"
-    (is (= "Pi is approximately equal to 3.14."
-           (render "<%(def pi 3.14)%>Pi is approximately equal to <%=pi%>.")))
+  (testing "Ensure template examples occuring in the project README function correctly"
+    (is (= "There were 3 swallows, dancing in the sky."
+           (render "There were <%= (+ 1 2) %> swallows, dancing in the sky.")))
+    (is (= "We are but stow-aways aboard a drifting ship, forsaken to the caprices of the wind and currents."
+           (render "We are but stow-aways aboard a drifting ship, forsaken to the caprices of the wind and currents.")))
     (is (= "
-
 <p>
-This research in the field of Chondrichthyes was published in 1987, 1989, 1992.
+Chondrichthyes research published in 1987, 1989, 1992.
 </p>"
            (render "<%
 (def publication_dates [1987 1989 1992])
 (defn join [sep xs]
   (apply str (interpose sep xs)))
 %>
-
 <p>
-This research in the field of Chondrichthyes was published in <%= (join \", \" publication_dates) %>.
-</p>")))
+Chondrichthyes research published in <%= (join \", \" publication_dates) %>.
+</p>"))))
+
+  (testing "Well-formed templates"
+    (is (= "Pi is approximately equal to 3.14."
+           (render "<%(def pi 3.14)%>Pi is approximately equal to <%=pi%>.")))
+    (is (= "
+3 + 9 = 12
+Sally Forth"
+           (render "<%
+(defn appnd [s] (str s \"th\"))
+(defn plus9 [x] (+ x 9))
+%>
+3 + 9 = <%= (plus9 3) %>
+Sally <%= (appnd \"For\") %>")))
     (is (= "Countdown: 5 4 3 2 1 0"
            (render "Countdown:<%=(loop [s \"\"  x 5] (if (>= x 0) (recur (str s \" \" x) (dec x)) s))%>")))))
 

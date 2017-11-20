@@ -3,6 +3,8 @@
     [eval-soup.core :as eval-soup]
     [reduce-fsm :as fsm]))
 
+; Referencing the canonical implementation of ERB: https://github.com/ruby/ruby/blob/trunk/lib/erb.rb
+
 (defn lex [str]
   "Tokenizes the input stream"
   ; Note: I haven't figured out how to isolate both <% and <%= in the
@@ -56,7 +58,7 @@
 (defn render [input]
   ;(println "INPUT:" input)
   ;(println "LEXED:" (lex input))
-  ;(println "FORMS:" (parse (lex input)))
+  ;(println "FORMS:" (interpose ";\n" (wrap-forms (parse (lex input)))))
   ;(println "EVALD:" (last (eval-soup/code->results (wrap-forms (parse (lex input))))))
   (-> input
       (lex)
