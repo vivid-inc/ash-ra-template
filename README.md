@@ -1,6 +1,6 @@
 # Ash Ra Templates
 
-Minimal templating library for Clojure featuring Ruby 2.0 ERB syntax and Clojure language processing.
+Minimal template library for Clojure featuring Ruby 2.0 ERB syntax and Clojure language processing.
 
 ## Usage
 
