@@ -54,8 +54,13 @@
           ["(.toString __vt__art__sb__emit)"]))
 
 (defn render [input]
-  (println "INPUT:" input)
-  (println "LEXED:" (lex input))
-  (println "FORMS:" (parse (lex input)))
-  (println "EVALD:" (last (eval-soup/code->results (wrap-forms (parse (lex input))))))
-  (last (eval-soup/code->results (wrap-forms (parse (lex input))))))
+  ;(println "INPUT:" input)
+  ;(println "LEXED:" (lex input))
+  ;(println "FORMS:" (parse (lex input)))
+  ;(println "EVALD:" (last (eval-soup/code->results (wrap-forms (parse (lex input))))))
+  (-> input
+      (lex)
+      (parse)
+      (wrap-forms)
+      (eval-soup/code->results)
+      (last)))

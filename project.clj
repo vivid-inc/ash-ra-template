@@ -1,4 +1,4 @@
-(defproject ash-ra-template "0.1.0"
+(defproject vivid/ash-ra-template "0.1.0"
 
   :description "Ash Ra Template: Minimal template library for Clojure featuring Ruby 2.0 ERB syntax and Clojure language processing."
   :url "https://github.com/vivid/ash-ra-template"

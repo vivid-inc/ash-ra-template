@@ -3,14 +3,15 @@
 Minimal template library for Clojure featuring Ruby 2.0 ERB syntax and Clojure language processing.
 
 **Motivation**: Of the Clojure templating libraries we found, none seemed to directly assist in porting a non-trivial amount of ERB-templated content from [Middleman](https://github.com/middleman/middleman) to a custom Clojure-based static site generation tool.
-We find that the ERB syntax contrasts well with Clojure code, and being able to in-line arbitrary Clojure code is intoxicatingly pragmatic (also expressed as: Enough rope to hang oneself), so to keep this expressive power we wrote Ash Ra Templates, or **ART**.
+We find that the ERB syntax contrasts well with Clojure code, and being able to in-line arbitrary Clojure code is intoxicatingly pragmatic (also expressed as: Enough rope to hang oneself).
+So to keep this expressive power we wrote Ash Ra Templates, or **ART**.
 
 
 ## Usage
 
 Note that until ART achieves version 1.0 status, the API may be subject to change.
 
-Include this library by adding ``[ash-ra-template "0.1.0"]`` to ``:dependencies`` in your ``project.clj``.
+Include this library from Clojars by adding ``[vivid/ash-ra-template "0.1.0"]`` to ``:dependencies`` in your ``project.clj``.
 
 Rendering a template string is easy:
 ```clojure
@@ -29,7 +30,7 @@ Examples
 
 ### Plain template with no ERB-specific syntax ###
 ```clojure
-"We are but stow-aways aboard a drifting ship, forsaken to the caprices of the wind and currents."
+(art/render "We are but stow-aways aboard a drifting ship, forsaken to the caprices of the wind and currents.")
 ```
 Passed as a string, the rendered output is expected to be a byte-perfect mirror of its input:
 ```
@@ -41,20 +42,23 @@ We are but stow-aways aboard a drifting ship, forsaken to the caprices of the wi
 
 You can embed Clojure code within the template by surrounding forms with ``<%`` and ``%>`` markers, on one line:
 ```clojure
-<% (def doubles (map #(* 2 %) (range 3))) %>
+<% (def button-classes [:primary :secondary :disabled]) %>
 ```
 or over many lines:
 ```clojure
 <%
-(defn one? [x]
-  (= x 1))
+(defn toc-entry [heading]
+  (hiccup.core/html [:li
+    [:a#link
+      {:href (str "#" (heading :id))} 
+      (heading :text)]]))
 
 ... more forms ...
 
 %>
 ```
 
-Here is an example of intermixing text and Clojure code blocks, realizing the full expressive power of ART templates:
+Here is an example of intermixing text and Clojure code blocks that realizes the full expressive power of ART templates:
 ```html
 <%
 (def publication_dates [1987 1989 1992])
