@@ -2,32 +2,125 @@
 
 Minimal template library for Clojure featuring Ruby 2.0 ERB syntax and Clojure language processing.
 
+**Motivation**: Of the Clojure templating libraries we found, none seemed to directly assist in porting a non-trivial amount of ERB-templated content from [Middleman](https://github.com/middleman/middleman) to a custom Clojure-based static site generation tool.
+The ERB syntax contrasts well with Clojure code, and being able to in-line arbitrary Clojure code is intoxicatingly pragmatic (also expressed as: Enough rope to hang oneself).
+
+
 ## Usage
 
-You can write this: <% ... %>  but not necessarily this <% if end %>.
+Note that until this library **ART** achieves version 1.0 status, the API may be subject to change.
 
-The _motivation_ for writing this library was to make the task of porting a non-trivial amount of ERB-templated content from Middleman to a custom Clojure-based static site generation tool, to focus our efforts on mastering fewer ecosystems and at greater depth, and further enable more sharing of code and data with other projects.
-We find the ERB syntax quite clear, and its ability to interpret code in-stream is greatly appealing.
+Include this library by adding ``[ash-ra-template "0.1.0"]`` to ``:dependencies`` in your ``project.clj``.
 
-## Todo
+Rendering a template string is easy:
+```clojure
+(require [vivid.art.core :as art])
 
-- Full ERB syntax as of Ruby 2.0. Investigate how to allow ``%>`` to be written in template code such that it can be in ERB.
-- Take an optional hash of defines.
-- Take an optional seq of code to insert at the beginning.
-- Expose fns to users: emit, include.
+(art/render "There were <%= (+ 1 2) %> swallows, dancing in the sky.")
+```
+
+Or, to render from a file:
+```clojure
+(art/render (slurp "resources/epilogue"))
+```
+
+Examples
+--------
+
+### Plain template with no ERB-specific syntax ###
+```clojure
+We are but stow-aways aboard a drifting ship, forsaken to the caprices of the wind and currents.
+```
+The rendered output is expected to be a byte-perfect mirror of its input.
+
+
+### Clojure code blocks ###
+
+You can embed Clojure code within the template by surrounding forms with ``<%`` and ``%>`` markers, on one line:
+```clojure
+<%(def doubles (map #(* 2 %) (range 3)))%>
+```
+or over many lines:
+```clojure
+<%
+(defn one? [x]
+      (= x 1))
+
+... more forms ...
+
+%>
+```
+
+Here is an example of intermixing text and Clojure code blocks, realizing the full expressive power of ART templates:
+```html
+<%
+(def publication_dates [1987 1989 1992])
+(defn join [sep xs]
+      (apply str (interpose sep xs)))
+%>
+
+<p>
+  This research in the field of Chondrichthyes was published in <%= (join ", " publication_dates) %>.
+</p>
+```
+results in:
+```html
+
+<p>
+  This research in the field of Chondrichthyes was published in 1987, 1989, 1992.
+</p>
+```
+
+Note that it's unnecessary to surround ERB markers with whitespace, that whitespace in the text portions of the template is preserved, and that no parentheses in Clojure code portions are inferred.
+
+
+### Emitting output ###
+As in ERB, the ``<%=`` syntax causes the value of the expression to be echoed in the output.
+With ART, echoing to the rendered output is accomplished with the ``emit`` function.
+The following two statements are functionally equivalent:
+
+```clojure
+<% (emit "Splash!") %>
+
+<%= "Splash!" %>
+```
+
+
+## Goals: The Path to Version 1.0
+
+- Implement full ERB syntax as of Ruby 2.0.
+- Excellent error reporting.
+- Mechanism for ERB syntax to occur in templates without triggering the parser, perhaps by escaping. Follow ERB's lead.
+- Accept an optional hash of definitions that are made available for symbol resolution during render.
+- Expose the emit function to templates, the same mechanism used in plain echoing and ``<%=``.
+- Round out the tests. Particularly, convert some existing templates, and demonstrate iterative table generation.
 - Declare version 1.0.0 once the community deems the codebase feature-complete, reliable, and properly documented.
 
-Appealing:
+Nice to have:
 - ClojureScript support.
-- Fully lazy implementation.
+- A fully streaming, lazy implementation.
 
-## Contribute
 
-Yes, please do. Pull requests will be considered in accordance with the minimalist goal. And include tests, or your contributions almost will certainly become broken later.
+## Development
+
+Run the tests with
+
+```
+lein test
+```
+
+or keep a test watch with
+
+```
+lein test-refresh
+```
+
+**Pull requests** in accord with the minimalist goals are welcome.
+And include tests, or your contributions almost will certainly become broken later.
+Commits must include Signed-off-by indicating acceptance of the [Developer's Certificate of Origin](DCO.txt).
+
 
 ## License
 
 © Copyright Vivid Inc.
-
-Ash Ra Templates is distributed under the terms of the accompanying [Eclipse Public License](LICENSE).
-TODO Contributions become the property of this project? Follow the new licensing lead set by Gitlab. Vivid Contributors Notice + source code -specific terms.
+[EPL](LICENSE.txt) licensed.
