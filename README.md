@@ -3,12 +3,12 @@
 Minimal template library for Clojure featuring Ruby 2.0 ERB syntax and Clojure language processing.
 
 **Motivation**: Of the Clojure templating libraries we found, none seemed to directly assist in porting a non-trivial amount of ERB-templated content from [Middleman](https://github.com/middleman/middleman) to a custom Clojure-based static site generation tool.
-The ERB syntax contrasts well with Clojure code, and being able to in-line arbitrary Clojure code is intoxicatingly pragmatic (also expressed as: Enough rope to hang oneself).
+We find that the ERB syntax contrasts well with Clojure code, and being able to in-line arbitrary Clojure code is intoxicatingly pragmatic (also expressed as: Enough rope to hang oneself), so to keep this expressive power we wrote Ash Ra Templates, or **ART**.
 
 
 ## Usage
 
-Note that until this library **ART** achieves version 1.0 status, the API may be subject to change.
+Note that until ART achieves version 1.0 status, the API may be subject to change.
 
 Include this library by adding ``[ash-ra-template "0.1.0"]`` to ``:dependencies`` in your ``project.clj``.
 
@@ -21,7 +21,7 @@ Rendering a template string is easy:
 
 Or, to render from a file:
 ```clojure
-(art/render (slurp "resources/epilogue"))
+(art/render (slurp "resources/epilogue.html.art"))
 ```
 
 Examples
@@ -29,22 +29,25 @@ Examples
 
 ### Plain template with no ERB-specific syntax ###
 ```clojure
+"We are but stow-aways aboard a drifting ship, forsaken to the caprices of the wind and currents."
+```
+Passed as a string, the rendered output is expected to be a byte-perfect mirror of its input:
+```
 We are but stow-aways aboard a drifting ship, forsaken to the caprices of the wind and currents.
 ```
-The rendered output is expected to be a byte-perfect mirror of its input.
 
 
 ### Clojure code blocks ###
 
 You can embed Clojure code within the template by surrounding forms with ``<%`` and ``%>`` markers, on one line:
 ```clojure
-<%(def doubles (map #(* 2 %) (range 3)))%>
+<% (def doubles (map #(* 2 %) (range 3))) %>
 ```
 or over many lines:
 ```clojure
 <%
 (defn one? [x]
-      (= x 1))
+  (= x 1))
 
 ... more forms ...
 
@@ -74,10 +77,10 @@ results in:
 Note that it's unnecessary to surround ERB markers with whitespace, that whitespace in the text portions of the template is preserved, and that no parentheses in Clojure code portions are inferred.
 
 
-### Emitting output ###
-As in ERB, the ``<%=`` syntax causes the value of the expression to be echoed in the output.
-With ART, echoing to the rendered output is accomplished with the ``emit`` function.
-The following two statements are functionally equivalent:
+### The emit function ###
+As in ERB, the ``<%=`` syntax causes the value of the expression to be echoed to the rendered template output.
+In ART, this echoing is accomplished with the ``emit`` function which is available within the template, and is the same mechanism used by the template library itself.
+To demonstrate, the statements in the following template snippet are functionally equivalent in that they both emit the string "Splash!" to the rendered output:
 
 ```clojure
 <% (emit "Splash!") %>
@@ -92,7 +95,6 @@ The following two statements are functionally equivalent:
 - Excellent error reporting.
 - Mechanism for ERB syntax to occur in templates without triggering the parser, perhaps by escaping. Follow ERB's lead.
 - Accept an optional hash of definitions that are made available for symbol resolution during render.
-- Expose the emit function to templates, the same mechanism used in plain echoing and ``<%=``.
 - Round out the tests. Particularly, convert some existing templates, and demonstrate iterative table generation.
 - Declare version 1.0.0 once the community deems the codebase feature-complete, reliable, and properly documented.
 
