@@ -1,10 +1,10 @@
-# Ash Ra Templates
+# Ash Ra Template
 
 Minimal template library for Clojure featuring Ruby 2.0 ERB syntax and Clojure language processing.
 
 **Motivation**: Of the Clojure templating libraries we found, none seemed to directly assist in porting a non-trivial amount of ERB-templated content from [Middleman](https://github.com/middleman/middleman) to a custom Clojure-based static site generation tool.
 We find that the ERB syntax contrasts well with Clojure code, and being able to in-line arbitrary Clojure code is intoxicatingly pragmatic (also expressed as: Enough rope to hang oneself).
-So to keep this expressive power we wrote Ash Ra Templates, or **ART**.
+So to keep this expressive power we wrote Ash Ra Template, or **ART**.
 
 
 ## Usage
