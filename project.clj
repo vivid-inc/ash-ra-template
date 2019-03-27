@@ -8,21 +8,19 @@
 
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [eval-soup "1.5.0"]
-                 [pjstadig/humane-test-output "0.9.0"]
                  [reduce-fsm "0.1.4"]]
 
   :global-vars {*warn-on-reflection* true}
-
-  :injections [(require 'pjstadig.humane-test-output)
-               (pjstadig.humane-test-output/activate!)]
 
   :javac-options ["-target" "1.8"]
 
   :plugins [[lein-ancient "0.6.15"]
             [jonase/eastwood "0.3.5"]]
 
-  :profiles {:dev {:plugins [[com.jakemccrary/lein-test-refresh "0.24.0"]]}}
+  :profiles {:dev {:dependencies [[pjstadig/humane-test-output "0.9.0"]]
+                   :plugins      [[com.jakemccrary/lein-test-refresh "0.24.0"]]
+                   :injections   [(require 'pjstadig.humane-test-output)
+                                  (pjstadig.humane-test-output/activate!)]
+                   :test-refresh {:quiet true}}}
 
-  :repositories [["clojars" {:sign-releases false}]]
-
-  :test-refresh {:quiet true})
+  :repositories [["clojars" {:sign-releases false}]])

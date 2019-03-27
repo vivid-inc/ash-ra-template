@@ -105,6 +105,7 @@ To demonstrate, the statements in the following template snippet are functionall
 - Excellent error reporting, with well-detailed error messages.
 - Mechanism for ERB syntax to occur in templates without triggering the parser, perhaps by escaping. Follow ERB's lead.
 - Permit alternative nomenclature, defaulting to ERB.
+- What namespace / sandbox will be the recipient of newly-created vars?
 - Accept an optional map of bindings/definitions that are made available for symbol resolution during render.
 - Round out the tests. Particularly, convert some existing templates, and demonstrate iterative table generation.
 - Declare version 1.0.0 once the community deems the codebase feature-complete, reliable, and properly documented.

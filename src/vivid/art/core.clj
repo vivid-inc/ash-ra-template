@@ -69,8 +69,9 @@
           forms
           ["(.toString __vt__art__sb__emit)"]))
 
-(defn render [input]
+(defn render
   "Renders an input string containing Ash-Ra Template formatted content to an output string"
+  [input]
   (-> input
       (lex)
       (parse)
