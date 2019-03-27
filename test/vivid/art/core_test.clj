@@ -29,18 +29,14 @@
     (is (= ""
            (render "<% nil %>")))
     (is (= ""
-           (render "<% (+ 1 1) %>"))))
+           (render "<% (+ 1 1) %>")))))
 
-  (testing "Echoing the results of evaluating forms"
+(deftest echo-form-evaluation
+  (testing "Echoing form evaluation value"
     (is (= "3"
            (render "<%= (+ 1 2) %>")))
     (is (= "abc x = 5 exactly"
            (render "abc <% (def x 5) %>x = <%= x %> exactly")))))
-
-(deftest echo-form-evaluation
-  (testing "Echoing form evaluation value"
-    (is (= ""
-           (render "")))))
 
 (deftest well-formed-templates
   (testing "Ensure template examples occuring in the project README function correctly"
@@ -53,12 +49,11 @@
 Chondrichthyes research published in 1987, 1989, 1992.
 </p>"
            (render "<%
-(def publication_dates [1987 1989 1992])
-(defn join [sep xs]
-  (apply str (interpose sep xs)))
+(def publication-dates [1987 1989 1992])
+(defn cite-dates [xs] (clojure.string/join \", \"))
 %>
 <p>
-Chondrichthyes research published in <%= (join \", \" publication_dates) %>.
+Chondrichthyes research published in <%= (cite-dates publication-dates) %>.
 </p>"))))
 
   (testing "Well-formed templates"
@@ -75,8 +70,3 @@ Sally Forth"
 Sally <%= (appnd \"For\") %>")))
     (is (= "Countdown: 5 4 3 2 1 0"
            (render "Countdown:<%=(loop [s \"\"  x 5] (if (>= x 0) (recur (str s \" \" x) (dec x)) s))%>")))))
-
-(deftest malformed-templates
-  (comment testing "TODO"
-    (is (= ""
-           (render "(+ 1 1) %>")))))                        ; TODO Raise a parsing error: A well-detailed error message in debug mode, or indication of failure during runtime.

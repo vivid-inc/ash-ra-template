@@ -1,5 +1,7 @@
+/.eastwood
 /*.iml
 /.idea
+/.lein-failures
 /.nrepl-port
 /pom.xml
 /target

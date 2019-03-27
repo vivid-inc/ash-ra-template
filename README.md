@@ -64,11 +64,9 @@ Here is an example of intermixing text and Clojure code blocks that realizes the
 ```html
 <%
 (def publication_dates [1987 1989 1992])
-(defn join [sep xs]
-      (apply str (interpose sep xs)))
 %>
 <p>
-  Chondrichthyes research published in <%= (join ", " publication_dates) %>.
+  Chondrichthyes research published in <%= (clojure.string/join ", " publication_dates) %>.
 </p>
 ```
 results in:
@@ -92,19 +90,32 @@ To demonstrate, the statements in the following template snippet are functionall
 <%= "Splash!" %>
 ```
 
+## Common Constructs
+## API Reference
+
+``render``
+
+``emit``
+
+
 
 ## Goals: The Path to Version 1.0
 
-- Implement full ERB syntax as of Ruby 2.0.
-- Excellent error reporting.
+- Ruby 2.0 ERB-esque syntax but Clojure language processing.
+- Excellent error reporting, with well-detailed error messages.
 - Mechanism for ERB syntax to occur in templates without triggering the parser, perhaps by escaping. Follow ERB's lead.
-- Accept an optional hash of definitions that are made available for symbol resolution during render.
+- Permit alternative nomenclature, defaulting to ERB.
+- Accept an optional map of bindings/definitions that are made available for symbol resolution during render.
 - Round out the tests. Particularly, convert some existing templates, and demonstrate iterative table generation.
 - Declare version 1.0.0 once the community deems the codebase feature-complete, reliable, and properly documented.
+- Look at replacing eval-soup with Shimdandy as in https://github.com/boot-clj/boot/wiki/Pods
+- Try tokenizing the input stream by hand into a vector of strings to be matched with match. This will simplify the FSM.
+- Fast parsing.
+- Mention design goals: Composable; Use `render` wherever you like. No parens are assumed; keep code whole for use with copy & paste, machine processing.
+- Lein and Boot tasks, to assist with adoption.
+- Minimal restrictions. Java 1.8 class files, older & stable Clojure.
+- Look at https://github.com/adzerk-oss/zerkdown and https://github.com/adzerk-oss/boot-template
 
-Nice to have:
-- ClojureScript support.
-- A fully streaming, lazy implementation.
 
 
 ## Development
