@@ -5,3 +5,5 @@
 /.nrepl-port
 /pom.xml
 /target
+.lein-repl-history
+.nrepl-history

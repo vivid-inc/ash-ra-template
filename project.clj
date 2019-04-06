@@ -6,9 +6,15 @@
             :name         "Eclipse Public License"
             :url          "http://www.eclipse.org/legal/epl-v10.html"}
 
+  :source-paths ["src"]
+  :java-source-paths ["java"]
+
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [eval-soup "1.5.0"]
-                 [reduce-fsm "0.1.4"]]
+                 [reduce-fsm "0.1.4"]
+
+                 [com.cemerick/pomegranate "1.0.0" :exclusions [org.slf4j/jcl-over-slf4j]]
+                 [org.projectodd.shimdandy/shimdandy-api "1.2.0"]
+                 [org.projectodd.shimdandy/shimdandy-impl "1.2.0"]]
 
   :global-vars {*warn-on-reflection* true}
 

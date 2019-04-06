@@ -1,28 +1,26 @@
 (ns vivid.art.core
   (:require
     [clojure.string]
-    [eval-soup.core :as eval-soup]
-    [reduce-fsm :as fsm]))
+    [reduce-fsm :as fsm]
+    [vivid.art.pod :as pod]))
 
 ; Referencing the canonical implementation of ERB: https://github.com/ruby/ruby/blob/trunk/lib/erb.rb
 
 (defn lex
-  "Tokenizes the input string"
-  [str]
-  ; Note: I haven't figured out how to isolate both <% and <%= in the
-  ; time I allotted myself.
-  ;
-  ; For the meantime, we use the following hack:
+  "Tokenizes the template"
+  [^String template-str]
+  ; Note: Using regexes, I haven't figured out how to isolate both <% and <%=
+  ; in the time I allotted myself. For the meantime, use the following hack:
   ; A regex splits <%= ; into a sequence of <% followed by = .
   ; Next, that sequence is collapsed into a single element in the stream.
-  (let [ts (clojure.string/split str #"(?=<%=?)|(?<=<%=?)|(?=%>)|(?<=%>)")]
+  (let [parts (clojure.string/split template-str #"(?=<%=?)|(?<=<%=?)|(?=%>)|(?<=%>)")]
     (reduce (fn [xs x]
               (if (and (= (last xs) "<%")
                        (= x "="))
                 (concat (butlast xs) ["<%="])
                 (concat xs [x])))
             []
-            ts)))
+            parts)))
 
 (defn echo
   "Echoes the value literal to the rendered output"
@@ -59,7 +57,10 @@
              _ -> {:action echo-eval} :echo-eval]]
            :default-acc {:output []})
 
-(defn parse [tokens]
+(defn parse
+  "Parses a sequence of tokens into Clojure code suitable for
+  evaluating to produce the template output."
+  [tokens]
   (let [fsm-result (tokens->forms tokens)]
     (fsm-result :output)))
 
@@ -69,12 +70,16 @@
           forms
           ["(.toString __vt__art__sb__emit)"]))
 
+(defn evaluate [forms]
+  (let [wrapped-forms (wrap-forms forms)
+        p (pod/make-pod-cp {})]
+    (pod/with-eval-in p ~wrapped-forms)))
+
 (defn render
-  "Renders an input string containing Ash-Ra Template formatted content to an output string"
-  [input]
+  "Renders an input string containing Ash-Ra Template
+  -formatted content to an output string"
+  [^String input]
   (-> input
       (lex)
       (parse)
-      (wrap-forms)
-      (eval-soup/code->results)
-      (last)))
+      (evaluate)))
