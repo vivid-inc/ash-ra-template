@@ -1,3 +1,7 @@
+; Copyright 2019 Vivid Inc.
+
+; Referencing https://github.com/technomancy/leiningen/blob/master/sample.project.clj
+
 (defproject vivid/ash-ra-template "0.2.0"
 
   :description "Ash Ra Template: Minimal template library for Clojure featuring Ruby 2.0 ERB syntax and Clojure language processing."
@@ -6,15 +10,16 @@
             :name         "Eclipse Public License"
             :url          "http://www.eclipse.org/legal/epl-v10.html"}
 
-  :source-paths ["src"]
-  :java-source-paths ["java"]
+  :source-paths ["src/main/clojure"]
+  :test-paths ["src/test/clojure"]
 
-  :dependencies [[org.clojure/clojure "1.8.0"]
-                 [reduce-fsm "0.1.4"]
-
-                 [com.cemerick/pomegranate "1.0.0" :exclusions [org.slf4j/jcl-over-slf4j]]
-                 [org.projectodd.shimdandy/shimdandy-api "1.2.0"]
-                 [org.projectodd.shimdandy/shimdandy-impl "1.2.0"]]
+  :dependencies [[org.clojure/clojure "1.9.0"]
+                 [org.clojure/tools.deps.alpha "0.6.496"]
+                 [org.clojure/tools.namespace "0.2.11"]
+                 [org.projectodd.shimdandy/shimdandy-api "1.2.1"]
+                 [org.projectodd.shimdandy/shimdandy-impl "1.2.1"]
+                 [org.xeustechnologies/jcl-core "2.8"]
+                 [reduce-fsm "0.1.4"]]
 
   :global-vars {*warn-on-reflection* true}
 

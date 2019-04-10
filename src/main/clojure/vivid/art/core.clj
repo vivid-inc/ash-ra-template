@@ -1,8 +1,10 @@
+; Copyright 2019 Vivid Inc.
+
 (ns vivid.art.core
   (:require
     [clojure.string]
     [reduce-fsm :as fsm]
-    [vivid.art.pod :as pod]))
+    [vivid.art.embed :as embed]))
 
 ; Referencing the canonical implementation of ERB: https://github.com/ruby/ruby/blob/trunk/lib/erb.rb
 
@@ -71,9 +73,9 @@
           ["(.toString __vt__art__sb__emit)"]))
 
 (defn evaluate [forms]
-  (let [wrapped-forms (wrap-forms forms)
-        p (pod/make-pod-cp {})]
-    (pod/with-eval-in p ~wrapped-forms)))
+  (let [wrapped-forms (wrap-forms forms)]
+    (embed/with-one-shot-runtime
+      ~wrapped-forms)))
 
 (defn render
   "Renders an input string containing Ash-Ra Template
