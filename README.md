@@ -4,16 +4,15 @@ Minimal template library for Clojure featuring Ruby 2.0 ERB-esque syntax and Clo
 
 **Motivation**: Of the Clojure templating libraries we found, none seemed to directly assist in porting a non-trivial amount of ERB-templated content from [Middleman](https://github.com/middleman/middleman) to a custom Clojure-based static site generation tool.
 We find that the ERB syntax contrasts well with Clojure code, and being able to in-line arbitrary Clojure code is intoxicatingly pragmatic (also expressed as: Enough rope to hang oneself).
-So that we may all wield this expressive power, we wrote Ash Ra Template, or **ART**.
+So that we may wield such expressive power, we wrote Ash Ra Template, or **ART**.
 
+Works with Clojure 1.9 and newer.
 
 ## Usage
 
 [![Clojars Project](https://img.shields.io/clojars/v/vivid/ash-ra-template.svg)](https://clojars.org/vivid/ash-ra-template)
 
-Note that until ART achieves version 1.0 status, the API may be subject to change.
-
-Include this library from Clojars by adding ``[vivid/ash-ra-template "0.1.0"]`` to ``:dependencies`` in your ``project.clj``.
+Include this library from Clojars by adding ``[vivid/ash-ra-template "0.2.0"]`` to ``:dependencies`` in your ``project.clj``.
 
 Rendering a template string is easy:
 ```clojure
@@ -24,13 +23,15 @@ Rendering a template string is easy:
 
 Or, to render from a file:
 ```clojure
-(art/render (slurp "resources/epilogue.html.art"))
+(art/render (slurp "prelude.html.art"))
 ```
+
+All Clojure code is evaluated within a sandbox Clojure runtime courtesy of [ShimDandy](https://github.com/projectodd/shimdandy).
 
 Examples
 --------
 
-### Plain template with no ERB-specific syntax ###
+### Plain template content with no ERB-specific syntax ###
 ```clojure
 (art/render "We are but stow-aways aboard a drifting ship, forsaken to the caprices of the wind and currents.")
 ```
@@ -49,6 +50,7 @@ You can embed Clojure code within the template by surrounding forms with ``<%`` 
 or over many lines:
 ```clojure
 <%
+(require '[hiccup.core])
 (defn toc-entry [heading]
   (hiccup.core/html [:li
     [:a#link
@@ -64,8 +66,7 @@ Here is an example of intermixing text and Clojure code blocks that realizes the
 ```html
 <%
 (def publication_dates [1987 1989 1992])
-%>
-<p>
+%><p>
   Chondrichthyes research published in <%= (clojure.string/join ", " publication_dates) %>.
 </p>
 ```
@@ -79,7 +80,14 @@ results in:
 Note that it's unnecessary to surround ERB markers with whitespace, that whitespace in the text portions of the template is preserved, and that no parentheses in Clojure code portions are inferred.
 
 
-### The emit function ###
+## Common Constructs
+## API Reference
+
+Note that until ART achieves version 1.0 status, the API may be subject to change.
+
+``render``
+
+``emit``
 As in ERB, the ``<%=`` syntax causes the value of the expression to be echoed to the rendered template output.
 In ART, this echoing is accomplished with the ``emit`` function which is available within the template, and is the same mechanism used by the template library itself.
 To demonstrate, the statements in the following template snippet are functionally equivalent in that they both emit the string "Splash!" to the rendered output:
@@ -89,13 +97,6 @@ To demonstrate, the statements in the following template snippet are functionall
 
 <%= "Splash!" %>
 ```
-
-## Common Constructs
-## API Reference
-
-``render``
-
-``emit``
 
 
 
@@ -119,15 +120,16 @@ To demonstrate, the statements in the following template snippet are functionall
 
 ## Development
 
-Run the tests with
+ART is structured as a [Leiningen](https://github.com/technomancy/leiningen/) project.
 
-```
+Run the tests with
+```bash
 lein test
 ```
 
 or keep a test watch with
 
-```
+```bash
 lein test-refresh
 ```
 
