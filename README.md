@@ -1,10 +1,10 @@
 # Ash Ra Template
 
-Minimal template library for Clojure featuring Ruby 2.0 ERB syntax and Clojure language processing.
+Minimal template library for Clojure featuring Ruby 2.0 ERB-esque syntax and Clojure language processing.
 
 **Motivation**: Of the Clojure templating libraries we found, none seemed to directly assist in porting a non-trivial amount of ERB-templated content from [Middleman](https://github.com/middleman/middleman) to a custom Clojure-based static site generation tool.
 We find that the ERB syntax contrasts well with Clojure code, and being able to in-line arbitrary Clojure code is intoxicatingly pragmatic (also expressed as: Enough rope to hang oneself).
-So to keep this expressive power we wrote Ash Ra Template, or **ART**.
+So that we may all wield this expressive power, we wrote Ash Ra Template, or **ART**.
 
 
 ## Usage
@@ -101,7 +101,6 @@ To demonstrate, the statements in the following template snippet are functionall
 
 ## Goals: The Path to Version 1.0
 
-- Ruby 2.0 ERB-esque syntax but Clojure language processing.
 - Excellent error reporting, with well-detailed error messages.
 - Mechanism for ERB syntax to occur in templates without triggering the parser, perhaps by escaping. Follow ERB's lead.
 - Permit alternative nomenclature, defaulting to ERB.
@@ -109,11 +108,11 @@ To demonstrate, the statements in the following template snippet are functionall
 - Accept an optional map of bindings/definitions that are made available for symbol resolution during render.
 - Round out the tests. Particularly, convert some existing templates, and demonstrate iterative table generation.
 - Declare version 1.0.0 once the community deems the codebase feature-complete, reliable, and properly documented.
-- Try tokenizing the input stream by hand into a vector of strings to be matched with match. This will simplify the FSM.
 - Fast parsing.
+- Fast test feedback.
 - Mention design goals: Composable; Use `render` wherever you like. No parens are assumed; keep code whole for use with copy & paste, machine processing.
+- Minimal restrictions. Java 1.8 class files (Popular, long-term). Stable Clojure 1.9.0 (Compatibile with clojure.alpha.tools.deps and doesn't cause another App to appear in the macOS doc when run.) 
 - Lein and Boot tasks, to assist with adoption.
-- Minimal restrictions. Java 1.8 class files, older & stable Clojure.
 - Look at https://github.com/adzerk-oss/zerkdown and https://github.com/adzerk-oss/boot-template
 
 

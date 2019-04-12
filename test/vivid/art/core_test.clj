@@ -1,6 +1,7 @@
 (ns vivid.art.core-test
-  (:require [clojure.test :refer :all]
-            [vivid.art.core :as art]))
+  (:require
+    [clojure.test :refer :all]
+    [vivid.art.core :as art]))
 
 (deftest plain-echo
   (testing "Plain echo pass-through"

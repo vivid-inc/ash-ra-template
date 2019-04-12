@@ -82,8 +82,3 @@
   (let [rt (new-runtime)]
     (try (eval-in-runtime rt s)
          (finally (close-runtime! rt)))))
-
-(defmacro with-one-shot-runtime [& body]
-  `(let [runtime# (new-runtime)]
-     (try (with-runtime runtime# ~@body)
-          (finally (close-runtime! runtime#)))))
