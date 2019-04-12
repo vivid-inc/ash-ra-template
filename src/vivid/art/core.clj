@@ -30,14 +30,14 @@
   (let [escaped (clojure.string/escape val {\" "\\\""})]
     (assoc acc :output
                (conj (acc :output)
-                     (str "(__vivid__art__emit \"" escaped "\")")))))
+                     (str "(emit \"" escaped "\")")))))
 
 (defn echo-eval
   "Echoes the result of evaluating the expression to the rendered output"
   [acc expr & _]
   (assoc acc :output
              (conj (acc :output)
-                   (str "(__vivid__art__emit " expr " )"))))
+                   (str "(emit " expr " )"))))
 
 (defn -eval
   "Evaluates the expression to the rendered output"
@@ -68,7 +68,7 @@
 
 (defn wrap-forms [forms]
   (concat ["(def ^StringBuilder __vivid__art__sb (new StringBuilder))"
-           "(defn __vivid__art__emit [val] (.append __vivid__art__sb val))"]
+           "(defn emit [val] (.append __vivid__art__sb val))"]
           forms
           ["(.toString __vivid__art__sb)"]))
 
