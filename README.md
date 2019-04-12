@@ -109,7 +109,6 @@ To demonstrate, the statements in the following template snippet are functionall
 - Accept an optional map of bindings/definitions that are made available for symbol resolution during render.
 - Round out the tests. Particularly, convert some existing templates, and demonstrate iterative table generation.
 - Declare version 1.0.0 once the community deems the codebase feature-complete, reliable, and properly documented.
-- Look at replacing eval-soup with Shimdandy as in https://github.com/boot-clj/boot/wiki/Pods
 - Try tokenizing the input stream by hand into a vector of strings to be matched with match. This will simplify the FSM.
 - Fast parsing.
 - Mention design goals: Composable; Use `render` wherever you like. No parens are assumed; keep code whole for use with copy & paste, machine processing.

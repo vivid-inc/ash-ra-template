@@ -49,8 +49,9 @@
 Chondrichthyes research published in 1987, 1989, 1992.
 </p>"
            (art/render "<%
+(require '[clojure.string])
 (def publication-dates [1987 1989 1992])
-(defn cite-dates [xs] (clojure.string/join \", \"))
+(defn cite-dates [xs] (clojure.string/join \", \" xs))
 %>
 <p>
 Chondrichthyes research published in <%= (cite-dates publication-dates) %>.

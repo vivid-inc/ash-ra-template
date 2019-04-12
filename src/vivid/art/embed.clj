@@ -1,12 +1,11 @@
 (ns vivid.art.embed
-  (:require [clojure.java.io :as io]
-            [clojure.string :as string]
-            [clojure.tools.deps.alpha :as deps]
-            [clojure.tools.deps.alpha.providers.maven]
-            [clojure.tools.namespace.repl])
-  (:import (java.io File)
-           (java.util.regex Pattern)
-           (org.xeustechnologies.jcl JarClassLoader)))
+  (:require
+    [clojure.string :as string]
+    [clojure.tools.deps.alpha :as deps])
+  (:import
+    (java.io File)
+    (java.util.regex Pattern)
+    (org.xeustechnologies.jcl JarClassLoader)))
 
 (def ^:const DEFAULT_REPOS
   {"central" {:url "https://repo1.maven.org/maven2/"}
@@ -14,7 +13,6 @@
 
 (def ^:const DEFAULT_DEPS
   {'org.clojure/clojure                     {:mvn/version "1.9.0"}
-   'org.clojure/tools.namespace             {:mvn/version "0.2.11"}
    'org.projectodd.shimdandy/shimdandy-api  {:mvn/version "1.2.1"}
    'org.projectodd.shimdandy/shimdandy-impl {:mvn/version "1.2.1"}})
 
@@ -38,10 +36,10 @@
 (defn- new-rt-shim [^ClassLoader classloader]
   (doto (.newInstance (.loadClass classloader RUNTIME_SHIM_CLASS))
     (.setClassLoader classloader)
-    (.setName (name (gensym "clj-embed-runtime")))
+    (.setName (name (gensym "vivid-art-embed-runtime")))
     (.init)))
 
-(defn construct-class-loader [classes]
+(defn- construct-class-loader [classes]
   (let [it (JarClassLoader.)]
     (doseq [clazz classes] (.add it clazz))
     (.setEnabled (.getParentLoader it) false)
@@ -50,7 +48,7 @@
     (.setEnabled (.getOsgiBootLoader it) false)
     it))
 
-(defn unload-classes-from-loader [^JarClassLoader loader]
+(defn- unload-classes-from-loader [^JarClassLoader loader]
   (let [loaded (doall (keys (.getLoadedClasses loader)))]
     (doseq [clazz loaded] (.unloadClass loader clazz))))
 
@@ -69,32 +67,6 @@
   (let [text (pr-str (conj body 'do))]
     `(eval-in-runtime ~runtime ~text)))
 
-(defmacro with-piped-runtime [runtime & body]
-  (let [text (pr-str (conj body 'do))]
-    `(.invoke runtime "clj-embed.shims/piped-load-string" *in* *out* *err* ~text)))
-
-(defn start-repl-session
-  ([runtime] (start-repl-session runtime *in* *out* *err*))
-  ([runtime input output error]
-   (.invoke runtime "clj-embed.shims/start-repl-session" input output error)))
-
-(defn refresh-namespaces! [runtime]
-  (with-runtime runtime
-                (require '[clojure.tools.namespace.repl])
-                (clojure.tools.namespace.repl/refresh)))
-
-(defn load-namespaces! [runtime & directories]
-  (let [code `(do
-                (require '[clojure.tools.namespace.repl])
-                (clojure.tools.namespace.repl/set-refresh-dirs ~@directories)
-                (clojure.tools.namespace.repl/refresh-all))]
-    (eval-in-runtime runtime (pr-str code))))
-
-(defn load-shim-lib [runtime]
-  (let [runtime-shim (slurp (io/resource "shims.clj"))]
-    (eval-in-runtime runtime runtime-shim)
-    runtime))
-
 (defn new-runtime
   ([] (new-runtime {}))
   ([deps]
@@ -103,8 +75,13 @@
         (build-classpath)
         (classpath-segments)
         (construct-class-loader)
-        (new-rt-shim)
-        (load-shim-lib))))
+        (new-rt-shim))))
+
+(defn eval-in-one-shot-runtime
+  [s]
+  (let [rt (new-runtime)]
+    (try (eval-in-runtime rt s)
+         (finally (close-runtime! rt)))))
 
 (defmacro with-one-shot-runtime [& body]
   `(let [runtime# (new-runtime)]

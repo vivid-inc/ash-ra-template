@@ -10,12 +10,8 @@
             :name         "Eclipse Public License"
             :url          "http://www.eclipse.org/legal/epl-v10.html"}
 
-  :source-paths ["src/main/clojure"]
-  :test-paths ["src/test/clojure"]
-
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [org.clojure/tools.deps.alpha "0.6.496"]
-                 [org.clojure/tools.namespace "0.2.11"]
                  [org.projectodd.shimdandy/shimdandy-api "1.2.1"]
                  [org.projectodd.shimdandy/shimdandy-impl "1.2.1"]
                  [org.xeustechnologies/jcl-core "2.8"]

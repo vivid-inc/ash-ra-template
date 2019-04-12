@@ -73,9 +73,8 @@
           ["(.toString __vt__art__sb__emit)"]))
 
 (defn evaluate [forms]
-  (let [wrapped-forms (wrap-forms forms)]
-    (embed/with-one-shot-runtime
-      ~wrapped-forms)))
+  (let [wrapped-forms (clojure.string/join "\n" (wrap-forms forms))]
+    (embed/eval-in-one-shot-runtime wrapped-forms)))
 
 (defn render
   "Renders an input string containing Ash-Ra Template
