@@ -4,7 +4,7 @@
 
 (defproject vivid/ash-ra-template "0.2.0"
 
-  :description "Ash Ra Template: Minimal template library for Clojure featuring syntax akin to Ruby 2.0 ERB and Clojure language processing."
+  :description "Ash Ra Template: Simplistic template library featuring Clojure language processing with Ruby 2.0 ERB-esque syntax."
   :url "https://github.com/vivid/ash-ra-template"
   :license {:distribution :repo
             :name         "Eclipse Public License"
@@ -20,6 +20,8 @@
   :global-vars {*warn-on-reflection* true}
 
   :javac-options ["-target" "1.8"]
+
+  :min-lein-version "2.8.1"
 
   :plugins [[lein-ancient "0.6.15"]
             [jonase/eastwood "0.3.5"]]

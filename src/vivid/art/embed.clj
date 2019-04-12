@@ -1,3 +1,5 @@
+; Attribution: Based on clj-embed
+
 (ns vivid.art.embed
   (:require
     [clojure.string :as string]
@@ -19,25 +21,11 @@
 (def ^:const RUNTIME_SHIM_CLASS
   "org.projectodd.shimdandy.impl.ClojureRuntimeShimImpl")
 
-(defn- resolve-deps
-  ([] (resolve-deps {}))
-  ([deps]
-   (deps/resolve-deps
-     {:deps      (merge DEFAULT_DEPS deps)
-      :mvn/repos DEFAULT_REPOS}
-     nil)))
-
 (defn- build-classpath [deps]
   (deps/make-classpath deps nil nil))
 
 (defn- classpath-segments [classpath]
   (string/split classpath (Pattern/compile (Pattern/quote File/pathSeparator))))
-
-(defn- new-rt-shim [^ClassLoader classloader]
-  (doto (.newInstance (.loadClass classloader RUNTIME_SHIM_CLASS))
-    (.setClassLoader classloader)
-    (.setName (name (gensym "vivid-art-runtime")))
-    (.init)))
 
 (defn- construct-class-loader [classes]
   (let [it (JarClassLoader.)]
@@ -47,6 +35,20 @@
     (.setEnabled (.getThreadLoader it) false)
     (.setEnabled (.getOsgiBootLoader it) false)
     it))
+
+(defn- new-rt-shim [^ClassLoader classloader]
+  (doto (.newInstance (.loadClass classloader RUNTIME_SHIM_CLASS))
+    (.setClassLoader classloader)
+    (.setName (name (gensym "vivid-art-runtime")))
+    (.init)))
+
+(defn- resolve-deps
+  ([] (resolve-deps {}))
+  ([deps]
+   (deps/resolve-deps
+     {:deps      (merge DEFAULT_DEPS deps)
+      :mvn/repos DEFAULT_REPOS}
+     nil)))
 
 (defn- unload-classes-from-loader [^JarClassLoader loader]
   (let [loaded (doall (keys (.getLoadedClasses loader)))]
@@ -62,10 +64,6 @@
 (defn eval-in-runtime [runtime code-as-string]
   (letfn [(call [fqsym code] (.invoke runtime fqsym code))]
     (call "clojure.core/load-string" code-as-string)))
-
-(defmacro with-runtime [runtime & body]
-  (let [text (pr-str (conj body 'do))]
-    `(eval-in-runtime ~runtime ~text)))
 
 (defn new-runtime
   ([] (new-runtime {}))
