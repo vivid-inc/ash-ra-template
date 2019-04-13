@@ -17,7 +17,12 @@
                  [org.xeustechnologies/jcl-core "2.8"]
                  [reduce-fsm "0.1.4"]]
 
-  :aliases {"build" ["do" "clean," "eastwood," "kibit," "test," "jar"]}
+  :aliases {"build" ["do"
+                     "clean,"
+                     "test,"
+                     "eastwood,"
+                     "kibit,"
+                     "jar"]}
 
   :global-vars {*warn-on-reflection* true}
 
@@ -25,9 +30,10 @@
 
   :min-lein-version "2.8.1"
 
-  :plugins [[lein-ancient "0.6.15"]
+  :plugins [[jonase/eastwood "0.3.5"]
+            [lein-ancient "0.6.15"]
             [lein-kibit "0.1.6"]
-            [jonase/eastwood "0.3.5"]]
+            [lein-nvd "1.0.0"]]
 
   :profiles {:dev {:dependencies   [[pjstadig/humane-test-output "0.9.0"]]
                    :plugins        [[com.jakemccrary/lein-test-refresh "0.24.0"]]
