@@ -8,6 +8,8 @@ Seeking to wield such expressive power, we wrote Ash Ra Template, or **ART**.
 
 Works with Clojure 1.9 and newer.
 
+
+
 ## Usage
 
 [![Clojars Project](https://img.shields.io/clojars/v/vivid/ash-ra-template.svg)](https://clojars.org/vivid/ash-ra-template)
@@ -28,9 +30,11 @@ Or, to render from a file:
 
 All Clojure code is evaluated within a sandboxed Clojure runtime courtesy of [ShimDandy](https://github.com/projectodd/shimdandy).
 
+
+
 ## Examples
 
-### Plain content with no ART-specific syntax ###
+### Plain content with no ART-specific syntax
 ```clojure
 (art/render "We are but stow-aways aboard a drifting ship, forsaken to the caprices of the wind and currents.")
 ```
@@ -40,43 +44,68 @@ We are but stow-aways aboard a drifting ship, forsaken to the caprices of the wi
 ```
 
 
-### Clojure code blocks ###
+### Clojure code blocks
 
-You can embed Clojure code within the template by surrounding forms with ``<%`` and ``%>`` markers, on one line:
+You can embed Clojure code within the template by surrounding forms with ``<%`` and ``%>`` tags, on one line:
 ```clojure
 <% (def button-classes [:primary :secondary :disabled]) %>
 ```
 or over many lines:
 ```clojure
 <%
-(require '[hiccup.core])
-(defn toc-entry [heading]
-  (hiccup.core/html [:li
-    [:a#link
-      {:href (str "#" (heading :id))} 
-      (heading :text)]]))
-
-... more forms ...
-
+(defn updated-statement
+  [date version]
+  (format "This document was updated on %s for version %s"
+          date version))
 %>
 ```
 
-Here is an example of intermixing text and Clojure code blocks that realizes the full expressive power of ART templates:
-```html
+### Intermixing text and code
+An example of intermixing text and Clojure code blocks that realizes the full expressive power of ART templates:
+```clojure
 <%
-(def publication_dates [1987 1989 1992])
+(require '[clojure.string])
+(def publication-dates [1987 1989 1992])
+(defn cite-dates [xs] (clojure.string/join ", " xs))
 %><p>
-  Chondrichthyes research published in <%= (clojure.string/join ", " publication_dates) %>.
+Chondrichthyes research published in <%= (cite-dates publication-dates) %>.
 </p>
 ```
-results in:
+Renders to:
 ```html
 <p>
-  Chondrichthyes research published in 1987, 1989, 1992.
+Chondrichthyes research published in 1987, 1989, 1992.
 </p>
 ```
 
-### Common Constructs
+### External dependencies
+Given a template that ``require``s namespaces from external dependencies in Clojure, such as:
+```clojure
+<%
+(require '[hiccup.core])
+
+(def ^:const toc-headings [{:id 739 :text "Moving wing assembly in place"}
+                           {:id 740 :text "Connecting fuel lines and hydraulics"}
+                           {:id 741 :text "Attaching wing assembly to fuselage"}])
+
+(defn toc-entry [heading]
+  (hiccup.core/html [:li
+    [:a#link
+      {:href (str "#" (heading :id))}
+      (heading :text)]]))
+%>
+<%= (apply str (map toc-entry toc-headings)) %>
+```
+The template's external dependencies can be specified as a Clojure deps [lib map](https://clojure.org/reference/deps_and_cli) with the ``:dependencies`` keyword argument:
+```clojure
+(art/render template
+            :dependencies {'hiccup {:mvn/version "1.0.5"}})
+```
+The specific version of Clojure can be overridden:
+```clojure
+{'org.clojure/clojure {:mvn/version "1.10.0"}}
+```
+
 
 
 ## Reference
@@ -84,27 +113,30 @@ results in:
 Note that until ART achieves version 1.0 status, details may be subject to change.
 
 ### Design Goals
-**ART is meant to be utterly composable.** Use `render` wherever you like.
-**No parens are assumed.** This allows Clojure forms to be kept whole for copy & paste, machine processing, etc.
+- Minimal restrictions:
+  - Java 1.8 class files, because Java 1.8 strikes a good balance between wide adoption and long-term stability.
+  - Clojure 1.9.0, which is compatible with a ``clojure.alpha.tools.deps`` version that has reasonable dependency resolving abilility, and doesn't cause an additional macOS App to run and disrupt keyboard focus during runtime.
+- Effortlessly composable: Use `render` wherever you like.
+- No inferrence of parens in Clojure code portions: Clojure forms are kept whole for natural recognition by the eye, copy & paste, machine processing, etc.
 
 ### API
-``(render s)``
+``(render s :dependencies deps)``
 Renders an input string containing Ash-Ra Template -formatted content to an output string.
+An optional map of dependencies (as a Clojure deps [lib map](https://clojure.org/reference/deps_and_cli)) can be provided using the ``:dependencies`` keyword argument. These dependencies will be resolved prior to template rendering using Clojure's ``org.clojure/tools.deps.alpha``.
 
 ### Templates
-It's unnecessary to surround ERB markers with whitespace.
+It's unnecessary to surround ERB tags with whitespace.
 Whitespace in the text portions of the template is preserved.
-No parentheses in Clojure code portions are inferred.
 
 ```
-<% Clojure forms -- will not be included in rendered output %>
+<% Clojure forms -- will be evaluated but not included in rendered output %>
 
 <%= Clojure forms -- replaced with result of evaluation %>
 ```
 
 ``(emit x)``
-As in ERB, the ``<%=`` syntax causes the value of the expression to be echoed to the rendered template output.
-In ART, this echoing is accomplished with the ``emit`` function which is available within the template, and is the same mechanism used by the template library itself.
+As in ERB, the ``<%=`` syntax causes the value of the expression to be emitted to the rendered template output.
+In ART, this emitting is accomplished with the ``emit`` function which is available within the template, and is the same mechanism used by the template library itself.
 To demonstrate, the statements in the following template snippet are functionally equivalent in that they both emit the string "Splash!" to the rendered output:
 
 ```clojure
@@ -115,22 +147,19 @@ To demonstrate, the statements in the following template snippet are functionall
 
 
 
-
 ## Goals: The Path to Version 1.0
 
 - Sufficient error reporting, with well-detailed error messages.
 - Permit ERB tag syntax literals to occur in templates. Follow ERB's escaping rules: <%% and %%>
-- Clarify the mechanics of the template evaluation runtime: dependencies, initial namespace, requires.
+- Clarify the mechanics of the template evaluation runtime: dependencies + default deps, initial namespace, requires.
 - Accept alternative tag nomenclature, defaulting to ERB. Provide examples for Mustache, PHP, and others.
 - Accept an optional map of bindings/definitions that are made available for symbol resolution during render.
-- Accept dependency overrides, including a specific Clojure version.
-- Round out the tests. Particularly, convert some existing templates, and demonstrate iterative table generation.
+- Provide examples: Nesting templates.
+- Round out the tests. Test against each supported version of Clojure.
 - Fast runtime performance, fast test feedback.
-- Minimal restrictions. Java 1.8 class files (Popular, long-term). Stable Clojure 1.9.0 (Compatibile with clojure.alpha.tools.deps and doesn't cause another App to appear in the macOS doc when run.) 
-- Lein and Boot tasks, to assist with adoption.
-- Look at https://github.com/adzerk-oss/zerkdown and https://github.com/adzerk-oss/boot-template
+- Lein and Boot tasks, to assist with adoption. Look at https://github.com/adzerk-oss/zerkdown and https://github.com/adzerk-oss/boot-template
 - Investigate signing Clojars releases.
-- Declare version 1.0.0 once the community deems the codebase feature-complete, reliable, and properly documented.
+- Declare version 1.0.0 once the community deems the ART feature-complete, reliable, and properly documented.
 
 
 

@@ -54,8 +54,6 @@
   (let [loaded (doall (keys (.getLoadedClasses loader)))]
     (doseq [clazz loaded] (.unloadClass loader clazz))))
 
-; ---- Public API ----
-
 (defn close-runtime! [runtime]
   (.close runtime)
   (unload-classes-from-loader
@@ -66,17 +64,17 @@
     (call "clojure.core/load-string" code-as-string)))
 
 (defn new-runtime
-  ([] (new-runtime {}))
-  ([deps]
-   (->> deps
-        (resolve-deps)
-        (build-classpath)
-        (classpath-segments)
-        (construct-class-loader)
-        (new-rt-shim))))
+  [& {:keys [dependencies]
+      :or   {dependencies {}}}]
+  (->> dependencies
+       (resolve-deps)
+       (build-classpath)
+       (classpath-segments)
+       (construct-class-loader)
+       (new-rt-shim)))
 
 (defn eval-in-one-shot-runtime
-  [s]
-  (let [rt (new-runtime)]
+  [s & {:keys [dependencies]}]
+  (let [rt (new-runtime :dependencies dependencies)]
     (try (eval-in-runtime rt s)
          (finally (close-runtime! rt)))))

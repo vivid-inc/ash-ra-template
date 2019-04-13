@@ -46,20 +46,7 @@
     (is (= "There were 3 swallows, dancing in the sky."
            (art/render "There were <%= (+ 1 2) %> swallows, dancing in the sky.")))
     (is (= "We are but stow-aways aboard a drifting ship, forsaken to the caprices of the wind and currents."
-           (art/render "We are but stow-aways aboard a drifting ship, forsaken to the caprices of the wind and currents.")))
-    (is (= "
-<p>
-Chondrichthyes research published in 1987, 1989, 1992.
-</p>"
-           (art/render "<%
-(require '[clojure.string])
-(def publication-dates [1987 1989 1992])
-(defn cite-dates [xs] (clojure.string/join \", \" xs))
-%>
-<p>
-Chondrichthyes research published in <%= (cite-dates publication-dates) %>.
-</p>"))))
-
+           (art/render "We are but stow-aways aboard a drifting ship, forsaken to the caprices of the wind and currents."))))
   (testing "Well-formed templates"
     (is (= "Pi is approximately equal to 3.14."
            (art/render "<%(def pi 3.14)%>Pi is approximately equal to <%=pi%>.")))
@@ -74,3 +61,16 @@ Sally Forth"
 Sally <%= (appnd \"For\") %>")))
     (is (= "Countdown: 5 4 3 2 1 0"
            (art/render "Countdown:<%=(loop [s \"\"  x 5] (if (>= x 0) (recur (str s \" \" x) (dec x)) s))%>")))))
+
+(deftest whitespace-preservation
+  (testing "Whitespace is preserved"
+    (are [expected template]
+      (= expected (art/render template))
+      " " " "
+      "\t" "\t"
+      "\n" "\n"
+      " " " <%      %>"
+      "\n" "<%      %>\n"
+      ; Consecutive tags
+      " \t\n " " <%%><% %>\t\n "
+      " \n\n" "<%%> <%=\n\t\"\n\"\t%><%   %>\n<%%>")))

@@ -28,23 +28,17 @@
   "Echoes the value literal to the rendered output"
   [acc val & _]
   (let [escaped (clojure.string/escape val {\" "\\\""})]
-    (assoc acc :output
-               (conj (acc :output)
-                     (str "(emit \"" escaped "\")")))))
+    (update-in acc [:output] conj (str "(emit \"" escaped "\")"))))
 
 (defn echo-eval
   "Echoes the result of evaluating the expression to the rendered output"
   [acc expr & _]
-  (assoc acc :output
-             (conj (acc :output)
-                   (str "(emit " expr " )"))))
+  (update-in acc [:output] conj (str "(emit " expr " )")))
 
 (defn -eval
   "Evaluates the expression to the rendered output"
   [acc expr & _]
-  (assoc acc :output
-             (conj (acc :output)
-                   expr)))
+  (update-in acc [:output] conj expr))
 
 (fsm/defsm tokens->forms
            [[:echo
@@ -66,21 +60,27 @@
   (let [fsm-result (tokens->forms tokens)]
     (fsm-result :output)))
 
-(defn wrap-forms [forms]
+(defn wrap-forms
+  [forms]
   (concat ["(def ^StringBuilder __vivid__art__sb (new StringBuilder))"
            "(defn emit [val] (.append __vivid__art__sb val))"]
           forms
           ["(.toString __vivid__art__sb)"]))
 
-(defn evaluate [forms]
-  (let [wrapped-forms (clojure.string/join "\n" (wrap-forms forms))]
-    (embed/eval-in-one-shot-runtime wrapped-forms)))
+(defn evaluate
+  [forms
+   & {:keys [dependencies]}]
+  (let [wrapped-forms (wrap-forms forms)
+        str (clojure.string/join "\n" wrapped-forms)]
+    (embed/eval-in-one-shot-runtime str
+                                    :dependencies dependencies)))
 
 (defn render
   "Renders an input string containing Ash-Ra Template
   -formatted content to an output string"
-  [^String input]
+  [^String input
+   & {:keys [dependencies]}]
   (-> input
       (lex)
       (parse)
-      (evaluate)))
+      (evaluate :dependencies dependencies)))
