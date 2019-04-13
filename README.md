@@ -136,7 +136,7 @@ Whitespace in the text portions of the template is preserved.
 
 ``(emit x)``
 As in ERB, the ``<%=`` syntax causes the value of the expression to be emitted to the rendered template output.
-In ART, this emitting is accomplished with the ``emit`` function which is available within the template, and is the same mechanism used by the template library itself.
+The same effect can be accomplished with the ``emit`` function which is available within templates.
 To demonstrate, the statements in the following template snippet are functionally equivalent in that they both emit the string "Splash!" to the rendered output:
 
 ```clojure
