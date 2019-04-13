@@ -3,6 +3,6 @@
 set -e
 set -x
 
-rm -r target
+rm -rf target
 
-lein build
+TZ=UTC lein build
