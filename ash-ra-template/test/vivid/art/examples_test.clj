@@ -5,7 +5,7 @@
   (:require
     [clojure.java.io :as io]
     [clojure.test :refer :all]
-    [vivid.art.core :as art]))
+    [vivid.art :as art]))
 
 (deftest usage
   (testing "All code samples in the README file"

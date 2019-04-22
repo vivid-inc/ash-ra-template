@@ -2,7 +2,7 @@
 (require '[boot.core :refer [deftask set-env! task-options!]]
          '[boot.task.built-in :refer [install jar pom]])
 
-(def project 'vivid/boot-ash-ra-template)
+(def project 'vivid/boot-art)
 (def version "0.3.0")
 
 (set-env! :source-paths #{"src"}
@@ -11,7 +11,7 @@
                           [adzerk/bootlaces "0.2.0" :scope "test"]
                           [boot/core "2.8.3" :scope "provided"]
                           [onetom/boot-lein-generate "0.1.3" :scope "test"]
-                          [vivid/ash-ra-template "0.2.0"]]
+                          [vivid/ash-ra-template "0.3.0"]]
           :repositories (partial map (fn [[k v]]
                                        [k (cond-> v (#{"clojars"} k) (assoc :username (System/getenv "CLOJARS_USER")
                                                                             :password (System/getenv "CLOJARS_PASS")))])))

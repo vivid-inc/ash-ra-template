@@ -8,7 +8,7 @@
     [boot.core :as boot :refer [deftask]]
     [boot.util]
     [clojure.java.io]
-    [vivid.art.core :as art]))
+    [vivid.art :as art]))
 
 (def ^:const art-file-suffix ".art")
 

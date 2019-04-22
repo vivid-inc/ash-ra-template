@@ -18,7 +18,7 @@ Include this library from Clojars by adding ``[vivid/ash-ra-template "0.2.0"]`` 
 
 Rendering a template string is easy:
 ```clojure
-(require [vivid.art.core :as art])
+(require [vivid.art :as art])
 
 (art/render "There were <%= (+ 1 2) %> swallows, dancing in the sky.")
 ```

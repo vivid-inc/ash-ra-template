@@ -1,6 +1,6 @@
 ; Copyright 2019 Vivid Inc.
 
-(ns vivid.art.core
+(ns vivid.art
   (:require
     [clojure.string]
     [reduce-fsm :as fsm]

@@ -1,9 +1,9 @@
 ; Copyright 2019 Vivid Inc.
 
-(ns vivid.art.core-test
+(ns vivid.art.render-test
   (:require
     [clojure.test :refer :all]
-    [vivid.art.core :as art]))
+    [vivid.art :as art]))
 
 (deftest plain-echo
   (testing "Plain echo pass-through"
