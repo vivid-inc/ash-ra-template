@@ -10,8 +10,7 @@
           :dependencies '[[org.clojure/clojure "1.9.0" :scope "provided"]
                           [boot/core "2.8.3" :scope "provided"]
                           [onetom/boot-lein-generate "0.1.3" :scope "test"]
-                          [vivid/ash-ra-template "0.2.0" :exclusions [commons-logging org.slf4j/slf4j-api
-                                                                      org.slf4j/slf4j-api]]])
+                          [vivid/ash-ra-template "0.2.0"]])
 
 (require '[vivid.art.boot :refer [art]])
 
