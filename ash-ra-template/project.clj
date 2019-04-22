@@ -2,7 +2,7 @@
 
 ; Referencing https://github.com/technomancy/leiningen/blob/master/sample.project.clj
 
-(defproject vivid/ash-ra-template "0.2.0"
+(defproject vivid/ash-ra-template "0.3.0"
 
   :description "Ash Ra Template: Simplistic template library featuring Clojure language processing with Ruby 2.0 ERB-esque syntax."
   :url "https://github.com/vivid/ash-ra-template"
