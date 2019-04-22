@@ -1,9 +1,9 @@
-/.eastwood
-/*.iml
-/.idea
-/.lein-failures
-/.nrepl-port
-/pom.xml
-/target
+.eastwood
+*.iml
+.idea
+.lein-failures
 .lein-repl-history
 .nrepl-history
+.nrepl-port
+pom.xml
+target
