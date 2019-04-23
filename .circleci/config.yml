@@ -17,19 +17,27 @@ jobs:
     steps:
       - checkout
 
+      #
       # Download and cache dependencies
+      #
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "project.clj" }}
+          - v1-dependencies-{{ checksum "ash-ra-template/project.clj" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
+      - run:
+          name: install dependencies
+          command: lein deps
+          working_directory: ./ash-ra-template
+      - save_cache:
+          key: v1-dependencies-{{ checksum "ash-ra-template/project.clj" }}
+          paths:
+            - ~/.m2
 
+      #
+      # Build and test
+      #
       - run:
           name: build
           command: lein build
           working_directory: ./ash-ra-template
-
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "project.clj" }}

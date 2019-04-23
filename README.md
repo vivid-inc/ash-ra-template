@@ -8,13 +8,13 @@ Seeking to wield such expressive power, we wrote Ash Ra Template, or **ART**.
 
 Works with Clojure 1.9 and newer.
 
+[![CircleCI](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master.svg?style=svg)](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master)
+[![Clojars Project](https://img.shields.io/clojars/v/vivid/ash-ra-template.svg)](https://clojars.org/vivid/ash-ra-template)
 
 
 ## Usage
 
-[![Clojars Project](https://img.shields.io/clojars/v/vivid/ash-ra-template.svg)](https://clojars.org/vivid/ash-ra-template)
-
-Include this library from Clojars by adding ``[vivid/ash-ra-template "0.2.0"]`` to ``:dependencies`` in your ``project.clj``.
+Include this library from Clojars by adding ``[vivid/ash-ra-template "0.3.0"]`` to ``:dependencies`` in your ``project.clj``.
 
 Rendering a template string is easy:
 ```clojure
