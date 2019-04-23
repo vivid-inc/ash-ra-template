@@ -9,8 +9,6 @@ jobs:
       # specify the version you desire here
       - image: circleci/clojure:lein-2.9.1
 
-    working_directory: ~/repo
-
     environment:
       LEIN_ROOT: "true"
       # Customize the JVM maximum heap limit
@@ -27,11 +25,12 @@ jobs:
           - v1-dependencies-
 
       - run: lein build
+          working_directory: ./ash-ra-template
 
       - save_cache:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "project.clj" }}
 
-      # run tests!
       - run: lein test
+          working_directory: ./ash-ra-template
