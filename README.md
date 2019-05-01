@@ -2,6 +2,8 @@
 
 Simplistic template library featuring Clojure language processing with Ruby 2.0 ERB-esque syntax.
 
+![](ash-ra-workshop.png)
+
 **Motivation**: Of the Clojure templating libraries we found, none seemed to directly assist in porting a non-trivial amount of ERB-templated content from [Middleman](https://github.com/middleman/middleman) to a custom Clojure-based static site generation tool.
 We find that the ERB syntax contrasts well with Clojure, and being able to in-line arbitrary Clojure code is intoxicatingly pragmatic (also expressed as: Enough rope to hang oneself).
 Seeking to wield such expressive power, we wrote Ash Ra Template, or **ART**.
@@ -116,7 +118,8 @@ Note that until ART achieves version 1.0 status, details may be subject to chang
 - Minimal restrictions:
   - Java 1.8 class files, because Java 1.8 strikes a good balance between wide adoption and long-term stability.
   - Clojure 1.9.0, which is compatible with a ``clojure.alpha.tools.deps`` version that has reasonable dependency resolving abilility, and doesn't cause an additional macOS App to run and disrupt keyboard focus during runtime.
-- Effortlessly composable: Use `render` wherever you like.
+- Effortlessly composable: Use `(render)` wherever you like.
+- No surprises.
 - No inferrence of parens in Clojure code portions: Clojure forms are kept whole for natural recognition by the eye, copy & paste, machine processing, etc.
 
 ### API
@@ -149,17 +152,24 @@ To demonstrate, the statements in the following template snippet are functionall
 
 ## Goals: The Path to Version 1.0
 
-- Sufficient error reporting, with well-detailed error messages.
+- Why would I use this? Compare and contrast. Emphasize the point of providing native idioms at each point along the value chain. Example: HTML, CSS in a web-based production workflow.
 - Permit ERB tag syntax literals to occur in templates. Follow ERB's escaping rules: <%% and %%>
 - Clarify the mechanics of the template evaluation runtime: dependencies + default deps, initial namespace, requires.
 - Accept alternative tag nomenclature, defaulting to ERB. Provide examples for Mustache, PHP, and others.
 - Accept an optional map of bindings/definitions that are made available for symbol resolution during render.
-- Provide examples: Nesting templates.
+- Provide examples for nesting templates, specifying the Clojure version.
 - Round out the tests. Test against each supported version of Clojure.
 - Fast runtime performance, fast test feedback.
-- Lein and Boot tasks, to assist with adoption. Look at https://github.com/adzerk-oss/zerkdown and https://github.com/adzerk-oss/boot-template
-- Investigate signing Clojars releases.
+- Sufficient error reporting, with well-detailed error messages.
+- Assist with adoption by making time-to-first-experience as short as possible. Provide a Leiningen task and JetBrains IDEA plugin.
+- Sign releases.
 - Declare version 1.0.0 once the community deems the ART feature-complete, reliable, and properly documented.
+
+### After Version 1.0
+
+- Modal parsing. Inline an EDN string that configures the parsing mode, a subset of options accepted by `(render)`. The mode magic can occur mid-stream and multiple times. Mode magic tag escaping rules. Settings apply to the current file only.
+- Consider an option to infer outer-most parens.
+
 
 
 
