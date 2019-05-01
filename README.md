@@ -199,6 +199,7 @@ Unproductive behavior such as unkindness towards others is not tolerated.
 
 - [ShimDandy](https://github.com/projectodd/shimdandy), [boot-pods](https://github.com/boot-clj/boot/wiki/Pods), [clj-embed](https://github.com/RutledgePaulV/clj-embed) as reference material regarding the evaluation of Clojure code within a sandboxed runtime.
 - Original implementation by [Vivid Inc.](https://vivid-inc.net)
+- [Ruxandra](https://www.instagram.com/chocolatechiphelmet/) for the Workshop illustration.
 
 
 
