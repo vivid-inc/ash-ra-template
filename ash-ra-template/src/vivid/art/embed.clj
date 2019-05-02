@@ -37,7 +37,9 @@
     it))
 
 (defn- new-rt-shim [^ClassLoader classloader]
-  (doto (.newInstance (.loadClass classloader RUNTIME_SHIM_CLASS))
+  (doto (.newInstance (.getDeclaredConstructor (.loadClass classloader RUNTIME_SHIM_CLASS)
+                                               (into-array Class []))
+                      (into-array Object []))
     (.setClassLoader classloader)
     (.setName (name (gensym "vivid-art-runtime")))
     (.init)))
