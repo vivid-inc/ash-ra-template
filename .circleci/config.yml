@@ -31,10 +31,14 @@ ash-ra-template-job: &ash-ra-template-job
     - run:
         command: lein build
         working_directory: ash-ra-template
+    - persist_to_workspace:
+        root: ash-ra-template
+        paths: ash-ra-template
 
 boot-art-job: &boot-art-job
   steps:
-    - checkout
+    - attach_workspace:
+        at: ~/ash-ra-template
     - restore_cache:
         keys:
           - boot-art-dependencies-{{ checksum "boot-art/boot.properties" }}-{{ checksum "boot-art/build.boot" }}
@@ -73,6 +77,6 @@ workflows:
   build-all:
     jobs:
       - ash-ra-template-jdk-8-job
-      - ash-ra-template-jdk-11-job
       - boot-art-jdk-8-job
+      - ash-ra-template-jdk-11-job
       - boot-art-jdk-11-job

@@ -22,7 +22,8 @@
                      "test,"
                      "eastwood,"
                      "kibit,"
-                     "jar"]}
+                     "jar,"
+                     "install"]}
 
   :global-vars {*warn-on-reflection* true}
 
