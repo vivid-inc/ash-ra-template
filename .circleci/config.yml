@@ -65,18 +65,22 @@ jobs:
     <<: *ash-ra-template-job
     docker:
       - image: circleci/clojure:openjdk-8-lein-2.9.1
-  ash-ra-template-jdk-11-job:
-    <<: *ash-ra-template-job
-    docker:
-      - image: circleci/clojure:openjdk-11-lein-2.9.1
   boot-art-jdk-8-job:
     <<: *boot-art-job
     docker:
       - image: circleci/clojure:openjdk-8-boot-2.8.2
+    requires:
+      - ash-ra-template-jdk-8-job
+  ash-ra-template-jdk-11-job:
+    <<: *ash-ra-template-job
+    docker:
+      - image: circleci/clojure:openjdk-11-lein-2.9.1
   boot-art-jdk-11-job:
     <<: *boot-art-job
     docker:
       - image: circleci/clojure:openjdk-11-boot-2.8.2
+    requires:
+      - ash-ra-template-jdk-11-job
 
 workflows:
   version: 2
