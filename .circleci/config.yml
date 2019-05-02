@@ -32,8 +32,8 @@ ash-ra-template-job: &ash-ra-template-job
         command: lein build
         working_directory: ash-ra-template
     - persist_to_workspace:
-        root: ash-ra-template
-        paths: ash-ra-template
+        root: .
+        paths: .
 
 boot-art-job: &boot-art-job
   steps:
