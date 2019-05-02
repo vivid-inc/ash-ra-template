@@ -1,14 +1,14 @@
-# Clojure CircleCI 2.0 configuration file
+# CircleCI configuration file
 #
-# Check https://circleci.com/docs/2.0/language-clojure/ for more details
-#
+# Referencing https://circleci.com/docs/2.0/language-clojure/
+
 version: 2
 
 #
 # Individual job definitions
 #
 
-ash-ra-template-job: &ash-ra-template-job
+art-job: &art-job
   environment:
     LEIN_ROOT: "true"
     # Customize the JVM maximum heap limit
@@ -18,57 +18,35 @@ ash-ra-template-job: &ash-ra-template-job
     - checkout
     - restore_cache:
         keys:
-          - ash-ra-template-{{ checksum "ash-ra-template/project.clj" }}
+          - m2-deps-{{ checksum "ash-ra-template/project.clj" }}-{{ checksum "boot-art/boot.properties" }}-{{ checksum "boot-art/build.boot" }}
           # fallback to using the latest cache if no exact match is found
-          - ash-ra-template-
-    - run:
-        command: lein deps
-        working_directory: ash-ra-template
-    - save_cache:
-        key: ash-ra-template-{{ checksum "ash-ra-template/project.clj" }}
-        paths:
-          - ~/.m2
+          - m2-deps-
     - run:
         command: lein build
         working_directory: ash-ra-template
-    - persist_to_workspace:
-        root: .
-        paths: .
-
-boot-art-job: &boot-art-job
-  steps:
-    - attach_workspace:
-        at: ./
-    - restore_cache:
-        keys:
-          - boot-art-dependencies-{{ checksum "boot-art/boot.properties" }}-{{ checksum "boot-art/build.boot" }}
-          # fallback to using the latest cache if no exact match is found
-          - boot-art-dependencies-
     - run:
         command: boot test
         working_directory: boot-art
     - save_cache:
-        key: boot-art-dependencies-{{ checksum "boot-art/boot.properties" }}-{{ checksum "boot-art/build.boot" }}
+        key: m2-deps-{{ checksum "ash-ra-template/project.clj" }}-{{ checksum "boot-art/boot.properties" }}-{{ checksum "boot-art/build.boot" }}
         paths:
-          - ~/.boot/cache/bin
-          - ~/.boot/cache/lib
           - ~/.m2
 
 jobs:
   ash-ra-template-jdk-8-job:
-    <<: *ash-ra-template-job
+    <<: *art-job
     docker:
       - image: circleci/clojure:openjdk-8-lein-2.9.1
   boot-art-jdk-8-job:
-    <<: *boot-art-job
+    <<: *art-job
     docker:
       - image: circleci/clojure:openjdk-8-boot-2.8.2
   ash-ra-template-jdk-11-job:
-    <<: *ash-ra-template-job
+    <<: *art-job
     docker:
       - image: circleci/clojure:openjdk-11-lein-2.9.1
   boot-art-jdk-11-job:
-    <<: *boot-art-job
+    <<: *art-job
     docker:
       - image: circleci/clojure:openjdk-11-boot-2.8.2
 
