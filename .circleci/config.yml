@@ -14,21 +14,23 @@ ash-ra-template-job: &ash-ra-template-job
     # Customize the JVM maximum heap limit
     JVM_OPTS: -Xmx3200m
 
-  working_directory: ./ash-ra-template
-
   steps:
     - checkout
     - restore_cache:
         keys:
-          - ash-ra-template-{{ checksum "project.clj" }}
+          - ash-ra-template-{{ checksum "ash-ra-template/project.clj" }}
           # fallback to using the latest cache if no exact match is found
           - ash-ra-template-
-    - run: lein deps
+    - run:
+        command: lein deps
+        working_directory: ./ash-ra-template
     - save_cache:
-        key: ash-ra-template-{{ checksum "project.clj" }}
+        key: ash-ra-template-{{ checksum "ash-ra-template/project.clj" }}
         paths:
           - ~/.m2
-    - run: lein build
+    - run:
+        command: lein build
+        working_directory: ./ash-ra-template
 
 boot-art-job: &boot-art-job
   working_directory: ./boot-art
