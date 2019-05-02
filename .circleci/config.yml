@@ -23,28 +23,28 @@ ash-ra-template-job: &ash-ra-template-job
           - ash-ra-template-
     - run:
         command: lein deps
-        working_directory: ./ash-ra-template
+        working_directory: ash-ra-template
     - save_cache:
         key: ash-ra-template-{{ checksum "ash-ra-template/project.clj" }}
         paths:
           - ~/.m2
     - run:
         command: lein build
-        working_directory: ./ash-ra-template
+        working_directory: ash-ra-template
 
 boot-art-job: &boot-art-job
-  working_directory: ./boot-art
-
   steps:
     - checkout
     - restore_cache:
         keys:
-          - boot-art-dependencies-{{ checksum "boot.properties" }}-{{ checksum "build.boot" }}
+          - boot-art-dependencies-{{ checksum "boot-art/boot.properties" }}-{{ checksum "boot-art/build.boot" }}
           # fallback to using the latest cache if no exact match is found
           - boot-art-dependencies-
-    - run: boot test
+    - run:
+        command: boot test
+        working_directory: boot-art
     - save_cache:
-        key: boot-art-dependencies-{{ checksum "boot.properties" }}-{{ checksum "build.boot" }}
+        key: boot-art-dependencies-{{ checksum "boot-art/boot.properties" }}-{{ checksum "boot-art/build.boot" }}
         paths:
           - ~/.boot/cache/bin
           - ~/.boot/cache/lib
