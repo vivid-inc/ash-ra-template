@@ -4,40 +4,48 @@
 #
 version: 2
 jobs:
-  build:
+  build-ash-ra-template:
     docker:
-      # specify the version you desire here
-      - image: circleci/clojure:lein-2.9.1
+      - image: circleci/clojure:openjdk-8-lein-2.9.1
 
     environment:
       LEIN_ROOT: "true"
       # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx3200m
 
+    working_directory: ./ash-ra-template
+
     steps:
       - checkout
-
-      #
-      # Download and cache dependencies
-      #
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "ash-ra-template/project.clj" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-      - run:
-          name: install dependencies
-          command: lein deps
-          working_directory: ./ash-ra-template
+            - ash-ra-template-{{ checksum "project.clj" }}
+            # fallback to using the latest cache if no exact match is found
+            - ash-ra-template-
+      - run: lein deps
       - save_cache:
-          key: v1-dependencies-{{ checksum "ash-ra-template/project.clj" }}
+          key: ash-ra-template-{{ checksum "project.clj" }}
           paths:
             - ~/.m2
+      - run: lein build
 
-      #
-      # Build and test
-      #
-      - run:
-          name: build
-          command: lein build
-          working_directory: ./ash-ra-template
+  build-boot-art:
+    docker:
+      - image: circleci/clojure:openjdk-8-boot-2.8.2
+
+    working_directory: ./boot-art
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - boot-art-dependencies-{{ checksum "boot.properties" }}-{{ checksum "build.boot" }}
+            # fallback to using the latest cache if no exact match is found
+            - boot-art-dependencies-
+      - run: boot test
+      - save_cache:
+          key: boot-art-dependencies-{{ checksum "boot.properties" }}-{{ checksum "build.boot" }}
+          paths:
+            - ~/.boot/cache/bin
+            - ~/.boot/cache/lib
+            - ~/.m2

@@ -28,7 +28,7 @@
 
   :javac-options ["-target" "1.8"]
 
-  :min-lein-version "2.8.1"
+  :min-lein-version "2.9.1"
 
   :plugins [[jonase/eastwood "0.3.5"]
             [lein-ancient "0.6.15"]

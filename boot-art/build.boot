@@ -1,3 +1,5 @@
+; Copyright 2019 Vivid Inc.
+
 ; For the sake of IntelliJ & Cursive
 (require '[boot.core :refer [deftask set-env! task-options!]]
          '[boot.task.built-in :refer [install jar pom]])
@@ -5,18 +7,21 @@
 (def project 'vivid/boot-art)
 (def version "0.3.0")
 
-(set-env! :source-paths #{"src"}
+(set-env! :source-paths #{"test"}
           :resource-paths #{"src"}
           :dependencies '[[org.clojure/clojure "1.9.0" :scope "provided"]
                           [adzerk/bootlaces "0.2.0" :scope "test"]
-                          [boot/core "2.8.3" :scope "provided"]
+                          [boot/core "2.8.2" :scope "provided"]
                           [onetom/boot-lein-generate "0.1.3" :scope "test"]
                           [vivid/ash-ra-template "0.3.0"]]
           :repositories (partial map (fn [[k v]]
                                        [k (cond-> v (#{"clojars"} k) (assoc :username (System/getenv "CLOJARS_USER")
                                                                             :password (System/getenv "CLOJARS_PASS")))])))
 
-(require '[adzerk.bootlaces :refer :all])
+(require '[adzerk.bootlaces :refer :all]
+         '[boot.test :refer [runtests test-report test-exit]]
+
+         '[vivid.art.boot-tests])
 (bootlaces! version)
 
 (task-options!
@@ -32,6 +37,11 @@
 (require '[boot.lein])
 (boot.lein/generate)
 
+(deftask test []
+         (comp (runtests)
+               (test-report)
+               (test-exit)))
+
 (deftask deploy
          []
          (comp (build-jar)
@@ -39,5 +49,3 @@
                      "clojars"
                      :gpg-sign
                      false)))
-
-(require '[vivid.art.boot :refer [art]])
