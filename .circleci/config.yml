@@ -2,13 +2,13 @@
 #
 # Referencing https://circleci.com/docs/2.0/language-clojure/
 
-version: 2
+version: 2.1
 
 #
 # Individual job definitions
 #
 
-art-job: &art-job
+ash-ra-template-job: &ash-ra-template-job
   environment:
     LEIN_ROOT: "true"
     # Customize the JVM maximum heap limit
@@ -18,41 +18,52 @@ art-job: &art-job
     - checkout
     - restore_cache:
         keys:
-          - m2-deps-{{ checksum "ash-ra-template/project.clj" }}-{{ checksum "boot-art/boot.properties" }}-{{ checksum "boot-art/build.boot" }}
-          # fallback to using the latest cache if no exact match is found
+          - m2-deps-{{ checksum "ash-ra-template/project.clj" }}
+          # Fallback
           - m2-deps-
     - run:
         command: lein build
         working_directory: ash-ra-template
+    - save_cache:
+        key: m2-deps-{{ checksum "ash-ra-template/project.clj" }}
+        paths:
+          - ~/.m2
+    # The boot-art build requires the ART jar file installed in the local ~/.m2 directory
+    - persist_to_workspace:
+        root: ~/.m2
+        paths: .
+
+boot-art-job: &boot-art-job
+  steps:
+    - checkout
+    - attach_workspace:
+        at: ~/.m2
     - run:
         command: boot test
         working_directory: boot-art
-    - save_cache:
-        key: m2-deps-{{ checksum "ash-ra-template/project.clj" }}-{{ checksum "boot-art/boot.properties" }}-{{ checksum "boot-art/build.boot" }}
-        paths:
-          - ~/.m2
+
 
 jobs:
   ash-ra-template-jdk-8-job:
-    <<: *art-job
+    <<: *ash-ra-template-job
     docker:
       - image: circleci/clojure:openjdk-8-lein-2.9.1
   boot-art-jdk-8-job:
-    <<: *art-job
+    <<: *boot-art-job
     docker:
       - image: circleci/clojure:openjdk-8-boot-2.8.2
   ash-ra-template-jdk-11-job:
-    <<: *art-job
+    <<: *ash-ra-template-job
     docker:
       - image: circleci/clojure:openjdk-11-lein-2.9.1
   boot-art-jdk-11-job:
-    <<: *art-job
+    <<: *boot-art-job
     docker:
       - image: circleci/clojure:openjdk-11-boot-2.8.2
 
 workflows:
   version: 2
-  build-all:
+  assess-quality:
     jobs:
       - ash-ra-template-jdk-8-job
       - boot-art-jdk-8-job:
