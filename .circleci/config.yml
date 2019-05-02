@@ -3,49 +3,74 @@
 # Check https://circleci.com/docs/2.0/language-clojure/ for more details
 #
 version: 2
+
+#
+# Individual job definitions
+#
+
+ash-ra-template-job: &ash-ra-template-job
+  environment:
+    LEIN_ROOT: "true"
+    # Customize the JVM maximum heap limit
+    JVM_OPTS: -Xmx3200m
+
+  working_directory: ./ash-ra-template
+
+  steps:
+    - checkout
+    - restore_cache:
+        keys:
+          - ash-ra-template-{{ checksum "project.clj" }}
+          # fallback to using the latest cache if no exact match is found
+          - ash-ra-template-
+    - run: lein deps
+    - save_cache:
+        key: ash-ra-template-{{ checksum "project.clj" }}
+        paths:
+          - ~/.m2
+    - run: lein build
+
+boot-art-job: &boot-art-job
+  working_directory: ./boot-art
+
+  steps:
+    - checkout
+    - restore_cache:
+        keys:
+          - boot-art-dependencies-{{ checksum "boot.properties" }}-{{ checksum "build.boot" }}
+          # fallback to using the latest cache if no exact match is found
+          - boot-art-dependencies-
+    - run: boot test
+    - save_cache:
+        key: boot-art-dependencies-{{ checksum "boot.properties" }}-{{ checksum "build.boot" }}
+        paths:
+          - ~/.boot/cache/bin
+          - ~/.boot/cache/lib
+          - ~/.m2
+
 jobs:
-  build-ash-ra-template:
+  ash-ra-template-jdk-8-job:
+    <<: *ash-ra-template-job
     docker:
       - image: circleci/clojure:openjdk-8-lein-2.9.1
-
-    environment:
-      LEIN_ROOT: "true"
-      # Customize the JVM maximum heap limit
-      JVM_OPTS: -Xmx3200m
-
-    working_directory: ./ash-ra-template
-
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - ash-ra-template-{{ checksum "project.clj" }}
-            # fallback to using the latest cache if no exact match is found
-            - ash-ra-template-
-      - run: lein deps
-      - save_cache:
-          key: ash-ra-template-{{ checksum "project.clj" }}
-          paths:
-            - ~/.m2
-      - run: lein build
-
-  build-boot-art:
+  ash-ra-template-jdk-11-job:
+    <<: *ash-ra-template-job
+    docker:
+      - image: circleci/clojure:openjdk-11-lein-2.9.1
+  boot-art-jdk-8-job:
+    <<: *boot-art-job
     docker:
       - image: circleci/clojure:openjdk-8-boot-2.8.2
+  boot-art-jdk-11-job:
+    <<: *boot-art-job
+    docker:
+      - image: circleci/clojure:openjdk-11-boot-2.8.2
 
-    working_directory: ./boot-art
-
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - boot-art-dependencies-{{ checksum "boot.properties" }}-{{ checksum "build.boot" }}
-            # fallback to using the latest cache if no exact match is found
-            - boot-art-dependencies-
-      - run: boot test
-      - save_cache:
-          key: boot-art-dependencies-{{ checksum "boot.properties" }}-{{ checksum "build.boot" }}
-          paths:
-            - ~/.boot/cache/bin
-            - ~/.boot/cache/lib
-            - ~/.m2
+workflows:
+  version: 2
+  build-all:
+    jobs:
+      - ash-ra-template-jdk-8-job
+      - ash-ra-template-jdk-11-job
+      - boot-art-jdk-8-job
+      - boot-art-jdk-11-job
