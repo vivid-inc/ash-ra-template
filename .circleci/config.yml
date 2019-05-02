@@ -45,6 +45,12 @@ boot-art-job: &boot-art-job
           # fallback to using the latest cache if no exact match is found
           - boot-art-dependencies-
     - run:
+        command: pwd
+        working_directory: boot-art
+    - run:
+        command: ls -al
+        working_directory: boot-art
+    - run:
         command: boot test
         working_directory: boot-art
     - save_cache:
