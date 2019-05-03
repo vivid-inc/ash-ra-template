@@ -44,13 +44,11 @@
     (.setName (name (gensym "vivid-art-runtime")))
     (.init)))
 
-(defn- resolve-deps
-  ([] (resolve-deps {}))
-  ([deps]
-   (deps/resolve-deps
-     {:deps      (merge DEFAULT_DEPS deps)
-      :mvn/repos DEFAULT_REPOS}
-     nil)))
+(defn- resolve-deps [deps]
+  (deps/resolve-deps
+    {:deps      (merge DEFAULT_DEPS deps)
+     :mvn/repos DEFAULT_REPOS}
+    nil))
 
 (defn- unload-classes-from-loader [^JarClassLoader loader]
   (let [loaded (doall (keys (.getLoadedClasses loader)))]

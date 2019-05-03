@@ -165,7 +165,8 @@ The `(emit)` variant can mingle with more Clojure forms, while `<%=` succinctly 
 - Accept alternative tag nomenclature, defaulting to ERB. Provide examples for Mustache, PHP, and others.
 - Accept an optional map of bindings/definitions that are made available for symbol resolution during render.
 - Provide examples for nesting templates.
-- Test against each supported version of Clojure.
+- api-contract tests for `(render :dependencies)`.
+- Test each supported Clojure version. Reference: https://github.com/clojure-emacs/cider-nrepl/blob/master/project.clj
 - Fast runtime performance, fast test feedback.
 - Sufficient error reporting, with well-detailed error messages.
 - Assist with adoption by making time-to-first-experience as short as possible.
