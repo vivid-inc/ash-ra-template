@@ -22,19 +22,16 @@ ash-ra-template-job: &ash-ra-template-job
           # Fallback
           - m2-deps-
     - run:
-        name: Leiningen build and upload code coverage to codecov.io
-        command: |
-          lein build
-          ls -l /home/circleci/project/ash-ra-template/target/coverage/codecov.json
-          pwd
-          ls -al
-          find *
-          bash <(curl -s https://codecov.io/bash) --token=$CODECOV_TOKEN --file target/coverage/codecov.json
+        command: lein build
         working_directory: ash-ra-template
     - save_cache:
         key: m2-deps-{{ checksum "ash-ra-template/project.clj" }}
         paths:
           - ~/.m2
+    - run:
+        name: Upload code coverage to codecov.io
+        command: bash <(curl -s https://codecov.io/bash) --token=$CODECOV_TOKEN --file codecov.json
+        working_directory: ash-ra-template
     # The boot-art build requires the ART jar file installed in the local ~/.m2 directory
     - persist_to_workspace:
         root: ~/.m2

@@ -26,7 +26,9 @@
                      "install"]}
 
   :cloverage {:codecov? true
-              :html?    false}
+              :html?    false
+              :output   "."                                 ; "lein jar" appears to destroy target/coverage/codecov.json
+              }
 
   :global-vars {*warn-on-reflection* true}
 
