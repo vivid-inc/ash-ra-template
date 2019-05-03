@@ -71,5 +71,9 @@ Chondrichthyes research published in <%= (cite-dates publication-dates) %>.
       (= expected (art/render template))
       "Splash!"
       "<% (emit \"Splash!\") %>"
+
       "Splash!"
-      "<%= \"Splash!\" %>")))
+      "<%= \"Splash!\" %>"
+
+      "Splash!"
+      "<%= (str \"Splash!\") %>")))

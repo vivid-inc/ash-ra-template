@@ -7,46 +7,21 @@
 
 (deftest plain-echo
   (testing "Plain echo pass-through"
-    (is (= ""
-           (art/render "")))
-    (is (= "Pyramids of Mars"
-           (art/render "Pyramids of Mars")))
-    (is (= "色雫の洗練さ źródła বিপাক أيض"
-           (art/render "色雫の洗練さ źródła বিপাক أيض"))))
+    (are [expected template]
+      (= expected (art/render template))
+      "" ""
+      "Pyramids of Mars" "Pyramids of Mars"
+      "色雫の洗練さ źródła বিপাক أيض" "色雫の洗練さ źródła বিপাক أيض"))
   (testing "Plain echo pass-through preserves whitespace"
-    (is (= "   "
-           (art/render "   ")))
-    (is (= " flanked    "
-           (art/render " flanked    ")))
-    (is (= "\t \n \t"
-           (art/render "\t \n \t")))
-    (is (= "\"I'm Double-Quoted\""
-           (art/render "\"I'm Double-Quoted\"")))
-    (is (= "<\"% > % < % %%< >%%\n\t \n<\n%\t="
-           (art/render "<\"% > % < % %%< >%%\n\t \n<\n%\t=")))))
-
-(deftest form-evaluation
-  (testing "Evaluation of a form"
-    (is (= ""
-           (art/render "<%%>")))
-    (is (= ""
-           (art/render "<% nil %>")))
-    (is (= ""
-           (art/render "<% (+ 1 1) %>")))))
-
-(deftest echo-form-evaluation
-  (testing "Echoing form evaluation value"
-    (is (= "3"
-           (art/render "<%= (+ 1 2) %>")))
-    (is (= "abc x = 5 exactly"
-           (art/render "abc <% (def x 5) %>x = <%= x %> exactly")))))
+    (are [expected template]
+      (= expected (art/render template))
+      "   " "   "
+      " flanked    " " flanked    "
+      "\t \n \t" "\t \n \t"
+      "\"I'm Double-Quoted\"" "\"I'm Double-Quoted\""
+      "<\"% > % < % %%< >%%\n\t \n<\n%\t=" "<\"% > % < % %%< >%%\n\t \n<\n%\t=")))
 
 (deftest well-formed-templates
-  (testing "Ensure template examples occuring in the project README function correctly"
-    (is (= "There were 3 swallows, dancing in the sky."
-           (art/render "There were <%= (+ 1 2) %> swallows, dancing in the sky.")))
-    (is (= "We are but stow-aways aboard a drifting ship, forsaken to the caprices of the wind and currents."
-           (art/render "We are but stow-aways aboard a drifting ship, forsaken to the caprices of the wind and currents."))))
   (testing "Well-formed templates"
     (is (= "Pi is approximately equal to 3.14."
            (art/render "<%(def pi 3.14)%>Pi is approximately equal to <%=pi%>.")))

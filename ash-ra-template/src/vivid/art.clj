@@ -62,10 +62,11 @@
 
 (defn wrap-forms
   [forms]
-  (concat ["(def ^StringBuilder __vivid__art__sb (new StringBuilder))"
-           "(defn emit [val] (.append __vivid__art__sb val))"]
+  (concat ["(ns user)"
+           "(def ^java.lang.StringBuilder __vivid__art__sb (new java.lang.StringBuilder))"
+           "(defn emit [val] (.append user/__vivid__art__sb val))"]
           forms
-          ["(.toString __vivid__art__sb)"]))
+          ["(.toString user/__vivid__art__sb)"]))
 
 (defn evaluate
   [forms

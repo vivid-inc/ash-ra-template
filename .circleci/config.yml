@@ -65,11 +65,11 @@ workflows:
   version: 2
   assess-quality:
     jobs:
-      - ash-ra-template-jdk-8-job
+      - ash-ra-template-jdk-8-job:
       - boot-art-jdk-8-job:
           requires:
             - ash-ra-template-jdk-8-job
-      - ash-ra-template-jdk-11-job
+      - ash-ra-template-jdk-11-job:
       - boot-art-jdk-11-job:
           requires:
             - ash-ra-template-jdk-11-job

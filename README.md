@@ -115,12 +115,12 @@ The specific version of Clojure can be overridden:
 Note that until ART achieves version 1.0 status, details may be subject to change.
 
 ### Design Goals
+- Symbolic computation, as contrasted to declarative, non-Turing complete languages. You choose what features you do or don't employ.
 - Minimal restrictions:
-  - Java 1.8 class files, because Java 1.8 strikes a good balance between wide adoption and long-term stability.
-  - Clojure 1.9.0, which is compatible with a ``clojure.alpha.tools.deps`` version that has reasonable dependency resolving abilility, and doesn't cause an additional macOS App to run and disrupt keyboard focus during runtime.
+  - Java 8 and all subsequent LTS releases. Java 8, because it strikes a good balance between wide adoption and long-term stability.
+  - Clojure 1.9.0, which is compatible with a ``clojure.alpha.tools.deps`` version that has reasonable Maven-style dependency resolving abilility, and doesn't cause an additional macOS App to run and disrupt keyboard focus during runtime.
 - Effortlessly composable: Use `(render)` wherever you like.
 - No surprises.
-- No inferrence of parens in Clojure code portions: Clojure forms are kept whole for natural recognition by the eye, copy & paste, machine processing, etc.
 
 ### API
 ``(render s :dependencies deps)``
@@ -128,48 +128,55 @@ Renders an input string containing Ash-Ra Template -formatted content to an outp
 An optional map of dependencies (as a Clojure deps [lib map](https://clojure.org/reference/deps_and_cli)) can be provided using the ``:dependencies`` keyword argument. These dependencies will be resolved prior to template rendering using Clojure's ``org.clojure/tools.deps.alpha``.
 
 ### Templates
+The initial namespace within the template evaluation environment is `user`.
+
 It's unnecessary to surround ERB tags with whitespace.
-Whitespace in the text portions of the template is preserved.
+Everything including whitespace in the text portions of the template is preserved.
 
 ```
 <% Clojure forms -- will be evaluated but not included in rendered output %>
 
 <%= Clojure forms -- replaced with result of evaluation %>
 ```
+Within ART tags, parentheses on outer-most forms are not inferred. This keeps the code easier to reason about and aids natural recognition by the eye, machine processing, and code editing.
 
-``(emit x)``
+``(user/emit x)``
 As in ERB, the ``<%=`` syntax causes the value of the expression to be emitted to the rendered template output.
 The same effect can be accomplished with the ``emit`` function which is available within templates.
-To demonstrate, the statements in the following template snippet are functionally equivalent in that they both emit the string "Splash!" to the rendered output:
-
+To demonstrate, each of the ART directives in the following template snippet are functionally equivalent in that each emits the string "Splash!" to the rendered output:
 ```clojure
 <% (emit "Splash!") %>
 
 <%= "Splash!" %>
+
+<%= (str "Splash!") %>
 ```
+The `(emit)` variant can mingle with more Clojure forms, while `<%=` succinctly expresses the intention of emitting a value to the rendered output.
+
 
 
 
 ## Goals: The Path to Version 1.0
 
-- Why would I use this? Compare and contrast. Emphasize the point of providing native idioms at each point along the value chain. Example: HTML, CSS in a web-based production workflow.
+- Explain the value of this. Compare and contrast with other templating systems. Emphasize symbolic computation, and the importance of providing native idioms at each point along the value chain, for example a web-based production workflow where professionals handle HTML, CSS.
 - Permit ERB tag syntax literals to occur in templates. Follow ERB's escaping rules: <%% and %%>
-- Clarify the mechanics of the template evaluation runtime: dependencies + default deps, initial namespace, requires.
+- Clarify the mechanics of the template evaluation runtime: dependencies + default deps, requires.
 - Accept alternative tag nomenclature, defaulting to ERB. Provide examples for Mustache, PHP, and others.
 - Accept an optional map of bindings/definitions that are made available for symbol resolution during render.
-- Provide examples for nesting templates, specifying the Clojure version.
-- Round out the tests. Test against each supported version of Clojure.
+- Provide examples for nesting templates.
+- Test against each supported version of Clojure.
 - Fast runtime performance, fast test feedback.
 - Sufficient error reporting, with well-detailed error messages.
-- Assist with adoption by making time-to-first-experience as short as possible. Provide a Leiningen task and JetBrains IDEA plugin.
+- Assist with adoption by making time-to-first-experience as short as possible.
+- Provide a Leiningen task.
 - Sign releases.
 - Declare version 1.0.0 once the community deems the ART feature-complete, reliable, and properly documented.
 
-### After Version 1.0
+#### Beyond Version 1.0
 
-- Modal parsing. Inline an EDN string that configures the parsing mode, a subset of options accepted by `(render)`. The mode magic can occur mid-stream and multiple times. Mode magic tag escaping rules. Settings apply to the current file only.
+- Modal parsing. Inline an EDN string that configures the parsing mode, a subset of options accepted by `(render)`. The mode magic may occur mid-stream and multiple times. Mode magic tag escaping rules. Settings apply to the current file only.
 - Consider an option to infer outer-most parens.
-
+- JetBrains IDEA plugin providing support for .art files.
 
 
 
@@ -197,10 +204,10 @@ Unproductive behavior such as unkindness towards others is not tolerated.
 
 ## Attributions
 
-- [ShimDandy](https://github.com/projectodd/shimdandy), [boot-pods](https://github.com/boot-clj/boot/wiki/Pods), [clj-embed](https://github.com/RutledgePaulV/clj-embed) as reference material regarding the evaluation of Clojure code within a sandboxed runtime.
 - Original implementation by [Vivid Inc.](https://vivid-inc.net)
-- [Ruxandra](https://www.instagram.com/chocolatechiphelmet/) for the Workshop illustration.
-- Boot test code initially mimicked [perun-selmer](https://github.com/rwstauner/perun-selmer).
+- [ShimDandy](https://github.com/projectodd/shimdandy), [boot-pods](https://github.com/boot-clj/boot/wiki/Pods), [clj-embed](https://github.com/RutledgePaulV/clj-embed) as reference material regarding the evaluation of Clojure code within a sandboxed runtime.
+- Illustration by [Ruxandra](https://www.instagram.com/chocolatechiphelmet/).
+- The Boot test code initially mimicked [perun-selmer](https://github.com/rwstauner/perun-selmer).
 
 
 
