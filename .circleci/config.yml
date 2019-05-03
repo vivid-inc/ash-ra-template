@@ -30,7 +30,9 @@ ash-ra-template-job: &ash-ra-template-job
           - ~/.m2
     - run:
         name: Upload code coverage to codecov.io
-        command: bash <(curl -s https://codecov.io/bash) --token=$CODECOV_TOKEN --file codecov.json
+        command: |
+          find * -type f
+          bash <(curl -s https://codecov.io/bash) --file $(pwd)/codecov.json
         working_directory: ash-ra-template
     # The boot-art build requires the ART jar file installed in the local ~/.m2 directory
     - persist_to_workspace:
