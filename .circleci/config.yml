@@ -27,7 +27,7 @@ ash-ra-template-job: &ash-ra-template-job
     - run:
         name: Upload code coverage to codecov.io
         command: |
-          pwd && ls -al && bash <(curl -s https://codecov.io/bash) --token=$CODECOV_TOKEN --file target/coverage/codecov.json
+          pwd && ls -al target && find . -type f && bash <(curl -s https://codecov.io/bash) --token=$CODECOV_TOKEN --file target/coverage/codecov.json
         working_directory: ash-ra-template
     - save_cache:
         key: m2-deps-{{ checksum "ash-ra-template/project.clj" }}
