@@ -19,11 +19,14 @@
 
   :aliases {"build" ["do"
                      "clean,"
-                     "test,"
+                     "cloverage,"
                      "eastwood,"
                      "kibit,"
                      "jar,"
                      "install"]}
+
+  :cloverage {:codecov? true
+              :html?    false}
 
   :global-vars {*warn-on-reflection* true}
 
@@ -33,6 +36,7 @@
 
   :plugins [[jonase/eastwood "0.3.5"]
             [lein-ancient "0.6.15"]
+            [lein-cloverage "1.1.1"]
             [lein-kibit "0.1.6"]
             [lein-nvd "1.0.0"]]
 
