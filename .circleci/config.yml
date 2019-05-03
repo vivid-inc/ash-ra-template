@@ -31,8 +31,8 @@ ash-ra-template-job: &ash-ra-template-job
     - run:
         name: Upload code coverage report to codecov.io
         command: |
-          if curl --silent --fail https://codecov.io/bash > codecov.sh; then
-            bash < codecov.sh -s .
+          if curl --silent --fail https://codecov.io/bash > codecov.sh ; then
+            bash < codecov.sh
           else
             echo skipping codecov.io: script download error
           fi
