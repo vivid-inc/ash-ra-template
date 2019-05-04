@@ -164,7 +164,7 @@ The `(emit)` variant can mingle with more Clojure forms, while `<%=` succinctly 
 - Clarify the mechanics of the template evaluation runtime: dependencies + default deps, requires.
 - Accept alternative tag nomenclature, defaulting to ERB. Provide examples for Mustache, PHP, and others.
 - Accept an optional map of bindings/definitions that are made available for symbol resolution during render.
-- Provide examples for nesting templates.
+- Provide examples for nesting templates (akin to `yield`).
 - api-contract tests for `(render :dependencies)`.
 - Test each supported Clojure version. Reference: https://github.com/clojure-emacs/cider-nrepl/blob/master/project.clj
 - Fast runtime performance, fast test feedback.
@@ -179,6 +179,7 @@ The `(emit)` variant can mingle with more Clojure forms, while `<%=` succinctly 
 - Modal parsing. Inline an EDN string that configures the parsing mode, a subset of options accepted by `(render)`. The mode magic may occur mid-stream and multiple times. Mode magic tag escaping rules. Settings apply to the current file only.
 - Consider an option to infer outer-most parens.
 - JetBrains IDEA plugin providing support for .art files.
+- Java policies, to make it possible to execute untrusted templates.
 
 
 

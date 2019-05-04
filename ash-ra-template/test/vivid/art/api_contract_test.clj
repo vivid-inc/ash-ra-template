@@ -16,18 +16,30 @@
   (testing "Evaluation of (emit)"
     (are [expected template]
       (= expected (art/render template))
+      ; TODO (emit) with no args, expecting an error.
+      ; TODO (emit) with too many args, expecting an error.
       "2.718281" "<%(emit (str 2.718281))%>"
+      ; Unnecessarily qualified (emit) within the namespace.
+      "2.718281" "<%(user/emit (str 2.718281))%>"))
+  (testing "Namespace qualification regarding (emit)"
+    (are [expected template]
+      (= expected (art/render template))
+      ; Change to another ns, and use qualified (emit).
       "Sesame" "<% (ns emit-test-4FA0BF32) (user/emit \"Sesame\") %>"
+      ; TODO Change to another ns and use unqualified and undefined (emit), expecting an error.
+      ; Change to another ns and then back again, and use unqualified (emit).
       "zigzag" "<% (ns flip-flop-71D1C341) (ns user) (emit 'zigzag) %>")))
 
 (deftest form-evaluation
-  (testing "Evaluation of a form"
+  (testing "Evaluation of arbitrary Clojure forms"
     (are [expected template]
       (= expected (art/render template))
       "" "<%%>"
+      "" "<%   \t \n  %>"
       "" "<% nil %>"
+      "" "<% 7 9 %>"
       "" "<% (+ 1 1) %>"
-      "" "<% 7 9 %>")))
+      "" "<%:a (apply + (range 10)) 0 nil true (def psuedo-nil nil)%>")))
 
 (deftest namespace-rules
   (testing "Initial namespace"

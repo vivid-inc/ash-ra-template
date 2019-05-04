@@ -49,3 +49,8 @@ Sally <%= (appnd \"For\") %>")))
       ; Consecutive tags
       " \t\n " " <%%><% %>\t\n "
       " \n\n" "<%%> <%=\n\t\"\n\"\t%><%   %>\n<%%>")))
+
+(deftest quintessential-template-code-constructs
+  (testing "Sequence-based HTML list"
+    (is (= "<ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>"
+           (art/render "<ul><%(doseq [i (range 1 4)]%><li>Item <%=i%></li><%)%></ul>")))))
