@@ -5,6 +5,18 @@
     [clojure.test :refer :all]
     [vivid.art :as art]))
 
+; TODO "<"
+; TODO "abc<<<%"
+; TODO "<%<%"
+
+(deftest code-constructs
+  (testing "Clojure comments"
+    (are [expected template]
+      (= expected (art/render template))
+      "" "<%=%>"
+      "" "<% #_(emit 123) %>"
+      "123" "<% ;(emit \"abc\")%><% (emit 123) %>")))
+
 (deftest echo-form-evaluation
   (testing "Echoing form evaluation value"
     (are [expected template]

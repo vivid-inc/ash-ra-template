@@ -1,12 +1,12 @@
 # Ash Ra Template
 
-Simplistic template library featuring Clojure language processing with Ruby 2.0 ERB-esque syntax.
+Lightweight and fully-expressive ERB-esque template system featuring Clojure language processing.
 
 ![](ash-ra-workshop.png)
 
 **Motivation**: Of the Clojure templating libraries we found, none seemed to directly assist in porting a non-trivial amount of ERB-templated content from [Middleman](https://github.com/middleman/middleman) to a custom Clojure-based static site generation tool.
-We find that the ERB syntax contrasts well with Clojure, and being able to in-line arbitrary Clojure code is intoxicatingly pragmatic (also expressed as: Enough rope to hang oneself).
-Seeking to wield such expressive power, we wrote Ash Ra Template, or **ART**.
+We find the ability to in-line arbitrary Clojure code is intoxicatingly pragmatic (also expressed as: Enough rope to hang oneself).
+Seeking to wield such expressive power in a general-purpose templating system, we wrote Ash Ra Template, or **ART**.
 
 Works with Clojure 1.9 and newer.
 
@@ -117,21 +117,22 @@ Note that until ART achieves version 1.0 status, details may be subject to chang
 
 ### Design Goals
 - Symbolic computation, as contrasted to declarative, non-Turing complete languages. You choose what features you do or don't employ.
-- Minimal restrictions:
+- Reasonable minimum requirements:
   - Java 8 and all subsequent LTS releases. Java 8, because it strikes a good balance between wide adoption and long-term stability.
-  - Clojure 1.9.0, which is compatible with a ``clojure.alpha.tools.deps`` version that has reasonable Maven-style dependency resolving abilility, and doesn't cause an additional macOS App to run and disrupt keyboard focus during runtime.
+  - Clojure 1.9.0. Clojure 1.9.0 for [spec](https://clojure.org/guides/spec), and because it is compatible with a ``clojure.alpha.tools.deps`` version that has reasonable Maven-style dependency resolving abilility, and doesn't cause an additional macOS App to run and disrupt keyboard focus during runtime.
 - Effortlessly composable: Use `(render)` wherever you like.
 - No surprises.
 
 ### API
-``(render s :dependencies deps)``
+``(render s :delimiters delimiters :dependencies deps)``
 Renders an input string containing Ash-Ra Template -formatted content to an output string.
 An optional map of dependencies (as a Clojure deps [lib map](https://clojure.org/reference/deps_and_cli)) can be provided using the ``:dependencies`` keyword argument. These dependencies will be resolved prior to template rendering using Clojure's ``org.clojure/tools.deps.alpha``.
+You can specify an optional map of delimiter tags, including popular styles such as Mustache and PHP. 
 
 ### Templates
 The initial namespace within the template evaluation environment is `user`.
 
-It's unnecessary to surround ERB tags with whitespace.
+It's unnecessary to surround delimiter tags with whitespace.
 Everything including whitespace in the text portions of the template is preserved.
 
 ```
@@ -165,21 +166,25 @@ The `(emit)` variant can mingle with more Clojure forms, while `<%=` succinctly 
 - Accept alternative tag nomenclature, defaulting to ERB. Provide examples for Mustache, PHP, and others.
 - Accept an optional map of bindings/definitions that are made available for symbol resolution during render.
 - Provide examples for nesting templates (akin to `yield`).
+- Document the lack of advanced tag processing, such as conditionals and HTML escaping.
+- Document: Sandboxed execution.
 - api-contract tests for `(render :dependencies)`.
 - Test each supported Clojure version. Reference: https://github.com/clojure-emacs/cider-nrepl/blob/master/project.clj
 - Fast runtime performance, fast test feedback.
 - Sufficient error reporting, with well-detailed error messages.
 - Assist with adoption by making time-to-first-experience as short as possible.
+- Java policies, to make it possible to execute untrusted templates.
 - Provide a Leiningen task.
 - Sign releases.
 - Declare version 1.0.0 once the community deems the ART feature-complete, reliable, and properly documented.
 
 #### Beyond Version 1.0
 
-- Modal parsing. Inline an EDN string that configures the parsing mode, a subset of options accepted by `(render)`. The mode magic may occur mid-stream and multiple times. Mode magic tag escaping rules. Settings apply to the current file only.
+- Parsing option mode magic within template content.
 - Consider an option to infer outer-most parens.
 - JetBrains IDEA plugin providing support for .art files.
-- Java policies, to make it possible to execute untrusted templates.
+- AOT compilation.
+- Performance.
 
 
 
@@ -198,7 +203,7 @@ or keep a test watch with
 lein test-refresh
 ```
 
-**Pull requests** in accord with the simplistic goals are welcome.
+**Pull requests** in accord with project goals are welcome.
 And include tests, or your contributions almost will certainly become broken later.
 Commits must include Signed-off-by indicating acceptance of the [Developer's Certificate of Origin](DCO.txt).
 Unproductive behavior such as unkindness towards others is not tolerated.

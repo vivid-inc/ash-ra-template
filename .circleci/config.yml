@@ -24,6 +24,7 @@ ash-ra-template-job: &ash-ra-template-job
     - run:
         command: lein build
         working_directory: ash-ra-template
+    # TODO Emit XUnit-format tests so that CircleCI can provide reports: https://circleci.com/docs/2.0/configuration-reference/#store_test_results
     - save_cache:
         key: m2-deps-{{ checksum "ash-ra-template/project.clj" }}
         paths:

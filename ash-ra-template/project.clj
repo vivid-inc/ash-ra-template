@@ -18,12 +18,14 @@
                  [reduce-fsm "0.1.4"]]
 
   :aliases {"build" ["do"
+                     "version,"
                      "clean,"
                      "cloverage,"
                      "eastwood,"
                      "kibit,"
                      "jar,"
-                     "install"]}
+                     "install"]
+            "test-all" ["with-profile" "default:+clojure-1.10" "build"]}
 
   :cloverage {:codecov? true
               :html?    false
@@ -42,11 +44,12 @@
             [lein-kibit "0.1.6"]
             [lein-nvd "1.0.0"]]
 
-  :profiles {:dev {:dependencies   [[pjstadig/humane-test-output "0.9.0"]]
-                   :plugins        [[com.jakemccrary/lein-test-refresh "0.24.0"]]
-                   :injections     [(require 'pjstadig.humane-test-output)
-                                    (pjstadig.humane-test-output/activate!)]
-                   :resource-paths ["test-resources"]
-                   :test-refresh   {:quiet true}}}
+  :profiles {:dev          {:dependencies   [[pjstadig/humane-test-output "0.9.0"]]
+                            :plugins        [[com.jakemccrary/lein-test-refresh "0.24.0"]]
+                            :injections     [(require 'pjstadig.humane-test-output)
+                                             (pjstadig.humane-test-output/activate!)]
+                            :resource-paths ["test-resources"]
+                            :test-refresh   {:quiet true}}
+             :clojure-1.10 {:dependencies [[org.clojure/clojure "1.10.0"]]}}
 
   :repositories [["clojars" {:sign-releases false}]])
