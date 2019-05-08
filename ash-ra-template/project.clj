@@ -10,8 +10,11 @@
             :name         "Eclipse Public License"
             :url          "http://www.eclipse.org/legal/epl-v10.html"}
 
-  :dependencies [[org.clojure/clojure "1.9.0"]
-                 [org.clojure/tools.deps.alpha "0.6.496"]
+  :dependencies [[instaparse "1.4.10" :exclusions [org.clojure/clojure
+                                                   org.clojure/spec.alpha]]
+                 [org.clojure/clojure "1.9.0"]
+                 [org.clojure/tools.deps.alpha "0.6.496" :exclusions [commons-logging
+                                                                      org.slf4j/slf4j-api]]
                  [org.projectodd.shimdandy/shimdandy-api "1.2.1"]
                  [org.projectodd.shimdandy/shimdandy-impl "1.2.1"]
                  [org.xeustechnologies/jcl-core "2.8"]
