@@ -2,43 +2,43 @@
 
 (ns vivid.art.parse
   (:require
-    [clojure.string]
-    [reduce-fsm :as fsm]))
+    [instaparse.core :as insta]
+    [special.core :refer [condition]]))
 
-(defn echo
-  "Echoes the value literal to the rendered output"
-  [acc val & _]
-  (let [escaped (clojure.string/escape val {\" "\\\""})]
-    (update-in acc [:output] conj (str "(emit \"" escaped "\")"))))
+(def ^:const tree-transformation
+  {;; Strip the grammar starting rule from the token stream
+   :s               (fn [& xs] xs)
+   ;; Template tokens appear as namespaced keywords
+   :begin-eval      (fn [_] :vivid.art/begin-eval)
+   :begin-echo-eval (fn [_] :vivid.art/begin-echo-eval)
+   :end             (fn [_] :vivid.art/end)
+   ;; Inline string content
+   :content         str})
 
-(defn echo-eval
-  "Echoes the result of evaluating the expression to the rendered output"
-  [acc expr & _]
-  ; TODO Wrap expr with implicit (do)?
-  (update-in acc [:output] conj (str "(emit " expr " )")))
-
-(defn -eval
-  "Evaluates the expression to the rendered output"
-  [acc expr & _]
-  (update-in acc [:output] conj expr))
-
-; TODO Explicitly test all combinations (DFA state transitions), in part to clarify the rules.
-(fsm/defsm lenient-parser
-           [[:echo
-             :vivid.art/begin-eval -> :eval
-             :vivid.art/begin-echo-eval -> :echo-eval
-             :vivid.art/end -> :echo
-             _ -> {:action echo} :echo]
-            [:eval
-             :vivid.art/end -> :echo
-             _ -> {:action -eval} :eval]
-            [:echo-eval
-             :vivid.art/end -> :echo
-             _ -> {:action echo-eval} :echo-eval]]
-           :default-acc {:output []})
+(defn confirm-parse-output
+  "Either raise a condition on parse error, or allow
+   parse-result to pass through."
+  [parse-result]
+  (if (insta/failure? parse-result)
+    (condition :parse-error (insta/get-failure parse-result))
+    parse-result))
 
 (defn parse
-  "Parses a sequence of tokens into Clojure code that, when evaluated, produces the template output."
-  [tokens]
-  (let [fsm-result (lenient-parser tokens)]
-    (fsm-result :output)))
+  ; TODO Validate delimiters
+  "Tokenize a template string into a sequence of tokens suitable for parsing.
+
+  Each lexeme is any of:
+  - Template content, as a string.
+  - Template delimiter, as a Clojure keyword."
+  [^String template-str
+   delimiters]
+  (let [lenient-grammar "s = (begin-eval | begin-echo-eval | end | content)*
+                         begin-eval = '<%'
+                         begin-echo-eval = '<%='
+                         end = '%>'
+                         content = #'(?:(?!<%|<%=|%>).)*'"
+        parser (insta/parser lenient-grammar)]
+    (->> template-str
+         (insta/parse parser)
+         (confirm-parse-output)
+         (insta/transform tree-transformation))))

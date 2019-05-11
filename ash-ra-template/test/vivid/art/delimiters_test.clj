@@ -6,12 +6,24 @@
     [vivid.art :as art]
     [vivid.art.delimiters]))
 
+(deftest pathological
+  (testing "Failed at some point during development"
+    (are [expected template]
+      (= expected (art/render template))
+      "\n" "\n")))
+
 (deftest delimiter-syntax
   (testing "Unbalanced delimiters"
     (are [expected template]
       (= expected (art/render template))
       ; TODO "unbalanced <% honyahonya"
-      "Unbalanced  doesn't switch stream processing mode" "Unbalanced %> doesn't switch stream processing mode")))
+      "Unbalanced  doesn't switch stream processing mode" "Unbalanced %> doesn't switch stream processing mode"))
+  (testing "Each delimiter one-by-one"
+    (are [expected template]
+      (= expected (art/render template))
+      "" "<%"
+      "" "<%="
+      "" "%>")))
 
 (deftest api-contract
   (testing "Default ERB-style delimiters"

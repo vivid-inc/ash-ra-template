@@ -12,6 +12,7 @@
 
   :dependencies [[instaparse "1.4.10" :exclusions [org.clojure/clojure
                                                    org.clojure/spec.alpha]]
+                 [special "0.1.3-Beta1" :exclusions [org.clojure/clojure]]
                  [org.clojure/clojure "1.9.0"]
                  [org.clojure/tools.deps.alpha "0.6.496" :exclusions [commons-logging
                                                                       org.slf4j/slf4j-api]]

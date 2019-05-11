@@ -1,5 +1,9 @@
 # Ash Ra Template Changelog
 
+## 0.4.0
+- Changed template parsing mechanism from regular expressions to instaparse.
+- Template delimiter definitions can be changed from the default ERB-style with `(render :delimiters {...})`.
+
 ## 0.3.0
 - API breaking change: Simplified the renderer namespace from `vivid.art.core/render` to `vivid.art/render`.
 - Split the project into two sub-projects: `ash-ra-template` the library, and a Boot plugin `boot-art`.
