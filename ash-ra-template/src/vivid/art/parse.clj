@@ -36,7 +36,7 @@
                          begin-eval = '<%'
                          begin-echo-eval = '<%='
                          end = '%>'
-                         content = #'(?:(?!<%|<%=|%>).)*'"
+                         content = #'(?s)(?:(?!<%|<%=|%>).)*'"
         parser (insta/parser lenient-grammar)]
     (->> template-str
          (insta/parse parser)
