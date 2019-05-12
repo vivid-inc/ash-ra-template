@@ -3,7 +3,24 @@
 (ns vivid.art.parse
   (:require
     [instaparse.core :as insta]
-    [special.core :refer [condition]]))
+    [special.core :refer [condition]])
+  (:import
+    (java.util.regex Pattern)))
+
+(defn make-grammar
+  [delimiters]
+  (let [q #(Pattern/quote %)
+        {:keys [begin-forms end-forms begin-eval]
+         :as   d'} delimiters]
+    ; TODO Validate delimiters (= (count delimiters) (count d'))
+    (str "s = (begin-eval | begin-echo-eval | end | content)*
+begin-eval = '" begin-forms "'
+begin-echo-eval = '" begin-eval "'
+end = '" end-forms "'
+content = #'(?s)(?:(?!" (q begin-forms)
+         "|" (q begin-eval)
+         "|" (q end-forms)
+         ").)*'")))
 
 (def ^:const tree-transformation
   {;; Strip the grammar starting rule from the token stream
@@ -24,7 +41,6 @@
     parse-result))
 
 (defn parse
-  ; TODO Validate delimiters
   "Tokenize a template string into a sequence of tokens suitable for parsing.
 
   Each lexeme is any of:
@@ -32,12 +48,8 @@
   - Template delimiter, as a Clojure keyword."
   [^String template-str
    delimiters]
-  (let [lenient-grammar "s = (begin-eval | begin-echo-eval | end | content)*
-                         begin-eval = '<%'
-                         begin-echo-eval = '<%='
-                         end = '%>'
-                         content = #'(?s)(?:(?!<%|<%=|%>).)*'"
-        parser (insta/parser lenient-grammar)]
+  (let [grammar (make-grammar delimiters)
+        parser (insta/parser grammar)]
     (->> template-str
          (insta/parse parser)
          (confirm-parse-output)
