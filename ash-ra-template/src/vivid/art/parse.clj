@@ -3,16 +3,16 @@
 (ns vivid.art.parse
   (:require
     [instaparse.core :as insta]
-    [special.core :refer [condition]])
+    [special.core :refer [condition]]
+    [vivid.art.specs]
+    [clojure.spec.alpha :as s])
   (:import
     (java.util.regex Pattern)))
 
 (defn make-grammar
   [delimiters]
   (let [q #(Pattern/quote %)
-        {:keys [begin-forms end-forms begin-eval]
-         :as   d'} delimiters]
-    ; TODO Validate delimiters (= (count delimiters) (count d'))
+        {:keys [begin-forms end-forms begin-eval]} delimiters]
     (str "s = (begin-eval | begin-echo-eval | end | content)*
 begin-eval = '" begin-forms "'
 begin-echo-eval = '" begin-eval "'
@@ -54,3 +54,7 @@ content = #'(?s)(?:(?!" (q begin-forms)
          (insta/parse parser)
          (confirm-parse-output)
          (insta/transform tree-transformation))))
+(s/fdef parse
+        :args (s/cat :template-str string?
+                     :delimiters :vivid.art/delimiters)
+        :ret seq?)

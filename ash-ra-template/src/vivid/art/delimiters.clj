@@ -4,8 +4,6 @@
   "Definitions of template delimiter tags in the style of Ruby ERB
   and various other templating systems.")
 
-; TODO Spec
-
 ; Referencing https://github.com/ruby/ruby/blob/trunk/lib/erb.rb
 (def ^:const erb {:begin-forms "<%"
                   :end-forms   "%>"

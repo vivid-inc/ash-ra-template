@@ -1,17 +1,24 @@
 ; Copyright 2019 Vivid Inc.
 
-(ns vivid.art.failure)
+(ns vivid.art.failure
+  (:require
+    [clojure.spec.alpha :as s]
+    [vivid.art.specs]))
 
 (defn failure?
-  "Returns a map (which is also a truthy value) describing the
-  failure when the template render result is a failure."
+  "When ART fails to render a template, instead of the template output,
+  it produces a value that describes the failure. Use this function to
+  discriminate a failure from regular template output."
   [result]
-  (get result :vivid.art/failure))
+  (when (s/valid? :vivid.art/failure result)
+    result))
 
 (defn make-failure
   "Makes an ART failure data structure describing the type of failure,
   the input that triggered the failure, and information about the cause."
-  [failure-type input cause]
-  {:vivid.art/failure failure-type
-   :input             input
-   :cause             cause})
+  [failure-type cause template]
+  {:vivid.art/failure-type failure-type
+   :cause                  cause
+   :template               template})
+(s/fdef make-failure
+        :ret :vivid.art/failure)

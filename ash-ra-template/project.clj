@@ -21,14 +21,13 @@
                  [org.xeustechnologies/jcl-core "2.8"]
                  [reduce-fsm "0.1.4"]]
 
-  :aliases {"build" ["do"
-                     "version,"
-                     "clean,"
-                     "cloverage,"
-                     "eastwood,"
-                     "kibit,"
-                     "jar,"
-                     "install"]
+  :aliases {"build"    ["do"
+                        "version,"
+                        "clean,"
+                        "cloverage,"
+                        "eastwood,"
+                        "jar,"
+                        "install"]
             "test-all" ["with-profile" "default:+clojure-1.10" "build"]}
 
   :cloverage {:codecov? true
@@ -46,7 +45,8 @@
             [lein-ancient "0.6.15"]
             [lein-cloverage "1.1.1"]
             [lein-kibit "0.1.6"]
-            [lein-nvd "1.0.0"]]
+            [lein-nvd "1.0.0"]
+            [venantius/yagni "0.1.7"]]
 
   :profiles {:dev          {:dependencies   [[pjstadig/humane-test-output "0.9.0"]]
                             :plugins        [[com.jakemccrary/lein-test-refresh "0.24.0"]]

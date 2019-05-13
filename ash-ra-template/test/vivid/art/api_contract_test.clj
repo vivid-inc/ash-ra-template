@@ -9,13 +9,9 @@
 ; TODO "abc<<<%"
 ; TODO "<%<%"
 
-(deftest code-constructs
-  (testing "Clojure comments"
-    (are [expected template]
-      (= expected (art/render template))
-      "" "<%=%>"
-      "" "<% #_(emit 123) %>"
-      "123" "<% ;(emit \"abc\")%><% (emit 123) %>")))
+(deftest blank-input
+  (is (= nil (art/render nil)) "ART produces nil output in response to nil input")
+  (is (= "" (art/render "")) "ART produces empty string output in response to empty string input"))
 
 (deftest echo-form-evaluation
   (testing "Echoing form evaluation value"
@@ -71,3 +67,11 @@
              (ns user)
              (def n 60)
              %><%= (format \"Fibonacci(%d) = %s\" n (fibonacci-72B642F6/fib n))%>")))))
+
+(deftest template-code-constructs
+  (testing "Clojure comments"
+    (are [expected template]
+      (= expected (art/render template))
+      "" "<%=%>"
+      "" "<% #_(emit 123) %>"
+      "123" "<% ;(emit \"abc\")%><% (emit 123) %>")))
