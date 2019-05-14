@@ -22,7 +22,7 @@
   "org.projectodd.shimdandy.impl.ClojureRuntimeShimImpl")
 
 (defn- build-classpath [deps]
-  (deps/make-classpath deps nil nil))
+  (deps/make-classpath deps [] {}))
 
 (defn- classpath-segments [classpath]
   (string/split classpath (Pattern/compile (Pattern/quote File/pathSeparator))))
@@ -48,7 +48,7 @@
   (deps/resolve-deps
     {:deps      (merge DEFAULT_DEPS deps)
      :mvn/repos DEFAULT_REPOS}
-    nil))
+    {}))
 
 (defn- unload-classes-from-loader [^JarClassLoader loader]
   (let [loaded (doall (keys (.getLoadedClasses loader)))]

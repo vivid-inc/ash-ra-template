@@ -35,6 +35,11 @@
               :output   "."                                 ; "lein jar" appears to destroy target/coverage/codecov.json
               }
 
+  ;test/vivid/art/api_contract_test.clj:70:5: unused-ret-vals-in-try: Return value is discarded for a function call that only has side effects if the functions passed to it as args have side effects inside body of try: (apply art/failure? [])
+  :eastwood {:exclude-linters []
+             :namespaces      [:source-paths]}
+
+
   :global-vars {*warn-on-reflection* true}
 
   :javac-options ["-target" "1.8"]
@@ -48,12 +53,30 @@
             [lein-nvd "1.0.0"]
             [venantius/yagni "0.1.7"]]
 
-  :profiles {:dev          {:dependencies   [[pjstadig/humane-test-output "0.9.0"]]
-                            :plugins        [[com.jakemccrary/lein-test-refresh "0.24.0"]]
+  :profiles {:dev          {:dependencies   [;; Diffs equality assertions in test failure output
+                                             ;; https://github.com/pjstadig/humane-test-output
+                                             [pjstadig/humane-test-output "0.9.0"]]
+
                             :injections     [(require 'pjstadig.humane-test-output)
-                                             (pjstadig.humane-test-output/activate!)]
+                                             (pjstadig.humane-test-output/activate!)
+
+                                             ; Keep Spec enabled in the context of development of ART,
+                                             ; but not in the shipping jar.
+                                             ;
+                                             ; Load all namespaces in the project + Spec
+                                             (require 'vivid.art)
+                                             (require 'clojure.spec.test.alpha)
+                                             ; Instrument everything Spec can find
+                                             (clojure.spec.test.alpha/instrument)]
+
+                            :plugins        [;; Reloads & re-runs tests on file changes
+                                             ;; https://github.com/jakemcc/lein-test-refresh
+                                             [com.jakemccrary/lein-test-refresh "0.24.1"]]
+
                             :resource-paths ["test-resources"]
+
                             :test-refresh   {:quiet true}}
+
              :clojure-1.10 {:dependencies [[org.clojure/clojure "1.10.0"]]}}
 
   :repositories [["clojars" {:sign-releases false}]])

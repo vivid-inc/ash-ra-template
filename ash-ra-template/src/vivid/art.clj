@@ -31,6 +31,6 @@
                     :parse-error #(make-failure :parse-error % template))]
       (f))))
 (s/fdef render
-        :args (s/cat :vivid.art/template
-                     (s/keys* :req-un [:vivid.art/delimiters
-                                       :vivid.art/dependencies])))
+        :args (s/cat :t :vivid.art/template
+                     :o (s/keys* :opt-un [:vivid.art/delimiters
+                                          :vivid.art/dependencies])))

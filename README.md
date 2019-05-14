@@ -119,9 +119,9 @@ Note that until ART achieves version 1.0 status, details may be subject to chang
 - Symbolic computation, as contrasted to declarative, non-Turing complete languages. You choose what features you do or don't employ.
 - Reasonable minimum requirements:
   - Java 8 and all subsequent LTS releases. Java 8, because it strikes a good balance between wide adoption and long-term stability.
-  - Clojure 1.9.0. Clojure 1.9.0 for [spec](https://clojure.org/guides/spec), and because it is compatible with a ``clojure.alpha.tools.deps`` version that has reasonable Maven-style dependency resolving abilility, and doesn't cause an additional macOS App to run and disrupt keyboard focus during runtime.
+  - Clojure 1.9.0, for [spec](https://clojure.org/guides/spec), and because it is compatible with a ``clojure.alpha.tools.deps`` version that has reasonable Maven-style dependency resolving abilility, and doesn't cause an additional macOS App to run and disrupt keyboard focus during runtime.
 - Effortlessly composable: Use `(render)` wherever you like.
-- No surprises.
+- No surprises. Reasonable defaults.
 
 ### API
 ``(render s :delimiters delimiters :dependencies deps)``
@@ -163,7 +163,7 @@ The `(emit)` variant can mingle with more Clojure forms, while `<%=` succinctly 
 - Explain the value of this. Compare and contrast with other templating systems. Emphasize symbolic computation, and the importance of providing native idioms at each point along the value chain, for example a web-based production workflow where professionals handle HTML, CSS.
 - Permit ERB tag syntax literals to occur in templates. Follow ERB's escaping rules: <%% and %%>
 - Clarify the mechanics of the template evaluation runtime: dependencies + default deps, requires.
-- Accept alternative tag nomenclature, defaulting to ERB. Provide examples for Mustache, PHP, and others.
+- TODO Document this: Accept alternative tag nomenclature, defaulting to ERB. Provide examples for Mustache, PHP, and others.
 - Accept an optional map of bindings/definitions that are made available for symbol resolution during render.
 - Provide examples for nesting templates (akin to `yield`).
 - Document the lack of advanced tag processing, such as conditionals and HTML escaping.
@@ -171,19 +171,20 @@ The `(emit)` variant can mingle with more Clojure forms, while `<%=` succinctly 
 - api-contract tests for `(render :dependencies)`.
 - Test each supported Clojure version. Reference: https://github.com/clojure-emacs/cider-nrepl/blob/master/project.clj
 - Fast runtime performance, fast test feedback.
-- Sufficient error reporting, with well-detailed error messages.
+- Sufficient error reporting + documentation.
+- Document quality assurance.
 - Assist with adoption by making time-to-first-experience as short as possible.
 - Java policies, to make it possible to execute untrusted templates.
+- AOT compilation.
 - Provide a Leiningen task.
 - Sign releases.
 - Declare version 1.0.0 once the community deems the ART feature-complete, reliable, and properly documented.
 
 #### Beyond Version 1.0
 
-- Parsing option mode magic within template content.
+- Consider parsing option mode magic within template content.
 - Consider an option to infer outer-most parens.
 - JetBrains IDEA plugin providing support for .art files.
-- AOT compilation.
 - Performance.
 
 

@@ -17,8 +17,8 @@
   "Makes an ART failure data structure describing the type of failure,
   the input that triggered the failure, and information about the cause."
   [failure-type cause template]
-  {:vivid.art/failure-type failure-type
-   :cause                  cause
-   :template               template})
+  {:failure-type failure-type
+   :cause        cause
+   :template     template})
 (s/fdef make-failure
         :ret :vivid.art/failure)

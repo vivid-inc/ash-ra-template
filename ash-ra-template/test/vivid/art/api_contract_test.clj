@@ -3,7 +3,10 @@
 (ns vivid.art.api-contract-test
   (:require
     [clojure.test :refer :all]
-    [vivid.art :as art]))
+    [vivid.art :as art]
+    [vivid.art.failure])
+  (:import
+    (clojure.lang ArityException ExceptionInfo)))
 
 ; TODO "<"
 ; TODO "abc<<<%"
@@ -38,6 +41,12 @@
       ; Change to another ns and then back again, and use unqualified (emit).
       "zigzag" "<% (ns flip-flop-71D1C341) (ns user) (emit 'zigzag) %>")))
 
+(deftest failures
+  (is (art/failure? (vivid.art.failure/make-failure :test-generated-failure-type
+                                                    {}
+                                                    ""))
+      "ART recognizes a failure produced by itself"))
+
 (deftest form-evaluation
   (testing "Evaluation of arbitrary Clojure forms"
     (are [expected template]
@@ -48,6 +57,17 @@
       "" "<% 7 9 %>"
       "" "<% (+ 1 1) %>"
       "" "<%:a (apply + (range 10)) 0 nil true (def psuedo-nil nil)%>")))
+
+(deftest function-arity
+  (testing "(render) invalid arity"
+    (is (thrown? ArityException (apply art/render []))))
+  (testing "(failure?) invalid arity"
+    (are [args]
+      (thrown? ArityException (apply art/failure? args))
+      []
+      [0 1]
+      [0 1 2]
+      [0 1 2 3])))
 
 (deftest namespace-rules
   (testing "Initial namespace"
