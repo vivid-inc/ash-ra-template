@@ -43,10 +43,9 @@
          []
          (comp
            (build-jar)
-           (push :repo
-                 "clojars"
-                 :gpg-sign
-                 false)))
+           (target)
+           (push :repo "clojars"
+                 :gpg-sign false)))
 
 (deftask mkdocs
          []
@@ -64,6 +63,8 @@
 
 (deftask test []
          (comp
+           (build-jar)
+           (target)
            (runtests)
            (test-report)
            (test-exit)))

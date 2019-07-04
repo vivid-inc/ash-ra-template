@@ -13,4 +13,4 @@ find . -name target | xargs rm -r
 # Run all tests, create the deliverables
 (cd ash-ra-template && lein test-all)
 (cd boot-art && boot test)
-(cd lein-art && lein test)
+(cd lein-art && lein test-all)

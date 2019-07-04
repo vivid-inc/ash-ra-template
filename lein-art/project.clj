@@ -8,7 +8,15 @@
             :name         "Eclipse Public License"
             :url          "http://www.eclipse.org/legal/epl-v10.html"}
 
-  :aliases {"mkdocs" ["art"]}
+  :aliases {"build"  ["do"
+                      "version,"
+                      "clean,"
+                      "cloverage,"
+                      "eastwood,"
+                      "jar,"
+                      "install"]
+            "mkdocs" ["art"]
+            "test-all" ["build"]}
 
   :art {:templates  ["assets/README.md.art"]
         :output-dir "."}
@@ -31,19 +39,27 @@
 
   :min-lein-version "2.9.1"
 
-  :profiles {:dev {:dependencies [;; Diffs equality assertions in test failure output
-                                  ;; https://github.com/pjstadig/humane-test-output
-                                  [pjstadig/humane-test-output "0.9.0"]]
+  :plugins [[jonase/eastwood "0.3.5"]
+            [lein-ancient "0.6.15"]
+            [lein-cloverage "1.1.1"]
+            [lein-kibit "0.1.6"]
+            [lein-nvd "1.1.0" :exclusions [org.slf4j/jcl-over-slf4j
+                                           org.slf4j/slf4j-api]]
+            [venantius/yagni "0.1.7"]]
 
-                   :injections   [(require 'pjstadig.humane-test-output)
-                                  (pjstadig.humane-test-output/activate!)]
+  :profiles {:dev {:dependencies   [;; Diffs equality assertions in test failure output
+                                    ;; https://github.com/pjstadig/humane-test-output
+                                    [pjstadig/humane-test-output "0.9.0"]]
 
-                   :plugins      [;; Reloads & re-runs tests on file changes
-                                  ;; https://github.com/jakemcc/lein-test-refresh
-                                  [com.jakemccrary/lein-test-refresh "0.24.1"]]
+                   :injections     [(require 'pjstadig.humane-test-output)
+                                    (pjstadig.humane-test-output/activate!)]
+
+                   :plugins        [;; Reloads & re-runs tests on file changes
+                                    ;; https://github.com/jakemcc/lein-test-refresh
+                                    [com.jakemccrary/lein-test-refresh "0.24.1"]]
 
                    :resource-paths ["test-resources"]
 
-                   :test-refresh {:quiet true}}}
+                   :test-refresh   {:quiet true}}}
 
   :repositories [["clojars" {:sign-releases false}]])
