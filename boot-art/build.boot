@@ -28,8 +28,8 @@
   pom {:project     project
        :version     version
        :description "Boot task for rendering Ash Ra Template .art templates."
-       :url         "https://github.com/vivid/ash-ra-template"
-       :scm         {:url "https://github.com/vivid/ash-ra-template"}
+       :url         "https://github.com/vivid-inc/ash-ra-template"
+       :scm         {:url "https://github.com/vivid-inc/ash-ra-template"}
        :license     {"Eclipse Public License"
                      "http://www.eclipse.org/legal/epl-v10.html"}})
 

@@ -3,7 +3,7 @@
 (defproject vivid/lein-art "0.4.0"
 
   :description "Leiningen plugin for rendering Ash Ra Template .art templates."
-  :url "https://github.com/vivid/ash-ra-template"
+  :url "https://github.com/vivid-inc/ash-ra-template"
   :license {:distribution :repo
             :name         "Eclipse Public License"
             :url          "http://www.eclipse.org/legal/epl-v10.html"}

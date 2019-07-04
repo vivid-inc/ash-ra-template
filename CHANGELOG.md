@@ -24,7 +24,7 @@ Released 2019-04-13.
 Released 2017-11-20.
 - Use `eval-soup` to render templates featuring Clojure language processing with ERB 2.0-esque syntax.
 
-[0.4.0]: https://github.com/vivid/ash-ra-template/compare/ash-ra-template-0.3.0...ash-ra-template-0.4.0
-[0.3.0]: https://github.com/vivid/ash-ra-template/compare/ash-ra-template-0.2.0...ash-ra-template-0.3.0
-[0.2.0]: https://github.com/vivid/ash-ra-template/compare/ash-ra-template-0.1.0...ash-ra-template-0.2.0
+[0.4.0]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.3.0...ash-ra-template-0.4.0
+[0.3.0]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.2.0...ash-ra-template-0.3.0
+[0.2.0]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.1.0...ash-ra-template-0.2.0
 [0.1.0]: https://github.com/vivid-inc/ash-ra-template/tree/ash-ra-template-0.1.0

@@ -40,3 +40,4 @@ A VCS commit is considered releasable provided that all of its components satisf
 
 ### Immediately after release
 - Smoke test each downloadable deliverable.
+- Confirm correctness of all project URLs.
