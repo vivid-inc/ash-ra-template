@@ -65,7 +65,19 @@ Chondrichthyes research published in <%= (cite-dates publication-dates) %>.
 %>
 <%= (apply str (map toc-entry toc-headings)) %>
 "
-                       :dependencies {'hiccup {:mvn/version "1.0.5"}})))
+                       {:dependencies {'hiccup {:mvn/version "1.0.5"}}})))
+
+    (is (= "
+The natural number e is approximately 2.7182"
+           (art/render "<% (def e 2.7182) %>
+The natural number e is approximately <%= e %>")))
+    (is (= "
+The natural number e is approximately 2.7182"
+           (art/render "{| (def e 2.7182) |}
+The natural number e is approximately {|= e |}"
+                       {:delimiters {:begin-forms "{|"
+                                     :end-forms   "|}"
+                                     :begin-eval  "{|="}})))
 
     (are [expected template]
       (= expected (art/render template))

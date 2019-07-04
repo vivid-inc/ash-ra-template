@@ -7,20 +7,18 @@
     [reduce-fsm :as fsm]))
 
 (defn echo
-  "Emits a Clojure form that echoes the value literal to the rendered output.
-  The value literal could be either plain template text or Clojure forms."
+  "Writes an (emit) to the compiled code that echoes the plain string but with escaping."
   [acc val & _]
   (let [escaped (clojure.string/escape val {\" "\\\""})]
     (update-in acc [:output] conj (str "(emit \"" escaped "\")"))))
 
-(defn echo-eval
-  "Emits a Clojure form that echoes the result of evaluating the expression to the rendered output"
+(defn eval
+  "Writes an (emit) to the compiled code that outputs the result of evaluating the forms."
   [acc expr & _]
-  ; TODO Wrap expr with implicit (do)?
   (update-in acc [:output] conj (str "(emit " expr " )")))
 
-(defn eval
-  "Emits a Clojure form that evaluates the expression to the rendered output"
+(defn forms
+  "Echoes Clojure forms from the template to the compiled code."
   [acc expr & _]
   (update-in acc [:output] conj expr))
 
@@ -28,15 +26,18 @@
 (fsm/defsm lenient-fsm
            [[:echo
              :vivid.art/begin-eval -> :eval
-             :vivid.art/begin-echo-eval -> :echo-eval
-             :vivid.art/end -> :echo
+             :vivid.art/begin-forms -> :forms
+             :vivid.art/end-eval -> :echo
+             :vivid.art/end-forms -> :echo
              _ -> {:action echo} :echo]
             [:eval
-             :vivid.art/end -> :echo
+             :vivid.art/end-eval -> :echo
+             :vivid.art/end-forms -> :echo
              _ -> {:action eval} :eval]
-            [:echo-eval
-             :vivid.art/end -> :echo
-             _ -> {:action echo-eval} :echo-eval]]
+            [:forms
+             :vivid.art/end-eval -> :echo
+             :vivid.art/end-forms -> :echo
+             _ -> {:action forms} :forms]]
            :default-acc {:output []})
 
 (defn translate

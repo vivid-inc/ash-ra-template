@@ -5,32 +5,38 @@
     [instaparse.core :as insta]
     [special.core :refer [condition]]
     [vivid.art.specs]
-    [clojure.spec.alpha :as s])
+    [clojure.spec.alpha :as s]
+    [clojure.string :as str])
   (:import
     (java.util.regex Pattern)))
 
-(defn make-grammar
+(defn make-grammar                                          ; TODO Enforce delimiter rules.
   [delimiters]
   (let [q #(Pattern/quote %)
-        {:keys [begin-forms end-forms begin-eval]} delimiters]
-    (str "s = (begin-eval | begin-echo-eval | end | content)*
-begin-eval = '" begin-forms "'
-begin-echo-eval = '" begin-eval "'
-end = '" end-forms "'
-content = #'(?s)(?:(?!" (q begin-forms)
-         "|" (q begin-eval)
-         "|" (q end-forms)
-         ").)*'")))
+        alts (str/join " | " (map name (keys delimiters)))
+        terminals (str/join
+                    (interleave (map (fn [[k v]] (format "%s = '%s'"
+                                                         (name k) v))
+                                     delimiters)
+                                (repeat "\n")))
+        non-terms (str/join "|"
+                            (map q (vals delimiters)))]
+    (str "s = (" alts " | content)*\n"
+         terminals
+         "content = #'(?s)(?:(?!" non-terms ").)*'")))
+
+; TODO Pass all tests from: clostache, mustache, etc.
 
 (def ^:const tree-transformation
   {;; Strip the grammar starting rule from the token stream
-   :s               (fn [& xs] xs)
+   :s           (fn [& xs] xs)
    ;; Template tokens appear as namespaced keywords
-   :begin-eval      (fn [_] :vivid.art/begin-eval)
-   :begin-echo-eval (fn [_] :vivid.art/begin-echo-eval)
-   :end             (fn [_] :vivid.art/end)
+   :begin-eval  (fn [_] :vivid.art/begin-eval)
+   :begin-forms (fn [_] :vivid.art/begin-forms)
+   :end-eval    (fn [_] :vivid.art/end-eval)
+   :end-forms   (fn [_] :vivid.art/end-forms)
    ;; Inline string content
-   :content         str})
+   :content     str})
 
 (defn confirm-parse-output
   "Either raise a condition on parse error, or allow

@@ -1,20 +1,33 @@
 ; Copyright 2019 Vivid Inc.
 
-(ns vivid.art.api-contract-test
+(ns vivid.art.public-api-test
   (:require
     [clojure.test :refer :all]
     [vivid.art :as art]
+    [vivid.art.delimiters]
     [vivid.art.failure])
   (:import
-    (clojure.lang ArityException ExceptionInfo)))
-
-; TODO "<"
-; TODO "abc<<<%"
-; TODO "<%<%"
+    (clojure.lang ArityException)))
 
 (deftest blank-input
   (is (= nil (art/render nil)) "ART produces nil output in response to nil input")
   (is (= "" (art/render "")) "ART produces empty string output in response to empty string input"))
+
+(deftest delimiters
+  (testing "Delimiters default to ERB"
+    (is (= "Quite tasty."
+           (art/render "Quite <% (def acorn \"tasty\") %><%= acorn %>.")))
+    (are [template delimiters]
+      (= "Quite tasty." (art/render template
+                                    {:delimiters delimiters}))
+      "Quite <% (def acorn \"tasty\") %><%= acorn %>." vivid.art.delimiters/erb
+      "Quite <? (def acorn \"tasty\") ?><?= acorn ?>." vivid.art.delimiters/php
+      "Quite #( (def acorn \"tasty\") )##(= acorn )#." {:begin-forms "#("
+                                                        :end-forms   ")#"
+                                                        :begin-eval  "#(="}
+      "Quite AB (def acorn \"tasty\") YZABC acorn YZ." {:begin-forms "AB"
+                                                        :end-forms   "YZ"
+                                                        :begin-eval  "ABC"})))
 
 (deftest echo-form-evaluation
   (testing "Echoing form evaluation value"
@@ -27,8 +40,9 @@
   (testing "Evaluation of (emit)"
     (are [expected template]
       (= expected (art/render template))
-      ; TODO (emit) with no args, expecting an error.
-      ; TODO (emit) with too many args, expecting an error.
+      ; No arguments
+      "" "<%(emit)%>"
+      ; Simple clojure form
       "2.718281" "<%(emit (str 2.718281))%>"
       ; Unnecessarily qualified (emit) within the namespace.
       "2.718281" "<%(user/emit (str 2.718281))%>"))
@@ -37,9 +51,11 @@
       (= expected (art/render template))
       ; Change to another ns, and use qualified (emit).
       "Sesame" "<% (ns emit-test-4FA0BF32) (user/emit \"Sesame\") %>"
-      ; TODO Change to another ns and use unqualified and undefined (emit), expecting an error.
       ; Change to another ns and then back again, and use unqualified (emit).
-      "zigzag" "<% (ns flip-flop-71D1C341) (ns user) (emit 'zigzag) %>")))
+      "zigzag" "<% (ns flip-flop-71D1C341) (ns user) (emit 'zigzag) %>")
+    (is (thrown? Throwable
+                 ; Change to another ns and use unqualified and undefined (emit), expecting an error.
+                 (art/render "<% (ns unq) (emit 'unqualified) %>")))))
 
 (deftest failures
   (is (art/failure? (vivid.art.failure/make-failure :test-generated-failure-type
@@ -58,16 +74,33 @@
       "" "<% (+ 1 1) %>"
       "" "<%:a (apply + (range 10)) 0 nil true (def psuedo-nil nil)%>")))
 
+(defn get-root-cause
+  [^Throwable t]
+  (let [cause (.getCause t)]
+    (if cause
+      (get-root-cause cause)
+      t)))
+
 (deftest function-arity
-  (testing "(render) invalid arity"
-    (is (thrown? ArityException (apply art/render []))))
+  (testing "(emit) invalid arity"
+    (are [args]
+      (= (.getName ArityException)
+         (try
+           (art/render (str "<%(emit " args " )%>"))
+           (catch Throwable t
+             (-> t (get-root-cause) (type) (.getName)))))
+      "0 1"
+      "0 1 2"
+      "0 1 2 3"))
   (testing "(failure?) invalid arity"
     (are [args]
       (thrown? ArityException (apply art/failure? args))
       []
       [0 1]
       [0 1 2]
-      [0 1 2 3])))
+      [0 1 2 3]))
+  (testing "(render) invalid arity"
+    (is (thrown? Throwable (apply art/render [])))))
 
 (deftest namespace-rules
   (testing "Initial namespace"

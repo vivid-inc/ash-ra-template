@@ -45,10 +45,9 @@
     (.init)))
 
 (defn- resolve-deps [deps]
-  (deps/resolve-deps
-    {:deps      (merge DEFAULT_DEPS deps)
-     :mvn/repos DEFAULT_REPOS}
-    {}))
+  (let [d {:deps      (merge DEFAULT_DEPS deps)
+           :mvn/repos DEFAULT_REPOS}]
+    (deps/resolve-deps d {})))
 
 (defn- unload-classes-from-loader [^JarClassLoader loader]
   (let [loaded (doall (keys (.getLoadedClasses loader)))]
@@ -64,9 +63,8 @@
     (call "clojure.core/load-string" code-as-string)))
 
 (defn new-runtime
-  [& {:keys [dependencies]
-      :or   {dependencies {}}}]
-  (->> dependencies
+  [deps]
+  (->> deps
        (resolve-deps)
        (build-classpath)
        (classpath-segments)
@@ -74,7 +72,7 @@
        (new-rt-shim)))
 
 (defn eval-in-one-shot-runtime
-  [s & {:keys [dependencies]}]
-  (let [rt (new-runtime :dependencies dependencies)]
+  [s deps]
+  (let [rt (new-runtime deps)]
     (try (eval-in-runtime rt s)
          (finally (close-runtime! rt)))))

@@ -1,10 +1,14 @@
-(ns vivid.art.boot-tests
-  (:require [boot.core :as boot :refer [deftask]]
-            [boot.test :refer :all]
-            [clojure.java.io :as io]
-            [clojure.string :as string]
-            [clojure.test :refer :all]
-            [vivid.art.boot :refer [art]]))
+; Copyright 2019 Vivid Inc.
+
+(ns vivid.art.boot.tests
+  (:require
+    [boot.core :as boot :refer [deftask]]
+    [boot.test :refer :all]
+    [clojure.java.io :as io]
+    [clojure.string :as string]
+    [vivid.boot-art :refer [art]])
+  (:use
+    [clojure.test :only [is testing]]))
 
 (defn clj?
   [f]
@@ -65,9 +69,9 @@ ART template test
           _ contents VAL [str] "expected contents"]
          (boot/with-pass-thru fs
                               (testing "file paths"
-                                (is (= paths (fs-paths fs)))
-                                (testing "file contents"
-                                  (is (= contents (fs-contents fs)))))))
+                                (is (= paths (fs-paths fs))))
+                              (testing "file contents"
+                                (is (= contents (fs-contents fs))))))
 
 (deftesttask no-rendering []
              (comp (populate)

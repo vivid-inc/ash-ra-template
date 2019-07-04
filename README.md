@@ -1,25 +1,28 @@
 # Ash Ra Template
 
-Lightweight and fully-expressive ERB-esque template system featuring Clojure language processing.
+[![CircleCI](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master.svg?style=svg)](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master)
+[![Codecov](https://codecov.io/gh/vivid-inc/ash-ra-template/branch/master/graph/badge.svg)](https://codecov.io/gh/vivid-inc/ash-ra-template)
 
-![](ash-ra-workshop.png)
+Expressive template system for Clojure.
 
-**Motivation**: Of the Clojure templating libraries we found, none seemed to directly assist in porting a non-trivial amount of ERB-templated content from [Middleman](https://github.com/middleman/middleman) to a custom Clojure-based static site generation tool.
+![](workshop.png)
+
+**Motivation**: Of the Clojure templating libraries we identified, none seemed to assist in porting a non-trivial amount of ERB-templated content to a Clojure-based static site generation tool.
 We find the ability to in-line arbitrary Clojure code is intoxicatingly pragmatic (also expressed as: Enough rope to hang oneself).
 Seeking to wield such expressive power in a general-purpose templating system, we wrote Ash Ra Template, or **ART**.
 
 Works with Clojure 1.9 and newer.
 
-[![CircleCI](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master.svg?style=svg)](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master)
-[![Codecov](https://codecov.io/gh/vivid-inc/ash-ra-template/branch/master/graph/badge.svg)](https://codecov.io/gh/vivid-inc/ash-ra-template)
-[![Clojars Project](https://img.shields.io/clojars/v/vivid/ash-ra-template.svg)](https://clojars.org/vivid/ash-ra-template)
 
 
-## Usage
+## Quickstart
 
-Include this library from Clojars by adding ``[vivid/ash-ra-template "0.3.0"]`` to ``:dependencies`` in your ``project.clj``.
+Include this library from Clojars by adding the latest version of ``vivid/ash-ra-template`` to your project dependencies, such as in a Leiningen ``project.clj``:
+```clojure
+    :dependencies [[vivid/ash-ra-template "0.4.0"]]
+```
 
-Rendering a template string is easy:
+Render a template string:
 ```clojure
 (require [vivid.art :as art])
 
@@ -31,183 +34,53 @@ Or, to render from a file:
 (art/render (slurp "prelude.html.art"))
 ```
 
-All Clojure code is evaluated within a sandboxed Clojure runtime courtesy of [ShimDandy](https://github.com/projectodd/shimdandy).
+## Components
+[ART library](ash-ra-template/README.md), including detailed information about using the ART library and ART template syntax, rendering API and options, and processing.
+
+[Boot task](boot-art/README.md) for rendering ART templates.
+
+[Leiningen plugin](lein-art/README.md) for rendering ART templates.
 
 
 
-## Examples
+#
+## Development
 
-### Plain content with no ART-specific syntax
-```clojure
-(art/render "We are but stow-aways aboard a drifting ship, forsaken to the caprices of the wind and currents.")
-```
-Passed as a string, the rendered output is expected to be a byte-perfect mirror of its input:
-```
-We are but stow-aways aboard a drifting ship, forsaken to the caprices of the wind and currents.
-```
+**Pull Requests** are welcome!
+We work with people offering PRs to revise and iterate leading to solutions in accord with project goals and [release criteria](QUALITY.md).
+Commits must include Signed-off-by indicating acceptance of the [Developer's Certificate of Origin](DCO.txt).
+Unproductive behavior such as unkindness towards others and derailment is not tolerated.
 
+### The Path to Version 1.0
 
-### Clojure code blocks
-
-You can embed Clojure code within the template by surrounding forms with ``<%`` and ``%>`` tags, on one line:
-```clojure
-<% (def button-classes [:primary :secondary :disabled]) %>
-```
-or over many lines:
-```clojure
-<%
-(defn updated-statement
-  [date version]
-  (format "This document was updated on %s for version %s"
-          date version))
-%>
-```
-
-### Intermixing text and code
-An example of intermixing text and Clojure code blocks that realizes the full expressive power of ART templates:
-```clojure
-<%
-(require '[clojure.string])
-(def publication-dates [1987 1989 1992])
-(defn cite-dates [xs] (clojure.string/join ", " xs))
-%><p>
-Chondrichthyes research published in <%= (cite-dates publication-dates) %>.
-</p>
-```
-Renders to:
-```html
-<p>
-Chondrichthyes research published in 1987, 1989, 1992.
-</p>
-```
-
-### External dependencies
-Given a template that ``require``s namespaces from external dependencies in Clojure, such as:
-```clojure
-<%
-(require '[hiccup.core])
-
-(def ^:const toc-headings [{:id 739 :text "Moving wing assembly in place"}
-                           {:id 740 :text "Connecting fuel lines and hydraulics"}
-                           {:id 741 :text "Attaching wing assembly to fuselage"}])
-
-(defn toc-entry [heading]
-  (hiccup.core/html [:li
-    [:a#link
-      {:href (str "#" (heading :id))}
-      (heading :text)]]))
-%>
-<%= (apply str (map toc-entry toc-headings)) %>
-```
-The template's external dependencies can be specified as a Clojure deps [lib map](https://clojure.org/reference/deps_and_cli) with the ``:dependencies`` keyword argument:
-```clojure
-(art/render template
-            :dependencies {'hiccup {:mvn/version "1.0.5"}})
-```
-The specific version of Clojure can be overridden:
-```clojure
-{'org.clojure/clojure {:mvn/version "1.10.0"}}
-```
-
-
-
-## Reference
-
-Note that until ART achieves version 1.0 status, details may be subject to change.
-
-### Design Goals
-- Symbolic computation, as contrasted to declarative, non-Turing complete languages. You choose what features you do or don't employ.
-- Reasonable minimum requirements:
-  - Java 8 and all subsequent LTS releases. Java 8, because it strikes a good balance between wide adoption and long-term stability.
-  - Clojure 1.9.0, for [spec](https://clojure.org/guides/spec), and because it is compatible with a ``clojure.alpha.tools.deps`` version that has reasonable Maven-style dependency resolving abilility, and doesn't cause an additional macOS App to run and disrupt keyboard focus during runtime.
-- Effortlessly composable: Use `(render)` wherever you like.
-- No surprises. Reasonable defaults.
-
-### API
-``(render s :delimiters delimiters :dependencies deps)``
-Renders an input string containing Ash-Ra Template -formatted content to an output string.
-An optional map of dependencies (as a Clojure deps [lib map](https://clojure.org/reference/deps_and_cli)) can be provided using the ``:dependencies`` keyword argument. These dependencies will be resolved prior to template rendering using Clojure's ``org.clojure/tools.deps.alpha``.
-You can specify an optional map of delimiter tags, including popular styles such as Mustache and PHP. 
-
-### Templates
-The initial namespace within the template evaluation environment is `user`.
-
-It's unnecessary to surround delimiter tags with whitespace.
-Everything including whitespace in the text portions of the template is preserved.
-
-```
-<% Clojure forms -- will be evaluated but not included in rendered output %>
-
-<%= Clojure forms -- replaced with result of evaluation %>
-```
-Within ART tags, parentheses on outer-most forms are not inferred. This keeps the code easier to reason about and aids natural recognition by the eye, machine processing, and code editing.
-
-``(user/emit x)``
-As in ERB, the ``<%=`` syntax causes the value of the expression to be emitted to the rendered template output.
-The same effect can be accomplished with the ``emit`` function which is available within templates.
-To demonstrate, each of the ART directives in the following template snippet are functionally equivalent in that each emits the string "Splash!" to the rendered output:
-```clojure
-<% (emit "Splash!") %>
-
-<%= "Splash!" %>
-
-<%= (str "Splash!") %>
-```
-The `(emit)` variant can mingle with more Clojure forms, while `<%=` succinctly expresses the intention of emitting a value to the rendered output.
-
-
-
-
-## Goals: The Path to Version 1.0
-
-- Explain the value of this. Compare and contrast with other templating systems. Emphasize symbolic computation, and the importance of providing native idioms at each point along the value chain, for example a web-based production workflow where professionals handle HTML, CSS.
-- Permit ERB tag syntax literals to occur in templates. Follow ERB's escaping rules: <%% and %%>
+- ~Default to a subset of ERB syntax (as of Ruby 2.0). Accept alternative tag nomenclature ``:delimiters``. Provide examples for Mustache, PHP, and others.~
+- ~Accept an optional map of ``:bindings`` (definitions) that are made available for symbol resolution during render.~
+- ~api-contract tests for ``:dependencies``.~
+- ~Automated testing on all supported versions of Clojure.~
+- ~Boot task for rendering templates.~
+- ~Leiningen plugin for rendering templates.~
+- ~Document approach to quality assurance.~
+- ~Stabilize minimal requirements of the project, including Clojure version and dependencies.~
+- ~Expose a public API.~
+- ~Documentation organized by project and use.~
+- ~Test on the most recent releases of each significant JDK (8 and 11 at the time of this writing).~
+- Explain the value of ART. Compare and contrast with other templating systems. Emphasize symbolic computation, and the importance of providing native idioms at each point along the value chain, for example a web-based production workflow where professionals handle HTML and CSS.
+- Delimiter escaping rules.
 - Clarify the mechanics of the template evaluation runtime: dependencies + default deps, requires.
-- TODO Document this: Accept alternative tag nomenclature, defaulting to ERB. Provide examples for Mustache, PHP, and others.
-- Accept an optional map of bindings/definitions that are made available for symbol resolution during render.
 - Provide examples for nesting templates (akin to `yield`).
-- Document the lack of advanced tag processing, such as conditionals and HTML escaping.
-- Document: Sandboxed execution.
-- api-contract tests for `(render :dependencies)`.
-- Test each supported Clojure version. Reference: https://github.com/clojure-emacs/cider-nrepl/blob/master/project.clj
 - Fast runtime performance, fast test feedback.
 - Sufficient error reporting + documentation.
-- Document quality assurance.
-- Assist with adoption by making time-to-first-experience as short as possible.
-- Java policies, to make it possible to execute untrusted templates.
+- Java policies, to make it possible to execute untrusted / unknown code within templates.
 - AOT compilation.
-- Provide a Leiningen task.
 - Sign releases.
 - Declare version 1.0.0 once the community deems the ART feature-complete, reliable, and properly documented.
 
-#### Beyond Version 1.0
+### Beyond Version 1.0
 
 - Consider parsing option mode magic within template content.
 - Consider an option to infer outer-most parens.
 - JetBrains IDEA plugin providing support for .art files.
 - Performance.
-
-
-
-## Development
-
-ART is structured as a [Leiningen](https://github.com/technomancy/leiningen/) project.
-
-Run the tests with
-```bash
-lein test
-```
-
-or keep a test watch with
-
-```bash
-lein test-refresh
-```
-
-**Pull requests** in accord with project goals are welcome.
-And include tests, or your contributions almost will certainly become broken later.
-Commits must include Signed-off-by indicating acceptance of the [Developer's Certificate of Origin](DCO.txt).
-Unproductive behavior such as unkindness towards others is not tolerated.
 
 
 

@@ -35,17 +35,12 @@ Command-line usage:
 and options:
 
 ```clojure
-Render Ash Ra .art templates.
-
-Templates are rendered to files whose filenames are stripped of the .art suffix.
-
-Options:
-  -h, --help              Print this help info.
-  -b, --bindings VAL      VAL sets bindings made available to templates for symbol resolution.
-  -d, --delimiters VAL    VAL sets template delimiters (EDN or a Var).
-      --dependencies VAL  VAL sets clojure deps map (EDN or a Var).
-  -f, --files FILES       FILES sets a vector of .art template files to render. If not present, all files will be rendered.
-```
+<%
+; Source the human-readable CLI option help directly from boot-art itself.
+(require '[boot.core])
+(use '[vivid.boot-art])
+(emit (with-out-str (art "-h")))
+%>```
 
 
 

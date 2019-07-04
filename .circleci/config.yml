@@ -22,7 +22,7 @@ ash-ra-template-job: &ash-ra-template-job
           # Fallback
           - m2-deps-
     - run:
-        command: lein build
+        command: lein test-all
         working_directory: ash-ra-template
     # TODO Emit XUnit-format tests so that CircleCI can provide reports: https://circleci.com/docs/2.0/configuration-reference/#store_test_results
     - save_cache:
@@ -43,7 +43,7 @@ ash-ra-template-job: &ash-ra-template-job
         root: ~/.m2
         paths: .
 
-boot-art-job: &boot-art-job
+boot-art: &boot-art-job
   steps:
     - checkout
     - attach_workspace:
@@ -51,6 +51,17 @@ boot-art-job: &boot-art-job
     - run:
         command: boot test
         working_directory: boot-art
+
+lein-art: &lein-art-job
+  environment:
+    LEIN_ROOT: "true"
+  steps:
+    - checkout
+    - attach_workspace:
+        at: ~/.m2
+    - run:
+        command: lein test
+        working_directory: lein-art
 
 
 jobs:
@@ -62,6 +73,10 @@ jobs:
     <<: *boot-art-job
     docker:
       - image: circleci/clojure:openjdk-8-boot-2.8.2
+  lein-art-jdk-8-job:
+    <<: *lein-art-job
+    docker:
+      - image: circleci/clojure:openjdk-8-lein-2.9.1
   ash-ra-template-jdk-11-job:
     <<: *ash-ra-template-job
     docker:
@@ -70,6 +85,10 @@ jobs:
     <<: *boot-art-job
     docker:
       - image: circleci/clojure:openjdk-11-boot-2.8.2
+  lein-art-jdk-11-job:
+    <<: *lein-art-job
+    docker:
+      - image: circleci/clojure:openjdk-11-lein-2.9.1
 
 workflows:
   version: 2
@@ -79,7 +98,13 @@ workflows:
       - boot-art-jdk-8-job:
           requires:
             - ash-ra-template-jdk-8-job
+      - lein-art-jdk-8-job:
+          requires:
+            - ash-ra-template-jdk-8-job
       - ash-ra-template-jdk-11-job
       - boot-art-jdk-11-job:
+          requires:
+            - ash-ra-template-jdk-11-job
+      - lein-art-jdk-11-job:
           requires:
             - ash-ra-template-jdk-11-job

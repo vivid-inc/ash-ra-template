@@ -1,10 +1,13 @@
 codecov.json
+.cpcache
 .eastwood
 *.iml
 .idea
-.lein-failures
-.lein-repl-history
+.lein-*
 .nrepl-history
 .nrepl-port
 pom.xml
 target
+
+# Auto-generated project files
+/boot-art/project.clj

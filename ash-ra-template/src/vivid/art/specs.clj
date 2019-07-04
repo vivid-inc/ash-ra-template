@@ -14,6 +14,11 @@
 (s/def :vivid.art/template (s/nilable string?))
 
 
+; Bindings
+
+(s/def :vivid.art/bindings (s/nilable map?))
+
+
 ; Clojure dependency maps, required to render a given template
 
 (s/def :vivid.art/dependencies :clojure.tools.deps.alpha.specs/deps-map)
@@ -30,12 +35,13 @@
 
 ; Template delimiter definitions
 
-; TODO Unify naming
-(s/def ::begin-forms (s/and string? #(not (empty? %))))
-(s/def ::end-forms (s/and string? #(not (empty? %))))
-(s/def ::begin-eval (s/and string? #(not (empty? %))))
-(s/def ::end-eval (s/and string? #(not (empty? %))))
+(s/def ::delimiter (s/and string? seq))
+
+(s/def ::begin-forms ::delimiter)
+(s/def ::end-forms ::delimiter)
+(s/def ::begin-eval ::delimiter)
+(s/def ::end-eval ::delimiter)
 
 (s/def :vivid.art/delimiters
-  (s/keys :req-un [::begin-forms ::end-forms]
-          :opt-un [::begin-eval ::end-eval]))
+  (s/keys :opt-un [::begin-forms ::end-forms
+                   ::begin-eval ::end-eval]))

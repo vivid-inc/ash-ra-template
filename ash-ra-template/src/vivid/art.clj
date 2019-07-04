@@ -13,24 +13,33 @@
     [vivid.art.specs]
     [vivid.art.xlate :refer [translate]]))
 
+(def ^:const art-filename-suffix ".art")
+(def ^:const art-filename-suffix-regex #"\.art$")
+
+(def ^:const default-delimiters-name "erb")
+(def ^:const default-delimiters (var-get
+                                  (ns-resolve 'vivid.art.delimiters
+                                              (symbol default-delimiters-name))))
+
 (def ^:const failure? vivid.art.failure/failure?)
 
 (defn render
-  "Renders an input string containing Ash-Ra Template
-  -formatted content to an output string."
-  [^String template
-   & {:keys [delimiters
-             dependencies]
-      :or   {delimiters erb}}]
-  (if template
-    (let [render* #(-> template
-                       (parse delimiters)
-                       (translate)
-                       (evaluate :dependencies dependencies))
-          f (manage render*
-                    :parse-error #(make-failure :parse-error % template))]
-      (f))))
+  "Renders an input string containing Ash Ra Template (ART) -formatted content
+  to an output string."
+  ([^String template] (render template {}))
+  ([^String template
+    {:keys [bindings delimiters dependencies]
+     :or   {bindings {} delimiters default-delimiters dependencies {}}}]
+   (if template
+     (let [render* #(-> template
+                        (parse delimiters)
+                        (translate)
+                        (evaluate bindings dependencies))
+           f (manage render*
+                     :parse-error #(make-failure :parse-error % template))]
+       (f)))))
 (s/fdef render
         :args (s/cat :t :vivid.art/template
-                     :o (s/keys* :opt-un [:vivid.art/delimiters
-                                          :vivid.art/dependencies])))
+                     :o (s/? (s/keys :opt-un [:vivid.art/bindings
+                                              :vivid.art/delimiters
+                                              :vivid.art/dependencies]))))
