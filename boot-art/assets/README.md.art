@@ -1,6 +1,6 @@
 # Ash Ra Template Boot Task
 
-Boot task for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` files.
+Boot task for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates.
 
 [![Clojars Project](https://img.shields.io/clojars/v/vivid/boot-art.svg)](https://clojars.org/vivid/boot-art)
 

@@ -2,7 +2,7 @@
 
 # Ash Ra Template Leiningen Plugin
 
-Leiningen plugin for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` files.
+Leiningen plugin for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates.
 
 [![Clojars Project](https://img.shields.io/clojars/v/vivid/lein-art.svg)](https://clojars.org/vivid/lein-art)
 

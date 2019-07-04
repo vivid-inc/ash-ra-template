@@ -74,46 +74,42 @@
 (deftest default-delimiters
   (all-invocation-patterns
     {:dir      "greek"
-     :expected "resources/greek/greek-expected.txt"
+     :expected "test-resources/greek/greek-expected.txt"
      :actual   "greek.txt"
-     :stanza   {:templates ["resources/greek/greek.txt.art"]
-                :bindings  ["resources/greek/greek.edn"]}}))
+     :stanza   {:templates ["test-resources/greek/greek.txt.art"]
+                :bindings  ["test-resources/greek/greek.edn"]}}))
 
 (deftest unqualified-name-of-default-delimiters
   (all-invocation-patterns
     {:dir        "greek-erb"
-     :expected   "resources/greek/greek-expected.txt"
+     :expected   "test-resources/greek/greek-expected.txt"
      :actual     "greek.txt"
-     :stanza     {:templates ["resources/greek/greek.txt.art"]
-                  :bindings  ["resources/greek/greek.edn"]}
+     :stanza     {:templates ["test-resources/greek/greek.txt.art"]
+                  :bindings  ["test-resources/greek/greek.edn"]}
      :delimiters 'erb}))
 
 (deftest delimiters-edn
   (all-invocation-patterns
     {:dir        "greek-edn"
-     :expected   "resources/greek/greek-expected.txt"
+     :expected   "test-resources/greek/greek-expected.txt"
      :actual     "greek.txt"
-     :stanza     {:templates ["resources/greek/greek.txt.art"]
-                  :bindings  ["resources/greek/greek.edn"]}
+     :stanza     {:templates ["test-resources/greek/greek.txt.art"]
+                  :bindings  ["test-resources/greek/greek.edn"]}
      :delimiters (pr-str vivid.art.delimiters/erb)}))
 
 (deftest qualified-name-of-bundled-delimiter-set
   (all-invocation-patterns
     {:dir        "japanese-jinja"
-     :expected   "resources/japanese/japanese-expected.csv"
+     :expected   "test-resources/japanese/japanese-expected.csv"
      :actual     "japanese.csv"
-     :stanza     {:templates ["resources/japanese/japanese.csv.art"]}
+     :stanza     {:templates ["test-resources/japanese/japanese.csv.art"]}
      :delimiters 'vivid.art.delimiters/jinja}))
 
 
-; TODO --dependencies
-#_(def ^:const dependencies
-    {'hiccup {:mvn/version "1.0.5"}})
 
+; TODO Error handling, all foreseeable failure cases
 
-; TODO Error handling
-
-; non-existent file
+; non-existent template file
 ; compile error
 
 ;   0 templates
@@ -124,9 +120,11 @@
 ;   template compile error
 ;   binding read error
 
-;   deps:
+;   dependencies:
 ;     malformed
 ;     resolution error
+#_(def ^:const dependencies
+    {'hiccup {:mvn/version "1.0.5"}})
 
 ;   delimiters:
 ;     qualified var cannot be resolved

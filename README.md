@@ -15,6 +15,15 @@ Works with Clojure 1.9 and newer.
 
 
 
+## Components
+[ART library](ash-ra-template/README.md), including detailed information about using the ART library and ART template syntax, rendering API and options, and processing.
+
+[Boot task](boot-art/README.md) for rendering ART templates.
+
+[Leiningen plugin](lein-art/README.md) for rendering ART templates.
+
+
+
 ## Quickstart
 
 Include this library from Clojars by adding the latest version of ``vivid/ash-ra-template`` to your project dependencies, such as in a Leiningen ``project.clj``:
@@ -34,16 +43,8 @@ Or, to render from a file:
 (art/render (slurp "prelude.html.art"))
 ```
 
-## Components
-[ART library](ash-ra-template/README.md), including detailed information about using the ART library and ART template syntax, rendering API and options, and processing.
-
-[Boot task](boot-art/README.md) for rendering ART templates.
-
-[Leiningen plugin](lein-art/README.md) for rendering ART templates.
 
 
-
-#
 ## Development
 
 **Pull Requests** are welcome!

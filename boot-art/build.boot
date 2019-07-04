@@ -27,7 +27,7 @@
 (task-options!
   pom {:project     project
        :version     version
-       :description "Boot task for rendering Ash Ra ART templates."
+       :description "Boot task for rendering Ash Ra Template .art templates."
        :url         "https://github.com/vivid/ash-ra-template"
        :scm         {:url "https://github.com/vivid/ash-ra-template"}
        :license     {"Eclipse Public License"

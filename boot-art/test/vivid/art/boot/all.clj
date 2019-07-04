@@ -16,6 +16,3 @@
          (let [args (cond-> []
                             file (concat ["--file" file])
                             :always vec)]))
-
-(deftest all-tests
-         ())
