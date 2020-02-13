@@ -34,10 +34,13 @@ A VCS commit is considered releasable provided that all of its components satisf
 - Choose a specific VCS commit identifier as the release target.
 - Ensure the [release criteria](QUALITY.md) are satisfied.
 
-### Executing the relese
+### Executing the release
 - Send ``ash-ra-template``, ``boot-art``, and ``lein-art`` to Clojars.
-- Tag the release and push the tag to Github.
+- Tag the release and push the tag to GitHub.
 
 ### Immediately after release
 - Smoke test each downloadable deliverable.
-- Confirm correctness of all project URLs.
+- Confirm correctness of:
+  - All project URLs.
+  - Default branch in GitHub.
+  - Versions appearing in current documentation.

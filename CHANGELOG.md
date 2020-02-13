@@ -1,6 +1,10 @@
 # Ash Ra Template Changelog
 
+## [0.5.0]
+_Unreleased_
+
 ## [0.4.0]
+Released 2019-07-05.
 - Changed template parsing mechanism from regular expressions to instaparse.
 - Changed `(render)` from accepting options as keyword arguments to an optional options map.
 - Bindings can be supplied with the `(render {:bindings {...})` option.
@@ -24,6 +28,7 @@ Released 2019-04-13.
 Released 2017-11-20.
 - Use `eval-soup` to render templates featuring Clojure language processing with ERB 2.0-esque syntax.
 
+[0.5.0]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.4.0...ash-ra-template-0.5.0
 [0.4.0]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.3.0...ash-ra-template-0.4.0
 [0.3.0]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.2.0...ash-ra-template-0.3.0
 [0.2.0]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.1.0...ash-ra-template-0.2.0

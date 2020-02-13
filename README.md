@@ -28,7 +28,7 @@ Works with Clojure 1.9 and newer.
 
 Include this library from Clojars by adding the latest version of ``vivid/ash-ra-template`` to your project dependencies, such as in a Leiningen ``project.clj``:
 ```clojure
-    :dependencies [[vivid/ash-ra-template "0.4.0"]]
+    :dependencies [[vivid/ash-ra-template "0.5.0"]]
 ```
 
 Render a template string:
@@ -67,6 +67,7 @@ Unproductive behavior such as unkindness towards others and derailment is not to
 - ~Test on the most recent releases of each significant JDK (8 and 11 at the time of this writing).~
 - Explain the value of ART. Compare and contrast with other templating systems. Emphasize symbolic computation, and the importance of providing native idioms at each point along the value chain, for example a web-based production workflow where professionals handle HTML and CSS.
 - Delimiter escaping rules.
+- Infer sensible defaults that can be customized via overrides.
 - Clarify the mechanics of the template evaluation runtime: dependencies + default deps, requires.
 - Provide examples for nesting templates (akin to `yield`).
 - Fast runtime performance, fast test feedback.

@@ -13,7 +13,7 @@ The `art` filename extension is stripped from the rendered output filenames.
 For example, `index.html.art` is rendered to the file `index.html`.
 
 ```clojure
-(set-env! :dependencies '[[vivid/boot-art "0.4.0"]])
+(set-env! :dependencies '[[vivid/boot-art "0.5.0"]])
 
 (require '[vivid.art.boot :refer [art]])
 

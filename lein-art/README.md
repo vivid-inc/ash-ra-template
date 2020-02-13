@@ -25,6 +25,9 @@ In Leiningen `project.clj`:
 Examples:
 
 ```clojure
+  # Add the lein-art Leiningen plugin:
+  :plugins [[vivid/lein-art "0.5.0"]]
+
   # Rendered output written to target/index.html
   :art {:templates ["index.html.art"]}
 
