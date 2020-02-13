@@ -1,14 +1,12 @@
 ; Copyright 2019 Vivid Inc.
 
 (ns vivid.art.leiningen.resolve
+  (:import
+    (java.io IOException PushbackReader))
   (:require
     [clojure.edn :as edn]
     [clojure.java.io :as io]
-    [clojure.spec.alpha :as s]
-    ;[leiningen.core.main :as main-lein]
-    )
-  (:import
-    (java.io IOException PushbackReader)))
+    [clojure.spec.alpha :as s]))
 
 (defn resolve-as-edn-file
   "Load EDN from an io/reader source (filename or io/resource)."

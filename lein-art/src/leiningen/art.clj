@@ -3,7 +3,7 @@
 (ns leiningen.art
   (:require
     [vivid.art.leiningen.cli :refer [args->project-stanza]]
-    [vivid.art.leiningen.exec :refer [render-templates]]))
+    [vivid.art.leiningen.exec :refer [run-lein-configuration]]))
 
 (defn ^:no-project-needed art
   "Render Ash Ra ART templates.
@@ -47,4 +47,4 @@ For more information, see https://github.com/vivid-inc/ash-ra-template"
   (let [stanza (if (coll? args)
                  (args->project-stanza args)
                  (get project :art))]
-    (render-templates stanza)))
+    (run-lein-configuration stanza)))
