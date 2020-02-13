@@ -43,7 +43,7 @@ exit
   (merge
     '{:dev {:dependencies   [;; Diffs equality assertions in test failure output
                              ;; https://github.com/pjstadig/humane-test-output
-                             [pjstadig/humane-test-output "0.9.0"]]
+                             [pjstadig/humane-test-output "0.10.0"]]
 
             :injections     [(require 'pjstadig.humane-test-output)
                              (pjstadig.humane-test-output/activate!)

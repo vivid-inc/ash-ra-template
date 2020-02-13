@@ -59,7 +59,7 @@
             [venantius/yagni "0.1.7"]]
 
   :profiles {:dev
- {:dependencies [[pjstadig/humane-test-output "0.9.0"]],
+ {:dependencies [[pjstadig/humane-test-output "0.10.0"]],
   :injections
   [(require 'pjstadig.humane-test-output)
    (pjstadig.humane-test-output/activate!)

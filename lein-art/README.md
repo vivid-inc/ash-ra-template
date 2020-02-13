@@ -15,6 +15,10 @@ Provided one or more ART template files, the `art` Leiningen task writes rendere
 In Leiningen `project.clj`:
 
 ```clojure
+  # Add the lein-art Leiningen plugin:
+  :plugins [[vivid/lein-art "0.5.0"]]
+
+  # Render .art templates
   :art {:templates    COLL-OF-FILES
         :bindings     SEQ-OF-MAP-VAR-EDN-FILE
         :delimiters   MAP
@@ -25,9 +29,6 @@ In Leiningen `project.clj`:
 Examples:
 
 ```clojure
-  # Add the lein-art Leiningen plugin:
-  :plugins [[vivid/lein-art "0.5.0"]]
-
   # Rendered output written to target/index.html
   :art {:templates ["index.html.art"]}
 

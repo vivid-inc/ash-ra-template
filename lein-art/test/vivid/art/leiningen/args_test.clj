@@ -56,7 +56,7 @@
   [data call-fn call-name]
   (testing call-name
     (let [{:keys [dir expected actual stanza delimiters]} data
-          target-dir (str "target/" dir "-" call-name)]
+          target-dir (str "target/art-rendered/" dir "-" call-name)]
       (delete-files-recursively target-dir :silently)
       (call-fn stanza delimiters target-dir)
       (is (= (slurp expected)
