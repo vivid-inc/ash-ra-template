@@ -21,7 +21,7 @@
           src-path (.getPath src-file)
           dest-name (strip-suffix src-name art/art-filename-suffix)
           dest-path (clojure.java.io/file output-dir dest-name)]
-      (util/info "Rendering %s\n" src-path)
+      (util/info "Rendering ART %s\n" src-path)
       (clojure.java.io/make-parents dest-path)
       (-> src-path
           (slurp)

@@ -1,5 +1,4 @@
 
-
 (defproject
   vivid/ash-ra-template "0.5.0"
 

@@ -3,7 +3,7 @@
 _Referencing [How SQLite Is Tested](https://www.sqlite.org/testing.html)_
 
 Reliability of ART is achieved in part by thorough and careful automated testing.
-The range of testing covers each ART component, it's public API, and code samples in the documentation.
+The range of testing covers each ART component, it's public API, code samples in the documentation, and assumed common execution environments (JDK and Clojure versions).
 
 ## Regression testing
 
@@ -29,7 +29,7 @@ A VCS commit is considered releasable provided that all of its components satisf
 
 ### Before release
 - Update [CHANGELOG.md](CHANGELOG.md) to reflect the new version.
-  - Remove the ``_Unreleased_`` attribute.
+  - Replace the ``_Unreleased_`` attribute with the actual date.
 - Update ART version in code and documentation.
 - Choose a specific VCS commit identifier as the release target.
 - Ensure the [release criteria](QUALITY.md) are satisfied.

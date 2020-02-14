@@ -63,12 +63,12 @@
 
 (defn render-file
   [^File templates-base ^File template-file {:keys [output-dir] :as conf}]
-  (let [raw (slurp template-file)
-        rendered (art/render raw (select-keys conf [:bindings :delimiters :dependencies]))
-        output-file (template-output-path templates-base template-file output-dir)]
-    (io/make-parents output-file)
-    (spit output-file rendered)
-    (main-lein/info "Rendered ART" (str output-file))))
+  (let [output-file (template-output-path templates-base template-file output-dir)]
+    (main-lein/info "Rendering ART" (str output-file))
+    (let [raw (slurp template-file)
+          rendered (art/render raw (select-keys conf [:bindings :delimiters :dependencies]))]
+      (io/make-parents output-file)
+      (spit output-file rendered))))
 
 (defn render-templates-base
   [t conf]
