@@ -3,9 +3,7 @@
 [![CircleCI](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master.svg?style=svg)](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master)
 [![Codecov](https://codecov.io/gh/vivid-inc/ash-ra-template/branch/master/graph/badge.svg)](https://codecov.io/gh/vivid-inc/ash-ra-template)
 
-Expressive template system for Clojure.
-
-![](workshop.png)
+Expressive & customizable template system featuring Clojure language processing
 
 **Motivation**: Of the Clojure templating libraries we identified, none seemed to assist in porting a non-trivial amount of ERB-templated content to a Clojure-based static site generation tool.
 We find the ability to in-line arbitrary Clojure code is intoxicatingly pragmatic (also expressed as: Enough rope to hang oneself).
@@ -93,6 +91,7 @@ Unproductive behavior such as unkindness towards others and derailment is not to
 - Illustration by [Ruxandra](https://www.instagram.com/chocolatechiphelmet/).
 - The Boot test code initially mimicked [perun-selmer](https://github.com/rwstauner/perun-selmer).
 
+![](workshop.png)
 
 
 ## License
