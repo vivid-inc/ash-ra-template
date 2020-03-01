@@ -1,19 +1,13 @@
-# Ash Ra Template
-
-[![CircleCI](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master.svg?style=svg)](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master)
-[![Codecov](https://codecov.io/gh/vivid-inc/ash-ra-template/branch/master/graph/badge.svg)](https://codecov.io/gh/vivid-inc/ash-ra-template)
+# Ash Ra Template [![CircleCI](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master.svg?style=svg)](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master) [![Codecov](https://codecov.io/gh/vivid-inc/ash-ra-template/branch/master/graph/badge.svg)](https://codecov.io/gh/vivid-inc/ash-ra-template) [![Current Version](https://img.shields.io/clojars/v/vivid/ash-ra-template.svg?color=dark-green&style=flat-square)](https://clojars.org/vivid/ash-ra-template)
 
 Expressive & customizable template system featuring Clojure language processing
-
-**Motivation**: Of the Clojure templating libraries we identified, none seemed to assist in porting a non-trivial amount of ERB-templated content to a Clojure-based static site generation tool.
-We find the ability to in-line arbitrary Clojure code is intoxicatingly pragmatic (also expressed as: Enough rope to hang oneself).
-Seeking to wield such expressive power in a general-purpose templating system, we wrote Ash Ra Template, or **ART**.
 
 Works with Clojure 1.9 and newer.
 
 
 
 ## Components
+
 [ART library](ash-ra-template/README.md), including detailed information about using the ART library and ART template syntax, rendering API and options, and processing.
 
 [Boot task](boot-art/README.md) for rendering ART templates.
@@ -92,6 +86,10 @@ Unproductive behavior such as unkindness towards others and derailment is not to
 - The Boot test code initially mimicked [perun-selmer](https://github.com/rwstauner/perun-selmer).
 
 ![](workshop.png)
+
+**Motivation**: Of the Clojure templating libraries we identified, none seemed to assist in porting a non-trivial amount of ERB-templated content to a Clojure-based static site generation tool.
+We find the ability to in-line arbitrary Clojure code is intoxicatingly pragmatic (also expressed as: Enough rope to hang oneself).
+Seeking to wield such expressive power in a general-purpose templating system, we wrote Ash Ra Template, or **ART**.
 
 
 ## License
