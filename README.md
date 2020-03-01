@@ -1,4 +1,4 @@
-# Ash Ra Template [![CircleCI](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master.svg?style=svg)](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master) [![Codecov](https://codecov.io/gh/vivid-inc/ash-ra-template/branch/master/graph/badge.svg)](https://codecov.io/gh/vivid-inc/ash-ra-template) [![Current Version](https://img.shields.io/clojars/v/vivid/ash-ra-template.svg?color=dark-green&style=flat-square)](https://clojars.org/vivid/ash-ra-template)
+# Ash Ra Template [![CircleCI](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master.svg?style=svg)](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master) [![Codecov](https://codecov.io/gh/vivid-inc/ash-ra-template/branch/master/graph/badge.svg)](https://codecov.io/gh/vivid-inc/ash-ra-template) [![Current Version](https://img.shields.io/clojars/v/vivid/ash-ra-template.svg?color=239922&style=flat-square)](https://clojars.org/vivid/ash-ra-template)
 
 Expressive & customizable template system featuring Clojure language processing
 

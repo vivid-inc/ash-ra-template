@@ -1,8 +1,6 @@
-# Ash Ra Template ART Library
+# Ash Ra Template ART Library [![Clojars Project](https://img.shields.io/clojars/v/vivid/ash-ra-template.svg?color=239922&style=flat-square)](https://clojars.org/vivid/ash-ra-template)
 
-[![Clojars Project](https://img.shields.io/clojars/v/vivid/ash-ra-template.svg)](https://clojars.org/vivid/ash-ra-template)
-
-ART is an expressive template system for Clojure.
+ART is an expressive & customizable template system for Clojure.
 It's **design goals** are:
 - Symbolic computation, as contrasted to declarative, non-Turing complete languages. You choose what features you do or don't employ.
 - Reasonable minimum [requirements](#requirements)
