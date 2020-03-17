@@ -60,9 +60,8 @@ Unproductive behavior such as unkindness towards others and derailment is not to
 - Explain the value of ART. Compare and contrast with other templating systems. Emphasize symbolic computation, and the importance of providing native idioms at each point along the value chain, for example a web-based production workflow where professionals handle HTML and CSS.
 - Delimiter escaping rules.
 - Infer sensible defaults that can be customized via overrides.
-- Clarify the mechanics of the template evaluation runtime: dependencies + default deps, requires.
+- Clarify the mechanics of the template evaluation runtime: Bindings and how values cross the ShimDandy bridge. Dependencies + default deps, requires.
 - Provide examples for nesting templates (akin to `yield`).
-- Fast runtime performance, fast test feedback.
 - Sufficient error reporting + documentation.
 - Java policies, to make it possible to execute untrusted / unknown code within templates.
 - AOT compilation.
@@ -71,10 +70,12 @@ Unproductive behavior such as unkindness towards others and derailment is not to
 
 ### Beyond Version 1.0
 
-- Consider parsing option mode magic within template content.
-- Consider an option to infer outer-most parens.
-- JetBrains IDEA plugin providing support for .art files.
-- Performance.
+Consider:
+- How to achieve fast runtime performance, fast test feedback.
+- A parsing option mode magic within template content.
+- An option to infer outer-most parens.
+- JetBrains IntelliJ IDEA support for .art files.
+- Maven plugin for rendering ART templates.
 
 
 
