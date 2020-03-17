@@ -3,7 +3,7 @@
 ART is an expressive & customizable template system for Clojure.
 It's **design goals** are:
 - Symbolic computation, as contrasted to declarative, non-Turing complete languages. You choose what features you do or don't employ.
-- Reasonable minimum [requirements](#requirements)
+- Reasonable minimum [requirements](#requirements).
 - Effortlessly composable: Use `(render)` wherever you like.
 - No surprises. Reasonable defaults.
 - Fast time-to-first-experience; reliable operation over the long term.
@@ -24,7 +24,7 @@ _Note_ that until ART achieves version 1.0 status, details may be subject to cha
 ## Requirements
 
 - Java 8 and all subsequent LTS releases (currently: Java 8 and Java 11). Java 8, because it strikes a good balance between wide adoption and long-term stability.
-- Clojure 1.9.0, for [spec](https://clojure.org/guides/spec), and because it is compatible with a ``clojure.alpha.tools.deps`` version that has reasonable Maven-style dependency resolving abilility.
+- Clojure 1.9.0, for [spec](https://clojure.org/guides/spec), and because it is compatible with a ``clojure.alpha.tools.deps`` version that has reasonable Maven-style dependency resolution capability.
 
 <a name="quickstart"></a>
 ## Quickstart
@@ -59,7 +59,7 @@ You might be interested in the ART [Boot task](../boot-art/README.md) or [Leinin
 ```
 Passed as a string, the rendered output is a byte-perfect mirror of its input:
 ```
-We are but stow-aways aboard a drifting ship, forsaken to the caprices of the wind and currents.
+We are but stowaways aboard a drifting ship, forsaken to the caprices of the wind and currents.
 ```
 
 
@@ -99,7 +99,7 @@ Chondrichthyes research published in 1987, 1989, 1992.
 ```
 
 ### ART templates in detail
-**File extension**: All ART components interpret files with the ``.art`` filename extension as ART template files.
+**File extension**: All ART components that interpret files, cheerily treat files with the ``.art`` filename extension as ART template files.
 
 **Sandboxed execution**: All Clojure code embedded in templates is evaluated within a sandboxed Clojure runtime courtesy of [ShimDandy](https://github.com/projectodd/shimdandy).
 
@@ -107,6 +107,8 @@ Chondrichthyes research published in 1987, 1989, 1992.
 Instead, equivalent processing can be delegated to occur within Clojure code blocks.
 
 **Initial namespace**: The initial namespace within the template evaluation environment is `user`.
+
+**No inference of parentheses**: Within ART tags, parentheses on outer-most forms are not inferred. This keeps the code easier to reason about and aids natural recognition by the human eye, machine processing, and code editing.
 
 **Whitespace**: It's unnecessary to surround delimiter tags with whitespace.
 Everything including whitespace in the text portions of the template is preserved.
@@ -116,8 +118,6 @@ Everything including whitespace in the text portions of the template is preserve
 
 <%= Clojure forms -- replaced with result of evaluation %>
 ```
-
-**No inference of parentheses**: Within ART tags, parentheses on outer-most forms are not inferred. This keeps the code easier to reason about and aids natural recognition by the eye, machine processing, and code editing.
 
 ``(user/emit x)``
 As in ERB, the ``<%=`` syntax causes the value of the expression to be emitted to the rendered template output.
@@ -148,7 +148,7 @@ ART provides the ``(vivid.art/render)`` function which renders an input string c
 <a name="bindings"></a>
 ### Providing ``:bindings``
 `(art/render)` accepts an optional map of `:bindings` that are made available to the template for symbol resolution during render.
-Bindings are optimal for use with echo-eval.
+Bindings are optimal for use with the echo-eval form ``<%=``.
 
 Simple:
 ```clojure
@@ -160,10 +160,10 @@ Simple:
 
 More complex:
 ```clojure
-(def certification-periods [7 24 13 11])
+(def labor-tallies [7 24 13 11])
 (art/render "<% (def total (apply + periods)) %>
              LEED certification expended a total of <%= total %> human months."
-            {:bindings {'periods certification-periods}})
+            {:bindings {'periods labor-tallies}})
 ```
 
 <a name="delimiters"></a>
@@ -197,7 +197,7 @@ Given a template that ``require``s namespaces from external dependencies in Cloj
 <%
 (require '[hiccup.core])
 
-(def ^:const toc-headings [{:id 739 :text "Moving wing assembly in place"}
+(def ^:const toc-headings [{:id 739 :text "Moving wing assembly into place"}
                            {:id 740 :text "Connecting fuel lines and hydraulics"}
                            {:id 741 :text "Attaching wing assembly to fuselage"}])
 
