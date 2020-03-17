@@ -16,7 +16,7 @@ These regression tests ensure that prior defects do not re-emerge in future.
 
 A VCS commit is considered releasable provided that all of its components satisfy the following criteria:
 
-- Code quality assessment tools don't indicate any outstanding problems, within reason: Clojura & Java library dependency warnings, reflection warnings, ancient, clj-kondo, eastwood, kibit, nvd, yagni.
+- Code quality assessment tools don't indicate any outstanding problems, within reason: Clojure & Java library dependency warnings, reflection warnings, ancient, clj-kondo, eastwood, kibit, nvd, yagni.
 - The documentation is synchronized with the code, including version numbers, and automated testing of all examples.
 - The described behavior of code samples from the documentation is confirmed via automated tests.
 - Reasonably unified test suite shared between `boot-art` and `lein-art`.
