@@ -8,7 +8,7 @@ echo Running all tests
 export TZ=UTC
 
 # Aim for a clean build
-find . -name target | xargs rm -r || true
+find . -depth -name target | xargs rm -r || true
 
 # Run all tests, create the deliverables
 (cd ash-ra-template && lein test-all)

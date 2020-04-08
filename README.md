@@ -1,4 +1,9 @@
-# Ash Ra Template [![CircleCI](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master.svg?style=svg)](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master) [![Codecov](https://codecov.io/gh/vivid-inc/ash-ra-template/branch/master/graph/badge.svg)](https://codecov.io/gh/vivid-inc/ash-ra-template) [![Current version](https://img.shields.io/clojars/v/vivid/ash-ra-template.svg?color=239922&style=flat-square)](https://clojars.org/vivid/ash-ra-template)
+# Ash Ra Template
+
+[![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
+[![Current version](https://img.shields.io/clojars/v/vivid/ash-ra-template.svg?color=blue&style=flat-square)](https://clojars.org/vivid/ash-ra-template)
+[![CircleCI](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master.svg?style=svg)](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master)
+[![Codecov](https://codecov.io/gh/vivid-inc/ash-ra-template/branch/master/graph/badge.svg)](https://codecov.io/gh/vivid-inc/ash-ra-template)
 
 Expressive & customizable template system featuring Clojure language processing
 
@@ -37,7 +42,7 @@ Or, to render from a file:
 
 
 
-## Development
+## Contributing
 
 **Pull Requests** are welcome!
 We work with people offering PRs to revise and iterate leading to solutions in accord with project goals and [release criteria](QUALITY.md).
