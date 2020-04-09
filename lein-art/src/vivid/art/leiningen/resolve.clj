@@ -12,7 +12,7 @@
   "Load EDN from an io/reader source (filename or io/resource)."
   [source]
   (try
-    (with-open [r (io/reader source)]
+    (with-open [r (io/reader (io/file (System/getProperty "user.dir") source))]
       (edn/read (PushbackReader. r)))
     (catch IOException _
       #_(main-lein/warn (format "Couldn't open '%s': %s\n" source (.getMessage e))))

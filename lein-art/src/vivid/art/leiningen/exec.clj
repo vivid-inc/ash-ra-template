@@ -10,7 +10,6 @@
     [vivid.art :as art]
     [vivid.art.leiningen.resolve :as rslv]))
 
-
 (defn path-seq
   [^File path]
   (some->> path
@@ -68,11 +67,11 @@
     (let [raw (slurp template-file)
           rendered (art/render raw (select-keys conf [:bindings :delimiters :dependencies]))]
       (io/make-parents output-file)
-      (spit output-file rendered))))
+      (spit (io/file (System/getProperty "user.dir") output-file) rendered))))
 
 (defn render-templates-base
   [t conf]
-  (let [templates-base (io/file t)
+  (let [templates-base (io/file (System/getProperty "user.dir") t)
         template-files (template-file-seq templates-base)]
     (doseq [template-file template-files]
       (render-file templates-base template-file conf))))
