@@ -2,6 +2,7 @@
 
 ## [0.5.0]
 _Unreleased_
+- License changed from EPL to Apache License, version 2.0.
 - Defect fix: Honors the Java system property `user.dir` when determining file paths.
   The defect came to light during a Maven multi-module build using vivid:clojure-maven-plugin.
 
