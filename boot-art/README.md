@@ -60,4 +60,4 @@ boot test
 ## License
 
 © Copyright Vivid Inc.
-[EPL](LICENSE.txt) licensed.
+[Apache License 2.0](LICENSE.txt) licensed.

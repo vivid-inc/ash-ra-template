@@ -62,18 +62,20 @@ Unproductive behavior such as unkindness towards others and derailment is not to
 - ~Expose a public API.~
 - ~Documentation organized by project and use.~
 - ~Test on the most recent releases of each significant JDK (8 and 11 at the time of this writing).~
+
+
 - 0.5.0: Provide a direct execution mode in addition to ShimDandy's sandbox.
 - 0.5.0: deps.clj run mode.
-- 0.5.0: (include) and (yield) content inclusion mechanisms.
+- 0.5.0: (include) and (yield) -like content inclusion/nesting mechanisms. One simple, and one complicated exemplar.
+- 0.5.0: Sign releases.
+
+
 - Explain the value of ART. Compare and contrast with other templating systems. Emphasize symbolic computation, and the importance of providing native idioms at each point along the value chain, for example a web-based production workflow where professionals handle HTML and CSS.
 - Delimiter escaping rules.
 - Infer sensible defaults that can be customized via overrides.
-- Clarify the mechanics of the template evaluation runtime: Bindings and how values cross the ShimDandy bridge. Dependencies + default deps, requires.
-- Provide examples for nesting templates (akin to `yield`).
 - Sufficient error reporting + documentation.
 - Java policies, to make it possible to execute untrusted / unknown code within templates.
 - AOT compilation.
-- Sign releases.
 - Declare version 1.0.0 once the community deems the ART feature-complete, reliable, and properly documented.
 
 ### Beyond Version 1.0
@@ -104,4 +106,4 @@ Seeking to wield such expressive power in a general-purpose templating system, w
 ## License
 
 © Copyright Vivid Inc.
-[EPL](LICENSE.txt) licensed.
+[Apache License 2.0](LICENSE.txt) licensed.

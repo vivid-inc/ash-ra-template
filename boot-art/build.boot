@@ -30,8 +30,8 @@
        :description "Boot task for rendering Ash Ra Template .art templates."
        :url         "https://github.com/vivid-inc/ash-ra-template"
        :scm         {:url "https://github.com/vivid-inc/ash-ra-template"}
-       :license     {"Eclipse Public License"
-                     "http://www.eclipse.org/legal/epl-v10.html"}})
+       :license     {"Apache License 2.0"
+                     "https://www.apache.org/licenses/LICENSE-2.0"}})
 
 ; Generate a Leiningen project.clj file for the sake of IntelliJ & Cursive
 (require '[boot.lein])
