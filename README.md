@@ -78,6 +78,7 @@ Unproductive behavior such as unkindness towards others and derailment is not to
 
 Consider:
 - How to achieve fast runtime performance, fast test feedback.
+- Option for parallel execution.
 - A parsing option mode magic within template content.
 - An option to infer outer-most parens.
 - JetBrains IntelliJ IDEA support for .art files.
