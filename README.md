@@ -63,9 +63,10 @@ Unproductive behavior such as unkindness towards others and derailment is not to
 - ~Documentation organized by project and use.~
 - ~Test on the most recent releases of each significant JDK (8 and 11 at the time of this writing).~
 - 0.5.0: Provide a direct execution mode in addition to ShimDandy's sandbox.
-- 0.5.0: deps.clj run mode.
 - 0.5.0: (include) and (yield) -like content inclusion/nesting mechanisms. One simple and one complicated exemplar.
 - 0.5.0: Sign releases.
+- 0.5.0: Provide access to execution context from within the evaluation environment: (render) args. The evaluation stack starting from the page through to the current (yield). 
+- 0.5.0: Defect: lein-art doesn't fail when .edn file binding isn't present
 - Explain the value of ART. Compare and contrast with other templating systems. Emphasize symbolic computation, and the importance of providing native idioms at each point along the value chain, for example a web-based production workflow where professionals handle HTML and CSS.
 - Delimiter escaping rules.
 - Infer sensible defaults that can be customized via overrides.
@@ -83,6 +84,8 @@ Consider:
 - An option to infer outer-most parens.
 - JetBrains IntelliJ IDEA support for .art files.
 - Maven plugin for rendering ART templates.
+- Clojure tools.cli / deps.clj run mode.
+- Ability to list rendered file paths without writing.
 
 
 
