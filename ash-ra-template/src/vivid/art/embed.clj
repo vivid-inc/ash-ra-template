@@ -43,7 +43,8 @@
 
 (defn- construct-class-loader [classes]
   (let [it (JarClassLoader.)]
-    (doseq [clazz classes] (.add it clazz))
+    (doseq [clazz classes]
+      (.add it clazz))
     (.setEnabled (.getParentLoader it) false)
     (.setEnabled (.getSystemLoader it) false)
     (.setEnabled (.getThreadLoader it) false)
@@ -52,8 +53,7 @@
 
 (defn- new-rt-shim [^ClassLoader classloader]
   (doto (.newInstance (.getDeclaredConstructor (.loadClass classloader RUNTIME_SHIM_CLASS)
-                                               (into-array Class [])); Copyright 2019 Vivid Inc.
-
+                                               (into-array Class []))
                       (into-array Object []))
     (.setClassLoader classloader)
     (.setName (name (gensym "vivid-art-runtime")))
@@ -66,7 +66,8 @@
 
 (defn- unload-classes-from-loader [^JarClassLoader loader]
   (let [loaded (doall (keys (.getLoadedClasses loader)))]
-    (doseq [clazz loaded] (.unloadClass loader clazz))))
+    (doseq [clazz loaded]
+      (.unloadClass loader clazz))))
 
 (defn close-runtime! [runtime]
   (.close runtime)

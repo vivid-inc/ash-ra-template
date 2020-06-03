@@ -17,8 +17,7 @@
   and various other templating systems.")
 
 (def ^:const erb
-  "
-  Syntactically resemblent systems:
+  "Syntactically resemblent systems:
   - Active Server Pages or ASP, https://en.wikipedia.org/wiki/Active_Server_Pages
   - Embedded Ruby or ERB, https://github.com/ruby/ruby/blob/trunk/lib/erb.rb
   - JavaServer Pages or JSP, https://en.wikipedia.org/wiki/JavaServer_Pages"
@@ -27,10 +26,9 @@
    :begin-eval  "<%="})
 
 (def ^:const jinja
-  "
-  Syntactically resemblent systems:
+  "Syntactically resemblent systems:
   - Jinja2, http://jinja.pocoo.org/docs/2.10/templates/
-    - Django, https://docs.djangoproject.com/en/2.2/ref/templates/language/"
+  - Django, https://docs.djangoproject.com/en/2.2/ref/templates/language/"
   {:begin-forms "{%"
    :end-forms   "%}"
    :begin-eval  "{{"

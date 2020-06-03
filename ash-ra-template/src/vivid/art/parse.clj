@@ -23,9 +23,7 @@
     (java.util.regex Pattern)))
 
 (defn make-grammar                                          ; TODO Enforce delimiter rules.
-  [delimiters]; Licensed under the terms of the Apache License, 2.0. See LICENSE.txt for details.
-
-
+  [delimiters]
   (let [q #(Pattern/quote %)
         alts (str/join " | " (map name (keys delimiters)))
         terminals (str/join

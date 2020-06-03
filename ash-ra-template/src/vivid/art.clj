@@ -16,13 +16,12 @@
   "Ash Ra Template public API."
   (:require
     [clojure.spec.alpha :as s]
-    [clojure.string]
     [special.core :refer [condition manage]]
     [vivid.art.delimiters :refer [erb]]
     [vivid.art.evaluate :refer [evaluate]]
     [vivid.art.failure :refer [make-failure]]
     [vivid.art.parse :refer [parse]]
-    [vivid.art.specs]
+    [vivid.art.specs :refer [render-phases to-phase?]]
     [vivid.art.xlate :refer [translate]]))
 
 (def ^:const art-filename-suffix ".art")
@@ -35,18 +34,20 @@
 
 (def ^:const failure? vivid.art.failure/failure?)
 
+(def ^:const default-to-phase (last render-phases))
+
 (defn render
   "Renders an input string containing Ash Ra Template (ART) -formatted content
   to an output string."
   ([^String template] (render template {}))
   ([^String template
-    {:keys [bindings delimiters dependencies]
-     :or   {bindings {} delimiters default-delimiters dependencies {}}}]
+    {:keys [bindings delimiters dependencies to-phase]
+     :or   {bindings {} delimiters default-delimiters dependencies {} to-phase default-to-phase}}]
    (if template
-     (let [render* #(-> template
-                        (parse delimiters)
-                        (translate)
-                        (evaluate bindings dependencies))
+     (let [render* #(cond-> template
+                        (to-phase? :parse     to-phase) (parse delimiters)
+                        (to-phase? :translate to-phase) (translate)
+                        (to-phase? :evaluate  to-phase) (evaluate bindings dependencies))
            f (manage render*
                      :parse-error #(make-failure :parse-error % template))]
        (f)))))
@@ -54,4 +55,5 @@
         :args (s/cat :t :vivid.art/template
                      :o (s/? (s/keys :opt-un [:vivid.art/bindings
                                               :vivid.art/delimiters
-                                              :vivid.art/dependencies]))))
+                                              :vivid.art/dependencies
+                                              :vivid.art/to-phase]))))

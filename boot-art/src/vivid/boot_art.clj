@@ -6,7 +6,8 @@
     [boot.core :as boot :refer [deftask]]
     [boot.util :as util]
     [vivid.art :as art])
-  (:import (java.io File)))
+  (:import
+    (java.io File)))
 
 ; Referencing https://github.com/boot-clj/boot/wiki/Filesets
 
@@ -28,7 +29,8 @@
           (as-> c (art/render c (select-keys options
                                              [:bindings
                                               :delimiters
-                                              :dependencies])))
+                                              :dependencies
+                                              :to-phase])))
           (->> (spit dest-path))))
     (catch Exception e
       (util/fail (str "Failed to render ART template " src-file "\n"))

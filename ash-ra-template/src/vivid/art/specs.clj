@@ -31,6 +31,20 @@
 (s/def :vivid.art/bindings (s/nilable map?))
 
 
+; Template delimiter definitions
+
+(s/def ::delimiter (s/and string? seq))
+
+(s/def ::begin-forms ::delimiter)
+(s/def ::end-forms ::delimiter)
+(s/def ::begin-eval ::delimiter)
+(s/def ::end-eval ::delimiter)
+
+(s/def :vivid.art/delimiters
+  (s/keys :opt-un [::begin-forms ::end-forms
+                   ::begin-eval ::end-eval]))
+
+
 ; Clojure dependency maps, required to render a given template
 
 (s/def :vivid.art/dependencies :clojure.tools.deps.alpha.specs/deps-map)
@@ -45,15 +59,21 @@
   (s/keys :req-un [::failure-type ::cause ::template]))
 
 
-; Template delimiter definitions
+; To which phase in the (render) dataflow will it proceed to?
+; Useful for diagnostics and operational insight.
 
-(s/def ::delimiter (s/and string? seq))
+(def ^:const render-phases '(:parse :translate :evaluate))
+(s/def :vivid.art/render-phase (into #{} render-phases))
 
-(s/def ::begin-forms ::delimiter)
-(s/def ::end-forms ::delimiter)
-(s/def ::begin-eval ::delimiter)
-(s/def ::end-eval ::delimiter)
-
-(s/def :vivid.art/delimiters
-  (s/keys :opt-un [::begin-forms ::end-forms
-                   ::begin-eval ::end-eval]))
+(defn to-phase?
+      "Given an unrecognized current-phase, evaluates to false,
+      otherwise given an unrecognized to-phase, evaluates to true."
+      [current-phase to-phase]
+      (let [plan (-> #{}
+                     (into (take-while #(not= to-phase %) render-phases))
+                     (conj to-phase))]
+           (contains? plan current-phase)))
+(s/fdef to-phase?
+        :args (s/cat :current-phase :vivid.art/render-phase
+                     :to-phase :vivid.art/render-phase)
+        :ret (s/nilable boolean?))

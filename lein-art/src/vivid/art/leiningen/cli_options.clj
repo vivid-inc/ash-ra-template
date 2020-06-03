@@ -22,4 +22,9 @@
     ;; but, due to some mechanic I don't fully understand, attempting to use
     ;; leiningen.core.project to render this project's README.md from
     ;; a template fails.
-    :default "target"]])
+    :default "target"]
+
+   ;; --to-phase is passed through to ART
+   ["-p" "--to-phase KEYWORD" "Render dataflow on each template stop once the named phase is complete"
+    :default vivid.art/default-to-phase]
+   ])

@@ -40,7 +40,7 @@
   equivalent project stanza."
   [args]
   (let [{:keys [arguments errors options]} (clojure.tools.cli/parse-opts args cli-options)
-        {:keys [delimiters output-dir]} options]
+        {:keys [delimiters output-dir to-phase]} options]
     (when errors
       (main-lein/abort errors))
     (when (empty? (str/trim output-dir))
@@ -53,4 +53,5 @@
       {:templates  (:templates sorted-paths)
        :bindings   (:bindings sorted-paths)
        :delimiters (rslv/resolve-delimiters delimiters)
-       :output-dir output-dir})))
+       :output-dir output-dir
+       :to-phase   to-phase})))
