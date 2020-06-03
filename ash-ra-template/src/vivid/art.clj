@@ -18,6 +18,7 @@
     [clojure.spec.alpha :as s]
     [special.core :refer [condition manage]]
     [vivid.art.delimiters :refer [erb]]
+    [vivid.art.enscript :refer [enscript]]
     [vivid.art.evaluate :refer [evaluate]]
     [vivid.art.failure :refer [make-failure]]
     [vivid.art.parse :refer [parse]]
@@ -47,7 +48,8 @@
      (let [render* #(cond-> template
                         (to-phase? :parse     to-phase) (parse delimiters)
                         (to-phase? :translate to-phase) (translate)
-                        (to-phase? :evaluate  to-phase) (evaluate bindings dependencies))
+                        (to-phase? :enscript  to-phase) (enscript bindings)
+                        (to-phase? :evaluate  to-phase) (evaluate dependencies))
            f (manage render*
                      :parse-error #(make-failure :parse-error % template))]
        (f)))))

@@ -107,11 +107,11 @@
 
 
 
-; TODO Error handling, all foreseeable failure cases
-
+; TODO Error handling:
+;
 ; non-existent template file
 ; compile error
-
+;
 ;   0 templates
 ;   missing template filename
 ;   no read permission
@@ -119,12 +119,12 @@
 ;   no read permission
 ;   template compile error
 ;   binding read error
-
+;
 ;   dependencies:
 ;     malformed
 ;     resolution error
-#_(def ^:const dependencies
-    {'hiccup {:mvn/version "1.0.5"}})
-
+;#_(def ^:const dependencies
+;    {'hiccup {:mvn/version "1.0.5"}})
+;
 ;   delimiters:
 ;     qualified var cannot be resolved

@@ -40,7 +40,7 @@
    :end-eval   "}}"})
 
 (def ^:const php
-  ""
+  "Referencing https://www.php.net/manual/en/language.basic-syntax.phptags.php"
   {:begin-forms "<?"
    :end-forms   "?>"
    :begin-eval  "<?="})

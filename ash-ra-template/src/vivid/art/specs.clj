@@ -62,7 +62,7 @@
 ; To which phase in the (render) dataflow will it proceed to?
 ; Useful for diagnostics and operational insight.
 
-(def ^:const render-phases '(:parse :translate :evaluate))
+(def ^:const render-phases '(:parse :translate :enscript :evaluate))
 (s/def :vivid.art/render-phase (into #{} render-phases))
 
 (defn to-phase?
