@@ -67,6 +67,7 @@ Unproductive behavior such as unkindness towards others and derailment is not to
 - 0.5.0: Sign releases.
 - 0.5.0: Provide access to execution context from within the evaluation environment: (render) args. The evaluation stack starting from the page through to the current (yield). 
 - 0.5.0: Defect: lein-art doesn't fail when .edn file binding isn't present
+- 0.5.0: Document Clojure reader gotcha.
 - Explain the value of ART. Compare and contrast with other templating systems. Emphasize symbolic computation, and the importance of providing native idioms at each point along the value chain, for example a web-based production workflow where professionals handle HTML and CSS.
 - Delimiter escaping rules.
 - Infer sensible defaults that can be customized via overrides.
