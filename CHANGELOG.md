@@ -5,6 +5,8 @@ _Unreleased_
 - License changed from EPL to Apache License, version 2.0.
 - Defect fix: Honors the Java system property `user.dir` when determining file paths.
   The defect came to light during a Maven multi-module build using vivid:clojure-maven-plugin.
+- Undocumented, unstable render option `:to-phase` allows the dataflow to stop at an earlier `(render)` phase.
+  Useful for inspecting ART output at intermediate phases for diagnosis or understanding ART's behavior.
 
 ## [0.4.0]
 Released 2019-07-05.
