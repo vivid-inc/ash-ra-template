@@ -57,10 +57,11 @@ Examples:
 and options:
 
 ```clojure
-  -b, --bindings EDN-OR-VAR              Bindings made available to templates for symbol resolution
-  -d, --delimiters EDN-OR-VAR    erb     Template delimiters
-      --dependencies EDN-OR-VAR          Clojure deps map
-  -o, --output-dir DIR           target  Write rendered files to DIR
+  -b, --bindings EDN-OR-VAR                 Bindings made available to templates for symbol resolution
+  -d, --delimiters EDN-OR-VAR    erb        Template delimiters
+      --dependencies EDN-OR-VAR             Clojure deps map
+  -o, --output-dir DIR           target     Write rendered files to DIR
+  -p, --to-phase KEYWORD         :evaluate  Render dataflow on each template stop once the named phase is complete
 ```
 
 From the CLI, the `art` Lein task takes a list of file paths to `.art` files (ART templates) and options.
