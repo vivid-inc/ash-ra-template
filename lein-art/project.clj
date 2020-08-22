@@ -22,7 +22,7 @@
         :output-dir "."}
 
   :dependencies [[org.clojure/tools.cli "0.4.2"]
-                 [vivid/ash-ra-template "0.5.0"]]
+                 [vivid/art "0.5.0"]]
 
   :dev-dependencies [[org.clojure/clojure "1.9.0"]
                      [leiningen "2.9.1"]]

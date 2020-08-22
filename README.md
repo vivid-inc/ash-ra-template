@@ -23,9 +23,9 @@ Works with Clojure 1.9 and newer.
 
 ## Quickstart
 
-Include this library from Clojars by adding the latest version of ``vivid/ash-ra-template`` to your project dependencies, such as in a Leiningen ``project.clj``:
+Include this library from Clojars by adding the latest version of ``vivid/art`` to your project dependencies, such as in a Leiningen ``project.clj``:
 ```clojure
-    :dependencies [[vivid/ash-ra-template "0.5.0"]]
+    :dependencies [[vivid/art "0.5.0"]]
 ```
 
 Render a template string:

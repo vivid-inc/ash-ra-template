@@ -13,7 +13,7 @@
                           [adzerk/bootlaces "0.2.0" :scope "test"]
                           [boot/core "2.8.2" :scope "provided"]
                           [onetom/boot-lein-generate "0.1.3" :scope "test"]
-                          [vivid/ash-ra-template "0.5.0"]]
+                          [vivid/art "0.5.0"]]
           :repositories (partial map (fn [[k v]]
                                        [k (cond-> v (#{"clojars"} k) (assoc :username (System/getenv "CLOJARS_USER")
                                                                             :password (System/getenv "CLOJARS_PASS")))])))

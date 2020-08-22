@@ -29,9 +29,9 @@ _Note_ that until ART achieves version 1.0 status, details may be subject to cha
 <a name="quickstart"></a>
 ## Quickstart
 
-Include this library from Clojars by adding ``[vivid/ash-ra-template "0.5.0"]`` to your project dependencies, such as in a Leiningen ``project.clj``:
+Include this library from Clojars by adding ``[vivid/art "0.5.0"]`` to your project dependencies, such as in a Leiningen ``project.clj``:
 ```clojure
-  :dependencies [[vivid/ash-ra-template "0.5.0"]]
+  :dependencies [[vivid/art "0.5.0"]]
 ```
 
 Render a template string:
