@@ -86,12 +86,12 @@ exit
                  [reduce-fsm "0.1.4"]]
 
   :aliases {"build"    ["do"
-                        "version,"
-                        "clean,"
-                        "cloverage,"
-                        "eastwood,"
-                        "jar,"
-                        "install"]
+                        ["version"]
+                        ["clean"]
+                        ["cloverage"]
+                        ["eastwood"]
+                        ["jar"]
+                        ["install"]]
             "test-all" ["with-profile" "<%= CLOJURE-TEST-PROFILES-STR %>" "build"]}
 
   :cloverage {:codecov? true

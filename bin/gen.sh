@@ -9,6 +9,5 @@ echo Generating resources in all projects
 # it available to subsequent build steps that depend on it.
 (cd art && ./gen-project.clj && lein install)
 
-# Documentation
 (cd boot-art && boot mkdocs)
 (cd lein-art && lein mkdocs)

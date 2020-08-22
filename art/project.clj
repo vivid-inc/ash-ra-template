@@ -19,12 +19,12 @@
                  [reduce-fsm "0.1.4"]]
 
   :aliases {"build"    ["do"
-                        "version,"
-                        "clean,"
-                        "cloverage,"
-                        "eastwood,"
-                        "jar,"
-                        "install"]
+                        ["version"]
+                        ["clean"]
+                        ["cloverage"]
+                        ["eastwood"]
+                        ["jar"]
+                        ["install"]]
             "test-all" ["with-profile" "+clojure-1.9.0:+clojure-1.10.0:+clojure-1.10.1" "build"]}
 
   :cloverage {:codecov? true
