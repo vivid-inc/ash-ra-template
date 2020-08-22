@@ -41,7 +41,7 @@
 (defn- classpath-segments [classpath]
   (string/split classpath (Pattern/compile (Pattern/quote File/pathSeparator))))
 
-(defn- construct-class-loader [classes]
+(defn- construct-class-loader ^JarClassLoader [classes]
   (let [it (JarClassLoader.)]
     (doseq [clazz classes]
       (.add it clazz))
@@ -51,7 +51,7 @@
     (.setEnabled (.getOsgiBootLoader it) false)
     it))
 
-(defn- new-rt-shim [^ClassLoader classloader]
+(defn- new-rt-shim [^JarClassLoader classloader]
   (doto (.newInstance (.getDeclaredConstructor (.loadClass classloader RUNTIME_SHIM_CLASS)
                                                (into-array Class []))
                       (into-array Object []))
