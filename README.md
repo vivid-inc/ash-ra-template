@@ -89,6 +89,7 @@ Consider:
 - Maven plugin for rendering ART templates.
 - Clojure tools.cli / deps.clj run mode.
 - Ability to list rendered file paths without writing.
+- Cache ala https://github.com/davidsantiago/stencil
 
 
 

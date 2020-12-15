@@ -65,9 +65,10 @@
   (let [output-file (template-output-path templates-base template-file output-dir)]
     (main-lein/info "Rendering ART" (str output-file))
     (let [raw (slurp template-file)
-          rendered (art/render raw (select-keys conf [:bindings :delimiters :dependencies :to-phase]))]
-      (io/make-parents output-file)
-      (spit (io/file (System/getProperty "user.dir") output-file) rendered))))
+          rendered (art/render raw (select-keys conf [:bindings :delimiters :dependencies :to-phase]))
+          output-path (io/file (System/getProperty "user.dir") output-file)]
+      (io/make-parents output-path)
+      (spit output-path rendered))))
 
 (defn render-templates-base
   [t conf]

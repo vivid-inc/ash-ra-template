@@ -116,11 +116,12 @@ exit
   ; Note: Enable only to more strictly inspect dependencies
   ;:pedantic? :abort
 
-  :plugins [[jonase/eastwood "0.3.5"]
+  :plugins [[jonase/eastwood "0.3.12"]
             [lein-ancient "0.6.15"]
-            [lein-cloverage "1.1.1"]
-            [lein-kibit "0.1.6"]
-            [lein-nvd "1.1.0" :exclusions [org.slf4j/jcl-over-slf4j
+            [lein-cloverage "1.2.1"]
+            [lein-kibit "0.1.8"]
+            [lein-ns-dep-graph "0.2.0-SNAPSHOT"]
+            [lein-nvd "1.4.1" :exclusions [org.slf4j/jcl-over-slf4j
                                            org.slf4j/slf4j-api]]
             [venantius/yagni "0.1.7"]]
 
