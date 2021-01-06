@@ -35,7 +35,7 @@
             log/*warn-fn* println]
     (from-cli-args args)))
 
-(defn- usage []
+(defn usage []
   (let [options-summary (:summary (clojure.tools.cli/parse-opts [] cli-options))]
     (->> [(vivid.art.cli.usage/summary "Clojure tool")
           (str "Usage: clj -m " (namespace `usage) " [options...] template-files...")

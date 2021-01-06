@@ -30,8 +30,8 @@ _Note_ that until ART achieves version 1.0 status, details may be subject to cha
 
 Clojure is tested on:
 
-- Java 8 and all subsequent LTS releases (currently: Java 8 and Java 11). Java 8, because it strikes a good balance between wide adoption and long-term stability.
 - Clojure 1.9.0 and newer, for [spec](https://clojure.org/guides/spec), and because it is compatible with a ``clojure.alpha.tools.deps`` version that has reasonable Maven-style dependency resolution capability.
+- Java 8 and all subsequent LTS releases (currently: Java 8 and Java 11). Java 8, because it strikes a good balance between wide adoption and long-term stability.
 
 <a name="quickstart"></a>
 ## Quickstart
@@ -226,7 +226,7 @@ The template's external dependencies can be specified as a Clojure deps [lib map
 ```
 Dependencies are resolved prior to template rendering using Clojure's ``org.clojure/tools.deps.alpha``.
 
-As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version 1.9.0, but this can be overridden using the same mechanism by supplying the same `org.clojure/clojure` dependency with a different version:
+As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version 1.9.0, but this can be overridden using the same mechanism by supplying the `org.clojure/clojure` dependency with a different version:
 ```clojure
             {:dependencies {'org.clojure/clojure {:mvn/version "1.10.0"}}}
 ```
@@ -234,7 +234,7 @@ As an implicit dependency, the template execution environment provides ART's min
 <a name="to-phase"></a>
 ### Render ``:to-phase``
 The rendering process of a single template is composed of several phases.
-By default rendering completes all phases, but you can have `(render)` stop at earlier phases.
+By default rendering completes all phases, but you can have `(render)` stop at an earlier phase.
 This is useful for learning ART's internals and for debugging.
 The phases are, in order: `:parse`, `:translate`, `:enscript`, `:evaluate`.
 

@@ -1,14 +1,17 @@
 {:deps    {org.clojure/data.json {:mvn/version "0.2.6"}
            special               {:mvn/version "0.1.3-Beta1"}
            vivid/art             {:mvn/version "0.5.0"}}
- :aliases {:cloverage {:extra-deps  {cloverage {:mvn/version "RELEASE"}}
-                       :extra-paths ["test"]
-                       :main-opts   ["-m" "cloverage.coverage"
-                                     "--codecov" "--html" "--junit" "--src-ns-path" "src" "--test-ns-path" "test"]}
-           :eftest    {:extra-deps  {eftest/eftest {:mvn/version "0.5.9"}}
-                       :extra-paths ["test"]
-                       :main-opts   ["-e" "(require,'[eftest.runner,:refer,[find-tests,run-tests]]),(run-tests,(find-tests,\"test\"))"]}
-           :mkdocs    {:extra-paths ["src"]
-                       :main-opts   ["-m" "vivid.art.clj-tool"
-                                     "--dependencies" "{vivid/art,{:mvn/version,\"0.5.0\"}}"
-                                     "assets/README.md.art"]}}}
+ :aliases {:clojure-1.9.0  {:override-deps {org.clojure/clojure {:mvn/version "1.9.0"}}}
+           :clojure-1.10.0 {:override-deps {org.clojure/clojure {:mvn/version "1.10.0"}}}
+           :clojure-1.10.1 {:override-deps {org.clojure/clojure {:mvn/version "1.10.1"}}}
+           :cloverage      {:extra-deps  {cloverage {:mvn/version "RELEASE"}}
+                            :extra-paths ["test"]
+                            :main-opts   ["-m" "cloverage.coverage"
+                                          "--codecov" "--html" "--junit" "--src-ns-path" "src" "--test-ns-path" "test"]}
+           :test-all       {:extra-deps  {eftest/eftest {:mvn/version "0.5.9"}}
+                            :extra-paths ["test"]
+                            :main-opts   ["-e" "(require,'[eftest.runner,:refer,[find-tests,run-tests]]),(run-tests,(find-tests,\"test\"))"]}
+           :mkdocs         {:extra-paths ["src"]
+                            :main-opts   ["-m" "vivid.art.clj-tool"
+                                          "--dependencies" "{vivid/art,{:mvn/version,\"0.5.0\"}}"
+                                          "assets/README.md.art"]}}}

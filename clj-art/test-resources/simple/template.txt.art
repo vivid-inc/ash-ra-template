@@ -1,0 +1,10 @@
+<%
+
+(def spring-flowers '[dandelions
+                      crocuses
+                      daffodils
+                      tulips
+                      hyacinths
+                      bluebells])
+
+%>Rejoice, for Spring brings such warmth to our hearts with <%= (clojure.string/join ", " spring-flowers) %> and more!
