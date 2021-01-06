@@ -14,6 +14,7 @@
 
 (ns vivid.art.clj-tool-test
   (:require
+    [clojure.java.shell]
     [clojure.string]
     [clojure.test :refer :all]
     [vivid.art.clj-tool :as clj-tool]))
@@ -33,3 +34,19 @@
     (is (nil? res))
     (is (= (slurp "test-resources/simple/template.txt.expected")
            (slurp "test-resources/simple/template.txt")))))
+
+(deftest clj-tool-full-exercise
+  (let [art-res (vivid.art.clj-tool/-main
+                  "--bindings" "{updated \"2021-01-01\"}"
+                  "--delimiters" "{:begin-forms \"{%\" :end-forms \"%}\" :begin-eval \"{%=\" :end-eval \"%}\"}"
+                  "--dependencies" "{hiccup {:mvn/version \"1.0.5\"}}"
+                  "test-resources/full/templates"
+                  "--output-dir" "test-resources/full/out"
+                  "--to-phase" "evaluate")
+        rm-res (clojure.java.shell/sh "/usr/bin/diff" "--recursive"
+                                      "test-resources/full/out"
+                                      "test-resources/full/expected")]
+    (is (nil? art-res))
+    (is (= 0 (rm-res :exit)))))
+
+; TODO unknown option

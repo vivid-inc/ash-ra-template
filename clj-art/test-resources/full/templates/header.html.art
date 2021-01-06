@@ -1,0 +1,14 @@
+{%
+(require '[hiccup.core :as hiccup])
+
+(def main-items ["Solutions" "/solutions/"
+                 "Services" "/services/special.html"
+                 "Support" "/wide/support/"])
+
+%}
+<!-- Updated {%= updated %} -->
+<nav>
+  {%= (hiccup/html
+        (for [[title href] (partition 2 main-items)]
+          [:ul.main-item {:href href} title])) %}
+</nav>
