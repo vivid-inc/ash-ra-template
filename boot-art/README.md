@@ -1,6 +1,9 @@
-# Ash Ra Template Boot Task [![Clojars Project](https://img.shields.io/clojars/v/vivid/boot-art.svg?color=239922&style=flat-square)](https://clojars.org/vivid/boot-art)
+# boot-art Ash Ra Template Boot Task
 
-Boot task for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates.
+[![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
+[![Current version](https://img.shields.io/clojars/v/vivid/boot-art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/boot-art)
+
+`boor-art` is a Boot task for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates.
 
 
 

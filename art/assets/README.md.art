@@ -1,6 +1,12 @@
 # Ash Ra Template ART Library 
 
+{%
+(require 'vivid.art)
 
+(def to-phase-values (->> vivid.art/render-phases
+                          (map #(format "`%s`" %))
+                          (clojure.string/join ", ")))
+%}
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/vivid/art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/art)
@@ -236,7 +242,7 @@ As an implicit dependency, the template execution environment provides ART's min
 The rendering process of a single template is composed of several phases.
 By default rendering completes all phases, but you can have `(render)` stop at earlier phases.
 This is useful for learning ART's internals and for debugging.
-The phases are, in order: `:parse`, `:translate`, `:enscript`, `:evaluate`.
+The phases are, in order: {%= to-phase-values %}.
 
 ```clojure
 (art/render template-str

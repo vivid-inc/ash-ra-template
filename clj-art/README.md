@@ -1,5 +1,7 @@
+# clj-art Ash Ra Template Clojure Tool 
 
-# clj-art Ash Ra Template Clojure Tool [![Clojars Project](https://img.shields.io/clojars/v/vivid/clj-art.svg?color=239922&style=flat-square)](https://clojars.org/vivid/clj-art)
+[![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
+[![Clojars Project](https://img.shields.io/clojars/v/vivid/clj-art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/clj-art)
 
 `clj-art` is a Clojure `deps.edn` tool for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates.
 
