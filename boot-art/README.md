@@ -15,7 +15,7 @@ For example, `index.html.art` is rendered to the file `index.html`.
 
 (require '[vivid.art.boot :refer [art]])
 
-(deftask pipeline []
+(deftask my-pipeline []
   (comp ...
         (art :bindings     VAL
              :delimiters   VAL
@@ -35,14 +35,17 @@ and options:
 ```clojure
 Render Ash Ra .art templates.
 
+Provided one or more template files and any quantity of optional bindings, this
+Boot task writes rendered template output to a specified output dir.
 Templates are rendered to files whose filenames are stripped of the .art suffix.
 
 Options:
   -h, --help              Print this help info.
   -b, --bindings VAL      VAL sets bindings made available to templates for symbol resolution.
-  -d, --delimiters VAL    VAL sets template delimiters (EDN or a Var).
-      --dependencies VAL  VAL sets clojure deps map (EDN or a Var).
-  -f, --files FILES       FILES sets a vector of .art template files to render. If not present, all files will be rendered.
+  -d, --delimiters VAL    VAL sets template delimiters (default: `erb').
+      --dependencies VAL  VAL sets clojure deps map providing libs within the template evaluation environment.
+  -p, --to-phase VAL      VAL sets stop the render dataflow on each template at an earlier phase.
+  -f, --files FILES       FILES sets a vector of .art template files to render. If not present, all files will be rendered
 ```
 
 

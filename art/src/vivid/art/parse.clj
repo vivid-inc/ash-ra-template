@@ -14,11 +14,11 @@
 
 (ns vivid.art.parse
   (:require
-    [instaparse.core :as insta]
-    [special.core :refer [condition]]
-    [vivid.art.specs]
     [clojure.spec.alpha :as s]
-    [clojure.string :as str])
+    [clojure.string :as str]
+    [instaparse.core :as insta]
+    [special.core :as special]
+    [vivid.art.specs])
   (:import
     (java.util.regex Pattern)))
 
@@ -55,7 +55,7 @@
    parse-result to pass through."
   [parse-result]
   (if (insta/failure? parse-result)
-    (condition :parse-error (insta/get-failure parse-result))
+    (special/condition :parse-error (insta/get-failure parse-result))
     parse-result))
 
 (defn parse

@@ -49,7 +49,7 @@ boot-art: &boot-art-job
     - attach_workspace:
         at: ~/.m2
     - run:
-        command: boot test
+        command: boot test-all
         working_directory: boot-art
 
 lein-art: &lein-art-job
@@ -60,7 +60,7 @@ lein-art: &lein-art-job
     - attach_workspace:
         at: ~/.m2
     - run:
-        command: lein test
+        command: lein test-all
         working_directory: lein-art
 
 

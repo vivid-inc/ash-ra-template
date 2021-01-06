@@ -1,6 +1,6 @@
 <%
 (require '[clojure.tools.cli])
-(require '[vivid.art.leiningen.cli-options :refer [cli-options]])
+(require '[vivid.art.cli.usage])
 %>
 
 # Ash Ra Template Leiningen Plugin [![Clojars Project](https://img.shields.io/clojars/v/vivid/lein-art.svg?color=239922&style=flat-square)](https://clojars.org/vivid/lein-art)
@@ -60,7 +60,7 @@ Examples:
 and options:
 
 ```clojure
-<%= (-> (clojure.tools.cli/parse-opts [] cli-options)
+<%= (-> (clojure.tools.cli/parse-opts [] vivid.art.cli.usage/cli-options)
         (get :summary)) %>
 ```
 

@@ -16,13 +16,13 @@
   "Ash Ra Template public API."
   (:require
     [clojure.spec.alpha :as s]
-    [special.core :refer [condition manage]]
+    [special.core :as special]
     [vivid.art.delimiters :refer [erb]]
     [vivid.art.enscript :refer [enscript]]
     [vivid.art.evaluate :refer [evaluate]]
     [vivid.art.failure :refer [make-failure]]
     [vivid.art.parse :refer [parse]]
-    [vivid.art.specs :refer [render-phases to-phase?]]
+    [vivid.art.specs :refer [to-phase?]]
     [vivid.art.xlate :refer [translate]]))
 
 (def ^:const art-filename-suffix ".art")
@@ -33,8 +33,13 @@
                                   (ns-resolve 'vivid.art.delimiters
                                               (symbol default-delimiters-name))))
 
+(def ^:const default-dependencies vivid.art.embed/default-deps)
+
 (def ^:const failure? vivid.art.failure/failure?)
 
+(def ^:const render-phases
+  "Phases of the rendering process. Note: Unstable until version 1.0."
+  vivid.art.specs/render-phases)
 (def ^:const default-to-phase (last render-phases))
 
 (defn render
@@ -44,13 +49,13 @@
   ([^String template
     {:keys [bindings delimiters dependencies to-phase]
      :or   {bindings {} delimiters default-delimiters dependencies {} to-phase default-to-phase}}]
-   (if template
+   (when template
      (let [render* #(cond-> template
                         (to-phase? :parse     to-phase) (parse delimiters)
                         (to-phase? :translate to-phase) (translate)
                         (to-phase? :enscript  to-phase) (enscript bindings)
                         (to-phase? :evaluate  to-phase) (evaluate dependencies))
-           f (manage render*
+           f (special/manage render*
                      :parse-error #(make-failure :parse-error % template))]
        (f)))))
 (s/fdef render

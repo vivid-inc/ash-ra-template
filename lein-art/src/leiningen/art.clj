@@ -1,50 +1,80 @@
-; Copyright 2019 Vivid Inc.
+; Copyright 2020 Vivid Inc.
+;
+; Licensed under the Apache License, Version 2.0 (the "License");
+; you may not use this file except in compliance with the License.
+; You may obtain a copy of the License at
+;
+;    https://www.apache.org/licenses/LICENSE-2.0
+;
+; Unless required by applicable law or agreed to in writing, software
+; distributed under the License is distributed on an "AS IS" BASIS,
+; WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+; See the License for the specific language governing permissions and
+; limitations under the License.
 
 (ns leiningen.art
   (:require
-    [vivid.art.leiningen.cli :refer [args->project-stanza]]
-    [vivid.art.leiningen.exec :refer [run-lein-configuration]]))
+    [clojure.string]
+    [clojure.tools.cli]
+    [leiningen.core.main :as main-lein]
+    [special.core :as special]
+    [vivid.art.cli.args]
+    [vivid.art.cli.exec]
+    [vivid.art.cli.log :as log]
+    [vivid.art.cli.usage]))
 
-(defn ^:no-project-needed art
-  "Render Ash Ra ART templates.
+(defn- exit [exit-status message]
+  (main-lein/info message)
+  (main-lein/exit exit-status))
 
-Provided one or more template files and any quantity of optional bindings, this
-Leiningen task writes rendered output to a specified output dir.
+(defn- from-cli-args [args]
+  (let [batch (vivid.art.cli.args/cli-args->batch args vivid.art.cli.usage/cli-options)]
+    (vivid.art.cli.exec/render-batch batch)))
 
-From within a Leiningen project:
+(defn- from-project
+  [lein-conf]
+  ; TODO lein-conf->batch
+  (cond
+    (map? lein-conf) (vivid.art.cli.exec/render-batch lein-conf)
+    (coll? lein-conf) (doseq [stanza lein-conf]
+                        (vivid.art.cli.exec/render-batch stanza))
+    :else (main-lein/warn "Warning: Unknown ART configuration")))
 
-  {:art {:templates    COLL-OF-FILES
-         :bindings     SEQ-OF-MAP-VAR-EDN-FILE
-         :delimiters   MAP
-         :dependencies MAP
-         :output-dir   DIR}}
+(defn- process [project args]
+  (binding [log/*info-fn* main-lein/info
+            log/*warn-fn* main-lein/warn]
+    (if (coll? args)
+      (from-cli-args args)
+      (from-project (get project :art)))))
 
-Command-line usage:
+(defn- usage []
+  ; TODO Unify this with assets/README.md
+  (let [options-summary (:summary (clojure.tools.cli/parse-opts [] vivid.art.cli.usage/cli-options))]
+    (->> [(vivid.art.cli.usage/summary "Leiningen plugin")
+          "Usage: lein art --output-dir DIR [options...] template-files..."
+          (str "Options:\n" options-summary)
+          "One or more rendering batches can also be specified as a section in `project.clj':"
+          ; TODO automate generation of the option list
+          "  {:art [{:templates    COLL-OF-FILES
+          :output-dir   DIR
+          :bindings     SEQ-OF-MAP-VAR-EDN-FILE
+          :delimiters   EDN-OR-VAR
+          :dependencies EDN-OR-VAR
+          :to-phase     KEYWORD}
+         ... ]}"
+          "Options are the keyword equivalent of their corresponding CLI long options.
+Run all batches with:"
+          "  $ lein art"
+          (vivid.art.cli.usage/finer-details "as a Leiningen configuration")
+          vivid.art.cli.usage/for-more-info]
+         (clojure.string/join "\n\n"))))
 
-  $ lein art [templates-and-bindings ...] <options>
-
-and options:
-
-  -b, --bindings EDN-OR-VAR              Bindings made available to templates for symbol resolution
-  -d, --delimiters EDN-OR-VAR    erb     Template delimiters
-      --dependencies EDN-OR-VAR          Clojure deps map
-  -o, --output-dir DIR           target  Write rendered files to DIR
-
-art takes a list of file paths to .art files (ART templates) and bindings.
-CLI arguments can be freely mixed, but bindings are processed in order of
-appearance which might be important to you in case of collisions.
-From the CLI, the order that arguments are attempted to be resolved in is:
-file path, EDN string, (un-)qualified name of a var.
-Options that accept EDN-OR-VAR values will either accept EDN strings or
-the namespace (un-)qualified name of a var.
-output-dir will be created if necessary, and output files will overwrite
-existing files with the same names.
-Rendered output files are written to output-dir stripped of their .art
-filename suffixes.
-
-For more information, see https://github.com/vivid-inc/ash-ra-template"
-  [project & args]
-  (let [stanza (if (coll? args)
-                 (args->project-stanza args)
-                 (get project :art))]
-    (run-lein-configuration stanza)))
+; Leiningen entry point for lein-art.
+(defn ^:no-project-needed
+  ^{:doc (usage)}
+  art [project & args]
+  ((special/manage process
+                   :vivid.art.cli/error #(if (:show-usage %)
+                                           (exit (or (:exit-status %) 1) (usage))
+                                           (main-lein/abort (str "ART error: " (:message %)))))
+   project args))

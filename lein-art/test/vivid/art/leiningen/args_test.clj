@@ -8,9 +8,9 @@
     [clojure.test :refer :all]
     [leiningen.art :as lein-art]
     [leiningen.core.project :as lein-prj]
-    [vivid.art.delimiters]
-    [vivid.art.leiningen.exec]
-    [vivid.art.leiningen.resolve :as rslv])
+    [vivid.art.cli.exec]
+    [vivid.art.cli.resolve]
+    [vivid.art.delimiters])
   (:import
     (java.io File)
     (java.net URL)))
@@ -47,7 +47,7 @@
   [project-stanza delimiters output-dir]
   (let [s (merge project-stanza
                  (when delimiters
-                   {:delimiters (rslv/resolve-delimiters delimiters)})
+                   {:delimiters (vivid.art.cli.resolve/resolve-delimiters delimiters)})
                  {:output-dir output-dir})
         prj {:art s}]
     (lein-art/art prj)))
@@ -109,10 +109,10 @@
 
 ; TODO Error handling:
 ;
-; non-existent template file
-; compile error
+; template compile error
 ;
-;   0 templates
+; lein-art must fail when .edn file binding isn't present.
+;
 ;   missing template filename
 ;   no read permission
 ;   missing binding filename

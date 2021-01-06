@@ -1,4 +1,4 @@
-; Copyright 2019 Vivid Inc.
+; Copyright 2020 Vivid Inc.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.bindings-test
+(ns vivid.art.render.bindings-test
   (:require
     [clojure.test :refer :all]
     [vivid.art :as art]))
@@ -69,7 +69,7 @@
       "123" "<%= (my-lambda) %>" {:bindings '{my-lambda #(+ 61 62)}}
       "xyz" "<%= sym %>" {:bindings '{sym 'xyz}}
       "a*b+c!d.e:f-g_h?9" "<%= all-chars %>" {:bindings '{all-chars 'a*b+c!d.e:f-g_h?9}}
-      ":vivid.art.bindings-test/namespaced-sym" "<%= with-ns %>" {:bindings {'with-ns ::namespaced-sym}}
+      (pr-str ::namespaced-sym) "<%= with-ns %>" {:bindings {'with-ns ::namespaced-sym}}
 
       ;"" "<%= () %>" {:bindings '{}}
       ;"" "<%= () %>" {:bindings '{}}

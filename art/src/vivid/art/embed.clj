@@ -23,16 +23,16 @@
     (java.util.regex Pattern)
     (org.xeustechnologies.jcl JarClassLoader)))
 
-(def ^:const DEFAULT_REPOS
-  {"central" {:url "https://repo1.maven.org/maven2/"}
+(def ^:const default-repos
+  {"central" {:url "https://repo.maven.apache.org/maven2"}
    "clojars" {:url "https://clojars.org/repo/"}})
 
-(def ^:const DEFAULT_DEPS
+(def ^:const default-deps
   {'org.clojure/clojure                     {:mvn/version "1.9.0"}
    'org.projectodd.shimdandy/shimdandy-api  {:mvn/version "1.2.1"}
    'org.projectodd.shimdandy/shimdandy-impl {:mvn/version "1.2.1"}})
 
-(def ^:const RUNTIME_SHIM_CLASS
+(def ^:const runtime-shim-class
   "org.projectodd.shimdandy.impl.ClojureRuntimeShimImpl")
 
 (defn- build-classpath [deps]
@@ -52,7 +52,7 @@
     it))
 
 (defn- new-rt-shim [^JarClassLoader classloader]
-  (doto (.newInstance (.getDeclaredConstructor (.loadClass classloader RUNTIME_SHIM_CLASS)
+  (doto (.newInstance (.getDeclaredConstructor (.loadClass classloader runtime-shim-class)
                                                (into-array Class []))
                       (into-array Object []))
     (.setClassLoader classloader)
@@ -60,8 +60,8 @@
     (.init)))
 
 (defn- resolve-deps [deps]
-  (let [d {:deps      (merge DEFAULT_DEPS deps)
-           :mvn/repos DEFAULT_REPOS}]
+  (let [d {:deps      (merge default-deps deps)
+           :mvn/repos default-repos}]
     (deps/resolve-deps d {})))
 
 (defn- unload-classes-from-loader [^JarClassLoader loader]

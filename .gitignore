@@ -1,6 +1,6 @@
+cloverage
 codecov.json
 .cpcache
-.eastwood
 *.iml
 .idea
 .lein-*

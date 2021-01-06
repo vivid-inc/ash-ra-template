@@ -15,7 +15,7 @@ For example, `index.html.art` is rendered to the file `index.html`.
 
 (require '[vivid.art.boot :refer [art]])
 
-(deftask pipeline []
+(deftask my-pipeline []
   (comp ...
         (art :bindings     VAL
              :delimiters   VAL

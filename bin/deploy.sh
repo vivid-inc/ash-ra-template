@@ -2,7 +2,7 @@
 
 # Referencing https://github.com/clojars/clojars-web/wiki/Pushing
 
-set -e
-set -x
+set -o errexit
+set -o xtrace
 
 lein deploy clojars

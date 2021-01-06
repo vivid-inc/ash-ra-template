@@ -1,6 +1,6 @@
 ; Copyright 2019 Vivid Inc.
 
-; For the sake of IntelliJ & Cursive
+; For the sake of the IDE
 (require '[boot.core :refer [deftask set-env! task-options!]]
          '[boot.task.built-in :refer [install jar pom]])
 
@@ -27,13 +27,13 @@
 (task-options!
   pom {:project     project
        :version     version
-       :description "Boot task for rendering Ash Ra Template .art templates."
+       :description "Boot task for rendering Ash Ra .art templates"
        :url         "https://github.com/vivid-inc/ash-ra-template"
        :scm         {:url "https://github.com/vivid-inc/ash-ra-template"}
        :license     {"Apache License 2.0"
                      "https://www.apache.org/licenses/LICENSE-2.0"}})
 
-; Generate a Leiningen project.clj file for the sake of IntelliJ & Cursive
+; Generate a Leiningen project.clj file for importing the project into an IDE
 (require '[boot.lein])
 (boot.lein/generate)
 
@@ -61,7 +61,7 @@
                    :no-clean true
                    :no-link true)))
 
-(deftask test []
+(deftask test-all []
          (comp
            (build-jar)
            (target)

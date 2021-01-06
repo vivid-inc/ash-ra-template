@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-set -e
-set -x
+set -o errexit
+set -o xtrace
 
 echo Generating resources in all projects
 
@@ -10,4 +10,5 @@ echo Generating resources in all projects
 (cd art && ./gen-project.clj && lein install)
 
 (cd boot-art && boot mkdocs)
+(cd clj-art  && clojure -A:mkdocs)
 (cd lein-art && lein mkdocs)

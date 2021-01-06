@@ -21,13 +21,14 @@
 (defn echo
   "Writes an (emit) to the compiled code that echoes the plain string but with escaping."
   [acc val & _]
-  (let [escaped (clojure.string/escape val {\" "\\\""})]
-    (update-in acc [:output] conj (str "(emit \"" escaped "\")"))))
+  (let [escaped (clojure.string/escape val {\" "\\\""
+                                            \\ "\\\\"})]
+    (update-in acc [:output] conj (str "(user/emit \"" escaped "\")"))))
 
 (defn eval
   "Writes an (emit) to the compiled code that outputs the result of evaluating the forms."
   [acc expr & _]
-  (update-in acc [:output] conj (str "(emit " expr " )")))
+  (update-in acc [:output] conj (str "(user/emit " expr " )")))
 
 (defn forms
   "Echoes Clojure forms from the template to the compiled code."
@@ -56,5 +57,4 @@
   "Translates a sequence of tokens into Clojure code that,
   when evaluated, produces the template output."
   [token-stream]
-  (let [fsm-result (lenient-fsm token-stream)]
-    (fsm-result :output)))
+  (:output (lenient-fsm token-stream)))

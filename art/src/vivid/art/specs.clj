@@ -28,7 +28,7 @@
 
 ; Bindings
 
-(s/def :vivid.art/bindings (s/nilable map?))
+(s/def :vivid.art/bindings map?)
 
 
 ; Template delimiter definitions

@@ -1,3 +1,4 @@
+; Copyright 2020 Vivid Inc.
 
 (defproject
   vivid/art "0.5.0"
@@ -9,32 +10,34 @@
             :name         "Apache License 2.0"
             :url          "https://www.apache.org/licenses/LICENSE-2.0"}
 
+  :aliases {"build"     ["do"
+                         ["version"]
+                         ["clean"]
+                         ["eftest"]
+                         ["cloverage"]
+                         ["jar"]
+                         ["install"]]
+            "clj-kondo" ["with-profile" "clj-kondo" "run" "-m" "clj-kondo.main" "--"
+                         "--lint" "src/"]
+            "nvd"       ["nvd" "check"]
+            "test-all"  ["with-profile" "+clojure-1.9.0:+clojure-1.10.0:+clojure-1.10.1" "build"]}
+
+  :cloverage {:codecov? true
+              :html?    true
+              :junit?   true
+              :output   "cloverage"                  ; "lein jar" destroys target/cloverage
+              }
+
   :dependencies [[instaparse "1.4.10" :exclusions [org.clojure/spec.alpha]]
-                 [special "0.1.3-Beta1"]
-                 [org.clojure/tools.deps.alpha "0.7.516" :exclusions [commons-logging
+                 [org.clojure/tools.deps.alpha "0.9.857" :exclusions [commons-logging
+                                                                      org.clojure/clojure
+                                                                      org.clojure/data.json
                                                                       org.slf4j/slf4j-api]]
                  [org.projectodd.shimdandy/shimdandy-api "1.2.1"]
                  [org.projectodd.shimdandy/shimdandy-impl "1.2.1"]
                  [org.xeustechnologies/jcl-core "2.8"]
-                 [reduce-fsm "0.1.4"]]
-
-  :aliases {"build"    ["do"
-                        ["version"]
-                        ["clean"]
-                        ["cloverage"]
-                        ["eastwood"]
-                        ["jar"]
-                        ["install"]]
-            "test-all" ["with-profile" "+clojure-1.9.0:+clojure-1.10.0:+clojure-1.10.1" "build"]}
-
-  :cloverage {:codecov? true
-              :html?    false
-              :output   "."                                 ; "lein jar" appears to destroy target/coverage/codecov.json
-              }
-
-  ;test/vivid/art/api_contract_test.clj:70:5: unused-ret-vals-in-try: Return value is discarded for a function call that only has side effects if the functions passed to it as args have side effects inside body of try: (apply art/failure? [])
-  :eastwood {:exclude-linters []
-             :namespaces      [:source-paths]}
+                 [reduce-fsm "0.1.4"]
+                 [special "0.1.3-Beta1"]]
 
   :exclusions [org.clojure/clojure]
 
@@ -46,32 +49,36 @@
 
   :min-lein-version "2.9.1"
 
-  ; Note: Enable only to more strictly inspect dependencies
+  ; Enable this to assist with determining :excludes whenever dependencies and
+  ; plugins change, then re-disable it.
   ;:pedantic? :abort
 
-  :plugins [[jonase/eastwood "0.3.12"]
-            [lein-ancient "0.6.15"]
-            [lein-cloverage "1.2.1"]
-            [lein-kibit "0.1.8"]
-            [lein-ns-dep-graph "0.2.0-SNAPSHOT"]
-            [lein-nvd "1.4.1" :exclusions [org.slf4j/jcl-over-slf4j
-                                           org.slf4j/slf4j-api]]
-            [venantius/yagni "0.1.7"]]
+  :plugins [[lein-ancient "0.6.15"]
+            [lein-cljfmt "0.7.0"]
+            [lein-cloverage "1.2.1"] ; TODO 1.2.2 appears to support :cloverage {:runner :eftest}
+            [lein-eftest "0.5.9"]
+            [lein-ns-dep-graph "0.2.0-SNAPSHOT" :exclusions [org.clojure/clojure]]
+            [lein-nvd "1.4.1" :exclusions [com.fasterxml.jackson.core/jackson-annotations
+                                           commons-io
+                                           org.apache.commons/commons-lang3
+                                           org.clojure/clojure
+                                           org.slf4j/jcl-over-slf4j
+                                           org.slf4j/slf4j-api]]]
 
-  :profiles {:dev
- {:dependencies [[pjstadig/humane-test-output "0.10.0"]],
-  :injections
-  [(require 'pjstadig.humane-test-output)
-   (pjstadig.humane-test-output/activate!)
-   (require 'vivid.art)
-   (require 'clojure.spec.test.alpha)
-   (clojure.spec.test.alpha/instrument)],
-  :plugins [[com.jakemccrary/lein-test-refresh "0.24.1"]],
-  :resource-paths ["test-resources"],
-  :test-refresh {:quiet true}},
- :clojure-1.9.0 {:dependencies [[org.clojure/clojure "1.9.0"]]},
- :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]},
- :clojure-1.10.1 {:dependencies [[org.clojure/clojure "1.10.1"]]}}
-
+  :profiles             {:clj-kondo      {:dependencies [[org.clojure/clojure "1.9.0"]
+                                             [clj-kondo "RELEASE"]]},
+             :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]},
+             :clojure-1.10.1 {:dependencies [[org.clojure/clojure "1.10.1"]]},
+             :clojure-1.9.0  {:dependencies [[org.clojure/clojure "1.9.0"]]},
+             :dev            {:dependencies   [[pjstadig/humane-test-output "0.10.0"]],
+                              :injections     [(require (quote pjstadig.humane-test-output))
+                                               (pjstadig.humane-test-output/activate!)
+                                               (require (quote vivid.art))
+                                               (require (quote clojure.spec.test.alpha))
+                                               (clojure.spec.test.alpha/instrument)],
+                              :plugins        [[com.jakemccrary/lein-test-refresh
+                                                "0.24.1"]],
+                              :resource-paths ["test-resources"],
+                              :test-refresh   {:quiet true}}}
 
   :repositories [["clojars" {:sign-releases false}]])
