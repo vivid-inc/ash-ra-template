@@ -4,18 +4,21 @@
 (require 'clojure.string)
 (require 'vivid.art)
 (require 'vivid.art.cli.usage)
+(import '(java.io BufferedReader StringReader))
 
 (def to-phase-values (->> vivid.art/render-phases
                           (map #(format "`%s`" (name %)))
                           (clojure.string/join ", ")))
+
+(def summary (as-> (vivid.art.cli.usage/summary "Clojure tool") c
+                   (line-seq (BufferedReader. (StringReader. c)))
+                   (clojure.string/join \newline (rest c))))
 %>
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/vivid/clj-art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/clj-art)
 
-`clj-art` is a Clojure `deps.edn` tool for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates.
-
-<%= (vivid.art.cli.usage/summary "Clojure tool") %>
+`clj-art` is a Clojure `deps.edn` tool for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates. <%= summary %>
 
 
 ## Quick Start
@@ -23,14 +26,12 @@
 Create an alias in your project `deps.edn` or personal `~/.clojure/deps.edn` map:
 ```edn
 {:aliases 
-  {:art {:extra-deps {org.clojure/clojure {:mvn/version "1.9.0"}
-                      vivid/clj-art       {:mvn/version "0.5.0"}}
+  {:art {:extra-deps {vivid/clj-art {:mvn/version "0.5.0"}}
          :main-opts  ["-m" "vivid.art.clj-tool"
                       ... ART options ... ART templates]}
 ```
 
-Templates are supplied as one or more paths to `.art` template files and/or directory trees containing `.art` templates. 
-Depending on the situation, you might need to state Clojure as an explicit dependency, as ART doesn't include one itself.
+Templates are supplied as one or more paths to `.art` template files and/or directory trees thereof.
 
 ```sh
 $ clj -A:art --help
@@ -41,9 +42,9 @@ $ clj -A:art --help
 
 | CLI argument | Parameters | Cardinality | Default | Explanation |
 | --- | --- | --- | --- | --- |
-| `-b`, `--bindings` | Map, var, EDN file path, EDN literal | Single or collection | | Bindings made available to templates for symbol resolution |
-| `-d`, `--delimiters` | Map, var, EDN literal | Single or collection | `erb` | Template delimiters |
-| `--dependencies` | Map, var, EDN file path, EDN literal | Single | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
+| `-b`, `--bindings` | PARAM | Single or collection | | Bindings made available to templates for symbol resolution |
+| `-d`, `--delimiters` | PARAM | Single or collection | `erb` | Template delimiters |
+| `--dependencies` | PARAM | Single | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
 | `-h`, `--help` | | | | Displays lovely help and then exits |
 | `-o`, `--output-dir` | File path | Single | `.` | Write rendered files to DIR |
 | `p`, `--to-phase` | One of: <%= to-phase-values %> | Single | | Stop the render dataflow on each template at an earlier phase |
@@ -51,31 +52,24 @@ $ clj -A:art --help
 
 ### Points of caution
 
-**Slow rendering**: ART's render time is deathly slow, assume a per-file delay of around 1 second. This is accounted for by ShimDandy doing its magic to set up a newly-initialized Clojure environment for each of your templates.
+**Slow rendering**: ART's render time is slow, assume a per-file delay of around 1 second. This is accounted for by ShimDandy doing its magic to set up a newly-initialized Clojure environment for each of your templates.
 
 **deps.edn**: When supplying double-quoted parameters to options in your `deps.edn` file, spaces must be replaced with comma ',' characters.
 Example:
 ```edn
-  "--dependencies" "{vivid/art {:mvn/version \"0.5.0\"}}"    ; BAD, will fail.
+  "--dependencies" "{vivid/art {:mvn/version \"0.5.0\"}}"    ; Bad, will fail
 
-  "--dependencies" "{vivid/art,{:mvn/version,\"0.5.0\"}}"    ; OK.
+  "--dependencies" "{vivid/art,{:mvn/version,\"0.5.0\"}}"    ; OK
 ```
-This is idiosyncratic to `deps.edn`.
+This mangling is idiosyncratic to `deps.edn`.
 `clj-art` invoked at the command line obediently accepts the plain form:
 ```
 $ clojure -m vivid.art.clj-tool \
-    --dependencies "{vivid/art {:mvn/version \"0.5.0\"}}"    ; OK.
+    --dependencies "{vivid/art {:mvn/version \"0.5.0\"}}"    ; OK
     ...
 ```
 
-
-
 TODO https://github.com/clojure/tools.deps.alpha/wiki/Tools
-TODO default deps
-TODO Single or collection deps
-
-
-
 
 
 ## License

@@ -23,7 +23,7 @@
 (defn summary [what-i-am]
   (->> ["Render Ash Ra .art templates."
         (format "Provided file or directory tree paths containing Ash Ra .art template files and an output dir, this
-%s renders the ART templates to the output dir, preserving the relative sub-paths." what-i-am)]
+%s renders the ART templates to the output dir, preserving relative sub-paths." what-i-am)]
        (clojure.string/join "\n\n")))
 
 ; CLI options are specified according to clojure.tools.cli.

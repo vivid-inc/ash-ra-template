@@ -1,9 +1,9 @@
 # lein-art Ash Ra Template Leiningen Plugin 
 
+
+
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
-[![Clojars Project](https://img.shields.io/clojars/v/vivid/lein-art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/lein-art)
-
-
+[![Current version](https://img.shields.io/clojars/v/vivid/lein-art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/lein-art)
 
 `lein-art` is a Leiningen plugin for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates.
 

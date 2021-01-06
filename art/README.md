@@ -240,6 +240,6 @@ The phases are, in order: `:parse`, `:translate`, `:enscript`, `:evaluate`.
 
 ```clojure
 (art/render template-str
-            {:to-phase :enscript ; Stop short, write out Clojure code that writes the final rendered output.
+            {:to-phase :enscript    ; (render) output will be the Clojure code that writes the final rendered output.
             })
 ```

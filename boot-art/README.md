@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/vivid/boot-art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/boot-art)
 
-`boor-art` is a Boot task for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates.
+`boot-art` is a [Boot](https://github.com/boot-clj/boot) task for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates.
 
 
 
