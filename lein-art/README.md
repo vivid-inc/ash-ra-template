@@ -1,4 +1,3 @@
-TODO https://github.com/clojure/tools.deps.alpha/wiki/Tools
 
 
 # Ash Ra Template Leiningen Plugin [![Clojars Project](https://img.shields.io/clojars/v/vivid/lein-art.svg?color=239922&style=flat-square)](https://clojars.org/vivid/lein-art)
@@ -58,12 +57,12 @@ Examples:
 and options:
 
 ```clojure
-  -b, --bindings EDN-OR-VAR         Bindings made available to templates for symbol resolution
-  -d, --delimiters EDN-OR-VAR       Template delimiters (default: `erb')
-      --dependencies EDN-OR-VAR     Clojure deps map providing libs within the template evaluation environment
-  -h, --help                        Display this lovely help and exit
-  -o, --output-dir DIR           .  Write rendered files to DIR
-  -p, --to-phase KEYWORD            Stop the render dataflow on each template at an earlier phase
+  -b, --bindings PARAM         Bindings made available to templates for symbol resolution
+  -d, --delimiters PARAM       Template delimiters (default: `erb')
+      --dependencies PARAM     Clojure deps map providing libs to the template evaluation environment
+  -h, --help                   Display this lovely help and exit
+  -o, --output-dir DIR      .  Write rendered files to DIR (default: `.')
+  -p, --to-phase PARAM         Stop the render dataflow on each template at an earlier phase
 ```
 
 From the CLI, the `art` Lein task takes a list of file paths to `.art` files (ART templates) and options.

@@ -23,30 +23,34 @@ _Note_ that until ART achieves version 1.0 status, details may be subject to cha
 <a name="requirements"></a>
 ## Requirements
 
+Clojure is tested on:
+
 - Java 8 and all subsequent LTS releases (currently: Java 8 and Java 11). Java 8, because it strikes a good balance between wide adoption and long-term stability.
-- Clojure 1.9.0, for [spec](https://clojure.org/guides/spec), and because it is compatible with a ``clojure.alpha.tools.deps`` version that has reasonable Maven-style dependency resolution capability.
+- Clojure 1.9.0 and newer, for [spec](https://clojure.org/guides/spec), and because it is compatible with a ``clojure.alpha.tools.deps`` version that has reasonable Maven-style dependency resolution capability.
 
 <a name="quickstart"></a>
 ## Quickstart
 
-Include this library from Clojars by adding ``[vivid/art "0.5.0"]`` to your project dependencies, such as in a Leiningen ``project.clj``:
+Include this library from Clojars by adding the latest version of ``vivid/art`` to your project dependencies:
 ```clojure
-  :dependencies [[vivid/art "0.5.0"]]
+(set-env! :dependencies '[[vivid/art "0.5.0"]])    ; Boot build.boot
+{:deps {vivid/art {:mvn/version "0.5.0"}}}         ; Clojure tools deps.edn
+:dependencies [[vivid/art "0.5.0"]]                ; Leiningen project.clj
 ```
 
 Render a template string:
 ```clojure
-(require [vivid.art :as art])
+(require '[vivid.art :as art])
 
 (art/render "There were <%= (+ 1 2) %> swallows, dancing in the sky.")
 ```
 
 Or, to render from a file:
 ```clojure
-(art/render (slurp "prelude.html.art"))
+(art/render (slurp "index.html.art"))
 ```
 
-You might be interested in the ART [Boot task](../boot-art/README.md) or [Leiningen plugin](../lein-art/README.md).
+You might be interested in the ART [Boot task](../boot-art/README.md), [Clojure tool](../clj-art/README.md), or [Leiningen plugin](../lein-art/README.md).
 
 
 
@@ -140,9 +144,10 @@ ART provides the ``(vivid.art/render)`` function which renders an input string c
 `(render)` takes several options:
 
 ```clojure
-(art/render template {:bindings bindings
-                      :delimiters delimiters
-                      :dependencies deps})
+(art/render template {:bindings     bindings
+                      :delimiters   delimiters
+                      :dependencies deps
+                      :to-phase     phase})
 ```
 
 <a name="bindings"></a>
@@ -220,3 +225,10 @@ As an implicit dependency, the template execution environment provides ART's min
 ```clojure
             {:dependencies {'org.clojure/clojure {:mvn/version "1.10.0"}}}
 ```
+
+<a name="to-phase"></a>
+### Render ``:to-phase``
+The rendering process of a single template is composed of several phases.
+By default rendering completes all phases, but you can have `(render)` stop at earlier phases.
+This is useful to assist with learning the template engine and debugging.
+The four phases are, in order: `parse`, `translate`, `enscript`, `evaluate`.
