@@ -104,27 +104,3 @@
      :actual     "japanese.csv"
      :stanza     {:templates ["test-resources/japanese/japanese.csv.art"]}
      :delimiters 'vivid.art.delimiters/jinja}))
-
-
-
-; TODO Error handling:
-;
-; template compile error
-;
-; lein-art must fail when .edn file binding isn't present.
-;
-;   missing template filename
-;   no read permission
-;   missing binding filename
-;   no read permission
-;   template compile error
-;   binding read error
-;
-;   dependencies:
-;     malformed
-;     resolution error
-;#_(def ^:const dependencies
-;    {'hiccup {:mvn/version "1.0.5"}})
-;
-;   delimiters:
-;     qualified var cannot be resolved

@@ -10,6 +10,6 @@ echo Generating resources in all projects
 bin/gen-art.clj
 (cd art && lein install)
 
-(cd boot-art && boot mkdocs)
+(cd boot-art && boot lein-generate mkdocs)
 (cd clj-art  && clojure -A:mkdocs)
 (cd lein-art && lein mkdocs)

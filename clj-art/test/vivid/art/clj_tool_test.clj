@@ -29,24 +29,22 @@
       (is (clojure.string/includes? usage vivid.art/art-filename-suffix)))))
 
 (deftest clj-tool-simple
-  (let [res (vivid.art.clj-tool/-main "test-resources/simple/template.txt.art"
-                                      "--output-dir" "test-resources/simple")]
+  (let [res (vivid.art.clj-tool/-main "../art/test-resources/simple/template.txt.art"
+                                      "--output-dir" "../art/test-resources/simple/target")]
     (is (nil? res))
-    (is (= (slurp "test-resources/simple/template.txt.expected")
-           (slurp "test-resources/simple/template.txt")))))
+    (is (= (slurp "../art/test-resources/simple/template.txt.expected")
+           (slurp "../art/test-resources/simple/target/template.txt")))))
 
-(deftest clj-tool-full-exercise
+(deftest clj-tool-all-options-exercise
   (let [art-res (vivid.art.clj-tool/-main
                   "--bindings" "{updated \"2021-01-01\"}"
                   "--delimiters" "{:begin-forms \"{%\" :end-forms \"%}\" :begin-eval \"{%=\" :end-eval \"%}\"}"
                   "--dependencies" "{hiccup {:mvn/version \"1.0.5\"}}"
-                  "test-resources/full/templates"
-                  "--output-dir" "test-resources/full/out"
+                  "../art/test-resources/all-options/templates"
+                  "--output-dir" "../art/test-resources/all-options/target"
                   "--to-phase" "evaluate")
         rm-res (clojure.java.shell/sh "/usr/bin/diff" "--recursive"
-                                      "test-resources/full/out"
-                                      "test-resources/full/expected")]
+                                      "../art/test-resources/all-options/target"
+                                      "../art/test-resources/all-options/expected")]
     (is (nil? art-res))
     (is (= 0 (rm-res :exit)))))
-
-; TODO unknown option
