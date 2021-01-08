@@ -1,0 +1,2 @@
+{% (defn mult [multiplicands] (apply * multiplicands)) %}
+Wait, I see it! Your destiny lies deep within the number {%= (mult mysterious-primes) %}.

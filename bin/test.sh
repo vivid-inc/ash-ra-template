@@ -13,7 +13,7 @@ export TZ=UTC
 find . -depth -name target | xargs rm -r || true
 
 # Run all tests, create the deliverables
-(cd art && lein test-all)
+#(cd art && lein test-all)
 (cd boot-art && for ver in "${CLJ_VERSIONS[@]}" ; do export BOOT_CLOJURE_VERSION=${ver} ; boot test ; done)
-(cd clj-art && for ver in "${CLJ_VERSIONS[@]}" ; do clojure -A:test-all:clojure-${ver} ; done)
+(cd clj-art && for ver in "${CLJ_VERSIONS[@]}" ; do clojure -A:clojure-${ver}:test ; done)
 (cd lein-art && lein test-all)

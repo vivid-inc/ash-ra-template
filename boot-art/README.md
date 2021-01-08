@@ -16,7 +16,7 @@ For example, `index.html.art` is rendered to the file `index.html`.
 ```clojure
 (set-env! :dependencies '[[vivid/boot-art "0.5.0"]])
 
-(require '[vivid.art.boot :refer [art]])
+(require '[vivid.art.boot-task :refer [art]])
 
 (deftask my-pipeline []
   (comp ...
@@ -30,7 +30,7 @@ For example, `index.html.art` is rendered to the file `index.html`.
 Command-line usage:
 
 ```
-  $ boot [earlier tasks ..] -- art [options] -- [later tasks ..]
+  $ boot -d vivid/boot-art art
 ```
 
 and options:
@@ -49,7 +49,27 @@ Options:
       --dependencies VAL  VAL sets clojure deps map providing libs within the template evaluation environment.
   -p, --to-phase VAL      VAL sets stop the render dataflow on each template at an earlier phase.
   -f, --files FILES       FILES sets a vector of .art template files to render. If not present, all files will be rendered
+  -o, --output-dir DIR    DIR sets write rendered files to DIR. Leave unset to have Boot decide.
 ```
+
+
+## Cookbook
+
+#### CLI: Render ART templates with bindings and custom delimiters to a specific directory
+```bash
+$ cat oracle.art
+
+{% (defn mult [multiplicands] (apply * multiplicands)) %}
+Wait, I see it! Your destiny lies deep within the number {%= (mult mysterious-primes) %}.
+
+$ boot art --bindings "'{mysterious-primes [7 191]}" \
+           --delimiters "'{:begin-forms \"{%\" :end-forms \"%}\" :begin-eval \"{%=\" :end-eval \"%}\"}" \
+           --files oracle.art \
+           --output-dir .
+```
+
+Discussion: Command-line arguments presented by Boot to the `boot-art` task are interpreted as code.
+You can prevent evaluation of undefined symbols by quoting them with a single quote `'` as above.
 
 
 

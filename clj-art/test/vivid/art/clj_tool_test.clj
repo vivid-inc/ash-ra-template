@@ -29,11 +29,13 @@
       (is (clojure.string/includes? usage vivid.art/art-filename-suffix)))))
 
 (deftest clj-tool-cli-simple
-  (let [res (vivid.art.clj-tool/-main "../art/test-resources/simple/template.txt.art"
-                                      "--output-dir" "../art/test-resources/simple/target")]
-    (is (nil? res))
-    (is (= (slurp "../art/test-resources/simple/template.txt.expected")
-           (slurp "../art/test-resources/simple/target/template.txt")))))
+  (let [art-res (vivid.art.clj-tool/-main "../art/test-resources/simple/templates"
+                                          "--output-dir" "../art/test-resources/simple/target")
+        diff-res (clojure.java.shell/sh "/usr/bin/diff" "--recursive"
+                                        "../art/test-resources/simple/target"
+                                        "../art/test-resources/simple/expected")]
+    (is (nil? art-res))
+    (is (= 0 (diff-res :exit)))))
 
 (deftest clj-tool-cli-all-options-exercise
   (let [art-res (vivid.art.clj-tool/-main
@@ -43,8 +45,8 @@
                   "../art/test-resources/all-options/templates"
                   "--output-dir" "../art/test-resources/all-options/target"
                   "--to-phase" "evaluate")
-        rm-res (clojure.java.shell/sh "/usr/bin/diff" "--recursive"
-                                      "../art/test-resources/all-options/target"
-                                      "../art/test-resources/all-options/expected")]
+        diff-res (clojure.java.shell/sh "/usr/bin/diff" "--recursive"
+                                        "../art/test-resources/all-options/target"
+                                        "../art/test-resources/all-options/expected")]
     (is (nil? art-res))
-    (is (= 0 (rm-res :exit)))))
+    (is (= 0 (diff-res :exit)))))

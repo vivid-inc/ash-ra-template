@@ -16,7 +16,7 @@ For example, `index.html.art` is rendered to the file `index.html`.
 ```clojure
 (set-env! :dependencies '[[vivid/boot-art "0.5.0"]])
 
-(require '[vivid.art.boot :refer [art]])
+(require '[vivid.art.boot-task :refer [art]])
 
 (deftask my-pipeline []
   (comp ...
@@ -39,7 +39,7 @@ and options:
 <%
 ; Source the human-readable CLI option help directly from boot-art itself.
 (require '[boot.core])
-(use '[vivid.boot-art])
+(use '[vivid.art.boot-task])
 (emit (with-out-str (art "-h")))
 %>```
 

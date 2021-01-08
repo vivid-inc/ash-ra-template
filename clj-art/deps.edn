@@ -8,10 +8,10 @@
                             :extra-paths ["test"]
                             :main-opts   ["-m" "cloverage.coverage"
                                           "--codecov" "--html" "--junit" "--src-ns-path" "src" "--test-ns-path" "test"]}
-           :test-all       {:extra-deps  {eftest/eftest {:mvn/version "0.5.9"}}
-                            :extra-paths ["test"]
-                            :main-opts   ["-e" "(require,'[eftest.runner,:refer,[find-tests,run-tests]]),(run-tests,(find-tests,\"test\"))"]}
            :mkdocs         {:extra-paths ["src"]
                             :main-opts   ["-m" "vivid.art.clj-tool"
                                           "--dependencies" "{vivid/art,{:mvn/version,\"0.5.0\"}}"
-                                          "assets/README.md.art"]}}}
+                                          "assets/README.md.art"]}
+           :test           {:extra-deps  {eftest/eftest {:mvn/version "0.5.9"}}
+                            :extra-paths ["test"]
+                            :main-opts   ["-e" "(require,'[eftest.runner,:refer,[find-tests,run-tests]]),(run-tests,(find-tests,\"test\"))"]}}}

@@ -66,8 +66,9 @@ Unproductive behavior such as unkindness towards others and derailment is not to
 - ~Expose a public API.~
 - ~Documentation organized by project and use.~
 - ~Test on the most recent releases of each significant JDK (8 and 11 at the time of this writing).~
-- Heavy testing of quote nesting and escaping, Clojure reader.
-- Provide a direct execution mode in addition to ShimDandy's sandbox.
+- 0.6.0: Heavy testing of quote nesting and escaping, Clojure reader.
+- 0.6.0: Provide a direct execution mode in addition to ShimDandy's sandbox.
+- 0.7.0: Sufficient error reporting + documentation.
 - (include) and (yield) -like content inclusion/nesting mechanisms. One simple and one complicated exemplar.
 - Sign releases.
 - Provide access to execution context from within the evaluation environment: (render) args. The evaluation stack starting from the page through to the current (yield).
@@ -76,7 +77,6 @@ Unproductive behavior such as unkindness towards others and derailment is not to
 - Explain the value of ART. Compare and contrast with other templating systems. Emphasize symbolic computation, and the importance of providing native idioms at each point along the value chain, for example a web-based production workflow where professionals handle HTML and CSS.
 - Delimiter escaping rules.
 - Infer sensible defaults that can be customized via overrides.
-- Sufficient error reporting + documentation.
 - Java policies, to make it possible to execute untrusted / unknown code within templates.
 - Declare version 1.0.0 once the community deems the ART feature-complete, reliable, and properly documented.
 

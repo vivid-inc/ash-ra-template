@@ -1,6 +1,7 @@
 ; Copyright 2019 Vivid Inc.
 
 ; Commands:
+; boot build-jar         ; Builds and installs the .jar
 ; boot show --updates    ; Like lein-ancient
 
 ; For the sake of the IDE
@@ -12,19 +13,19 @@
 
 (set-env! :source-paths #{"test"}
           :resource-paths #{"src"}
-          :dependencies '[[org.clojure/clojure         "1.9.0"   :scope "provided"]
-                          [adzerk/bootlaces            "0.2.0"   :scope "test"]
-                          [boot/core                   "2.8.2"   :scope "provided"]
-                          [onetom/boot-lein-generate   "0.1.3"   :scope "test"]
-                          [vivid/art                   "0.5.0"]]
+          :dependencies '[[adzerk/bootlaces    "0.2.0"   :scope "test"]
+                          [boot/core           "2.8.2"   :scope "provided"]
+                          [sparkfund/boot-lein "0.4.0"   :scope "test"]
+                          [vivid/art           "0.5.0"]]
           :repositories (partial map (fn [[k v]]
                                        [k (cond-> v (#{"clojars"} k) (assoc :username (System/getenv "CLOJARS_USER")
                                                                             :password (System/getenv "CLOJARS_PASS")))])))
 
 (require '[adzerk.bootlaces :refer :all]
-         '[boot.lein]
+         '[boot.core :as boot]
+         '[sparkfund.boot-lein :as boot-lein]
          '[boot.test :refer [runtests test-report test-exit]]
-         '[vivid.art.boot.simple-test])
+         '[vivid.art.boot-task-test])
 (bootlaces! version)
 (task-options!
   pom {:project     project
@@ -35,7 +36,7 @@
        :license     {"Apache License 2.0"
                      "https://www.apache.org/licenses/LICENSE-2.0"}})
 
-(use '[vivid.boot-art])
+(use '[vivid.art.boot-task])
 
 (deftask deploy
          []
@@ -48,7 +49,10 @@
 (deftask lein-generate
          []
          ; Generate a Leiningen project.clj file for importing the project into an IDE
-         (boot.lein/generate))
+         ; with the following overrides to make editing a pleasant experience.
+         (let [boot-deps (boot/get-env :dependencies)
+               overrides (conj boot-deps '[org.clojure/clojure "1.9.0" :scope "provided"])]
+           (boot-lein/write-project-clj :override {:dependencies overrides})))
 
 (deftask mkdocs
          []

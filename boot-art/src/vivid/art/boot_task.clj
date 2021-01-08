@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.boot-art
+(ns vivid.art.boot-task
   {:b/export-tasks true}
   (:require
     [boot.core :as boot :refer [deftask]]
@@ -48,6 +48,7 @@
     (catch Exception e
       (util/fail (str "Failed to render ART template " src-file "\n"))
       (util/fail (.getMessage e))
+(.printStackTrace e)
       (util/exit-error))))
 
 (defn from-cli-args
@@ -91,11 +92,12 @@ Templates are rendered to files whose filenames are stripped of the .art suffix.
    d delimiters VAL code "Template delimiters (default: `erb')"
    _ dependencies VAL code "Clojure deps map providing libs within the template evaluation environment"
    p to-phase VAL code "Stop the render dataflow on each template at an earlier phase"
-   f files FILES [str] "A vector of .art template files to render. If not present, all files will be rendered"]
-  (let [output-dir (boot/tmp-dir!)
+   f files FILES [str] "A vector of .art template files to render. If not present, all files will be rendered"
+   o output-dir DIR file "Write rendered files to DIR. Leave unset to have Boot decide"]
+  (let [output-dir' (or output-dir (boot/tmp-dir!))
         prev-fileset (atom nil)]
     (boot/with-pre-wrap
       boot-fileset
       (if files
-        (from-cli-args files boot-fileset output-dir *opts*)
-        (from-boot-fileset boot-fileset prev-fileset output-dir *opts*)))))
+        (from-cli-args files boot-fileset output-dir' *opts*)
+        (from-boot-fileset boot-fileset prev-fileset output-dir' *opts*)))))

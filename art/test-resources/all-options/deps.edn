@@ -5,5 +5,5 @@
                       "--delimiters" "{:begin-forms,\"{%\",:end-forms,\"%}\",:begin-eval,\"{%=\",:end-eval,\"%}\"}"
                       "--dependencies" "{hiccup,{:mvn/version,\"1.0.5\"}}"
                       "templates"
-                      "--output-dir" "out"
+                      "--output-dir" "target"
                       "--to-phase" "evaluate"]}}}
