@@ -7,4 +7,9 @@
                       hyacinths
                       bluebells])
 
-%>Rejoice, for Spring brings such warmth to our hearts with <%= (clojure.string/join ", " spring-flowers) %> and more!
+(defn modular-addition [a b z] (mod (+ a b) z))
+(def z 11)
+
+%>Rejoice! Spring brings warmth to our hearts with <%= (clojure.string/join ", " spring-flowers) %> and more
+
+And now for some modular addition: 8 + 7 is <%= (modular-addition 8 7 z) %> in Z-<%=z%>.

@@ -3,6 +3,8 @@
 set -o errexit
 set -o xtrace
 
+CLJ_VERSIONS=( "1.9.0" "1.10.0" "1.10.1" )
+
 echo Running all tests
 
 export TZ=UTC
@@ -12,6 +14,6 @@ find . -depth -name target | xargs rm -r || true
 
 # Run all tests, create the deliverables
 (cd art && lein test-all)
-(cd boot-art && boot test)
-(cd clj-art && clj -A:test-all:clojure-1.9.0 && clj -A:test-all:clojure-1.10.0 && clj -A:test-all:clojure-1.10.1)
+(cd boot-art && for ver in "${CLJ_VERSIONS[@]}" ; do export BOOT_CLOJURE_VERSION=${ver} ; boot test ; done)
+(cd clj-art && for ver in "${CLJ_VERSIONS[@]}" ; do clojure -A:test-all:clojure-${ver} ; done)
 (cd lein-art && lein test-all)

@@ -1,5 +1,8 @@
 ; Copyright 2019 Vivid Inc.
 
+; Commands:
+; boot show --updates    ; Like lein-ancient
+
 ; For the sake of the IDE
 (require '[boot.core :refer [deftask set-env! task-options!]]
          '[boot.task.built-in :refer [install jar pom]])
@@ -9,11 +12,11 @@
 
 (set-env! :source-paths #{"test"}
           :resource-paths #{"src"}
-          :dependencies '[[org.clojure/clojure       "1.9.0" :scope "provided"]
-                          [adzerk/bootlaces          "0.2.0" :scope "test"]
-                          [boot/core                 "2.8.2" :scope "provided"]
-                          [onetom/boot-lein-generate "0.1.3" :scope "test"]
-                          [vivid/art                 "0.5.0"]]
+          :dependencies '[[org.clojure/clojure         "1.9.0"   :scope "provided"]
+                          [adzerk/bootlaces            "0.2.0"   :scope "test"]
+                          [boot/core                   "2.8.2"   :scope "provided"]
+                          [onetom/boot-lein-generate   "0.1.3"   :scope "test"]
+                          [vivid/art                   "0.5.0"]]
           :repositories (partial map (fn [[k v]]
                                        [k (cond-> v (#{"clojars"} k) (assoc :username (System/getenv "CLOJARS_USER")
                                                                             :password (System/getenv "CLOJARS_PASS")))])))
@@ -21,7 +24,7 @@
 (require '[adzerk.bootlaces :refer :all]
          '[boot.lein]
          '[boot.test :refer [runtests test-report test-exit]]
-         '[vivid.art.boot.tests])
+         '[vivid.art.boot.simple-test])
 (bootlaces! version)
 (task-options!
   pom {:project     project
