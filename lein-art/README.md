@@ -34,7 +34,7 @@ Examples:
   :art {:templates ["index.html.art"]}
 
   ; Renders all .art template files in the content/ directory to out/cdn/
-  :art {:templates (filter (#.endsWith (.getName %) ".art")
+  :art {:templates (filter (#.endsWith (.getName %) vivid.art/art-filename-suffix)
                            (file-seq (clojure.java.io/file "content")))
 
         :bindings     [{:manufacturer     "Acme Inc."          # Map literal

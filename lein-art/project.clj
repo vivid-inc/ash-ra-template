@@ -12,14 +12,14 @@
                          ["version"]
                          ["clean"]
                          ["eftest"]
-                         ["cloverage"]
-                         ["clj-kondo"]
+                         ;["cloverage"]
+                         ;["clj-kondo"]
                          ["jar"]
                          ["install"]]
             "clj-kondo" ["with-profile" "clj-kondo" "run" "-m" "clj-kondo.main" "--"
                          "--lint" "src/"]
             "mkdocs"    ["art"]
-            "test-all"  ["build"]}
+            "test"      ["with-profile" "+clojure-1.9.0:+clojure-1.10.0:+clojure-1.10.1" "build"]}
 
   :art {:templates  ["assets/README.md.art"]
         :output-dir "."}
@@ -66,6 +66,10 @@
   :profiles {:clj-kondo {:dependencies [[org.clojure/clojure "1.9.0"]
                                         [clj-kondo "RELEASE"]]}
 
+             :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]},
+             :clojure-1.10.1 {:dependencies [[org.clojure/clojure "1.10.1"]]},
+             :clojure-1.9.0  {:dependencies [[org.clojure/clojure "1.9.0"]]},
+
              :dev {:dependencies   [;; Diffs equality assertions in test failure output
                                     ;; https://github.com/pjstadig/humane-test-output
                                     [pjstadig/humane-test-output "0.10.0"]]
@@ -76,8 +80,6 @@
                    :plugins        [;; Reloads & re-runs tests on file changes
                                     ;; https://github.com/jakemcc/lein-test-refresh
                                     [com.jakemccrary/lein-test-refresh "0.24.1"]]
-
-                   :resource-paths ["test-resources"]
 
                    :test-refresh   {:quiet true}}}
 

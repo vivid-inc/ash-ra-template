@@ -1,0 +1,7 @@
+{:aliases 
+  {:art {:extra-deps {vivid/clj-art {:mvn/version "0.5.0"}}
+         :main-opts  ["-m" "vivid.art.clj-tool"
+                      "--output-dir" "target"
+                      "templates"
+                      "--bindings" "greek.edn"
+                      "--delimiters" "jinja"]}}}

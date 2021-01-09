@@ -19,8 +19,8 @@
                          ["install"]]
             "clj-kondo" ["with-profile" "clj-kondo" "run" "-m" "clj-kondo.main" "--"
                          "--lint" "src/"]
-            "nvd"      ["nvd" "check"]
-            "test-all" ["with-profile" "+clojure-1.9.0:+clojure-1.10.0:+clojure-1.10.1" "build"]}
+            "nvd"       ["nvd" "check"]
+            "test"      ["with-profile" "+clojure-1.9.0:+clojure-1.10.0:+clojure-1.10.1" "build"]}
 
   :cloverage {:codecov? true
               :html?    true

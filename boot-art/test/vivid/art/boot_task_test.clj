@@ -84,7 +84,7 @@
            (expect :paths expected-output)))))
 
 (boot.test/deftesttask
-  all-options []
+  boot-task-all-options []
   (all-invocation-patterns "../art/test-resources/all-options"
                            :bindings     '{updated "2021-01-01"}
                            :delimiters   '{:begin-forms "{%" :end-forms "%}" :begin-eval "{%=" :end-eval "%}"}
@@ -92,11 +92,17 @@
                            :to-phase     :evaluate))
 
 (boot.test/deftesttask
-  simple []
+  boot-task-readme-examples []
+  (all-invocation-patterns "../art/test-resources/readme-examples"
+                           :bindings '{mysterious-primes [7 191]}
+                           :delimiters '{:begin-forms "{%" :end-forms "%}" :begin-eval "{%=" :end-eval "%}"}))
+
+(boot.test/deftesttask
+  boot-task-simple []
   (all-invocation-patterns "../art/test-resources/simple"))
 
 (boot.test/deftesttask
-  readme-examples []
-  (all-invocation-patterns "../art/test-resources/readme-examples"
-                           :bindings   '{mysterious-primes [7 191]}
-                           :delimiters '{:begin-forms "{%" :end-forms "%}" :begin-eval "{%=" :end-eval "%}"}))
+  boot-task-utf-8 []
+  (all-invocation-patterns "../art/test-resources/utf-8"
+                           :bindings (read-string (slurp "../art/test-resources/utf-8/greek.edn"))
+                           :delimiters vivid.art.delimiters/jinja))
