@@ -76,7 +76,7 @@
             "clj-kondo" ["with-profile" "clj-kondo" "run" "-m" "clj-kondo.main" "--"
                          "--lint" "src/"]
             "nvd"      ["nvd" "check"]
-            "test-all" ["with-profile" "<%= clojure-test-profiles-str %>" "build"]}
+            "test"     ["with-profile" "<%= clojure-test-profiles-str %>" "build"]}
 
   :cloverage {:codecov? true
               :html?    true

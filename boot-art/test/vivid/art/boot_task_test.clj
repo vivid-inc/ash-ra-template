@@ -19,7 +19,7 @@
     [clojure.java.io :as io]
     [clojure.string]
     [clojure.test :as t]
-    [vivid.art.boot-task])
+    [vivid.boot-art])
   (:import
     (java.io File)))
 
@@ -80,7 +80,7 @@
    (let [templates (files-under-dir (File. dir "templates"))
          expected-output (files-under-dir (File. dir "expected"))]
      (comp (populate :paths templates)
-           (apply vivid.art.boot-task/art art-options)
+           (apply vivid.boot-art/art art-options)
            (expect :paths expected-output)))))
 
 (boot.test/deftesttask

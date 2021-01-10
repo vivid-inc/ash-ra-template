@@ -1,4 +1,4 @@
-; Copyright 2020 Vivid Inc.
+; Copyright 2021 Vivid Inc.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -12,8 +12,8 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.boot-task
-  {:b/export-tasks true}
+(ns vivid.boot-art
+  {:boot/export-tasks true}
   (:require
     [boot.core :as boot :refer [deftask]]
     [boot.util :as util]
@@ -91,9 +91,9 @@ Templates are rendered to files whose filenames are stripped of the .art suffix.
   [b bindings VAL code "Bindings made available to templates for symbol resolution"
    d delimiters VAL code "Template delimiters (default: `erb')"
    _ dependencies VAL code "Clojure deps map providing libs within the template evaluation environment"
-   p to-phase VAL code "Stop the render dataflow on each template at an earlier phase"
    f files FILES [str] "A vector of .art template files to render. If not present, all files will be rendered"
-   o output-dir DIR file "Write rendered files to DIR. Leave unset to have Boot decide"]
+   o output-dir DIR file "Write rendered files to DIR. Leave unset to have Boot decide"
+   p to-phase VAL code "Stop the render dataflow on each template at an earlier phase"]
   (let [output-dir' (or output-dir (boot/tmp-dir!))
         prev-fileset (atom nil)]
     (boot/with-pre-wrap

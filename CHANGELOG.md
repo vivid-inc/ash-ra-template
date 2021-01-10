@@ -4,11 +4,11 @@
 _Unreleased_
 - Breaking change: Renamed `vivid/ash-ra-template` to `vivid/art` to more closely mirror its Clojure namespace.
 - License changed from EPL to Apache License, version 2.0.
+- Introducing Clojure CLI tools plugin `clj-art`.
 - Defect fix: Honors the Java system property `user.dir` when determining file paths.
   The defect came to light during a Maven multi-module build using vivid:clojure-maven-plugin.
 - _(Unstable until version 1.0)_ Render option `:to-phase` allows the dataflow to stop at an earlier `(render)` phase.
   Useful for inspecting ART output at intermediate phases for diagnosis and for understanding ART's behavior.
-- Introducing Clojure CLI tools plugin `clj-art`.
 
 ## [0.4.0]
 Released 2019-07-05.

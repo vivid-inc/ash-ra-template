@@ -8,7 +8,6 @@
 (require '[boot.core :refer [deftask set-env! task-options!]]
          '[boot.task.built-in :refer [install jar pom]])
 
-(def project 'vivid/boot-art)
 (def version "0.5.0")
 
 (set-env! :source-paths #{"test"}
@@ -21,14 +20,15 @@
                                        [k (cond-> v (#{"clojars"} k) (assoc :username (System/getenv "CLOJARS_USER")
                                                                             :password (System/getenv "CLOJARS_PASS")))])))
 
-(require '[adzerk.bootlaces :refer :all]
+(require '[adzerk.bootlaces]
          '[boot.core :as boot]
          '[sparkfund.boot-lein :as boot-lein]
          '[boot.test :refer [runtests test-report test-exit]]
          '[vivid.art.boot-task-test])
-(bootlaces! version)
+
+(adzerk.bootlaces/bootlaces! version)
 (task-options!
-  pom {:project     project
+  pom {:project     'vivid/boot-art
        :version     version
        :description "Boot task for rendering Ash Ra .art templates"
        :url         "https://github.com/vivid-inc/ash-ra-template"
@@ -36,13 +36,15 @@
        :license     {"Apache License 2.0"
                      "https://www.apache.org/licenses/LICENSE-2.0"}})
 
-(use '[vivid.art.boot-task])
+(use '[vivid.boot-art])
 
 (deftask deploy
          []
          (comp
-           (build-jar)
+           (pom)
+           (jar)
            (target)
+           (install)
            (push :repo "clojars"
                  :gpg-sign false)))
 
@@ -71,8 +73,8 @@
 (ns-unmap 'boot.user 'test)
 (deftask test []
          (comp
-           (build-jar)
-           (target)
+           (pom)
+           (jar)
            (runtests)
            (test-report)
            (test-exit)))

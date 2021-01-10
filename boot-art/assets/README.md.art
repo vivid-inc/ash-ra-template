@@ -1,9 +1,15 @@
 # boot-art Ash Ra Template Boot Task
 
+<%
+(require '[boot.core])
+(use '[vivid.boot-art])
+%>
+
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/vivid/boot-art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/boot-art)
 
 `boot-art` is a [Boot](https://github.com/boot-clj/boot) task for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates.
+It composes easily into your existing Boot infrastructure.
 
 
 
@@ -12,46 +18,66 @@
 The `art` Boot task will render all template files bearing the `.art` filename extension.
 The `art` filename extension is stripped from the rendered output filenames.
 For example, `index.html.art` is rendered to the file `index.html`.
+In your `build.boot`:
 
 ```clojure
-(set-env! :dependencies '[[vivid/boot-art "0.5.0"]])
+(set-env! :dependencies '[[vivid/boot-art "0.5.0"]]
+          :source-paths #{"templates"})
 
-(require '[vivid.art.boot-task :refer [art]])
+(require '[vivid.boot-art :refer [art]])
 
 (deftask my-pipeline []
-  (comp ...
-        (art :bindings     VAL
-             :delimiters   VAL
-             :dependencies VAL
-             :files        FILES)
-        ...))
+         (comp ...
+               (art :bindings     VAL
+                    :delimiters   VAL
+                    :dependencies VAL)
+               ...
+               (target)))
 ```
 
 Command-line usage:
 
 ```
-  $ boot [earlier tasks ..] -- art [options] -- [later tasks ..]
+  $ boot -d vivid/boot-art art [OPTIONS]
 ```
 
 and options:
 
 ```clojure
-<%
-; Source the human-readable CLI option help directly from boot-art itself.
-(require '[boot.core])
-(use '[vivid.art.boot-task])
-(emit (with-out-str (art "-h")))
-%>```
+<%= (with-out-str (art "-h")) %>```
 
 
 
-## Development
+## Cookbook
 
-Run the tests with
-
+#### CLI: Render ART templates with bindings and custom delimiters
 ```bash
-boot test
+$ cat oracle.art
+
+{% (defn mult [multiplicands] (apply * multiplicands)) %}
+Wait, I see it! Your destiny lies deep within the number {%= (mult mysterious-primes) %}.
+
+$ boot art --bindings "'{mysterious-primes [7 191]}" \
+           --delimiters "'{:begin-forms \"{%\" :end-forms \"%}\" :begin-eval \"{%=\" :end-eval \"%}\"}" \
+           --files oracle.art
 ```
+
+Discussion:
+Command-line arguments presented by Boot to the `boot-art` task are interpreted as code.
+You can prevent evaluation of undefined symbols by quoting them with a single quote `'` as above.
+You can prevent evaluation of undefined symbols by quoting them with a single quote `'`, for example as above.
+
+#### `build.boot`: Specifying ART template files and/or the output directory
+```clojure
+(import '(java.io File))
+
+(deftask render-art []
+         (art :files #{"source/index.html.art" "templates"}
+              :output-dir (File. "out")))
+```
+Discussion:
+If `:files` is specified, `art` will use those files instead of searching Boot's fileset.
+Providing an `:output-dir` will cause templates to be written there as well as to Boot's `(target)` (if any).
 
 
 
