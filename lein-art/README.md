@@ -7,9 +7,12 @@
 
 `lein-art` is a Leiningen plugin for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates.
 
+Provided file or directory tree paths containing Ash Ra .art template files and an output dir, this
+Clojure tool renders the ART templates to the output dir, preserving relative sub-paths.
 
 
-## Usage
+
+## Quick Start
 
 Provided one or more ART template files, the `art` Leiningen task writes rendered output to a specified output dir.
 
@@ -60,12 +63,12 @@ Examples:
 and options:
 
 ```clojure
-  -b, --bindings PARAM         Bindings made available to templates for symbol resolution
-  -d, --delimiters PARAM       Template delimiters (default: `erb')
+      --bindings PARAM         Bindings made available to templates for symbol resolution
+      --delimiters PARAM       Template delimiters (default: `erb')
       --dependencies PARAM     Clojure deps map providing libs to the template evaluation environment
   -h, --help                   Display this lovely help and exit
-  -o, --output-dir DIR      .  Write rendered files to DIR (default: `.')
-  -p, --to-phase PARAM         Stop the render dataflow on each template at an earlier phase
+      --output-dir DIR      .  Write rendered files to DIR (default: `.')
+      --to-phase PARAM         Stop the render dataflow on each template at an earlier phase
 ```
 
 From the CLI, the `art` Lein task takes a list of file paths to `.art` files (ART templates) and options.
@@ -87,12 +90,12 @@ Output files will overwrite files that exist with the same filenames.
 
 
 
-## Development
+## Cookbook
 
-Run the tests with
-
-```bash
-lein test
+#### Install `lein-art` globally so that you can use it anywhere
+Add the plugin to your `~/.lein/profiles.clj`:
+```clojure
+{:user {:plugins [[vivid/lein-art "0.5.0"]]}}
 ```
 
 

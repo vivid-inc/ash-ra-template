@@ -1,18 +1,26 @@
 # lein-art Ash Ra Template Leiningen Plugin 
 
 <%
+(require '[clojure.string])
 (require '[clojure.tools.cli])
 (require '[vivid.art.cli.usage])
+(import '(java.io BufferedReader StringReader))
+
+
+(def summary (as-> (vivid.art.cli.usage/summary "Clojure tool") c
+                   (line-seq (BufferedReader. (StringReader. c)))
+                   (clojure.string/join \newline (rest c))))
 %>
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/vivid/lein-art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/lein-art)
 
 `lein-art` is a Leiningen plugin for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates.
+<%= summary %>
 
 
 
-## Usage
+## Quick Start
 
 Provided one or more ART template files, the `art` Leiningen task writes rendered output to a specified output dir.
 
@@ -86,12 +94,12 @@ Output files will overwrite files that exist with the same filenames.
 
 
 
-## Development
+## Cookbook
 
-Run the tests with
-
-```bash
-lein test
+#### Install `lein-art` globally so that you can use it anywhere
+Add the plugin to your `~/.lein/profiles.clj`:
+```clojure
+{:user {:plugins [[vivid/lein-art "0.5.0"]]}}
 ```
 
 

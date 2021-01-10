@@ -1,5 +1,7 @@
 # boot-art Ash Ra Template Boot Task
 
+
+
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/vivid/boot-art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/boot-art)
 
@@ -8,7 +10,7 @@ It composes easily into your existing Boot infrastructure.
 
 
 
-## Usage
+## Quick Start
 
 The `art` Boot task will render all template files bearing the `.art` filename extension.
 The `art` filename extension is stripped from the rendered output filenames.
@@ -22,13 +24,15 @@ In your `build.boot`:
 (require '[vivid.boot-art :refer [art]])
 
 (deftask my-pipeline []
-         (comp (art :bindings VAL
-                    :delimiters VAL
+         (comp ...
+               (art :bindings     VAL
+                    :delimiters   VAL
                     :dependencies VAL)
+               ...
                (target)))
 ```
 
-Command-line usage:
+Standalone CLI usage:
 
 ```
   $ boot -d vivid/boot-art art [OPTIONS]
@@ -37,19 +41,19 @@ Command-line usage:
 and options:
 
 ```clojure
-  -b, --bindings VAL      VAL sets bindings made available to templates for symbol resolution.
-  -d, --delimiters VAL    VAL sets template delimiters (default: `erb').
-      --dependencies VAL  VAL sets clojure deps map providing libs within the template evaluation environment.
-  -f, --files FILES       FILES sets a vector of .art template files to render. If not present, all files will be rendered
-  -o, --output-dir DIR    DIR sets write rendered files to DIR. Leave unset to have Boot decide.
-  -p, --to-phase VAL      VAL sets stop the render dataflow on each template at an earlier phase.
-
   -h, --help              Print this help info.
+      --bindings VAL      VAL sets bindings made available to templates for symbol resolution.
+      --delimiters VAL    VAL sets template delimiters (default: `erb').
+      --dependencies VAL  VAL sets clojure deps map providing libs within the template evaluation environment.
+      --files FILES       FILES sets a vector of .art template files to render. If not present, all files will be rendered
+      --output-dir DIR    DIR sets write rendered files to DIR. Leave unset to have Boot decide.
+      --to-phase VAL      VAL sets stop the render dataflow on each template at an earlier phase.
 ```
 
 
 
 ## Cookbook
+
 
 #### CLI: Render ART templates with bindings and custom delimiters
 ```bash
@@ -67,7 +71,8 @@ Discussion:
 Command-line arguments presented by Boot to the `boot-art` task are interpreted as code.
 You can prevent evaluation of undefined symbols by quoting them with a single quote `'`, for example as above.
 
-#### `build.boot`: Specifying ART template files and/or the output directory 
+
+#### `build.boot`: Specifying ART template files and/or the output directory
 ```clojure
 (import '(java.io File))
 
@@ -77,7 +82,18 @@ You can prevent evaluation of undefined symbols by quoting them with a single qu
 ```
 Discussion:
 If `:files` is specified, `art` will use those files instead of searching Boot's fileset.
-Providing an `:output-dir` will cause templates to be written there as well as to Boot's `(target)` (if any). 
+Providing an `:output-dir` will cause templates to be written there as well as to Boot's `(target)` (if any).
+
+
+#### `build.boot`: Re-render templates whenever their source files change
+```clojure
+(set-env! :resource-paths #{"templates"})
+
+(deftask dev []
+         (comp (watch)
+               (art)
+               (target)))
+```
 
 
 

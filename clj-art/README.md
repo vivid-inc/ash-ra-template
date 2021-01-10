@@ -5,7 +5,8 @@
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/vivid/clj-art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/clj-art)
 
-`clj-art` is a Clojure `deps.edn` tool for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates. 
+`clj-art` is a Clojure `deps.edn` tool for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates.
+
 Provided file or directory tree paths containing Ash Ra .art template files and an output dir, this
 Clojure tool renders the ART templates to the output dir, preserving relative sub-paths.
 
@@ -31,19 +32,19 @@ $ clj -A:art --help
 
 | CLI argument | Parameters | Cardinality | Default | Explanation |
 | --- | --- | --- | --- | --- |
-| `-b`, `--bindings` | PARAM | Single or collection | | Bindings made available to templates for symbol resolution |
-| `-d`, `--delimiters` | PARAM | Single or collection | `erb` | Template delimiters |
-| `--dependencies` | PARAM | Single | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
+| `--bindings` | PARAM | Single or collection | | Bindings made available to templates for symbol resolution |
+| `--delimiters` | PARAM | Single or collection | `erb` | Template delimiters |
+| ``--dependencies` | PARAM | Single | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
 | `-h`, `--help` | | | | Displays lovely help and then exits |
-| `-o`, `--output-dir` | File path | Single | `.` | Write rendered files to DIR |
-| `p`, `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | Single | | Stop the render dataflow on each template at an earlier phase |
+| `--output-dir` | File path | Single | `.` | Write rendered files to DIR |
+| `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | Single | | Stop the render dataflow on each template at an earlier phase |
 
 
-### Points of caution
+## Cookbook
 
-**Slow rendering**: ART's render time is slow, assume a per-file delay of around 1 second. This is accounted for by ShimDandy doing its magic to set up a newly-initialized Clojure environment for each of your templates.
+#### Use space characters in arguments within `deps.edn`
 
-**deps.edn**: When supplying double-quoted parameters to options in your `deps.edn` file, spaces must be replaced with comma ',' characters.
+When supplying double-quoted parameters to options in your `deps.edn` file, spaces must be replaced with comma ',' characters.
 Example:
 ```edn
   "--dependencies" "{vivid/art {:mvn/version \"0.5.0\"}}"    ; Bad, will fail
@@ -58,7 +59,20 @@ $ clojure -m vivid.art.clj-tool \
     ...
 ```
 
-TODO https://github.com/clojure/tools.deps.alpha/wiki/Tools
+#### Use `clj-art` globally
+
+Add the following to your `~/.clojure/deps.edn` file:
+```edn
+{:aliases {:art {:extra-dependencies {vivid/clj-art {:mvn/version "0.5.0"}}}}}
+```
+And use it like this:
+```bash
+$ clojure -A:art [OPTIONS] [TEMPLATE-PATHS]
+```
+
+
+
+TODO List at https://github.com/clojure/tools.deps.alpha/wiki/Tools
 
 
 ## License

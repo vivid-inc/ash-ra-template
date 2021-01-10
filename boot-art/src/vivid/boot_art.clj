@@ -88,12 +88,12 @@
 Provided one or more template files and any quantity of optional bindings, this
 Boot task writes rendered template output to a specified output dir.
 Templates are rendered to files whose filenames are stripped of the .art suffix."
-  [b bindings VAL code "Bindings made available to templates for symbol resolution"
-   d delimiters VAL code "Template delimiters (default: `erb')"
-   _ dependencies VAL code "Clojure deps map providing libs within the template evaluation environment"
-   f files FILES [str] "A vector of .art template files to render. If not present, all files will be rendered"
-   o output-dir DIR file "Write rendered files to DIR. Leave unset to have Boot decide"
-   p to-phase VAL code "Stop the render dataflow on each template at an earlier phase"]
+  [_ bindings     VAL   ^:! code   "Bindings made available to templates for symbol resolution"
+   _ delimiters   VAL   ^:! code   "Template delimiters (default: `erb')"
+   _ dependencies VAL   ^:! code   "Clojure deps map providing libs within the template evaluation environment"
+   _ files        FILES ^:! [file] "A vector of .art template files to render. If not present, all files will be rendered"
+   _ output-dir   DIR   ^:! file   "Write rendered files to DIR. Leave unset to have Boot decide"
+   _ to-phase     VAL   ^:! kw     "Stop the render dataflow on each template at an earlier phase"]
   (let [output-dir' (or output-dir (boot/tmp-dir!))
         prev-fileset (atom nil)]
     (boot/with-pre-wrap

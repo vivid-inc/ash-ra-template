@@ -30,11 +30,11 @@
 ; Entries are sorted alphabetically by long option.
 (def ^:const cli-options
   [[;; --bindings is passed through to vivid.art/render
-    "-b" "--bindings PARAM"
+    nil "--bindings PARAM"
     "Bindings made available to templates for symbol resolution"]
 
    [;; --delimiters is passed through to vivid.art/render
-    "-d" "--delimiters PARAM"
+    nil "--delimiters PARAM"
     (format "Template delimiters (default: `%s')" vivid.art/default-delimiters-name)]
 
    [;; --dependencies is passed through to vivid.art/render
@@ -46,12 +46,12 @@
 
    [;; vivid.art.cli/render-batch writes rendered output under --output-dir
     ;; This is required.
-    "-o" "--output-dir DIR"
+    nil "--output-dir DIR"
     (format "Write rendered files to DIR (default: `%s')" default-output-dir)
     :default default-output-dir]
 
    [;; --to-phase is passed through to vivid.art/render
-    "-p" "--to-phase PARAM"
+    nil "--to-phase PARAM"
     "Stop the render dataflow on each template at an earlier phase"
     ]])
 
