@@ -42,7 +42,7 @@
       :else
       [arguments options])))
 
-(defn- validate
+(defn validate
   "Validates and resolves the arguments and parsed options."
   [arguments {:keys [^String output-dir] :as options}]
   (merge

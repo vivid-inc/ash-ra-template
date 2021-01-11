@@ -80,12 +80,13 @@
 
 (defn validate-output-dir
   "A string path of the output directory."
-  [^String output-dir]
-  (if (seq (clojure.string/trim output-dir))
-    (File. output-dir)
-    (special/condition :vivid.art.cli/error
-                       {:step    'validate-output-dir
-                        :message (format "output-dir '%s' must name a directory path" output-dir)})))
+  [output-dir]
+  (let [f (resolve/resolve-as-file output-dir)]
+    (if f
+      f
+      (special/condition :vivid.art.cli/error
+                         {:step    'validate-output-dir
+                          :message (format "output-dir '%s' must name a directory path" output-dir)}))))
 
 (defn validate-templates
   "Returns a collection of java.io.File's representing each of the named
@@ -93,14 +94,12 @@
   Any unresolvable named path is special/condition'ed as an error."
   [templates]
   (letfn [(conv [path]
-            (let [f (File. ^String path)]
-              (cond
-                (not (.exists f))
+            (let [f (resolve/resolve-as-file path)]
+              (if (and f (.exists f))
+                f
                 (special/condition :vivid.art.cli/error
                                    {:step    'validate-templates
-                                    :message (format "Template path '%s' doesn't exist" f)})
-
-                :else f)))]
+                                    :message (format "Template path doesn't exist: '%s'" path)}))))]
     (map conv templates)))
 
 (defn validate-to-phase

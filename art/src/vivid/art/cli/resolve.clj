@@ -31,7 +31,7 @@
     [clojure.string]
     [special.core :as special])
   (:import
-    (java.io IOException PushbackReader)))
+    (java.io File IOException PushbackReader)))
 
 (defn resolve-as-edn-file
   "Attempt to interpret a value as a path to an EDN file. The value would then
@@ -71,6 +71,14 @@
       (edn/read-string x)
       (catch RuntimeException e
         nil))))
+
+(defn resolve-as-file
+  "Attempt to interpret a value as a java.io.File."
+  [path]
+  (cond
+    (instance? File path)                                 path
+    (and (string? path) (seq (clojure.string/trim path))) (File. ^String path)
+    :else                                                 nil))
 
 (defn resolve-as-map
   "Attempt to interpret a value as a Clojure map."
