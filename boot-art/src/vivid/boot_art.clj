@@ -27,7 +27,7 @@
 ; Referencing https://github.com/boot-clj/boot/wiki/Filesets
 
 (defn- exit [_ message]
-  (util/fail message)
+  (util/fail (str message \newline))
   ; As of Boot 2.8.3, util/exit-error is hard-coded to return exit-status of 1.
   (util/exit-error))
 
@@ -50,8 +50,8 @@
 (defn- process [options*]
   (boot/with-pre-wrap
     boot-fileset
-    (binding [log/*info-fn* util/info
-              log/*warn-fn* util/warn]
+    (binding [log/*info-fn* #(util/info (str % \newline))
+              log/*warn-fn* #(util/warn (str % \newline))]
       (let [options (merge
                       options*
                       (when-not (:output-dir options*)

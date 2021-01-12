@@ -20,7 +20,7 @@
   (:import
     (java.io File)))
 
-(defn- art-template-file?
+(defn art-template-file?
   [^File f]
   (and (.isFile f)
        (.endsWith (.getName f) art/art-filename-suffix)))

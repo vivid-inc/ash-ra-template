@@ -77,7 +77,8 @@
 (defn all-invocation-patterns
   ([^String dir] (all-invocation-patterns dir nil))
   ([^String dir & art-options]
-   (let [templates (files-under-dir (File. dir "templates"))
+   (let [templates (->> (files-under-dir (File. dir "templates"))
+                        (filter vivid.art.cli.files/art-template-file?))
          expected-output (files-under-dir (File. dir "expected"))]
      (comp (populate :paths templates)
            (apply vivid.boot-art/art art-options)
