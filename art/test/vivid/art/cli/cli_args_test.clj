@@ -40,7 +40,8 @@
 
     ["test-resources/empty.art"]
     {:output-dir (File. ^String vivid.art.cli.usage/default-output-dir)
-     :templates  (list (File. "test-resources/empty.art"))}))
+     :templates  (list {:src-path (File. "test-resources/empty.art")
+                        :dest-rel-path (File. "empty")})}))
 
 (deftest bad-template-args
   (are [filename]

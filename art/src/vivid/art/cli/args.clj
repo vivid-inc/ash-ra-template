@@ -16,8 +16,12 @@
   (:require
     [clojure.string]
     [clojure.tools.cli]
+    [clojure.java.io :as io]
     [special.core :as special]
-    [vivid.art.cli.validate :as validate]))
+    [vivid.art.cli.files :as files]
+    [vivid.art.cli.validate :as validate])
+  (:import
+    (java.io File)))
 
 (defn- parse-cli-args
   [args options-spec]
@@ -42,8 +46,9 @@
       :else
       [arguments options])))
 
-(defn validate
-  "Validates and resolves the arguments and parsed options."
+(defn validate-as-batch
+  "Validates and resolves the arguments and parsed options, returning
+  a render batch."
   [arguments {:keys [^String output-dir] :as options}]
   (merge
     ; Mandatory
@@ -59,6 +64,29 @@
     (when-let [to-phase (:to-phase options)]
       {:to-phase (validate/validate-to-phase to-phase)})))
 
+(defn ->template-path
+  "Takes a base path and a path to a template-file (ostensibly within the
+  base path) and returns a map indicating the providence :src-path and the
+  intended output path of the template file :dest-rel-path relative to the
+  batch's :output-dir."
+  [^File base-path ^File template-file]
+  (let [rel-path-parent (files/relative-path base-path (.getParentFile template-file))
+        dest-name (files/strip-art-filename-suffix (.getName template-file))
+        dest-rel-path (apply io/file (concat rel-path-parent
+                                             [dest-name]))]
+    {:src-path template-file
+     :dest-rel-path dest-rel-path}))
+
+(defn- paths->template-paths!
+  "Finds all ART templates either at the given paths (as template files) or
+  within their sub-trees (as a directory). This function is impure, as it
+  directly scans the filesystem subtree of each of the paths."
+  [paths]
+  (letfn [(->template-paths [base-path]
+            (let [template-files (files/template-file-seq base-path)]
+              (map #(->template-path base-path %) template-files)))]
+    (mapcat ->template-paths paths)))
+
 (defn cli-args->batch
   "Interpret command line arguments, producing a map representing an ART render
   batch job that can be executed by this CLI lib's (render-batch) fn. All
@@ -66,4 +94,5 @@
   specification and resolved. Exceptional cases are special/condition'ed."
   [args options-spec]
   (let [[arguments options] (parse-cli-args args options-spec)]
-    (validate arguments options)))
+    (-> (validate-as-batch arguments options)
+        (update :templates paths->template-paths!))))

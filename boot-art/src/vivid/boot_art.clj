@@ -52,7 +52,7 @@
                         {:output-dir (boot/tmp-dir!)}))
             prev-fileset (atom nil)
             templates (or (:files options*) (from-boot-fileset boot-fileset prev-fileset))]
-        (-> (vivid.art.cli.args/validate templates options)
+        (-> (vivid.art.cli.args/validate-as-batch templates options)
             (vivid.art.cli.exec/render-batch))
         (when-not (:output-dir options*)
           (-> boot-fileset

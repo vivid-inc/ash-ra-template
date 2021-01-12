@@ -51,24 +51,21 @@
         {:keys [step]} (special-manage-unwind-on-signal f :vivid.art.cli/error)]
     (is (= 'validate-output-dir step))))
 
-(deftest output-paths
-  (are [^String template-base ^String template-path output-dir expected-output-path]
-    (= expected-output-path
-       (str (vivid.art.cli.exec/template-output-path
-              (File. template-base)
-              (File. template-path)
-              output-dir)))
-    "a.csv.art" "a.csv.art" "target" "target/a.csv"
-    "/a.csv.art" "/a.csv.art" "target" "target/a.csv"
+(deftest template-paths
+  (are [base-path template-file dest-rel-path]
+    (= {:src-path (File. ^String template-file)
+        :dest-rel-path (File. ^String dest-rel-path)}
+       (vivid.art.cli.args/->template-path (File. ^String base-path) (File. ^String template-file)))
+    "a.csv.art" "a.csv.art" "a.csv"
+    "/a.csv.art" "/a.csv.art" "a.csv"
 
-    "templates" "templates/b.txt.art" "target" "target/b.txt"
-    "templates/" "templates/b.txt.art" "target" "target/b.txt"
+    "templates" "templates/b.txt.art" "b.txt"
+    "templates/" "templates/b.txt.art" "b.txt"
 
-    "/templates" "/templates/c.html.art" "target" "target/c.html"
-    "/templates/" "/templates/c.html.art" "target" "target/c.html"
+    "/templates" "/templates/c.txt.art" "c.txt"
+    "/templates/" "/templates/c.txt.art" "c.txt"
 
-    "site/source" "site/source/about/d.properties.art" "rendered" "rendered/about/d.properties"
-    "site/source" "site/source/about/d.properties.art" "/rendered" "/rendered/about/d.properties"
+    "site/source" "site/source/about/d.properties.art" "about/d.properties"
 
-    "a/b/c" "a/b/c/d/e/f/g/h.sql.art" "out" "out/d/e/f/g/h.sql"
-    "a/b/c/d/e" "a/b/c/d/e/recipe.xml.art" "/out" "/out/recipe.xml"))
+    "a/b/c" "a/b/c/d/e/f/g/h.sql.art" "d/e/f/g/h.sql"
+    "a/b/c/d/e" "a/b/c/d/e/recipe.xml.art" "recipe.xml"))

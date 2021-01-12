@@ -23,52 +23,34 @@
     [vivid.art :as art]
     [vivid.art.cli.files]
     [vivid.art.cli.log :as log]
+    [vivid.art.cli.specs]
     [vivid.art.specs :refer [to-phase?]])
   (:import
     (java.io File)))
 
-(def ^:const cwd (System/getProperty "user.dir"))
-
-(defn template-output-path
-  [^File base ^File path output-dir]
-  (let [rel-path-parent (vivid.art.cli.files/relative-path base (.getParentFile path))
-        dest-name (vivid.art.cli.files/strip-art-filename-suffix (.getName path))
-        dest-path (apply io/file (concat [output-dir]
-                                         rel-path-parent
-                                         [dest-name]))]
-    dest-path))
-
 (defn- render-file
-  [^File templates-base ^File template-file {:keys [output-dir] :as batch}]
+  [{:keys [^File src-path ^File dest-rel-path] :as template-file} {:keys [^File output-dir] :as batch}]
   (try
-    (let [output-file (template-output-path templates-base template-file output-dir)
+    (let [output-path (io/file output-dir dest-rel-path)
           to-phase (get batch :to-phase vivid.art/default-to-phase)]
-      (log/*info-fn* (format "Rendering ART %s" output-file))
-      (let [output-path (io/file cwd output-file)]
-        (io/make-parents output-path)
-        (as-> (slurp template-file) c
-              (art/render c (select-keys batch [:bindings
-                                                :delimiters
-                                                :dependencies
-                                                :to-phase]))
-              (if (to-phase #{:parse :translate})
-                (clojure.pprint/pprint c (clojure.java.io/writer output-path)) ; Possibly more readable
-                (spit output-path c)))))
+      (log/*info-fn* (format "Rendering ART %s" dest-rel-path))
+      (io/make-parents output-path)
+      (as-> (slurp src-path) c
+            (art/render c (select-keys batch [:bindings
+                                              :delimiters
+                                              :dependencies
+                                              :to-phase]))
+            (if (to-phase #{:parse :translate})
+              (clojure.pprint/pprint c (io/writer output-path)) ; Possibly more readable
+              (spit output-path c))))
     (catch Exception e
       (special/condition :vivid.art.cli/error
                          {:step      'render-file
                           :message   (format "Exception while rendering ART template %s\n%s\n%s"
-                                             template-file
+                                             (.getCanonicalPath (:src-path template-file))
                                              (.toString e)
                                              (clojure.string/join \newline (.getStackTrace e)))
                           :exception e}))))
-
-(defn- render-templates-base
-  [t batch]
-  (let [templates-base (io/file cwd t)
-        template-files (vivid.art.cli.files/template-file-seq templates-base)]
-    (doseq [template-file template-files]
-      (render-file templates-base template-file batch))))
 
 (defn render-batch
   "Scans :templates for files and directories, renders all ART templates found
@@ -76,17 +58,8 @@
   [{:keys [templates] :as batch}]
   (if (empty? templates)
     (log/*warn-fn* "Warning: No ART templates to render.")
-    (doseq [t templates]
-      (render-templates-base t batch))))
+    (doseq [template-file templates]
+      (render-file template-file batch))))
 
-(s/def ::file (partial instance? File))
-(s/def :vivid.art.cli/templates (s/or :single-file ::file
-                                      :coll-file   (s/coll-of ::file :min-count 1)))
-(s/def :vivid.art.cli/output-dir ::file)
 (s/fdef render-batch
-        :args (s/cat :batch (s/? (s/keys :req-un [:vivid.art.cli/templates
-                                                  :vivid.art.cli/output-dir]
-                                         :opt-un [:vivid.art/bindings
-                                                  :vivid.art/delimiters
-                                                  :vivid.art/dependencies
-                                                  :vivid.art/to-phase]))))
+        :args (s/cat :batch (s/? :vivid.art.cli/batch)))
