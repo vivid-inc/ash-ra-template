@@ -17,6 +17,7 @@
   (:require
     [boot.core :as boot :refer [deftask]]
     [boot.util :as util]
+    [clojure.java.io :as io]
     [vivid.art :as art]
     [vivid.art.cli.args]
     [vivid.art.cli.exec]
@@ -30,34 +31,43 @@
   ; As of Boot 2.8.3, util/exit-error is hard-coded to return exit-status of 1.
   (util/exit-error))
 
-(defn from-boot-fileset
+(defn boot-file->template-path
+  [boot-file]
+  {:src-path (io/file (:dir boot-file) (:path boot-file))
+   :dest-rel-path (io/file (clojure.string/replace (:path boot-file)
+                                                   art/art-filename-suffix-regex ""))})
+
+(defn boot-fileset->template-paths
   [boot-fileset prev-fileset]
   (let [art-files (->> boot-fileset
                        (boot/fileset-diff @prev-fileset)
                        (boot/input-files)
-                       (boot/by-ext [art/art-filename-suffix]))]
+                       (boot/by-ext [art/art-filename-suffix]))
+        template-paths (map boot-file->template-path art-files)]
     (reset! prev-fileset boot-fileset)
-    ; .art files will be replaced by their rendered counterparts
-    (boot/rm boot-fileset art-files)
-    art-files))
+    [art-files template-paths]))
 
 (defn- process [options*]
-  (binding [log/*info-fn* util/info
-            log/*warn-fn* util/warn]
-    (boot/with-pre-wrap
-      boot-fileset
+  (boot/with-pre-wrap
+    boot-fileset
+    (binding [log/*info-fn* util/info
+              log/*warn-fn* util/warn]
       (let [options (merge
                       options*
                       (when-not (:output-dir options*)
                         {:output-dir (boot/tmp-dir!)}))
             prev-fileset (atom nil)
-            templates (or (:files options*) (from-boot-fileset boot-fileset prev-fileset))]
-        (-> (vivid.art.cli.args/validate-as-batch templates options)
-            (vivid.art.cli.exec/render-batch))
-        (when-not (:output-dir options*)
-          (-> boot-fileset
-              (boot/add-resource (:output-dir options))
-              (boot/commit!)))))))
+            batch* (vivid.art.cli.args/validate-as-batch (:files options*) options)
+            [art-files templates] (if (:files options*)
+                                    [[] (vivid.art.cli.args/paths->template-paths! (:files options*))]
+                                    (boot-fileset->template-paths boot-fileset prev-fileset))
+            batch (merge batch* {:templates templates})]
+        (vivid.art.cli.exec/render-batch batch)
+        (cond-> boot-fileset
+                ; .art files will be replaced by their rendered counterparts
+                (not (:files options*)) (boot/rm art-files)
+                :always (boot/add-resource (:output-dir options))
+                :always (boot/commit!))))))
 
 (boot.core/deftask
   art
