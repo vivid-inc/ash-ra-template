@@ -16,7 +16,7 @@
   (:require
     [clojure.test :refer :all]
     [vivid.art.cli.args]
-    [vivid.art.cli.test-lib :refer [special-manage-unwind-on-signal]]
+    [vivid.art.cli.test-lib :refer [special-unwind-on-signal]]
     [vivid.art.cli.usage :refer [cli-options]]
     [vivid.art.cli.validate :as validate]))
 
@@ -46,7 +46,7 @@
   (are [expected x]
     (= expected
        (let [f #(validate/validate-bindings x)
-             {:keys [step]} (special-manage-unwind-on-signal f :vivid.art.cli/error)]
+             {:keys [step]} (special-unwind-on-signal f :vivid.art.cli/error)]
          step))
     'validate-bindings ""
     'validate-bindings " "
@@ -105,7 +105,7 @@
   (are [expected x]
     (= expected
        (let [f #(validate/validate-bindings x)
-             {:keys [step]} (special-manage-unwind-on-signal f :vivid.art.cli/error)]
+             {:keys [step]} (special-unwind-on-signal f :vivid.art.cli/error)]
          step))
     'validate-bindings nil
     'validate-bindings ""
@@ -123,5 +123,5 @@
                   {:c 3}
                   "{:non"]
                f #(validate/validate-bindings x)
-               {:keys [step]} (special-manage-unwind-on-signal f :vivid.art.cli/error)]
+               {:keys [step]} (special-unwind-on-signal f :vivid.art.cli/error)]
            step))))

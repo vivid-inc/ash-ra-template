@@ -83,4 +83,4 @@ Templates are rendered to files whose filenames are stripped of the .art suffix.
    _ files        FILES ^:! [file] "Render these ART files and directory trees thereof, instead of Boot's fileset"
    _ output-dir   DIR   ^:! file   "Divert rendered file output to DIR"
    _ to-phase     VAL   ^:! kw     "Stop the render dataflow on each template at an earlier phase"]
-  (process *opts*))
+  (process *opts*))                                         ; TODO special/manage

@@ -77,4 +77,5 @@
            (jar)
            (runtests)
            (test-report)
+           (install)
            (test-exit)))

@@ -55,6 +55,8 @@ and options:
 
 ## Cookbook
 
+`art/test-resources` contains sample Boot projects that parallel the automated test suite.
+
 
 #### CLI: Render ART templates with bindings and custom delimiters
 ```bash

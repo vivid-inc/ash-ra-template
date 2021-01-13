@@ -45,14 +45,16 @@ and options:
       --bindings VAL      VAL sets bindings made available to templates for symbol resolution.
       --delimiters VAL    VAL sets template delimiters (default: `erb').
       --dependencies VAL  VAL sets clojure deps map providing libs within the template evaluation environment.
-      --files FILES       FILES sets a vector of .art template files to render. If not present, all files will be rendered
-      --output-dir DIR    DIR sets write rendered files to DIR. Leave unset to have Boot decide.
+      --files FILES       FILES sets render these ART files and directory trees thereof, instead of Boot's fileset
+      --output-dir DIR    DIR sets divert rendered file output to DIR.
       --to-phase VAL      VAL sets stop the render dataflow on each template at an earlier phase.
 ```
 
 
 
 ## Cookbook
+
+`art/test-resources` contains sample Boot projects that parallel the automated test suite.
 
 
 #### CLI: Render ART templates with bindings and custom delimiters

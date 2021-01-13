@@ -10,6 +10,6 @@
     (art :bindings     '{updated "2021-01-01"}
          :dependencies '{hiccup {:mvn/version "1.0.5"}}
          :delimiters   {:begin-forms "{%" :end-forms "%}" :begin-eval "{%=" :end-eval "%}"}
-         :files        [(clojure.java.io/file "templates")]
-         :output-dir   (File. "target")
+         :files        [(io/file "templates")]
+         :output-dir   (io/file "target")
          :to-phase     :evaluate)))

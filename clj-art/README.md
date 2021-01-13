@@ -30,6 +30,9 @@ $ clj -A:art --help
 
 ### Options
 
+`art/test-resources` contains sample Clojure Tool projects that parallel the automated test suite.
+
+
 | CLI argument | Parameters | Cardinality | Default | Explanation |
 | --- | --- | --- | --- | --- |
 | `--bindings` | PARAM | Single or collection | | Bindings made available to templates for symbol resolution |

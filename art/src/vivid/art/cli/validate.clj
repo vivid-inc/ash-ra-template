@@ -92,7 +92,7 @@
   "Returns a collection of java.io.File's representing each of the named
   template file paths, being any mix of existing files and directories.
   Any unresolvable named path is special/condition'ed as an error."
-  [templates]
+  [x]
   (letfn [(conv [path]
             (let [f (resolve/resolve-as-file path)]
               (if (and f (.exists f))
@@ -100,7 +100,7 @@
                 (special/condition :vivid.art.cli/error
                                    {:step    'validate-templates
                                     :message (format "Template path doesn't exist: '%s'" path)}))))]
-    (map conv templates)))
+    (map conv (if (coll? x) x [x]))))
 
 (defn validate-to-phase
   "The :to-phase option can either be a valid keyword or its string representation.

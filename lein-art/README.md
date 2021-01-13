@@ -92,6 +92,9 @@ Output files will overwrite files that exist with the same filenames.
 
 ## Cookbook
 
+`art/test-resources` contains sample Leiningen projects that parallel the automated test suite.
+
+
 #### Install `lein-art` globally so that you can use it anywhere
 Add the plugin to your `~/.lein/profiles.clj`:
 ```clojure

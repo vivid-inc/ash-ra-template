@@ -18,7 +18,7 @@
     [clojure.test :refer :all]
     [vivid.art.specs]
     [vivid.art.cli.args]
-    [vivid.art.cli.test-lib :refer [special-manage-unwind-on-signal]]
+    [vivid.art.cli.test-lib :refer [special-unwind-on-signal]]
     [vivid.art.cli.usage :refer [cli-options]])
   (:import
     (java.io File)))
@@ -27,7 +27,7 @@
   (are [args]
     (true?
        (let [f #(vivid.art.cli.args/cli-args->batch args cli-options)
-             data (special-manage-unwind-on-signal f :vivid.art.cli/error)]
+             data (special-unwind-on-signal f :vivid.art.cli/error)]
          (:show-usage data)))
     []
     ["-h"]
@@ -48,7 +48,7 @@
     (= 'validate-templates
        (let [args [filename]
              f #(vivid.art.cli.args/cli-args->batch args cli-options)
-             data (special-manage-unwind-on-signal f :vivid.art.cli/error)]
+             data (special-unwind-on-signal f :vivid.art.cli/error)]
          (:step data)))
     ""
     " "
@@ -57,7 +57,7 @@
 (deftest unknown-args
   (are [args]
     (let [f #(vivid.art.cli.args/cli-args->batch args cli-options)
-          {:keys [step message]} (special-manage-unwind-on-signal f :vivid.art.cli/error)]
+          {:keys [step message]} (special-unwind-on-signal f :vivid.art.cli/error)]
       (and (= 'parse-cli-args step)
            (clojure.string/includes? message (first args))))
     ["--nonsense"]))

@@ -74,10 +74,10 @@
 (defn validate-as-batch
   "Validates template paths, and resolves and validates everything else,
   returning a render batch."
-  [arguments {:keys [^String output-dir] :as options}]
+  [templates {:keys [^String output-dir] :as options}]
   (merge
     ; Mandatory
-    {:templates (validate/validate-templates arguments)
+    {:templates (validate/validate-templates templates)
      :output-dir (validate/validate-output-dir output-dir)}
     ; Optional
     (when-let [bindings (:bindings options)]
@@ -89,6 +89,11 @@
     (when-let [to-phase (:to-phase options)]
       {:to-phase (validate/validate-to-phase to-phase)})))
 
+(defn direct->batch
+  [templates options]
+  (-> (validate-as-batch templates options)
+      (update :templates paths->template-paths!)))
+
 (defn cli-args->batch
   "Interpret command line arguments, producing a map representing an ART render
   batch job that can be executed by this CLI lib's (render-batch) fn. All
@@ -99,5 +104,7 @@
     (-> (validate-as-batch arguments options)
         (update :templates paths->template-paths!))))
 
+(s/fdef direct->batch
+        :ret :vivid.art.cli/batch)
 (s/fdef cli-args->batch
         :ret :vivid.art.cli/batch)

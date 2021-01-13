@@ -32,20 +32,22 @@
     (vivid.art.cli.exec/render-batch batch)))
 
 (defn- from-project
-  [lein-conf]
-  ; TODO lein-conf->batch
-  (cond
-    (map? lein-conf) (vivid.art.cli.exec/render-batch lein-conf)
-    (coll? lein-conf) (doseq [stanza lein-conf]
-                        (vivid.art.cli.exec/render-batch stanza))
-    :else (main-lein/warn "Warning: Unknown ART configuration")))
+  [project]
+  (let [stanza (:art project)
+        pipeline #(-> (vivid.art.cli.args/direct->batch (:templates %) %)
+                      (vivid.art.cli.exec/render-batch))]
+    (cond
+      (map? stanza) (pipeline stanza)
+      (coll? stanza) (doseq [conf stanza]
+                          (pipeline conf))
+      :else (main-lein/warn "Warning: Unknown lein-art ART configuration"))))
 
 (defn- process [project args]
   (binding [log/*info-fn* main-lein/info
             log/*warn-fn* main-lein/warn]
     (if (coll? args)
       (from-cli-args args)
-      (from-project (get project :art)))))
+      (from-project project))))
 
 (defn- usage []
   ; TODO Unify this with assets/README.md

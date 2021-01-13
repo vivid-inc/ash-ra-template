@@ -17,7 +17,7 @@
     [clojure.string]
     [clojure.test :refer :all]
     [vivid.art.cli.exec]
-    [vivid.art.cli.test-lib :refer [special-manage-unwind-on-signal]]
+    [vivid.art.cli.test-lib :refer [special-unwind-on-signal]]
     [vivid.art.cli.usage])
   (:import
     (java.io File)))
@@ -48,7 +48,7 @@
   (let [f #(vivid.art.cli.args/cli-args->batch
              ["--output-dir" "" "test-resources/empty.art"]
              vivid.art.cli.usage/cli-options)
-        {:keys [step]} (special-manage-unwind-on-signal f :vivid.art.cli/error)]
+        {:keys [step]} (special-unwind-on-signal f :vivid.art.cli/error)]
     (is (= 'validate-output-dir step))))
 
 (deftest template-paths

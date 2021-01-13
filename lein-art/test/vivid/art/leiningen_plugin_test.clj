@@ -62,7 +62,7 @@
                            "--bindings" "../art/test-resources/utf-8/greek.edn"
                            "--delimiters" "jinja"))
 
-
+; TODO Restore both calling patterns
 #_(
    (ns vivid.art.leiningen-plugin-test
      (:require

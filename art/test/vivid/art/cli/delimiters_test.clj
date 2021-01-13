@@ -16,7 +16,7 @@
   (:require
     [clojure.test :refer :all]
     [vivid.art.cli.args]
-    [vivid.art.cli.test-lib :refer [special-manage-unwind-on-signal]]
+    [vivid.art.cli.test-lib :refer [special-unwind-on-signal]]
     [vivid.art.cli.usage :refer [cli-options]]
     [vivid.art.cli.validate :as validate]
     [vivid.art.delimiters]))
@@ -69,7 +69,7 @@
     (= 'validate-delimiters
        (let [args ["--delimiters" delims "test-resources/empty.art"]
              f #(vivid.art.cli.args/cli-args->batch args cli-options)
-             {:keys [step]} (special-manage-unwind-on-signal f :vivid.art.cli/error)]
+             {:keys [step]} (special-unwind-on-signal f :vivid.art.cli/error)]
          step))
     ; Malformed
     ""
@@ -143,7 +143,7 @@
   (are [s]
     (= 'validate-delimiters
        (let [f #(validate/validate-delimiters s)
-             {:keys [step]} (special-manage-unwind-on-signal f :vivid.art.cli/error)]
+             {:keys [step]} (special-unwind-on-signal f :vivid.art.cli/error)]
          step))
     nil
     ""

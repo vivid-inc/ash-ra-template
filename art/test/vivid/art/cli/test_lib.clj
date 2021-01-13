@@ -18,7 +18,7 @@
   (:import
     (clojure.lang ExceptionInfo)))
 
-(defn special-manage-unwind-on-signal [f signal]
+(defn special-unwind-on-signal [f signal]
   "Runs function f using special/manage. If and when special signal occurs,
   unwinds the stack, returning the value that was provided to the signal
   handler."
