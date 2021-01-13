@@ -23,8 +23,7 @@
     [vivid.art :as art]
     [vivid.art.cli.files]
     [vivid.art.cli.log :as log]
-    [vivid.art.cli.specs]
-    [vivid.art.specs :refer [to-phase?]])
+    [vivid.art.cli.specs])
   (:import
     (java.io File)))
 

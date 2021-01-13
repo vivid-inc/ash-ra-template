@@ -18,6 +18,7 @@
     [clojure.spec.alpha :as s]
     [special.core :as special]
     [vivid.art.delimiters :refer [erb]]
+    [vivid.art.embed]
     [vivid.art.enscript :refer [enscript]]
     [vivid.art.evaluate :refer [evaluate]]
     [vivid.art.failure :refer [make-failure]]

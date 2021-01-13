@@ -22,7 +22,7 @@ ash-ra-template-job: &ash-ra-template-job
           # Fallback
           - m2-deps-
     - run:
-        command: lein test-all
+        command: lein test
         working_directory: ash-ra-template
     # TODO Emit XUnit-format tests so that CircleCI can provide reports: https://circleci.com/docs/2.0/configuration-reference/#store_test_results
     - save_cache:
@@ -49,8 +49,17 @@ boot-art: &boot-art-job
     - attach_workspace:
         at: ~/.m2
     - run:
-        command: boot test-all
+        command: boot test
         working_directory: boot-art
+
+clj-art: &clj-art-job
+  steps:
+    - checkout
+    - attach_workspace:
+        at: ~/.m2
+    - run:
+        command: clojure -A:test
+        working_directory: clj-art
 
 lein-art: &lein-art-job
   environment:
@@ -60,7 +69,7 @@ lein-art: &lein-art-job
     - attach_workspace:
         at: ~/.m2
     - run:
-        command: lein test-all
+        command: lein test
         working_directory: lein-art
 
 
@@ -73,6 +82,10 @@ jobs:
     <<: *boot-art-job
     docker:
       - image: circleci/clojure:openjdk-8-boot-2.8.2
+  clj-art-jdk-8-job:
+    <<: *clj-art-job
+    docker:
+      - image: circleci/clojure:openjdk-8-lein-2.9.1
   lein-art-jdk-8-job:
     <<: *lein-art-job
     docker:
@@ -85,6 +98,10 @@ jobs:
     <<: *boot-art-job
     docker:
       - image: circleci/clojure:openjdk-11-boot-2.8.2
+  clj-art-jdk-11-job:
+    <<: *clj-art-job
+    docker:
+      - image: circleci/clojure:openjdk-11-lein-2.9.1
   lein-art-jdk-11-job:
     <<: *lein-art-job
     docker:
@@ -98,11 +115,17 @@ workflows:
       - boot-art-jdk-8-job:
           requires:
             - ash-ra-template-jdk-8-job
+      - clj-art-jdk-8-job:
+          requires:
+            - ash-ra-template-jdk-8-job
       - lein-art-jdk-8-job:
           requires:
             - ash-ra-template-jdk-8-job
       - ash-ra-template-jdk-11-job
       - boot-art-jdk-11-job:
+          requires:
+            - ash-ra-template-jdk-11-job
+      - clj-art-jdk-11-job:
           requires:
             - ash-ra-template-jdk-11-job
       - lein-art-jdk-11-job:

@@ -20,9 +20,7 @@
     [special.core :as special]
     [vivid.art]
     [vivid.art.cli.resolve :as resolve]
-    [vivid.art.specs])
-  (:import
-    (java.io File)))
+    [vivid.art.specs]))
 
 (defn validate-bindings
   "Is either a single or collection of binding maps. Each

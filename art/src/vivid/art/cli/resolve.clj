@@ -69,7 +69,7 @@
   (when (string? x)
     (try
       (edn/read-string x)
-      (catch RuntimeException e
+      (catch RuntimeException _
         nil))))
 
 (defn resolve-as-file
