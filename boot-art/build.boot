@@ -50,8 +50,8 @@
 
 (deftask lein-generate
          []
-         ; Generate a Leiningen project.clj file for importing the project into an IDE
-         ; with the following overrides to make editing a pleasant experience.
+         ; Generate a Leiningen project.clj file for importing the project into an
+         ; IDE with the following overrides to make the in-IDE experience pleasant.
          (let [boot-deps (boot/get-env :dependencies)
                overrides (conj boot-deps '[org.clojure/clojure "1.9.0" :scope "provided"])]
            (boot-lein/write-project-clj :override {:dependencies overrides})))
@@ -59,11 +59,12 @@
 (deftask mkdocs
          []
          (comp
-           ; The docs require boot-art on the classpath, which is automatically
-           ; added to the classpath by Boot (the src/ dir). So we leave it
-           ; in Boot's fileset for now ...
+           ; The docs being generated require boot-art on the classpath, which is
+           ; automatically added to the classpath by Boot (the src/ dir).
+           ; So we leave it in Boot's fileset for now ...
            (sift :add-resource #{"assets"})
-           (art :dependencies '{boot/core {:mvn/version "2.8.2"}})
+           (art :bindings "../assets/vivid-art-facts.edn"
+                :dependencies '{boot/core {:mvn/version "2.8.2"}})
            ; ... until the docs are rendered, which is all we are interested in:
            (sift :include #{#"^README\.md$"})
            (target :dir #{"."}

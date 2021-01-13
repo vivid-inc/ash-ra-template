@@ -3,31 +3,25 @@
 <%
 (require 'clojure.string)
 (require 'vivid.art)
-(require 'vivid.art.cli.usage)
-(import '(java.io BufferedReader StringReader))
 
 (def to-phase-values (->> vivid.art/render-phases
                           (map #(format "`%s`" (name %)))
                           (clojure.string/join ", ")))
-
-(def summary (as-> (vivid.art.cli.usage/summary "Clojure tool") c
-                   (line-seq (BufferedReader. (StringReader. c)))
-                   (clojure.string/join \newline (rest c))))
 %>
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/vivid/clj-art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/clj-art)
 
 `clj-art` is a Clojure `deps.edn` tool for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates.
-<%= summary %>
 
 
 ## Quick Start
+<% ; Quick Start introduces a least-friction sample that intrigues the reader to try it out themselves. %>
 
 Create an alias in your project `deps.edn` or personal `~/.clojure/deps.edn` map:
 ```edn
 {:aliases 
-  {:art {:extra-deps {vivid/clj-art {:mvn/version "0.5.0"}}
+  {:art {:extra-deps {vivid/clj-art {:mvn/version "<%=vivid-art-version%>"}}
          :main-opts  ["-m" "vivid.art.clj-tool"
                       ... ART options ... ART templates]}
 ```
@@ -44,14 +38,14 @@ $ clj -A:art --help
 `art/test-resources` contains sample Clojure Tool projects that parallel the automated test suite.
 
 
-| CLI argument | Parameters | Cardinality | Default | Explanation |
+| Keyword argument | CLI argument | Parameters | Default | Explanation |
 | --- | --- | --- | --- | --- |
-| `--bindings` | PARAM | Single or collection | | Bindings made available to templates for symbol resolution |
-| `--delimiters` | PARAM | Single or collection | `erb` | Template delimiters |
-| ``--dependencies` | PARAM | Single | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
-| `-h`, `--help` | | | | Displays lovely help and then exits |
-| `--output-dir` | File path | Single | `.` | Write rendered files to DIR |
-| `--to-phase` | One of: <%= to-phase-values %> | Single | | Stop the render dataflow on each template at an earlier phase |
+| :bindings | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
+| :delimiters | `--delimiters` | VAL | `erb` | Template delimiters |
+| :dependencies | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
+| | `-h`, `--help` | | | Displays lovely help and then exits |
+| :output-dir | `--output-dir` | DIR | `.` | Write rendered files to DIR |
+| :to-phase | `--to-phase` | One of: <%= to-phase-values %> | | Stop the render dataflow on each template at an earlier phase |
 
 
 ## Cookbook
@@ -61,15 +55,15 @@ $ clj -A:art --help
 When supplying double-quoted parameters to options in your `deps.edn` file, spaces must be replaced with comma ',' characters.
 Example:
 ```edn
-  "--dependencies" "{vivid/art {:mvn/version \"0.5.0\"}}"    ; Bad, will fail
+  "--dependencies" "{vivid/art {:mvn/version \"<%=vivid-art-version%>\"}}"    ; Bad, will fail
 
-  "--dependencies" "{vivid/art,{:mvn/version,\"0.5.0\"}}"    ; OK
+  "--dependencies" "{vivid/art,{:mvn/version,\"<%=vivid-art-version%>\"}}"    ; OK
 ```
 This mangling is idiosyncratic to `deps.edn`.
 `clj-art` invoked at the command line obediently accepts the plain form:
 ```
 $ clojure -m vivid.art.clj-tool \
-    --dependencies "{vivid/art {:mvn/version \"0.5.0\"}}"    ; OK
+    --dependencies "{vivid/art {:mvn/version \"<%=vivid-art-version%>\"}}"    ; OK
     ...
 ```
 
@@ -77,7 +71,7 @@ $ clojure -m vivid.art.clj-tool \
 
 Add the following to your `~/.clojure/deps.edn` file:
 ```edn
-{:aliases {:art {:extra-dependencies {vivid/clj-art {:mvn/version "0.5.0"}}}}}
+{:aliases {:art {:extra-deps {vivid/clj-art {:mvn/version "<%=vivid-art-version%>"}}}}}
 ```
 And use it like this:
 ```bash

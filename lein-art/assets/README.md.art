@@ -1,26 +1,23 @@
 # lein-art Ash Ra Template Leiningen Plugin 
 
 <%
-(require '[clojure.string])
-(require '[clojure.tools.cli])
-(require '[vivid.art.cli.usage])
-(import '(java.io BufferedReader StringReader))
+(require 'clojure.string)
+(require 'vivid.art)
 
-
-(def summary (as-> (vivid.art.cli.usage/summary "Clojure tool") c
-                   (line-seq (BufferedReader. (StringReader. c)))
-                   (clojure.string/join \newline (rest c))))
+(def to-phase-values (->> vivid.art/render-phases
+                          (map #(format "`%s`" (name %)))
+                          (clojure.string/join ", ")))
 %>
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/vivid/lein-art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/lein-art)
 
 `lein-art` is a Leiningen plugin for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates.
-<%= summary %>
 
 
 
 ## Quick Start
+<% ; Quick Start introduces a least-friction sample that intrigues the reader to try it out themselves. %>
 
 Provided one or more ART template files, the `art` Leiningen task writes rendered output to a specified output dir.
 
@@ -28,17 +25,64 @@ In Leiningen `project.clj`:
 
 ```clojure
   ; Add the lein-art Leiningen plugin:
-  :plugins [[vivid/lein-art "0.5.0"]]
+  :plugins [[vivid/lein-art "<%=vivid-art-version%>"]]
 
   ; Render .art templates
-  :art {:templates    COLL-OF-FILES
-        :bindings     SEQ-OF-MAP-VAR-EDN-FILE
-        :delimiters   MAP
-        :dependencies MAP
+  :art {:templates    VAL
+        :bindings     VAL
+        :delimiters   VAL
+        :dependencies VAL
         :output-dir   DIR}
 ```
 
-Examples:
+
+**Command-line** usage:
+
+```
+  $ lein art [template-file ...] [options]
+```
+
+and options:
+
+| Keyword | CLI argument | Parameters | Default | Explanation |
+| --- | --- | --- | --- | --- |
+| :bindings | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
+| :delimiters | `--delimiters` | VAL | `erb` | Template delimiters |
+| :dependencies | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
+| | `-h`, `--help` | | | Displays lovely help and then exits |
+| :output-dir | `--output-dir` | DIR | `.` | Write rendered files to DIR |
+| :to-phase | `--to-phase` | One of: <%= to-phase-values %> | | Stop the render dataflow on each template at an earlier phase |
+
+From the CLI, the `art` Lein task takes a list of file paths to `.art` files (ART templates) and options.
+CLI arguments can be freely mixed.
+
+Depending on what types of values a particular option accepts and whether ART is running from within Lein or from a command-line invocation, ART attempts to interpret each argument in the following order:
+1. As a map literal.
+1. As the (un-)qualified name of a var.
+1. As a path to an EDN file.
+1. As an EDN literal.
+
+Arguments are processed in order of appearance according to internal magic where symbol redefinitions clobber prior values.
+This might be important to you in the event of collisions when there are multiple instances of the same argument.
+
+`output-dir` will be created if necessary.
+Output files will overwrite files that exist with the same filenames.
+
+
+
+## Cookbook
+
+`art/test-resources` contains sample Leiningen projects that parallel the automated test suite.
+
+
+#### Install `lein-art` globally so that you can use it anywhere
+Add the plugin to your `~/.lein/profiles.clj`:
+```clojure
+{:user {:plugins [[vivid/lein-art "<%=vivid-art-version%>"]]}}
+```
+
+
+#### WHAT IS THIS
 
 ```clojure
   ; Rendered output written to target/index.html
@@ -61,50 +105,6 @@ Examples:
 
         :output       "out/cdn"}
 ```
-
-**Command-line** usage:
-
-```
-  $ lein art [template-file ...] [options]
-```
-
-and options:
-
-```clojure
-<%= (-> (clojure.tools.cli/parse-opts [] vivid.art.cli.usage/cli-options)
-        (get :summary)) %>
-```
-
-From the CLI, the `art` Lein task takes a list of file paths to `.art` files (ART templates) and options.
-CLI arguments can be freely mixed.
-
-Depending on what types of values a particular option accepts and whether ART is running from within Lein or from a command-line invocation, ART attempts to interpret each argument in the following order:
-1. As a map literal.
-1. As the (un-)qualified name of a var.
-1. As a path to an EDN file.
-1. As an EDN literal.
-
-`bindings` are processed in order of appearance where symbol redefinitions clobber prior values.
-This might be important to you in the event of collisions.
-
-`output-dir` will be created if necessary.
-The `.art` filename extension is stripped from the rendered output filenames.
-For example, `index.html.art` is rendered to the file `index.html`.
-Output files will overwrite files that exist with the same filenames.
-
-
-
-## Cookbook
-
-`art/test-resources` contains sample Leiningen projects that parallel the automated test suite.
-
-
-#### Install `lein-art` globally so that you can use it anywhere
-Add the plugin to your `~/.lein/profiles.clj`:
-```clojure
-{:user {:plugins [[vivid/lein-art "0.5.0"]]}}
-```
-
 
 
 ## License

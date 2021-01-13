@@ -10,6 +10,7 @@
                                           "--codecov" "--html" "--junit" "--src-ns-path" "src" "--test-ns-path" "test"]}
            :mkdocs         {:extra-paths ["src"]
                             :main-opts   ["-m" "vivid.art.clj-tool"
+                                          "--bindings" "../assets/vivid-art-facts.edn"
                                           "--dependencies" "{vivid/art,{:mvn/version,\"0.5.0\"}}"
                                           "assets/README.md.art"]}
            :test           {:extra-deps  {eftest/eftest {:mvn/version "0.5.9"}}

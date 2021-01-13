@@ -21,7 +21,8 @@
             "mkdocs"    ["art"]
             "test"      ["with-profile" "+clojure-1.9.0:+clojure-1.10.0:+clojure-1.10.1" "build"]}
 
-  :art {:templates  ["assets/README.md.art"]
+  :art {:templates  "assets/README.md.art"
+        :bindings   "../assets/vivid-art-facts.edn"
         :output-dir "."}
 
   :cloverage {:codecov? true

@@ -1,27 +1,35 @@
 # boot-art Ash Ra Template Boot Task
 
 <%
-(require '[boot.core])
+(require 'clojure.string)
+(require 'vivid.art)
 (use '[vivid.boot-art])
+
+(def to-phase-values (->> vivid.art/render-phases
+                          (map #(format "`%s`" (name %)))
+                          (clojure.string/join ", ")))
 %>
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/vivid/boot-art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/boot-art)
 
-`boot-art` is a [Boot](https://github.com/boot-clj/boot) task for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates.
-It composes easily into your existing Boot infrastructure.
+`boot-art` composes easily into your existing [Boot](https://github.com/boot-clj/boot) infrastructure for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates.
 
 
 
 ## Quick Start
+<% ; Quick Start introduces a least-friction sample that intrigues the reader to try it out themselves. %>
 
-The `art` Boot task will render all template files bearing the `.art` filename extension.
-The `art` filename extension is stripped from the rendered output filenames.
-For example, `index.html.art` is rendered to the file `index.html`.
+Provided paths to files and/or directory trees in `:templates`,
+the `art` Boot task finds all ART template files whose names
+bear the `.art` filename extension.
+Those templates are rendered and written under the output directory
+`:output-dir` preserving sub-paths and stripped of the `.art` extension.
+
 In your `build.boot`:
 
 ```clojure
-(set-env! :dependencies '[[vivid/boot-art "0.5.0"]]
+(set-env! :dependencies '[[vivid/boot-art "<%=vivid-art-version%>"]]
           :source-paths #{"templates"})
 
 (require '[vivid.boot-art :refer [art]])
@@ -35,21 +43,16 @@ In your `build.boot`:
                (target)))
 ```
 
-Standalone CLI usage:
+## Options
 
-```
-  $ boot -d vivid/boot-art art [OPTIONS]
-```
-
-and options:
-
-```clojure
-<%= (->> (with-out-str (art "-h"))
-         (clojure.string/split-lines)
-         (drop-while #(not= "Options:" %))
-         (rest)
-         (clojure.string/join \newline)) %>
-```
+| Keyword | CLI argument | Parameters | Default | Explanation |
+| --- | --- | --- | --- | --- |
+| :bindings | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
+| :delimiters | `--delimiters` | VAL | `erb` | Template delimiters |
+| :dependencies | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
+| | `-h`, `--help` | | | Displays lovely help and then exits |
+| :output-dir | `--output-dir` | DIR | `.` | Write rendered files to DIR |
+| :to-phase | `--to-phase` | One of: <%= to-phase-values %> | | Stop the render dataflow on each template at an earlier phase |
 
 
 
@@ -96,6 +99,12 @@ Providing an `:output-dir` will cause templates to be written there as well as t
          (comp (watch)
                (art)
                (target)))
+```
+
+#### Standalone `boot` CLI usage
+
+```
+  $ boot -d vivid/boot-art art [OPTIONS]
 ```
 
 

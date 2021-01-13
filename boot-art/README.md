@@ -5,16 +5,19 @@
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/vivid/boot-art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/boot-art)
 
-`boot-art` is a [Boot](https://github.com/boot-clj/boot) task for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates.
-It composes easily into your existing Boot infrastructure.
+`boot-art` composes easily into your existing [Boot](https://github.com/boot-clj/boot) infrastructure for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates.
 
 
 
 ## Quick Start
 
-The `art` Boot task will render all template files bearing the `.art` filename extension.
-The `art` filename extension is stripped from the rendered output filenames.
-For example, `index.html.art` is rendered to the file `index.html`.
+
+Provided paths to files and/or directory trees in `:templates`,
+the `art` Boot task finds all ART template files whose names
+bear the `.art` filename extension.
+Those templates are rendered and written under the output directory
+`:output-dir` preserving sub-paths and stripped of the `.art` extension.
+
 In your `build.boot`:
 
 ```clojure
@@ -32,23 +35,16 @@ In your `build.boot`:
                (target)))
 ```
 
-Standalone CLI usage:
+## Options
 
-```
-  $ boot -d vivid/boot-art art [OPTIONS]
-```
-
-and options:
-
-```clojure
-  -h, --help              Print this help info.
-      --bindings VAL      VAL sets bindings made available to templates for symbol resolution.
-      --delimiters VAL    VAL sets template delimiters (default: `erb').
-      --dependencies VAL  VAL sets clojure deps map providing libs within the template evaluation environment.
-      --files FILES       FILES sets render these ART files and directory trees thereof, instead of Boot's fileset
-      --output-dir DIR    DIR sets divert rendered file output to DIR.
-      --to-phase VAL      VAL sets stop the render dataflow on each template at an earlier phase.
-```
+| Keyword | CLI argument | Parameters | Default | Explanation |
+| --- | --- | --- | --- | --- |
+| :bindings | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
+| :delimiters | `--delimiters` | VAL | `erb` | Template delimiters |
+| :dependencies | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
+| | `-h`, `--help` | | | Displays lovely help and then exits |
+| :output-dir | `--output-dir` | DIR | `.` | Write rendered files to DIR |
+| :to-phase | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | | Stop the render dataflow on each template at an earlier phase |
 
 
 
@@ -95,6 +91,12 @@ Providing an `:output-dir` will cause templates to be written there as well as t
          (comp (watch)
                (art)
                (target)))
+```
+
+#### Standalone `boot` CLI usage
+
+```
+  $ boot -d vivid/boot-art art [OPTIONS]
 ```
 
 
