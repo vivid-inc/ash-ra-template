@@ -51,7 +51,11 @@ You'll then be able to render ART templates using `clj-art` at the CLI anywhere 
 | `:dependencies` | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
 | | `-h`, `--help` | | | Displays lovely help and then exits |
 | `:output-dir` | `--output-dir` | DIR | `.` | Write rendered files to DIR |
-| `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | | Stop the render dataflow on each template at an earlier phase |
+| `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `:evaluate` | Stop the render dataflow on each template at an earlier phase |
+
+A rendering batch can also be specified as an alias in `deps.edn'.
+Options are supplied identically to the CLI invocation. Run the ART alias with:
+
 
 
 ## Cookbook

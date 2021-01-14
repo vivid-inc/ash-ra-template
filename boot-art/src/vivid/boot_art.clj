@@ -74,11 +74,13 @@
   ; TODO How to create this task docstring dynamically?
   "Render Ash Ra .art templates.
 
-Provided one or more template files and any quantity of optional bindings, this
-Boot task writes rendered template output to a specified output dir.
-Templates are rendered to files whose filenames are stripped of the .art suffix."
+Provided file or directory tree paths containing Ash Ra .art template files, this
+Boot task renders the ART templates to the output dir, preserving relative sub-paths.
+
+For more info, see
+ https://github.com/vivid-inc/ash-ra-template"
   [_ bindings     VAL   ^:! code   "Bindings made available to templates for symbol resolution"
-   _ delimiters   VAL   ^:! code   "Template delimiters (default: `erb')"
+   _ delimiters   VAL   ^:! code   "Template delimiters"
    _ dependencies VAL   ^:! code   "Clojure deps map providing libs within the template evaluation environment"
    _ files        FILES ^:! [file] "Render these ART files and directory trees thereof, instead of Boot's fileset"
    _ output-dir   DIR   ^:! file   "Divert rendered file output to DIR"

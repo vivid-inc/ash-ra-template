@@ -12,11 +12,12 @@
 ## Quick Start
 
 
-Templates are supplied as one or more paths to `.art` template files and/or
-directory trees thereof.
+Templates occur as `.art` template files in Boot's fileset, or optionally by
+`:file` as one or more paths `.art` template files and/or directory trees thereof.
 The `art` Boot task scans those paths for all ART template files with the `.art`
 filename extension.
-Templates are rendered and written under the output directory `:output-dir`
+Templates are rendered and written with a task like `(target)`, or optionally
+diverted to the output directory `:output-dir`,
 preserving sub-paths, stripped of the `.art` extension.
 
 ```sh
@@ -31,11 +32,11 @@ $ boot -d vivid/boot-art art --bindings "'{mysterious-primes [7 191]}" \
 ```
 `boot-art` will render the output file `oracle` into the current directory.
 
-Or organized into your `build.boot`:
+Re-writing the above into a `build.boot`:
 
 ```clojure
 (set-env! :dependencies '[[vivid/boot-art "0.5.0"]]
-          :source-paths #{"templates"})    ; NOTE: Move oracle.art into this dir
+          :resource-paths #{"templates"})    ; NOTE: Move oracle.art into this dir
 
 (require '[vivid.boot-art :refer [art]])
 
@@ -53,9 +54,10 @@ Or organized into your `build.boot`:
 | `:bindings` | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
 | `:delimiters` | `--delimiters` | VAL | `erb` | Template delimiters |
 | `:dependencies` | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
+| `:files` | `--files` | FILES | | Scan and render these ART files and directory trees thereof, instead of Boot's fileset |
 | | `-h`, `--help` | | | Displays lovely help and then exits |
-| `:output-dir` | `--output-dir` | DIR | | Write rendered files to DIR |
-| `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | | Stop the render dataflow on each template at an earlier phase |
+| `:output-dir` | `--output-dir` | DIR | | Divert rendered file output to DIR |
+| `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `:evaluate` | Stop the render dataflow on each template at an earlier phase. |
 
 
 

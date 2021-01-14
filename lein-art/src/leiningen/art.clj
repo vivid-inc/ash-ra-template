@@ -39,7 +39,7 @@
     (cond
       (map? stanza) (pipeline stanza)
       (coll? stanza) (doseq [conf stanza]
-                          (pipeline conf))
+                       (pipeline conf))
       :else (main-lein/warn "Warning: Unknown lein-art ART configuration"))))
 
 (defn- process [project args]
@@ -52,26 +52,14 @@
 (defn- usage []
   ; TODO Unify this with assets/README.md
   (let [options-summary (:summary (clojure.tools.cli/parse-opts [] vivid.art.cli.usage/cli-options))]
-    (->> [(vivid.art.cli.usage/summary "Leiningen plugin")
-          "Usage: lein art --output-dir DIR [options...] template-files..."
+    (->> [vivid.art.cli.usage/one-line-desc
+          (vivid.art.cli.usage/summary "Leiningen plugin")
+          "Usage: lein art [options...] template-files..."
           (str "Options:\n" options-summary)
-          "One or more rendering batches can also be specified as a section in `project.clj':"
-          ; TODO automate generation of the option list
-          "  {:art [{:templates    COLL-OF-FILES
-          :output-dir   DIR
-          :bindings     SEQ-OF-MAP-VAR-EDN-FILE
-          :delimiters   EDN-OR-VAR
-          :dependencies EDN-OR-VAR
-          :to-phase     KEYWORD}
-         ... ]}"
-          "Options are the keyword equivalent of their corresponding CLI long options.
-Run all batches with:"
-          "  $ lein art"
-          (vivid.art.cli.usage/finer-details "as a Leiningen configuration")
           vivid.art.cli.usage/for-more-info]
          (clojure.string/join "\n\n"))))
 
-; Leiningen entry point for lein-art.
+; Leiningen entry point for lein-art
 (defn ^:no-project-needed
   ^{:doc (usage)}
   art [project & args]

@@ -37,16 +37,10 @@
 
 (defn usage []
   (let [options-summary (:summary (clojure.tools.cli/parse-opts [] cli-options))]
-    (->> [(vivid.art.cli.usage/summary "Clojure tool")
+    (->> [vivid.art.cli.usage/one-line-desc
+          (vivid.art.cli.usage/summary "Clojure tool")
           (str "Usage: clj -m " (namespace `usage) " [options...] template-files...")
           (str "Options:\n" options-summary)
-          "A rendering batch can also be specified as an alias in `deps.edn':"
-          "  {:aliases {:art {:extra-deps {vivid/clj-art {:mvn/version \"0.5.0\"}}
-                     :main-opts [\"-m\" \"vivid.art.clj-tool\"
-                                 options... template-files...]}}}"
-          "Options are supplied identically to the CLI invocation. Run the ART alias with:"
-          "  $ clojure -A:art"
-          (vivid.art.cli.usage/finer-details "as a Clojure tool alias")
           vivid.art.cli.usage/for-more-info]
          (clojure.string/join "\n\n"))))
 

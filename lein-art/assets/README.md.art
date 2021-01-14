@@ -51,14 +51,19 @@ $ lein art
 | Keyword | CLI argument | Parameters | Default | Explanation |
 | --- | --- | --- | --- | --- |
 | `:bindings` | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
-| `:delimiters` | `--delimiters` | VAL | `erb` | Template delimiters |
+| `:delimiters` | `--delimiters` | VAL | `{%=vivid.art/default-delimiters-name%}` | Template delimiters |
 | `:dependencies` | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
 | | `-h`, `--help` | | | Displays lovely help and then exits |
 | `:output-dir` | `--output-dir` | DIR | `.` | Write rendered files to DIR |
-| `:to-phase` | `--to-phase` | One of: {%= to-phase-values %} | | Stop the render dataflow on each template at an earlier phase |
+| `:to-phase` | `--to-phase` | One of: {%= to-phase-values %} | `{%=vivid.art/default-to-phase%}` | Stop the render dataflow on each template at an earlier phase |
+
+Options are the keyword equivalent of their corresponding CLI long options.
 
 From the CLI, the `art` Lein task takes a list of file paths to `.art` files (ART templates) and options.
-CLI arguments can be freely mixed.
+Arguments can be freely mixed.
+The same argument can be given multiple times; the effect is additive, merging, or overriding
+in nature depending on the option but argument processing order is not guaranteed.
+This might be important to you in the event of collisions.
 
 Depending on what types of values a particular option accepts and whether ART is running from within Lein or from a command-line invocation, ART attempts to interpret each argument in the following order:
 1. As a map literal.
@@ -66,11 +71,20 @@ Depending on what types of values a particular option accepts and whether ART is
 1. As a path to an EDN file.
 1. As an EDN literal.
 
-Arguments are processed in order of appearance according to internal magic where symbol redefinitions clobber prior values.
-This might be important to you in the event of collisions when there are multiple instances of the same argument.
-
 `output-dir` will be created if necessary.
 Output files will overwrite files that exist with the same filenames.
+
+CLI arguments can be freely mixed, but are processed in order of appearance which might
+be important to you in case of collisions. Depending on what types of values a particular
+option accepts and whether ART was invoked from the CLI or as a Leiningen configuration,
+ART attempts to interpret each value in this order of precedence:
+  1. As a Clojure map literal.
+  2. As an (un-)qualified var.
+  3. As a string path to an EDN file.
+  4. As an EDN literal.
+
+Rendered output files are written to output-dir stripped of their .art filename suffixes, overwriting
+any existing files with the same names. output-dir and sub-paths therein are created as necessary.
 
 
 
@@ -84,6 +98,21 @@ Add the plugin to your `~/.lein/profiles.clj`:
 ```clojure
 {:user {:plugins [[vivid/lein-art "{%=vivid-art-version%}"]]}}
 ```
+
+
+#### Multiple render batches
+One or more rendering batches can also be specified as a section in `project.clj':
+
+```clojure
+:art [{}
+      {}]
+```
+
+Run all batches with:
+```sh
+$ lein art
+```
+
 
 
 #### WHAT IS THIS
