@@ -12,13 +12,6 @@
 ## Quick Start
 
 
-Templates are supplied as one or more paths to `.art` template files and/or
-directory trees thereof.
-The `art` Boot task scans those paths for all ART template files with the `.art`
-filename extension.
-Templates are rendered and written under the output directory `:output-dir`
-preserving sub-paths, stripped of the `.art` extension.
-
 ```sh
 $ cat oracle.art
 
@@ -27,7 +20,7 @@ Wait, I see it! Your destiny lies deep within the number <%= (mult mysterious-pr
 
 $ cat project.clj
 
-(defproject ren-da "1.2.3"
+(defproject rndr "1.2.3"
   :plugins [[vivid/lein-art "0.5.0"]]
   :art {:bindings   "{mysterious-primes [7 191]}"
         :templates  "oracle.art"
@@ -39,45 +32,43 @@ $ lein art
 
 
 
-## Options
+## Synopsis
 
-| Keyword | CLI argument | Parameters | Default | Explanation |
+`lein-art` can be used with Leiningen `project.clj` and at the CLI.
+
+Templates are supplied as one or more paths to `.art` template files and/or
+directory trees thereof.
+The `art` Boot task scans those paths for all ART template files with the `.art`
+filename extension.
+
+Templates are rendered and written under `output-dir` stripped of their `.art`
+filename extensions, overwriting any existing files with the same paths.
+`output-dir` and sub-paths therein are created as necessary.
+
+
+
+#### Options
+
+| `project.clj` | CLI argument | Parameters | Default | Explanation |
 | --- | --- | --- | --- | --- |
 | `:bindings` | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
 | `:delimiters` | `--delimiters` | VAL | `erb` | Template delimiters |
 | `:dependencies` | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
 | | `-h`, `--help` | | | Displays lovely help and then exits |
 | `:output-dir` | `--output-dir` | DIR | `.` | Write rendered files to DIR |
+| `:templates` | [FILES] | VAL | | Paths to ART template files |
 | `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `:evaluate` | Stop the render dataflow on each template at an earlier phase |
 
-Options are the keyword equivalent of their corresponding CLI long options.
-
-From the CLI, the `art` Lein task takes a list of file paths to `.art` files (ART templates) and options.
-Arguments can be freely mixed.
 The same argument can be given multiple times; the effect is additive, merging, or overriding
 in nature depending on the option but argument processing order is not guaranteed.
 This might be important to you in the event of collisions.
 
-Depending on what types of values a particular option accepts and whether ART is running from within Lein or from a command-line invocation, ART attempts to interpret each argument in the following order:
-1. As a map literal.
+Depending on what types of values a particular option accepts and whether `lein-art` was invoked as a Leiningen configuration or from the CLI,
+ART attempts to interpret argument values in this order of precedence:
+1. As a map.
 1. As the (un-)qualified name of a var.
 1. As a path to an EDN file.
 1. As an EDN literal.
-
-`output-dir` will be created if necessary.
-Output files will overwrite files that exist with the same filenames.
-
-CLI arguments can be freely mixed, but are processed in order of appearance which might
-be important to you in case of collisions. Depending on what types of values a particular
-option accepts and whether ART was invoked from the CLI or as a Leiningen configuration,
-ART attempts to interpret each value in this order of precedence:
-  1. As a Clojure map literal.
-  2. As an (un-)qualified var.
-  3. As a string path to an EDN file.
-  4. As an EDN literal.
-
-Rendered output files are written to output-dir stripped of their .art filename suffixes, overwriting
-any existing files with the same names. output-dir and sub-paths therein are created as necessary.
 
 
 
@@ -85,6 +76,9 @@ any existing files with the same names. output-dir and sub-paths therein are cre
 
 `art/test-resources` contains sample Leiningen projects that parallel the automated test suite.
 
+
+####
+Multiple rendering batches under :art.
 
 #### Install `lein-art` globally so that you can use it anywhere
 Add the plugin to your `~/.lein/profiles.clj`:
@@ -105,7 +99,6 @@ Run all batches with:
 ```sh
 $ lein art
 ```
-
 
 
 #### WHAT IS THIS

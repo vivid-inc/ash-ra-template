@@ -12,13 +12,6 @@
 ## Quick Start
 
 
-Templates are supplied as one or more paths to `.art` template files and/or
-directory trees thereof.
-The `art` Boot task scans those paths for all ART template files with the `.art`
-filename extension.
-Templates are rendered and written under the output directory `:output-dir`
-preserving sub-paths, stripped of the `.art` extension.
-
 ```sh
 $ cat oracle.art
 
@@ -41,20 +34,42 @@ You'll then be able to render ART templates using `clj-art` at the CLI anywhere 
 
 
 
-## Options
+## Synopsis
+
+`clj-art` is usable with `deps.edn`.
+
+Templates are supplied as one or more paths to `.art` template files and/or
+directory trees thereof.
+The `art` Boot task scans those paths for all ART template files with the `.art`
+filename extension.
+
+Templates are rendered and written under `output-dir` stripped of their `.art`
+filename extensions, overwriting any existing files with the same paths.
+`output-dir` and sub-paths therein are created as necessary.
 
 
-| Keyword | CLI argument | Parameters | Default | Explanation |
-| --- | --- | --- | --- | --- |
-| `:bindings` | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
-| `:delimiters` | `--delimiters` | VAL | `erb` | Template delimiters |
-| `:dependencies` | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
-| | `-h`, `--help` | | | Displays lovely help and then exits |
-| `:output-dir` | `--output-dir` | DIR | `.` | Write rendered files to DIR |
-| `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `:evaluate` | Stop the render dataflow on each template at an earlier phase |
 
-A rendering batch can also be specified as an alias in `deps.edn'.
-Options are supplied identically to the CLI invocation. Run the ART alias with:
+#### Options
+
+| Argument | Parameters | Default | Explanation |
+| --- | --- | --- | --- |
+| `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
+| `--delimiters` | VAL | `erb` | Template delimiters |
+| `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
+| `-h`, `--help` | | | Displays lovely help and then exits |
+| `--output-dir` | DIR | `.` | Write rendered files to DIR |
+| `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `:evaluate` | Stop the render dataflow on each template at an earlier phase |
+
+The same argument can be given multiple times; the effect is additive, merging, or overriding
+in nature depending on the option but argument processing order is not guaranteed.
+This might be important to you in the event of collisions.
+
+Depending on what types of values a particular option accepts,
+ART attempts to interpret argument values in this order of precedence:
+1. As a map.
+1. As the (un-)qualified name of a var.
+1. As a path to an EDN file.
+1. As an EDN literal.
 
 
 
@@ -62,6 +77,8 @@ Options are supplied identically to the CLI invocation. Run the ART alias with:
 
 `art/test-resources` contains sample Clojure Tool projects that parallel the automated test suite.
 
+####
+You can specify several ART rendering batches in `deps.edn', each with a unique alias.
 
 #### Use space characters in arguments within `deps.edn`
 

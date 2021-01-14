@@ -12,14 +12,6 @@
 ## Quick Start
 
 
-Templates occur as `.art` template files in Boot's fileset, or optionally by
-`:file` as one or more paths `.art` template files and/or directory trees thereof.
-The `art` Boot task scans those paths for all ART template files with the `.art`
-filename extension.
-Templates are rendered and written with a task like `(target)`, or optionally
-diverted to the output directory `:output-dir`,
-preserving sub-paths, stripped of the `.art` extension.
-
 ```sh
 $ cat oracle.art
 
@@ -47,9 +39,25 @@ Re-writing the above into a `build.boot`:
 
 
 
-## Options
+## Synopsis
 
-| Keyword | CLI argument | Parameters | Default | Explanation |
+`boot-art` can be used with Boot `build.boot` and at the CLI.
+
+Templates occur as `.art` template files in Boot's fileset, or optionally by
+`:file` as one or more paths `.art` template files and/or directory trees thereof.
+The `art` Boot task scans those paths for all ART template files with the `.art`
+filename extension.
+
+Templates are rendered and written with a task like `(target)`, or optionally
+diverted to the output directory `:output-dir`, stripped of their `.art`
+filename extensions, overwriting any existing files with the same paths.
+`output-dir` and sub-paths therein are created as necessary.
+
+
+
+#### Options
+
+| `build.boot` | CLI argument | Parameters | Default | Explanation |
 | --- | --- | --- | --- | --- |
 | `:bindings` | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
 | `:delimiters` | `--delimiters` | VAL | `erb` | Template delimiters |
@@ -57,7 +65,18 @@ Re-writing the above into a `build.boot`:
 | `:files` | `--files` | FILES | | Scan and render these ART files and directory trees thereof, instead of Boot's fileset |
 | | `-h`, `--help` | | | Displays lovely help and then exits |
 | `:output-dir` | `--output-dir` | DIR | | Divert rendered file output to DIR |
-| `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `:evaluate` | Stop the render dataflow on each template at an earlier phase. |
+| `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `:evaluate` | Stop the render dataflow on each template at an earlier phase |
+
+The same argument can be given multiple times; the effect is additive, merging, or overriding
+in nature depending on the option but argument processing order is not guaranteed.
+This might be important to you in the event of collisions.
+
+Depending on what types of values a particular option accepts and whether `boot-art` was invoked as a Boot task in Clojure or from the CLI,
+ART attempts to interpret argument values in this order of precedence:
+1. As a map.
+1. As the (un-)qualified name of a var.
+1. As a path to an EDN file.
+1. As an EDN literal.
 
 
 
