@@ -57,15 +57,15 @@
                       (when-not (:output-dir options*)
                         {:output-dir (boot/tmp-dir!)}))
             prev-fileset (atom nil)
-            batch* (vivid.art.cli.args/validate-as-batch (:files options*) options)
-            [art-files templates] (if (:files options*)
-                                    [[] (vivid.art.cli.args/paths->template-paths! (:files options*))]
+            batch* (vivid.art.cli.args/validate-as-batch (:templates options*) options)
+            [art-files templates] (if (:templates options*)
+                                    [[] (vivid.art.cli.args/paths->template-paths! (:templates options*))]
                                     (boot-fileset->template-paths boot-fileset prev-fileset))
             batch (merge batch* {:templates templates})]
         (vivid.art.cli.exec/render-batch batch)
         (cond-> boot-fileset
                 ; .art files will be replaced by their rendered counterparts
-                (not (:files options*)) (boot/rm art-files)
+                (not (:templates options*)) (boot/rm art-files)
                 :always (boot/add-resource (:output-dir options))
                 :always (boot/commit!))))))
 
@@ -82,7 +82,7 @@ For more info, see
   [_ bindings     VAL   ^:! code   "Bindings made available to templates for symbol resolution"
    _ delimiters   VAL   ^:! code   "Template delimiters"
    _ dependencies VAL   ^:! code   "Clojure deps map providing libs within the template evaluation environment"
-   _ files        FILES ^:! [file] "Render these ART files and directory trees thereof, instead of Boot's fileset"
    _ output-dir   DIR   ^:! file   "Divert rendered file output to DIR"
+   _ templates    FILES ^:! [file] "Render these ART files and directory trees thereof, instead of Boot's fileset"
    _ to-phase     VAL   ^:! kw     "Stop the render dataflow on each template at an earlier phase"]
   (process *opts*))                                         ; TODO special/manage

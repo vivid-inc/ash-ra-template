@@ -62,9 +62,9 @@ filename extensions, overwriting any existing files with the same paths.
 | `:bindings` | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
 | `:delimiters` | `--delimiters` | VAL | `erb` | Template delimiters |
 | `:dependencies` | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
-| `:files` | `--files` | FILES | | Scan and render these ART files and directory trees thereof, instead of Boot's fileset |
 | | `-h`, `--help` | | | Displays lovely help and then exits |
 | `:output-dir` | `--output-dir` | DIR | | Divert rendered file output to DIR |
+| `:templates` | `--templates` | FILES | | Render these ART files and directory trees thereof, instead of Boot's fileset |
 | `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `:evaluate` | Stop the render dataflow on each template at an earlier phase |
 
 The same argument can be given multiple times; the effect is additive, merging, or overriding
@@ -106,11 +106,11 @@ You can prevent evaluation of undefined symbols by quoting them with a single qu
 (import '(java.io File))
 
 (deftask rndr []
-         (art :files #{"source/index.html.art" "templates"}
+         (art :templates  #{"source/index.html.art" "templates"}
               :output-dir (File. "out")))
 ```
 Discussion:
-If `:files` is specified, `art` will use those files instead of searching Boot's fileset.
+If `:templates` is specified, `art` will use those files instead of searching Boot's fileset.
 Providing an `:output-dir` will cause templates to be written there as well as to Boot's `(target)` (if any).
 
 

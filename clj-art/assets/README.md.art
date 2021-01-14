@@ -117,9 +117,6 @@ $ clojure -A:art [OPTIONS] [TEMPLATE-PATHS]
 
 
 
-TODO List at https://github.com/clojure/tools.deps.alpha/wiki/Tools
-
-
 ## License
 
 © Copyright Vivid Inc.

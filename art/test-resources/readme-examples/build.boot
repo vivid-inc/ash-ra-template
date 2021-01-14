@@ -8,5 +8,5 @@
   (comp 
     (art :bindings   '{mysterious-primes [7 191]}
          :delimiters {:begin-forms "{%" :end-forms "%}" :begin-eval "{%=" :end-eval "%}"}
-         :files      [(io/file "templates/oracle.art")]
+         :templates      [(io/file "templates/oracle.art")]
          :output-dir (io/file "target"))))
