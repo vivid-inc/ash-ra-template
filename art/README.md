@@ -16,7 +16,7 @@ It's **design goals** are:
 _Note_ that until ART achieves version 1.0 status, details may be subject to change.
 
 - [Requirements](#requirements)
-- [Quickstart](#quickstart)
+- [Quick Start](#quickstart)
 - [Template syntax](#template-syntax)
 - [Rendering and options](#rendering-and-options)
   - [Providing ``:bindings``](#bindings)
@@ -34,7 +34,7 @@ Clojure is tested on:
 - Java 8 and all subsequent LTS releases (currently: Java 8 and Java 11). Java 8, because it strikes a good balance between wide adoption and long-term stability.
 
 <a name="quickstart"></a>
-## Quickstart
+## Quick Start
 
 Include this library from Clojars by adding the latest version of ``vivid/art`` to your project dependencies:
 ```clojure

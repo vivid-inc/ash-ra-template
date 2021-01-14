@@ -23,6 +23,7 @@
 
   :art {:templates  "assets/README.md.art"
         :bindings   "../assets/vivid-art-facts.edn"
+        :delimiters "{:begin-forms \"{%\" :end-forms \"%}\" :begin-eval \"{%=\" :end-eval \"%}\"}"
         :output-dir "."}
 
   :cloverage {:codecov? true

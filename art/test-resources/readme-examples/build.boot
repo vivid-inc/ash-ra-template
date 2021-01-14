@@ -4,7 +4,7 @@
 (require '[vivid.boot-art :refer [art]]
          '[clojure.java.io :as io])
 
-(deftask render-art []
+(deftask rndr []
   (comp 
     (art :bindings   '{mysterious-primes [7 191]}
          :delimiters {:begin-forms "{%" :end-forms "%}" :begin-eval "{%=" :end-eval "%}"}

@@ -5,7 +5,7 @@
          '[clojure.java.io :as io])
 (import '(java.io File))
 
-(deftask render-art []
+(deftask rndr []
   (comp 
     (art :bindings     '{updated "2021-01-01"}
          :dependencies '{hiccup {:mvn/version "1.0.5"}}

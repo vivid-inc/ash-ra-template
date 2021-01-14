@@ -4,7 +4,7 @@
 (require '[vivid.boot-art :refer [art]]
          '[clojure.java.io :as io])
 
-(deftask render-art []
-  (comp 
+(deftask rndr []
+  (comp
     (art :files      [(io/file "templates")]
          :output-dir (io/file "target"))))

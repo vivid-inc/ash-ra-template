@@ -23,7 +23,8 @@ Tested with Clojure 1.9 and newer, Java 8 and newer LTS releases.
 
 
 
-## Quickstart
+<a name="quickstart"></a>
+## Quick Start
 
 Include this library from Clojars by adding the latest version of ``vivid/art`` to your project dependencies:
 ```clojure

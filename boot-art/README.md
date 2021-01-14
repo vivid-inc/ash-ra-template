@@ -12,39 +12,50 @@
 ## Quick Start
 
 
-Provided paths to files and/or directory trees in `:templates`,
-the `art` Boot task finds all ART template files whose names
-bear the `.art` filename extension.
-Those templates are rendered and written under the output directory
-`:output-dir` preserving sub-paths and stripped of the `.art` extension.
+Templates are supplied as one or more paths to `.art` template files and/or
+directory trees thereof.
+The `art` Boot task scans those paths for all ART template files with the `.art`
+filename extension.
+Templates are rendered and written under the output directory `:output-dir`
+preserving sub-paths, stripped of the `.art` extension.
 
-In your `build.boot`:
+```sh
+$ cat oracle.art
+
+<% (defn mult [multiplicands] (apply * multiplicands)) %>
+Wait, I see it! Your destiny lies deep within the number <%= (mult mysterious-primes) %>.
+
+$ boot -d vivid/boot-art art --bindings "'{mysterious-primes [7 191]}" \
+                             --files oracle.art \
+                             --output-dir .
+```
+`boot-art` will render the output file `oracle` into the current directory.
+
+Or organized into your `build.boot`:
 
 ```clojure
 (set-env! :dependencies '[[vivid/boot-art "0.5.0"]]
-          :source-paths #{"templates"})
+          :source-paths #{"templates"})    ; NOTE: Move oracle.art into this dir
 
 (require '[vivid.boot-art :refer [art]])
 
-(deftask my-pipeline []
-         (comp ...
-               (art :bindings     VAL
-                    :delimiters   VAL
-                    :dependencies VAL)
-               ...
+(deftask rndr []
+         (comp (art :bindings '{mysterious-primes [7 191]})
                (target)))
 ```
+
+
 
 ## Options
 
 | Keyword | CLI argument | Parameters | Default | Explanation |
 | --- | --- | --- | --- | --- |
-| :bindings | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
-| :delimiters | `--delimiters` | VAL | `erb` | Template delimiters |
-| :dependencies | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
+| `:bindings` | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
+| `:delimiters` | `--delimiters` | VAL | `erb` | Template delimiters |
+| `:dependencies` | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
 | | `-h`, `--help` | | | Displays lovely help and then exits |
-| :output-dir | `--output-dir` | DIR | `.` | Write rendered files to DIR |
-| :to-phase | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | | Stop the render dataflow on each template at an earlier phase |
+| `:output-dir` | `--output-dir` | DIR | | Write rendered files to DIR |
+| `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | | Stop the render dataflow on each template at an earlier phase |
 
 
 
@@ -57,11 +68,10 @@ In your `build.boot`:
 ```bash
 $ cat oracle.art
 
-{% (defn mult [multiplicands] (apply * multiplicands)) %}
-Wait, I see it! Your destiny lies deep within the number {%= (mult mysterious-primes) %}.
+<% (defn mult [multiplicands] (apply * multiplicands)) %>
+Wait, I see it! Your destiny lies deep within the number <%= (mult mysterious-primes) %>.
 
 $ boot art --bindings "'{mysterious-primes [7 191]}" \
-           --delimiters "'{:begin-forms \"{%\" :end-forms \"%}\" :begin-eval \"{%=\" :end-eval \"%}\"}" \
            --files oracle.art
 ```
 
@@ -74,7 +84,7 @@ You can prevent evaluation of undefined symbols by quoting them with a single qu
 ```clojure
 (import '(java.io File))
 
-(deftask render-art []
+(deftask rndr []
          (art :files #{"source/index.html.art" "templates"}
               :output-dir (File. "out")))
 ```

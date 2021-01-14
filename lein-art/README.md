@@ -12,39 +12,43 @@
 ## Quick Start
 
 
-Provided one or more ART template files, the `art` Leiningen task writes rendered output to a specified output dir.
+Templates are supplied as one or more paths to `.art` template files and/or
+directory trees thereof.
+The `art` Boot task scans those paths for all ART template files with the `.art`
+filename extension.
+Templates are rendered and written under the output directory `:output-dir`
+preserving sub-paths, stripped of the `.art` extension.
 
-In Leiningen `project.clj`:
+```sh
+$ cat oracle.art
 
-```clojure
-  ; Add the lein-art Leiningen plugin:
+<% (defn mult [multiplicands] (apply * multiplicands)) %>
+Wait, I see it! Your destiny lies deep within the number <%= (mult mysterious-primes) %>.
+
+$ cat project.clj
+
+(defproject ren-da "1.2.3"
   :plugins [[vivid/lein-art "0.5.0"]]
+  :art {:bindings   "{mysterious-primes [7 191]}"
+        :templates  "oracle.art"
+        :output-dir "."})
 
-  ; Render .art templates
-  :art {:templates    VAL
-        :bindings     VAL
-        :delimiters   VAL
-        :dependencies VAL
-        :output-dir   DIR}
+$ lein art
 ```
+`lein-art` will render the output file `oracle` into the current directory.
 
 
-**Command-line** usage:
 
-```
-  $ lein art [template-file ...] [options]
-```
-
-and options:
+## Options
 
 | Keyword | CLI argument | Parameters | Default | Explanation |
 | --- | --- | --- | --- | --- |
-| :bindings | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
-| :delimiters | `--delimiters` | VAL | `erb` | Template delimiters |
-| :dependencies | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
+| `:bindings` | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
+| `:delimiters` | `--delimiters` | VAL | `erb` | Template delimiters |
+| `:dependencies` | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
 | | `-h`, `--help` | | | Displays lovely help and then exits |
-| :output-dir | `--output-dir` | DIR | `.` | Write rendered files to DIR |
-| :to-phase | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | | Stop the render dataflow on each template at an earlier phase |
+| `:output-dir` | `--output-dir` | DIR | `.` | Write rendered files to DIR |
+| `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | | Stop the render dataflow on each template at an earlier phase |
 
 From the CLI, the `art` Lein task takes a list of file paths to `.art` files (ART templates) and options.
 CLI arguments can be freely mixed.
