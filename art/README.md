@@ -228,8 +228,21 @@ Dependencies are resolved prior to template rendering using Clojure's ``org.cloj
 
 As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version 1.9.0, but this can be overridden using the same mechanism by supplying the `org.clojure/clojure` dependency with a different version:
 ```clojure
-            {:dependencies {'org.clojure/clojure {:mvn/version "1.10.0"}}}
+            {:dependencies {'org.clojure/clojure {:mvn/version "1.10.1"}}}
 ```
+
+The Maven repositories for dependency resolution are hard-coded:
+```clojure
+{"central" {:url "https://repo.maven.apache.org/maven2"},
+ "clojars" {:url "https://clojars.org/repo/"}}
+```
+The base (or default) dependencies are:
+```clojure
+{org.clojure/clojure                     {:mvn/version "1.9.0"},
+ org.projectodd.shimdandy/shimdandy-api  {:mvn/version "1.2.1"},
+ org.projectodd.shimdandy/shimdandy-impl {:mvn/version "1.2.1"}}
+```
+If `:dependencies` is supplied as an option to `(render)`, its map will be merged into the base dependency map.
 
 <a name="to-phase"></a>
 ### Render ``:to-phase``

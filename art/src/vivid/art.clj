@@ -34,8 +34,6 @@
                                   (ns-resolve 'vivid.art.delimiters
                                               (symbol default-delimiters-name))))
 
-(def ^:const default-dependencies vivid.art.embed/default-deps)
-
 (def ^:const failure? vivid.art.failure/failure?)
 
 (def ^:const render-phases

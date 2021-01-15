@@ -12,26 +12,37 @@ function bootstrap_art {
                                                  :local/root  "art"}
                           zprint {:mvn/version "1.0.2"}}}' - <<EOS
 
-(require '[vivid.art])
+(require '[clojure.edn :as edn]
+         '[clojure.java.io :as io]
+         '[vivid.art])
+(import '(java.io PushbackReader))
 
-(def ^:const vivid-art-version "0.5.0")
+(def ^:const bindings (with-open [r (io/reader "assets/vivid-art-facts.edn")]
+                                         (edn/read (PushbackReader. r))))
+(def ^:const base-rndr-opts {:bindings bindings})
 
-(defn rndr [from to opts]
-  (as-> (slurp from) c
-        (vivid.art/render c opts)
-        (spit to c)))
+(def ^:const batches [
+  "art/assets/project.clj.art" "art/project.clj"
+  {:dependencies {'zprint {:mvn/version "1.0.2"}}}
 
-(rndr "art/assets/project.clj.art" "art/project.clj"
-      {:bindings     {'vivid-art-version vivid-art-version}
-       :dependencies {'zprint {:mvn/version "1.0.2"}}})
+  "art/assets/README.md.art" "art/README.md"
+  {:delimiters   {:begin-forms "{%"
+                  :end-forms   "%}"
+                  :begin-eval  "{%="
+                  :end-eval    "%}"}
+   :dependencies {'vivid/art {:mvn/version ('vivid-art-version bindings)}
+                  'zprint    {:mvn/version "1.0.2"}}}
+])
 
-(rndr "art/assets/README.md.art" "art/README.md"
-      {:bindings     {'vivid-art-version vivid-art-version}
-       :delimiters   {:begin-forms "{%"
-                      :end-forms   "%}"
-                      :begin-eval  "{%="
-                      :end-eval    "%}"}
-       :dependencies {'vivid/art {:mvn/version "0.5.0"}}})
+(defn rndr [from to opts-overrides]
+  (println "Rendering ART" to)
+  (let [opts* (merge base-rndr-opts opts-overrides)]
+    (as-> (slurp from) c
+          (vivid.art/render c opts*)
+          (spit to c))))
+
+(doseq [batch (partition 3 batches)]
+  (apply rndr batch))
 
 EOS
 }

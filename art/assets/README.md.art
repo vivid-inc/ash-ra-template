@@ -1,11 +1,18 @@
 # Ash Ra Template ART Library 
 
 {%
-(require 'vivid.art)
+
+(require '[vivid.art]
+         '[vivid.art.embed]
+         '[zprint.core])
 
 (def to-phase-values (->> vivid.art/render-phases
                           (map #(format "`%s`" %))
                           (clojure.string/join ", ")))
+
+(defn zp-str [x]
+  (zprint.core/zprint-str x {:style :justified}))
+
 %}
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
@@ -232,10 +239,20 @@ The template's external dependencies can be specified as a Clojure deps [lib map
 ```
 Dependencies are resolved prior to template rendering using Clojure's ``org.clojure/tools.deps.alpha``.
 
-As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version 1.9.0, but this can be overridden using the same mechanism by supplying the `org.clojure/clojure` dependency with a different version:
+As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version {%= (first clojure-versions) %}, but this can be overridden using the same mechanism by supplying the `org.clojure/clojure` dependency with a different version:
 ```clojure
-            {:dependencies {'org.clojure/clojure {:mvn/version "1.10.0"}}}
+            {:dependencies {'org.clojure/clojure {:mvn/version "{%= (last clojure-versions) %}"}}}
 ```
+
+The Maven repositories for dependency resolution are hard-coded:
+```clojure
+{%= (zp-str vivid.art.embed/default-repos) %}
+```
+The base (or default) dependencies are:
+```clojure
+{%= (zp-str vivid.art.embed/default-deps) %}
+```
+If `:dependencies` is supplied as an option to `(render)`, its map will be merged into the base dependency map.
 
 <a name="to-phase"></a>
 ### Render ``:to-phase``
