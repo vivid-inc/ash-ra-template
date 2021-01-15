@@ -78,29 +78,15 @@ ART attempts to interpret argument values in this order of precedence:
 
 ## Cookbook
 
-`art/test-resources` contains sample Clojure Tool projects that parallel the automated test suite, including all examples shown here.
+`examples` contains sample Clojure Tool projects that parallel the automated test suite, including all examples shown here.
 
 #### Override version of Clojure dependency
 
 #### Custom bindings, delims, deps
 
-####
+#### Re-render with watch
 
-####
-
-####
-
-
-
-
-
-
-
-
-
-
-####
-You can specify several ART rendering batches in `deps.edn', each with a unique alias.
+#### You can specify several ART rendering batches in `deps.edn', each with a unique alias.
 
 #### Use space characters in arguments within `deps.edn`
 
@@ -117,17 +103,6 @@ This mangling is idiosyncratic to `deps.edn`.
 $ clojure -m vivid.art.clj-tool \
     --dependencies "{vivid/art {:mvn/version \"0.5.0\"}}"    ; OK
     ...
-```
-
-#### Use `clj-art` globally
-
-Add the following to your `~/.clojure/deps.edn` file:
-```edn
-{:aliases {:art {:extra-deps {vivid/clj-art {:mvn/version "0.5.0"}}}}}
-```
-And use it like this:
-```bash
-$ clojure -A:art [OPTIONS] [TEMPLATE-PATHS]
 ```
 
 

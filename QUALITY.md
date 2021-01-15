@@ -16,10 +16,10 @@ These regression tests ensure that prior defects do not re-emerge in future.
 
 A VCS commit is considered releasable provided that all of its components satisfy the following criteria:
 
-- Code quality assessment tools don't indicate any outstanding problems, within reason: Clojure & Java library dependency warnings, reflection warnings, ancient, clj-kondo, nvd.
+- Code quality assessment tools don't indicate any outstanding problems, within reason: TODOs, Clojure & Java library dependency warnings, reflection warnings, ancient, clj-kondo, nvd.
 - The documentation is synchronized with the code, including version numbers, and automated testing of all examples.
 - The described behavior of code samples from the documentation is confirmed via automated tests.
-- Reasonably unified test suite shared between `boot-art` and `lein-art`.
+- Reasonably unified test suite shared between the tools `clj-art` et. al.
 - All automated tests pass throughout the matrix of supported versions of Clojure and JDKs.
 - Test coverage from automated testing indicates a near-perfect or better test coverage rate.
 
@@ -30,13 +30,15 @@ A VCS commit is considered releasable provided that all of its components satisf
 ### Before release
 - Update [CHANGELOG.md](CHANGELOG.md) to reflect the new version.
   - Replace the ``_Unreleased_`` attribute with the actual date.
-- Update ART version in code and documentation.
+- Update ART version in assets, code, and documentation.
 - Choose a specific VCS commit identifier as the release target.
 - Ensure the [release criteria](QUALITY.md) are satisfied.
+- All README.md files are synchronized in content.
+- CI is building the release branch.
 
 ### Executing the release
-- Send ``ash-ra-template``, ``boot-art``, and ``lein-art`` to Clojars.
-- Tag the release and push the tag to GitHub.
+- Deploy `vivid/art`, `vivid/boot-art`, `vivid/clj-art`, and `lein-art` to Clojars.
+- Tag the release and push the tag to upstream Git.
 
 ### Immediately after release
 - Smoke test each downloadable deliverable.
@@ -44,3 +46,7 @@ A VCS commit is considered releasable provided that all of its components satisf
   - All project URLs.
   - Default branch in GitHub.
   - Versions appearing in current documentation.
+  - CI build results.
+- Announce the release to the Clojure community. Listings at:
+  - https://clojure.org/community/resources
+  - https://www.reddit.com/r/Clojure/

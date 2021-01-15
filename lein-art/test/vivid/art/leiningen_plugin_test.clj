@@ -71,22 +71,22 @@
     (invocation-pattern call-fn call-name path art-options)))
 
 (t/deftest lein-plugin-all-options-exercise
-  (all-invocation-patterns "../art/test-resources/all-options"
+  (all-invocation-patterns "../examples/all-options"
                            {:bindings '{updated "2021-01-01"}
                             :delimiters {:begin-forms "{%" :end-forms "%}" :begin-eval "{%=" :end-eval "%}"}
                             :dependencies '{hiccup {:mvn/version "1.0.5"}}
                             :to-phase :evaluate}))
 
 (t/deftest lein-plugin-readme-examples
-  (all-invocation-patterns "../art/test-resources/readme-examples"
+  (all-invocation-patterns "../examples/readme-examples"
                            {:bindings '{mysterious-primes [7 191]}
                             :delimiters {:begin-forms "{%" :end-forms "%}" :begin-eval "{%=" :end-eval "%}"}}))
 
 (t/deftest lein-plugin-simple
-  (all-invocation-patterns "../art/test-resources/simple"
+  (all-invocation-patterns "../examples/simple"
                            {}))
 
 (t/deftest lein-plugin-utf-8
-  (all-invocation-patterns "../art/test-resources/utf-8"
-                           {:bindings "../art/test-resources/utf-8/greek.edn"
+  (all-invocation-patterns "../examples/utf-8"
+                           {:bindings "../examples/utf-8/greek.edn"
                             :delimiters 'jinja}))

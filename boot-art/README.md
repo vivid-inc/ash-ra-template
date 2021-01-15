@@ -87,21 +87,15 @@ ART attempts to interpret argument values in this order of precedence:
 
 ## Cookbook
 
-`art/test-resources` contains sample Boot projects that parallel the automated test suite, including all examples shown here.
+`examples` contains sample Boot projects that parallel the automated test suite, including all examples shown here.
 
 #### Override version of Clojure dependency
 
 #### Custom bindings, delims, deps
 
-####
+#### Re-render with watch
 
-####
-
-####
-
-####
-
-
+#### Specify files and output dir
 
 
 
@@ -146,12 +140,6 @@ Providing an `:output-dir` will cause templates to be written there as well as t
          (comp (watch)
                (art)
                (target)))
-```
-
-#### Standalone `boot` CLI usage
-
-```
-  $ boot -d vivid/boot-art art [OPTIONS]
 ```
 
 

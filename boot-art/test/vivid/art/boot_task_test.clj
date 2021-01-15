@@ -86,7 +86,7 @@
 
 (boot.test/deftesttask
   boot-task-all-options []
-  (all-invocation-patterns "../art/test-resources/all-options"
+  (all-invocation-patterns "../examples/all-options"
                            :bindings     '{updated "2021-01-01"}
                            :delimiters   '{:begin-forms "{%" :end-forms "%}" :begin-eval "{%=" :end-eval "%}"}
                            :dependencies '{hiccup {:mvn/version "1.0.5"}}
@@ -94,16 +94,16 @@
 
 (boot.test/deftesttask
   boot-task-readme-examples []
-  (all-invocation-patterns "../art/test-resources/readme-examples"
+  (all-invocation-patterns "../examples/readme-examples"
                            :bindings '{mysterious-primes [7 191]}
                            :delimiters '{:begin-forms "{%" :end-forms "%}" :begin-eval "{%=" :end-eval "%}"}))
 
 (boot.test/deftesttask
   boot-task-simple []
-  (all-invocation-patterns "../art/test-resources/simple"))
+  (all-invocation-patterns "../examples/simple"))
 
 (boot.test/deftesttask
   boot-task-utf-8 []
-  (all-invocation-patterns "../art/test-resources/utf-8"
-                           :bindings (read-string (slurp "../art/test-resources/utf-8/greek.edn"))
+  (all-invocation-patterns "../examples/utf-8"
+                           :bindings (read-string (slurp "../examples/utf-8/greek.edn"))
                            :delimiters vivid.art.delimiters/jinja))

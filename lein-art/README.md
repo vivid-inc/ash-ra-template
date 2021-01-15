@@ -83,29 +83,13 @@ ART attempts to interpret argument values in this order of precedence:
 
 ## Cookbook
 
-`art/test-resources` contains sample Leiningen projects that parallel the automated test suite, including all examples shown here.
+`examples` contains sample Leiningen projects that parallel the automated test suite, including all examples shown here.
 
 #### Override version of Clojure dependency
 
 #### Custom bindings, delims, deps
 
-####
-
-####
-
-####
-
-
-
-
-
-
-
-
-
-
-####
-Multiple rendering batches under :art.
+#### Re-render with watch
 
 #### Multiple render batches
 One or more rendering batches can also be specified as a section in `project.clj':

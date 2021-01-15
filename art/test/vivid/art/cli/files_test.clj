@@ -52,5 +52,5 @@
   (are [^String path res]
     (= res
        (vivid.art.cli.files/template-file-seq (File. path)))
-    "test-resources/all-options/templates"
-    [(File. "test-resources/all-options/templates/header.html.art")]))
+    "../examples/all-options/templates"
+    [(File. "../examples/all-options/templates/header.html.art")]))

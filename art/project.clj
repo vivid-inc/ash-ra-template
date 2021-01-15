@@ -78,7 +78,7 @@
                                                (clojure.spec.test.alpha/instrument)],
                               :plugins        [[com.jakemccrary/lein-test-refresh
                                                 "0.24.1"]],
-                              :resource-paths ["test-resources"],
+                              :resource-paths ["test-resources" "../examples"],
                               :test-refresh   {:quiet true}}}
 
   :repositories [["clojars" {:sign-releases false}]])

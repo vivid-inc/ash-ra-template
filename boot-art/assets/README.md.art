@@ -94,7 +94,7 @@ ART attempts to interpret argument values in this order of precedence:
 
 ## Cookbook
 
-`art/test-resources` contains sample Boot projects that parallel the automated test suite, including all examples shown here.
+`examples` contains sample Boot projects that parallel the automated test suite, including all examples shown here.
 
 #### Override version of Clojure dependency
 
