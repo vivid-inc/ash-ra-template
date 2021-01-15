@@ -50,7 +50,6 @@
       (from-project project))))
 
 (defn- usage []
-  ; TODO Unify this with assets/README.md
   (let [options-summary (:summary (clojure.tools.cli/parse-opts [] vivid.art.cli.usage/cli-options))]
     (->> [vivid.art.cli.usage/one-line-desc
           (vivid.art.cli.usage/summary "Leiningen plugin")

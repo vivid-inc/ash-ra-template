@@ -16,9 +16,15 @@
   "File and path handling common to this ART CLI library in general."
   (:require
     [clojure.string]
-    [vivid.art :as art])
+    [vivid.art :as art]
+    [special.core :as special])
   (:import
     (java.io File)))
+
+(def ^:const prohibited-template-output-filenames
+  "Attempting to (over-)write or delete to these filenames might have
+  undesirable or catastrophic consequences."
+  #{"." ".."})
 
 (defn art-template-file?
   [^File f]
@@ -55,8 +61,14 @@
     rel-path))
 
 (defn strip-art-filename-suffix
-  [f]
-  (clojure.string/replace f art/art-filename-suffix-regex ""))
+  [path]
+  (let [out (clojure.string/replace path art/art-filename-suffix-regex "")
+        filename (.getName (File. out))]
+    (when (get prohibited-template-output-filenames filename)
+      (special/condition :vivid.art.cli/error
+                         {:step    'strip-art-filename-suffix
+                          :message (format "Cowardly refusing to create output file named '%s' from path: '%s'" out path)}))
+    out))
 
 (defn template-file-seq
   "seq of all .art template files within the sub-dir hierarchy rooted in path."

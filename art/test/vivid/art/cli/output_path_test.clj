@@ -23,8 +23,8 @@
     (java.io File)))
 
 (deftest output-dir-cli-args
-  (are [args dir]
-    (let [expected (File. ^String dir)
+  (are [args ^String dir]
+    (let [expected (File. dir)
           {:keys [output-dir]} (vivid.art.cli.args/cli-args->batch args vivid.art.cli.usage/cli-options)]
      (= expected
         output-dir))
@@ -52,10 +52,10 @@
     (is (= 'validate-output-dir step))))
 
 (deftest template-paths
-  (are [base-path template-file dest-rel-path]
+  (are [^String base-path ^String template-file dest-rel-path]
     (= {:src-path (File. ^String template-file)
         :dest-rel-path (File. ^String dest-rel-path)}
-       (vivid.art.cli.args/->template-path (File. ^String base-path) (File. ^String template-file)))
+       (vivid.art.cli.args/->template-path (File. base-path) (File. template-file)))
     "a.csv.art" "a.csv.art" "a.csv"
     "/a.csv.art" "/a.csv.art" "a.csv"
 

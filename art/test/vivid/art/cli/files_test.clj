@@ -16,12 +16,13 @@
   (:require
     [clojure.test :refer :all]
     [vivid.art.specs]
-    [vivid.art.cli.files])
+    [vivid.art.cli.files]
+    [vivid.art.cli.test-lib :refer [special-unwind-on-signal]])
   (:import
     (java.io File)))
 
 (deftest relative-paths
-  (are [a b res]
+  (are [^String a ^String b res]
     (= res
        (vivid.art.cli.files/relative-path (File. a) (File. b)))
     "" "" ()
@@ -34,12 +35,21 @@
     "" ""
     ".art" ""
     " .art" " "
-    "..art" "."                                             ; TODO special-case "." and ".."
     "file" "file"
     "template.art" "template"))
 
+(deftest strip-art-filename-suffixes-prohibited
+  (are [filename]
+    (= 'strip-art-filename-suffix
+       (let [f #(vivid.art.cli.files/strip-art-filename-suffix filename)
+             {:keys [step]} (special-unwind-on-signal f :vivid.art.cli/error)]
+         step))
+    "..art"                                                 ; Stripped to "."
+    "...art"                                                ; Stripped to ".."
+    ))
+
 (deftest template-file-seqs
-  (are [path res]
+  (are [^String path res]
     (= res
        (vivid.art.cli.files/template-file-seq (File. path)))
     "test-resources/all-options/templates"

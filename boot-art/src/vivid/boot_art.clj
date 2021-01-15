@@ -18,6 +18,7 @@
     [boot.core :as boot :refer [deftask]]
     [boot.util :as util]
     [clojure.java.io :as io]
+    [special.core :as special]
     [vivid.art :as art]
     [vivid.art.cli.args]
     [vivid.art.cli.exec]
@@ -85,4 +86,8 @@ For more info, see
    _ output-dir   DIR   ^:! file   "Divert rendered file output to DIR"
    _ templates    FILES ^:! [file] "Render these ART files and directory trees thereof, instead of Boot's fileset"
    _ to-phase     VAL   ^:! kw     "Stop the render dataflow on each template at an earlier phase"]
-  (process *opts*))                                         ; TODO special/manage
+  ((special/manage process
+                   :vivid.art.cli/error #(if (:show-usage %)
+                                           (exit (or (:exit-status %) 1) (art help :true))
+                                           (exit 1 (str "ART error: " (:message %)))))
+   *opts*))

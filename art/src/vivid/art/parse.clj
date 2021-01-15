@@ -37,8 +37,6 @@
          terminals
          "content = #'(?s)(?:(?!" non-terms ").)*'")))
 
-; TODO Pass all tests from: clostache, mustache, etc.
-
 (def ^:const tree-transformation
   {;; Strip the grammar starting rule from the token stream
    :s           (fn [& xs] xs)

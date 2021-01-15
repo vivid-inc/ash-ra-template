@@ -37,6 +37,11 @@ Re-writing the above into a `build.boot`:
                (target)))
 ```
 
+You can render ART templates using `boot` at the CLI anywhere you desire:
+```sh
+$ boot -d vivid/boot-art art --help
+```
+
 
 
 ## Synopsis
@@ -65,7 +70,7 @@ filename extensions, overwriting any existing files with the same paths.
 | | `-h`, `--help` | | | Displays lovely help and then exits |
 | `:output-dir` | `--output-dir` | DIR | | Divert rendered file output to DIR |
 | `:templates` | `--templates` | FILES | | Render these ART files and directory trees thereof, instead of Boot's fileset |
-| `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `:evaluate` | Stop the render dataflow on each template at an earlier phase |
+| `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `evaluate` | Stop the render dataflow on each template at an earlier phase |
 
 The same argument can be given multiple times; the effect is additive, merging, or overriding
 in nature depending on the option but argument processing order is not guaranteed.
@@ -82,7 +87,26 @@ ART attempts to interpret argument values in this order of precedence:
 
 ## Cookbook
 
-`art/test-resources` contains sample Boot projects that parallel the automated test suite.
+`art/test-resources` contains sample Boot projects that parallel the automated test suite, including all examples shown here.
+
+#### Override version of Clojure dependency
+
+#### Custom bindings, delims, deps
+
+####
+
+####
+
+####
+
+####
+
+
+
+
+
+
+
 
 
 #### CLI: Render ART templates with bindings and custom delimiters

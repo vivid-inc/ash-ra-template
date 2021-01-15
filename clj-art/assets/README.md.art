@@ -37,7 +37,10 @@ $ clojure -A:art --bindings "{mysterious-primes [7 191]}" \
 `clj-art` will render the output file `oracle` into the current directory.
 
 You can also add the above alias to your personal `~/.clojure/deps.edn`.
-You'll then be able to render ART templates using `clj-art` at the CLI anywhere you desire.
+You'll then be able to render ART templates using `clojure` at the CLI anywhere you desire.
+```sh
+$ clojure -A:art --help
+```
 
 
 
@@ -61,11 +64,11 @@ filename extensions, overwriting any existing files with the same paths.
 | Argument | Parameters | Default | Explanation |
 | --- | --- | --- | --- |
 | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
-| `--delimiters` | VAL | `{%=vivid.art/default-delimiters-name%}` | Template delimiters |
+| `--delimiters` | VAL | `{%= vivid.art/default-delimiters-name %}` | Template delimiters |
 | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
 | `-h`, `--help` | | | Displays lovely help and then exits |
 | `--output-dir` | DIR | `.` | Write rendered files to DIR |
-| `--to-phase` | One of: {%= to-phase-values %} | `{%=vivid.art/default-to-phase%}` | Stop the render dataflow on each template at an earlier phase |
+| `--to-phase` | One of: {%= to-phase-values %} | `{%= (name vivid.art/default-to-phase) %}` | Stop the render dataflow on each template at an earlier phase |
 
 The same argument can be given multiple times; the effect is additive, merging, or overriding
 in nature depending on the option but argument processing order is not guaranteed.
@@ -82,10 +85,15 @@ ART attempts to interpret argument values in this order of precedence:
 
 ## Cookbook
 
-`art/test-resources` contains sample Clojure Tool projects that parallel the automated test suite.
+`art/test-resources` contains sample Clojure Tool projects that parallel the automated test suite, including all examples shown here.
 
-####
-You can specify several ART rendering batches in `deps.edn', each with a unique alias.
+#### Override version of Clojure dependency
+
+#### Custom bindings, delims, deps
+
+#### Re-render with watch
+
+#### You can specify several ART rendering batches in `deps.edn', each with a unique alias.
 
 #### Use space characters in arguments within `deps.edn`
 
@@ -102,17 +110,6 @@ This mangling is idiosyncratic to `deps.edn`.
 $ clojure -m vivid.art.clj-tool \
     --dependencies "{vivid/art {:mvn/version \"{%=vivid-art-version%}\"}}"    ; OK
     ...
-```
-
-#### Use `clj-art` globally
-
-Add the following to your `~/.clojure/deps.edn` file:
-```edn
-{:aliases {:art {:extra-deps {vivid/clj-art {:mvn/version "{%=vivid-art-version%}"}}}}}
-```
-And use it like this:
-```bash
-$ clojure -A:art [OPTIONS] [TEMPLATE-PATHS]
 ```
 
 

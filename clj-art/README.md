@@ -30,7 +30,10 @@ $ clojure -A:art --bindings "{mysterious-primes [7 191]}" \
 `clj-art` will render the output file `oracle` into the current directory.
 
 You can also add the above alias to your personal `~/.clojure/deps.edn`.
-You'll then be able to render ART templates using `clj-art` at the CLI anywhere you desire.
+You'll then be able to render ART templates using `clojure` at the CLI anywhere you desire.
+```sh
+$ clojure -A:art --help
+```
 
 
 
@@ -58,7 +61,7 @@ filename extensions, overwriting any existing files with the same paths.
 | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
 | `-h`, `--help` | | | Displays lovely help and then exits |
 | `--output-dir` | DIR | `.` | Write rendered files to DIR |
-| `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `:evaluate` | Stop the render dataflow on each template at an earlier phase |
+| `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `evaluate` | Stop the render dataflow on each template at an earlier phase |
 
 The same argument can be given multiple times; the effect is additive, merging, or overriding
 in nature depending on the option but argument processing order is not guaranteed.
@@ -75,7 +78,26 @@ ART attempts to interpret argument values in this order of precedence:
 
 ## Cookbook
 
-`art/test-resources` contains sample Clojure Tool projects that parallel the automated test suite.
+`art/test-resources` contains sample Clojure Tool projects that parallel the automated test suite, including all examples shown here.
+
+#### Override version of Clojure dependency
+
+#### Custom bindings, delims, deps
+
+####
+
+####
+
+####
+
+
+
+
+
+
+
+
+
 
 ####
 You can specify several ART rendering batches in `deps.edn', each with a unique alias.

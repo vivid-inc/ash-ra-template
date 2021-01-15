@@ -17,8 +17,6 @@
     [clojure.test :refer :all]
     [vivid.art :as art]))
 
-; TODO api: empty bindings. different ways to code bindings map: '{}  {' }
-
 (deftest bindings-styles
   (testing "Quote the entire bindings map"
     (are [expected template opts]
@@ -36,6 +34,10 @@
     (are [expected template opts]
       (= expected (art/render template opts))
 
+      ; Empty bindings
+      "empty" "<%= 'empty %>" {}
+      "empty" "<%= 'empty %>" {:bindings '{}}
+
       ; Booleans
       "true class java.lang.Boolean false class java.lang.Boolean" "<%= t %> <%= (type t) %> <%= f %> <%= (type f) %>" {:bindings {'t true 'f 'false}}
 
@@ -43,8 +45,16 @@
       "z" "<%= a %>" {:bindings '{a \z}}
 
       ; Collections
-      ; TODO
-      ;"" "<%= () %>" {:bindings '{}}
+      "true" "<%= (coll? c) %>"                     {:bindings '{c (list 0 1 2)}}
+      "true" "<%= (seq? s) %>"                      {:bindings '{s (list 0 1 2)}}
+      "true (0 1 2)" "<%= (list? l) %> <%= l %>"    {:bindings '{l (list 0 1 2)}}
+      "true {:a 5}" "<%= (map? m) %> <%= m %>"      {:bindings '{m {:a 5}}}
+      "true #{9}" "<%= (set? s) %> <%= s %>"        {:bindings '{s #{9}}}
+      "true [0 1 2]" "<%= (vector? v) %> <%= v %>"  {:bindings '{v [0 1 2]}}
+
+      ; Functions
+      "123" "<%= (my-lambda 62) %>" {:bindings '{my-lambda #(+ 61 %)}}
+      "2.71828" "<%= (trunc java.lang.Math/E 7) %>" {:bindings '{trunc (fn [x n] (subs (pr-str x) 0 n))}}
 
       ; Integers
       "3" "<%= (+ a b) %>" {:bindings '{a 1 b 2}}
@@ -52,26 +62,15 @@
       ; Keywords
       ":im-a-keyword class clojure.lang.Keyword" "<%= (str a \" \" (type a)) %>" {:bindings '{a :im-a-keyword}}
 
-      ; Metadata
-      ; TODO
-      ;"" "<%= () %>" {:bindings '{}}
-
       ; nil
       "true" "<%= (= nil a) %>" {:bindings {'a 'nil}}
-      "null" "<%= (type a) %>" {:bindings {'a 'nil}}
+      "null" "<%= (type a) %>"  {:bindings {'a 'nil}}
 
       ; Strings
       "Mass-produced comedy .." "Mass-produced <%= plain %> .." {:bindings '{plain "comedy"}}
       ".. is \"culture\" dependent" ".. is <%= embedded-quotes %>" {:bindings {'embedded-quotes "\"culture\" dependent"}}
 
       ; Symbols
-      ; TODO lambdas OK, def'ed fn's OK, refs to other things not OK.
-      "123" "<%= (my-lambda) %>" {:bindings '{my-lambda #(+ 61 62)}}
       "xyz" "<%= sym %>" {:bindings '{sym 'xyz}}
       "a*b+c!d.e:f-g_h?9" "<%= all-chars %>" {:bindings '{all-chars 'a*b+c!d.e:f-g_h?9}}
-      (pr-str ::namespaced-sym) "<%= with-ns %>" {:bindings {'with-ns ::namespaced-sym}}
-
-      ;"" "<%= () %>" {:bindings '{}}
-      ;"" "<%= () %>" {:bindings '{}}
-      ;"" "<%= () %>" {:bindings '{}}
-      )))
+      (pr-str ::namespaced-sym) "<%= with-ns %>" {:bindings {'with-ns ::namespaced-sym}})))

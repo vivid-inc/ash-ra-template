@@ -30,6 +30,15 @@ $ lein art
 ```
 `lein-art` will render the output file `oracle` into the current directory.
 
+You can also add `lein-art` to your `~/.lein/profiles.clj`
+```clojure
+{:user {:plugins [[vivid/lein-art "0.5.0"]]}}
+```
+You'll then be able to render ART templates using `lein` at the CLI anywhere you desire.
+```sh
+$ lein art --help
+```
+
 
 
 ## Synopsis
@@ -57,7 +66,7 @@ filename extensions, overwriting any existing files with the same paths.
 | | `-h`, `--help` | | | Displays lovely help and then exits |
 | `:output-dir` | `--output-dir` | DIR | `.` | Write rendered files to DIR |
 | `:templates` | [FILES] | VAL | | Paths to ART template files |
-| `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `:evaluate` | Stop the render dataflow on each template at an earlier phase |
+| `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `evaluate` | Stop the render dataflow on each template at an earlier phase |
 
 The same argument can be given multiple times; the effect is additive, merging, or overriding
 in nature depending on the option but argument processing order is not guaranteed.
@@ -74,18 +83,29 @@ ART attempts to interpret argument values in this order of precedence:
 
 ## Cookbook
 
-`art/test-resources` contains sample Leiningen projects that parallel the automated test suite.
+`art/test-resources` contains sample Leiningen projects that parallel the automated test suite, including all examples shown here.
+
+#### Override version of Clojure dependency
+
+#### Custom bindings, delims, deps
+
+####
+
+####
+
+####
+
+
+
+
+
+
+
+
 
 
 ####
 Multiple rendering batches under :art.
-
-#### Install `lein-art` globally so that you can use it anywhere
-Add the plugin to your `~/.lein/profiles.clj`:
-```clojure
-{:user {:plugins [[vivid/lein-art "0.5.0"]]}}
-```
-
 
 #### Multiple render batches
 One or more rendering batches can also be specified as a section in `project.clj':
