@@ -1,8 +1,8 @@
 # boot-art Ash Ra Template Boot Task
 
 {%
-(require 'clojure.string)
-(require 'vivid.art)
+(require '[clojure.string]
+         '[vivid.art])
 
 (def to-phase-values (->> vivid.art/render-phases
                           (map #(format "`%s`" (name %)))
@@ -94,9 +94,18 @@ ART attempts to interpret argument values in this order of precedence:
 
 ## Cookbook
 
-`examples` contains sample Boot projects that parallel the automated test suite, including all examples shown here.
+{% ; ../examples/ contains sample projects that parallel these recipes, and are included in the automated test suite.
+   ; Each cookbook recipe should link to its corresponding ../examples/ directory.
+%}
 
-#### Override version of Clojure dependency
+#### Override bundled Clojure version
+As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version {%= (first clojure-versions) %}, but this can be overridden by supplying the `org.clojure/clojure` dependency with a different version:
+```clojure
+(deftask rndr []
+         (comp (art :dependencies {'org.clojure/clojure {:mvn/version "{%= (last clojure-versions) %}"}})
+               (target)))
+```
+For more information, see [dependencies](../art/README.md#external-dependencies) in ART's documentation.
 
 #### Custom bindings, delims, deps
 

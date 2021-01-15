@@ -1,7 +1,6 @@
 # Ash Ra Template ART Library 
 
 {%
-
 (require '[vivid.art]
          '[vivid.art.embed]
          '[zprint.core])
@@ -12,7 +11,6 @@
 
 (defn zp-str [x]
   (zprint.core/zprint-str x {:style :justified}))
-
 %}
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
