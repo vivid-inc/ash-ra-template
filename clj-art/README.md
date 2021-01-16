@@ -60,7 +60,7 @@ filename extensions, overwriting any existing files with the same paths.
 | `--delimiters` | VAL | `erb` | Template delimiters |
 | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
 | `-h`, `--help` | | | Displays lovely help and then exits |
-| `--output-dir` | DIR | `.` | Write rendered files to DIR |
+| `--output-dir` | DIR | . | Write rendered files to DIR |
 | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `evaluate` | Stop the render dataflow on each template at an earlier phase |
 
 The same argument can be given multiple times; the effect is additive, merging, or overriding

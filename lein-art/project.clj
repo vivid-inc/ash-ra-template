@@ -48,6 +48,7 @@
 
   :manifest {"Built-By" "vivid"}
 
+  ; This version of Leiningen is what we have available to us in CI.
   :min-lein-version "2.9.1"
 
   ; Enable this to assist with determining :excludes whenever dependencies and
@@ -55,7 +56,8 @@
   ;:pedantic? :abort
 
   :plugins [[lein-ancient "0.6.15"]
-            [lein-cljfmt "0.7.0"]
+            [lein-cljfmt "0.7.0" :exclusions [com.fasterxml.jackson.core/jackson-core
+                                              org.clojure/clojure]]
             [lein-cloverage "1.2.2"]
             [lein-eftest "0.5.9"]
             [lein-nvd "1.4.1" :exclusions [com.fasterxml.jackson.core/jackson-annotations

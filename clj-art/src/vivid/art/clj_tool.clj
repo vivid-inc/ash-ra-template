@@ -22,13 +22,16 @@
     [vivid.art.cli.log :as log]
     [vivid.art.cli.usage :refer [cli-options]]))
 
+(def ^:const default-options {:output-dir "."})
+
 (defn- exit [exit-status message]
   (println message)
   (System/exit exit-status))
 
 (defn- from-cli-args [args]
-  (-> (vivid.art.cli.args/cli-args->batch args cli-options)
-      (vivid.art.cli.exec/render-batch)))
+  (->> (vivid.art.cli.args/cli-args->batch args cli-options)
+       (merge default-options)
+       (vivid.art.cli.exec/render-batch)))
 
 (defn- process [args]
   (binding [log/*info-fn* println

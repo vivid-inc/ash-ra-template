@@ -23,19 +23,23 @@
     [vivid.art.cli.log :as log]
     [vivid.art.cli.usage]))
 
+(def ^:const default-options {:output-dir "."})
+
 (defn- exit [exit-status message]
   (main-lein/info message)
   (main-lein/exit exit-status))
 
 (defn- from-cli-args [args]
-  (let [batch (vivid.art.cli.args/cli-args->batch args vivid.art.cli.usage/cli-options)]
+  (let [batch* (vivid.art.cli.args/cli-args->batch args vivid.art.cli.usage/cli-options)
+        batch (merge default-options batch*)]
     (vivid.art.cli.exec/render-batch batch)))
 
 (defn- from-project
   [project]
   (let [stanza (:art project)
-        pipeline #(-> (vivid.art.cli.args/direct->batch (:templates %) %)
-                      (vivid.art.cli.exec/render-batch))]
+        pipeline #(->> (vivid.art.cli.args/direct->batch (:templates %) %)
+                       (merge default-options)
+                       (vivid.art.cli.exec/render-batch))]
     (cond
       (map? stanza) (pipeline stanza)
       (coll? stanza) (doseq [conf stanza]

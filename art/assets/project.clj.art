@@ -1,12 +1,16 @@
 ; Copyright 2020 Vivid Inc.
 <%
 
-(require 'clojure.pprint)
-(require 'zprint.core)
-(import '(java.io BufferedReader StringReader))
+(require
+  '[clojure.edn :as edn]
+  '[clojure.java.io :as io]
+  '[clojure.pprint]
+  '[zprint.core])
+(import
+  '(java.io BufferedReader PushbackReader StringReader))
 
-(def ^:const clojure-versions
-  ["1.9.0" "1.10.0" "1.10.1"])
+(def ^:const vivid-art-facts (with-open [r (io/reader "assets/vivid-art-facts.edn")]
+                               (edn/read (PushbackReader. r))))
 
 (defn indent-rest [indentation lines]
   "Indents all lines but the first by indentation number of spaces."
@@ -25,12 +29,12 @@
    {:dependencies [['org.clojure/clojure clojure-version]]}])
 
 (def ^:const clojure-version-profiles
-  (into {} (for [v clojure-versions]
+  (into {} (for [v (get vivid-art-facts 'clojure-versions)]
              (test-dependency-block v))))
 
 (def ^:const clojure-test-profiles-str
   (clojure.string/join ":"
-                       (map #(str "+" (lein-profile-name-for-clojure-version %)) clojure-versions)))
+                       (map #(str "+" (lein-profile-name-for-clojure-version %)) (get vivid-art-facts 'clojure-versions))))
 
 (def ^:const profiles
   (merge

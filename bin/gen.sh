@@ -17,9 +17,9 @@ function bootstrap_art {
          '[vivid.art])
 (import '(java.io PushbackReader))
 
-(def ^:const bindings (with-open [r (io/reader "assets/vivid-art-facts.edn")]
-                                         (edn/read (PushbackReader. r))))
-(def ^:const base-rndr-opts {:bindings bindings})
+(def ^:const vivid-art-facts (with-open [r (io/reader "assets/vivid-art-facts.edn")]
+                               (edn/read (PushbackReader. r))))
+(def ^:const base-rndr-opts {:bindings vivid-art-facts})
 
 (def ^:const batches [
   "art/assets/project.clj.art" "art/project.clj"
@@ -30,7 +30,7 @@ function bootstrap_art {
                   :end-forms   "%}"
                   :begin-eval  "{%="
                   :end-eval    "%}"}
-   :dependencies {'vivid/art {:mvn/version ('vivid-art-version bindings)}
+   :dependencies {'vivid/art {:mvn/version ('vivid-art-version vivid-art-facts)}
                   'zprint    {:mvn/version "1.0.2"}}}
 ])
 
