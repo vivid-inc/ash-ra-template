@@ -55,7 +55,7 @@
 
   :plugins [[lein-ancient "0.6.15"]
             [lein-cljfmt "0.7.0"]
-            [lein-cloverage "1.2.1"] ; TODO 1.2.2 appears to support :cloverage {:runner :eftest}
+            [lein-cloverage "1.2.2"]
             [lein-eftest "0.5.9"]
             [lein-ns-dep-graph "0.2.0-SNAPSHOT" :exclusions [org.clojure/clojure]]
             [lein-nvd "1.4.1" :exclusions [com.fasterxml.jackson.core/jackson-annotations
@@ -65,7 +65,7 @@
                                            org.slf4j/jcl-over-slf4j
                                            org.slf4j/slf4j-api]]]
 
-  :profiles             {:clj-kondo      {:dependencies [[org.clojure/clojure "1.9.0"]
+  :profiles {:clj-kondo      {:dependencies [[org.clojure/clojure "1.9.0"]
                                              [clj-kondo "RELEASE"]]},
              :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]},
              :clojure-1.10.1 {:dependencies [[org.clojure/clojure "1.10.1"]]},

@@ -49,7 +49,7 @@
 
   :plugins [[lein-ancient "0.6.15"]
             [lein-cljfmt "0.7.0"]
-            [lein-cloverage "1.2.1"]
+            [lein-cloverage "1.2.2"]
             [lein-eftest "0.5.9"]
             [lein-nvd "1.4.1" :exclusions [com.fasterxml.jackson.core/jackson-annotations
                                            commons-io

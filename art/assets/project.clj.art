@@ -8,6 +8,13 @@
 (def ^:const clojure-versions
   ["1.9.0" "1.10.0" "1.10.1"])
 
+(defn indent-rest [indentation lines]
+  "Indents all lines but the first by indentation number of spaces."
+  (let [indent (repeat 12 " ")]
+    (->> (map #(apply str (concat indent [%])) (rest lines))
+         (concat [(first lines)])
+         (clojure.string/join \newline))))
+
 (defn lein-profile-name-for-clojure-version
   [clojure-version]
   (format "clojure-%s" clojure-version))
@@ -111,7 +118,7 @@
 
   :plugins [[lein-ancient "0.6.15"]
             [lein-cljfmt "0.7.0"]
-            [lein-cloverage "1.2.1"] ; TODO 1.2.2 appears to support :cloverage {:runner :eftest}
+            [lein-cloverage "1.2.2"]
             [lein-eftest "0.5.9"]
             [lein-ns-dep-graph "0.2.0-SNAPSHOT" :exclusions [org.clojure/clojure]]
             [lein-nvd "1.4.1" :exclusions [com.fasterxml.jackson.core/jackson-annotations
@@ -122,9 +129,7 @@
                                            org.slf4j/slf4j-api]]]
 
   :profiles <%= (let [zp (zprint.core/zprint-str profiles {:style :justified})
-                      lines (line-seq (BufferedReader. (StringReader. zp)))
-                      indent 12]
-                     (->> (map #(apply str (concat (repeat indent " ") [%])) lines)
-                          (clojure.string/join \newline))) %>
+                      lines (line-seq (BufferedReader. (StringReader. zp)))]
+                  (indent-rest 12 lines)) %>
 
   :repositories [["clojars" {:sign-releases false}]])
