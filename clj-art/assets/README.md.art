@@ -29,7 +29,7 @@ Wait, I see it! Your destiny lies deep within the number <%= (mult mysterious-pr
 $ cat deps.edn
 
 {:aliases
-  {:art {:extra-deps {vivid/clj-art {:mvn/version "{%=vivid-art-version%}"}}
+  {:art {:extra-deps {vivid/clj-art {:mvn/version "{%= vivid-art-version %}"}}
          :main-opts  ["-m" "vivid.art.clj-tool"]}}}
 
 $ clojure -A:art --bindings "{mysterious-primes [7 191]}" \
@@ -86,15 +86,18 @@ ART attempts to interpret argument values in this order of precedence:
    ; Each cookbook recipe should link to its corresponding ../examples/ directory.
 %}
 
+
 #### Override bundled Clojure version
 As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version {%= (first clojure-versions) %}, but this can be overridden by supplying the `org.clojure/clojure` dependency with a different version:
 ```edn
 {:aliases
-  {:art {:extra-deps {vivid/clj-art {:mvn/version "0.5.0"}}
-         :main-opts  ["-m" "vivid.art.clj-tool" "template.art"
+  {:art {:extra-deps {vivid/clj-art {:mvn/version "{%= vivid-art-version %}"}}
+         :main-opts  ["-m" "vivid.art.clj-tool" "templates"
                       "--dependencies" "{org.clojure/clojure,{:mvn/version,\"{%= (last clojure-versions) %}\"}}"]}}}
 ```
 For more information, see [dependencies](../art/README.md#external-dependencies) in ART's documentation.
+![](../assets/link-to-example.svg)
+
 
 #### Custom bindings, delims, deps
 
