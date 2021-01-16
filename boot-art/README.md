@@ -72,10 +72,6 @@ filename extensions, overwriting any existing files with the same paths.
 | `:templates` | `--templates` | FILES | | Render these ART files and directory trees thereof, instead of Boot's fileset |
 | `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `evaluate` | Stop the render dataflow on each template at an earlier phase |
 
-The same argument can be given multiple times; the effect is additive, merging, or overriding
-in nature depending on the option but argument processing order is not guaranteed.
-This might be important to you in the event of collisions.
-
 Depending on what types of values a particular option accepts and whether `boot-art` was invoked as a Boot task in Clojure or from the CLI,
 ART attempts to interpret argument values in this order of precedence:
 1. As a map.
