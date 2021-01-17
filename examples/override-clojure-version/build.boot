@@ -5,5 +5,5 @@
          '[vivid.boot-art :refer [art]])
 
 (deftask rndr []
-  (comp (art :dependencies {'org.clojure/clojure {:mvn/version "1.10.1"}})
+  (comp (art :dependencies '{org.clojure/clojure {:mvn/version "1.10.1"}})
         (target)))

@@ -107,3 +107,10 @@
   (all-invocation-patterns "../examples/utf-8"
                            :bindings (read-string (slurp "../examples/utf-8/greek.edn"))
                            :delimiters vivid.art.delimiters/jinja))
+
+
+
+(boot.test/deftesttask
+  boot-task-example-override-clojure-version []
+  (all-invocation-patterns "../examples/override-clojure-version"
+                           :dependencies '{org.clojure/clojure {:mvn/version "1.10.1"}}))

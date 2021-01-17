@@ -97,7 +97,9 @@ As an implicit dependency, the template execution environment provides ART's min
   :art {:templates    "templates"
         :dependencies {org.clojure/clojure {:mvn/version "{%= (last clojure-versions) %}"}}}
 ```
-For more information, see [dependencies](../art/README.md#external-dependencies) in ART's documentation.
+See:
+[Example](../examples/override-clojure-version).
+[`:dependencies` option](../art/README.md#external-dependencies) in the ART documentation.
 
 
 #### Custom bindings, delims, deps
