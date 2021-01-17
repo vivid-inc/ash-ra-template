@@ -102,7 +102,34 @@ See:
 [`:dependencies` option](../art/README.md#external-dependencies) in the ART documentation.
 
 
-#### Custom bindings, delims, deps
+#### Custom bindings, delimiters, and dependencies
+
+```clojure
+  ; Renders all .art template files in the content/ directory to out/cdn/
+  :art {:templates (filter (#.endsWith (.getName %) vivid.art/art-filename-suffix)
+                           (file-seq (clojure.java.io/file "content")))
+
+        :bindings     [{:manufacturer     "Acme Inc."          ; Map literal
+                        :manufacture-year "2019"}
+                       com.acme.data/all-data                  ; Var, value is a map
+                       "data/tabular.edn"]                     ; EDN file; top-level form is a map
+
+        :delimiters   vivid.art.delimiters/jinja
+
+        :dependencies {'hiccup {:mvn/version "1.0.5"}
+                       'com.acme.core {:mvn/version "1.0.0"    ; Use local project from within template code
+                                       :local/root  "."}}
+
+        :output       "out/cdn"}
+```
+
+See:
+[Example](../examples/custom-all).
+[Rendering and options](../art/README.md#rendering-and-options) in the ART documentation.
+
+
+
+
 
 #### Re-render with watch
 
@@ -120,29 +147,7 @@ $ lein art
 ```
 
 
-#### WHAT IS THIS
 
-```clojure
-  ; Rendered output written to target/index.html
-  :art {:templates ["index.html.art"]}
-
-  ; Renders all .art template files in the content/ directory to out/cdn/
-  :art {:templates (filter (#.endsWith (.getName %) vivid.art/art-filename-suffix)
-                           (file-seq (clojure.java.io/file "content")))
-
-        :bindings     [{:manufacturer     "Acme Inc."          # Map literal
-                        :manufacture-year "2019"}
-                       com.acme.data/all-data                  # Var, value is a map
-                       "data/tabular.edn"]                     # EDN file; top-level form is a map
-
-        :delimiters   vivid.art.delimiters/jinja
-
-        :dependencies {'hiccup {:mvn/version "1.0.5"}
-                       'com.acme.core {:mvn/version "1.0.0"    # Use local project from within template code
-                                       :local/root  "."}}
-
-        :output       "out/cdn"}
-```
 
 
 ## License

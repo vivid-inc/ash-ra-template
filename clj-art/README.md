@@ -82,11 +82,13 @@ As an implicit dependency, the template execution environment provides ART's min
 ```edn
 {:aliases
   {:art {:extra-deps {vivid/clj-art {:mvn/version "0.5.0"}}
-         :main-opts  ["-m" "vivid.art.clj-tool" "template.art"
+         :main-opts  ["-m" "vivid.art.clj-tool" "templates"
                       "--dependencies" "{org.clojure/clojure,{:mvn/version,\"1.10.1\"}}"]}}}
 ```
-For more information, see [dependencies](../art/README.md#external-dependencies) in ART's documentation.
-[![](../assets/link-to-example.svg)]
+See:
+[Example](../examples/override-clojure-version).
+[`:dependencies` option](../art/README.md#external-dependencies) in the ART documentation.
+
 
 #### Custom bindings, delims, deps
 

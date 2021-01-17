@@ -85,12 +85,12 @@ ART attempts to interpret argument values in this order of precedence:
 #### Override bundled Clojure version
 As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version 1.9.0, but this can be overridden by supplying the `org.clojure/clojure` dependency with a different version:
 ```clojure
-(defproject rndr "1.2.3"
-  :plugins [[vivid/lein-art "0.5.0"]]
-  :art {:templates    "template.art"
-        :dependencies {'org.clojure/clojure {:mvn/version "1.10.1"}}})
+  :art {:templates    "templates"
+        :dependencies {org.clojure/clojure {:mvn/version "1.10.1"}}}
 ```
-For more information, see [dependencies](../art/README.md#external-dependencies) in ART's documentation.
+See:
+[Example](../examples/override-clojure-version).
+[`:dependencies` option](../art/README.md#external-dependencies) in the ART documentation.
 
 
 #### Custom bindings, delims, deps

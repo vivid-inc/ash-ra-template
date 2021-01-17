@@ -1,0 +1,23 @@
+{%
+
+(require '[hiccup.core :as hiccup])
+
+%}
+<h1>{{manufacturer}} Product Catalog {{manufacture-year}}</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Region</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{ (hiccup/html
+         (for [{:keys [:company :region]} sales-partners]
+           (hiccup/html [:tr [:td company] [:td region]]))) }}
+  </tbody>
+</table>
+
+<footer>
+Copyright (c) {{ current-year }} {{ manufacturer }}
+</footer>

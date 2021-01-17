@@ -109,15 +109,15 @@ See:
 
 #### Custom bindings, delims, deps
 
+
+
+
+
+
+
 #### Re-render with watch
 
 #### Specify files and output dir
-
-
-
-
-
-
 
 #### CLI: Render ART templates with bindings and custom delimiters
 ```bash
