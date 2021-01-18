@@ -9,6 +9,7 @@ _Unreleased_
   The defect came to light during a Maven multi-module build using vivid:clojure-maven-plugin.
 - _(Unstable until version 1.0)_ Render option `:to-phase` allows the dataflow to stop at an earlier `(render)` phase.
   Useful for inspecting ART output at intermediate phases for diagnosis and for understanding ART's behavior.
+- Cookbook recipes in README files and (example projects)[../examples/].
 
 ## [0.4.0]
 Released 2019-07-05.

@@ -2,6 +2,15 @@
 
 
 
+<style type="text/css>
+.warning {
+  background-color: lightyellow;
+  border: 2px solid yellow;
+  color: #222;
+  padding: 0.25em 1em;
+}
+</style>
+
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/vivid/clj-art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/clj-art)
 
@@ -93,7 +102,7 @@ See also:
 
 
 #### Custom bindings, delimiters, and dependencies, and project code
-<div style="background-color: lightyellow; border: 2px solid yellow; color: #222; padding: 0.25em 1em;">
+<div class="warning">
 <p>NOTE: THIS deps.edn EXAMPLE CURRENTLY FAILS</p>
 <p><code>--bindings</code> cannot be used more than once. This is due to
 <code>org.clojure/tools.cli</code> 1.0.194 processing multiple issuances of a given CLI option
@@ -140,8 +149,6 @@ See also:
 
 
 
-
-#### Re-render with watch
 
 #### You can specify several ART rendering batches in `deps.edn', each with a unique alias.
 

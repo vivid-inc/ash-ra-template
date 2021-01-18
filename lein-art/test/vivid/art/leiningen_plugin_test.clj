@@ -93,6 +93,13 @@
 
 
 
+;; Note: I don't know how to write a test for examples/custom-options
+;; that accommodates it's src/ requirements.
+
 (t/deftest lein-plugin-example-override-clojure-version
   (all-invocation-patterns "../examples/override-clojure-version"
                            {:dependencies '{org.clojure/clojure {:mvn/version "1.10.1"}}}))
+
+(t/deftest lein-plugin-example-watch
+  (all-invocation-patterns "../examples/watch"
+                           {}))

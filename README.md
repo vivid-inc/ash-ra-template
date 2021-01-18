@@ -65,7 +65,6 @@ Unproductive behavior such as unkindness towards others and derailment is not to
 #### Further out:
 - Sign releases.
 - Provide access to execution context from within the evaluation environment: (render) args. The evaluation stack starting from the page through to the current (yield).
-- Demonstrate filewatch mode, with re-render on template modification.
 - Require Clojure version to be explicitly supplied.
 - Explain the value of ART. Compare and contrast with other templating systems. Emphasize symbolic computation, and the importance of providing native idioms at each point along the value chain, for example a web-based production workflow where professionals handle HTML and CSS.
 - Delimiter escaping rules.

@@ -76,6 +76,8 @@
 
 
 
+;; TODO: examples/custom-options is currently failing until a newer version of org.clojure/tools.cli is released.
+
 (t/deftest clj-tool-example-override-clojure-version
   (all-invocation-patterns "../examples/override-clojure-version"
                            "--dependencies" "{org.clojure/clojure {:mvn/version \"1.10.1\"}}"))

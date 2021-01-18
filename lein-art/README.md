@@ -2,6 +2,15 @@
 
 
 
+<style type="text/css>
+.warning {
+  background-color: lightyellow;
+  border: 2px solid yellow;
+  color: #222;
+  padding: 0.25em 1em;
+}
+</style>
+
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/vivid/lein-art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/lein-art)
 
@@ -96,7 +105,7 @@ See also:
 
 
 #### Custom bindings, delimiters, and dependencies, and project code
-<div style="background-color: lightyellow; border: 2px solid yellow; color: #222; padding: 0.25em 1em;">
+<div class="warning">
 <p>NOTE: THIS deps.edn EXAMPLE IS INCOMPLETE</p>
 <p>The authors so far don't know how to specify a Var that is defined within src/ as in:
 <pre>
@@ -159,9 +168,29 @@ See also:
 
 
 
+#### Watch .art templates, re-rendering on change
+There are several Leiningen plugins that can be used to monitor files and react to changes.
+In this example, we use WeaveJester's (`lein-auto`)[https://github.com/weavejester/lein-auto].
+```clojure
+(defproject art-example--watch "0"
+
+  :aliases {"watch" ["auto" "art"]}
+
+  ; ART template batch configuration
+  :art {:templates    "resources"
+        :output-dir   "target"}
+
+  ; lein-auto configuration
+  :auto {:default {:file-pattern #"\.(art)$"    ; Monitor .art files for changes ..
+                   :paths ["resources"]}}       ; .. in the resources/ directory
+
+  :plugins [[vivid/lein-art "0.5.0"]    ; Render ART templates with lein-art
+            [lein-auto "0.1.3"]])       ; Monitor files for changes, run a command on change
+```
+See also:
+[Example](../examples/watch).
 
 
-#### Re-render with watch
 
 #### Multiple render batches
 One or more rendering batches can also be specified as a section in `project.clj':

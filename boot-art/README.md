@@ -2,6 +2,15 @@
 
 
 
+<style type="text/css>
+.warning {
+  background-color: lightyellow;
+  border: 2px solid yellow;
+  color: #222;
+  padding: 0.25em 1em;
+}
+</style>
+
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/vivid/boot-art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/boot-art)
 
@@ -134,10 +143,31 @@ See also:
 
 
 
+#### Watch .art templates, re-rendering on change
+There are several Leiningen plugins that can be used to monitor files and react to changes.
+In this example, we use WeaveJester's (`lein-auto`)[https://github.com/weavejester/lein-auto].
+```clojure
+(defproject art-example--watch "0"
+
+  :aliases {"watch" ["auto" "art"]}
+
+  ; ART template batch configuration
+  :art {:templates    "resources"
+        :output-dir   "target"}
+
+  ; lein-auto configuration
+  :auto {:default {:file-pattern #"\.(art)$"    ; Monitor .art files for changes ..
+                   :paths ["resources"]}}       ; .. in the resources/ directory
+
+  :plugins [[vivid/lein-art "0.5.0"]    ; Render ART templates with lein-art
+            [lein-auto "0.1.3"]])       ; Monitor files for changes, run a command on change
+```
+See also:
+[Example](../examples/watch).
 
 
 
-#### Re-render with watch
+
 
 #### Specify files and output dir
 
