@@ -10,15 +10,6 @@
                           (clojure.string/join ", ")))
 %}
 
-<style type="text/css>
-.warning {
-  background-color: lightyellow;
-  border: 2px solid yellow;
-  color: #222;
-  padding: 0.25em 1em;
-}
-</style>
-
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/vivid/clj-art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/clj-art)
 
@@ -97,7 +88,7 @@ ART attempts to interpret argument values in this order of precedence:
 
 
 
-#### Override bundled Clojure version
+### Override bundled Clojure version
 ```edn
 {:aliases
   {:art {:extra-deps {vivid/clj-art {:mvn/version "{%= vivid-art-version %}"}}
@@ -110,22 +101,20 @@ As an implicit dependency, the template execution environment provides ART's min
 
 __See also:__
 [Example](../examples/override-clojure-version).
-[`:dependencies` option](../art/README.md#external-dependencies) in the ART documentation.
+[`:dependencies`](../art/README.md#external-dependencies) in the ART documentation.
 
 
 
-#### Custom bindings, delimiters, and dependencies, and project code
-<div class="warning">
-<p>NOTE: THIS deps.edn EXAMPLE CURRENTLY FAILS</p>
-<p><code>--bindings</code> cannot be used more than once. This is due to
-<code>org.clojure/tools.cli</code> 1.0.194 processing multiple issuances of a given CLI option
+### Custom bindings, delimiters, dependencies, and project code
+NOTE: THIS deps.edn EXAMPLE CURRENTLY FAILS
+`--bindings` cannot be used more than once. This is due to
+`org.clojure/tools.cli` 1.0.194 processing multiple issuances of a given CLI option
 by overwriting its previous value; only the last issuance survives as the
-option's value. The next newer version of <code>tools.cli</code> features a new <code>:multi</code>
-setting on the option spec.</p>
-</div>
+option's value. The next newer version of `tools.cli` features a new `:multi`
+setting on the option spec.
 ```edn
 {:aliases
- {:art {:extra-deps {vivid/clj-art {:mvn/version "0.5.0"}}
+ {:art {:extra-deps {vivid/clj-art {:mvn/version "{%= vivid-art-version %}"}}
         :main-opts  ["-m" "vivid.art.clj-tool"
 
                      ; Render all .art templates in the content/ directory
@@ -165,9 +154,12 @@ __See also:__
 
 
 
-#### You can specify several ART rendering batches in `deps.edn', each with a unique alias.
+### You can specify several ART rendering batches in `deps.edn', each with a unique alias.
 
-#### Use space characters in arguments within `deps.edn`
+
+
+
+### Use space characters in arguments within `deps.edn`
 
 When supplying double-quoted parameters to options in your `deps.edn` file, spaces must be replaced with comma ',' characters.
 Example:

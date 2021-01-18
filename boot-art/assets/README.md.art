@@ -9,15 +9,6 @@
                           (clojure.string/join ", ")))
 %}
 
-<style type="text/css>
-.warning {
-  background-color: lightyellow;
-  border: 2px solid yellow;
-  color: #222;
-  padding: 0.25em 1em;
-}
-</style>
-
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/vivid/boot-art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/boot-art)
 
@@ -105,25 +96,9 @@ ART attempts to interpret argument values in this order of precedence:
 
 
 
-#### Override bundled Clojure version
+### Custom bindings, delimiters, dependencies, and project code
 ```clojure
-(deftask rndr []
-         (comp (art :dependencies '{org.clojure/clojure {:mvn/version "{%= (last clojure-versions) %}"}})
-               (target)))
-```
-
-__Discussion:__
-As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version {%= (first clojure-versions) %}, but this can be overridden by supplying the `org.clojure/clojure` dependency with a different version.
-
-__See also:__
-[Example](../examples/override-clojure-version).
-[`:dependencies` option](../art/README.md#external-dependencies) in the ART documentation.
-
-
-
-#### Custom bindings, delimiters, and dependencies, and project code
-```clojure
-(set-env! :dependencies '[[vivid/boot-art "0.5.0"]]
+(set-env! :dependencies '[[vivid/boot-art "{%= vivid-art-version %}"]]
           :source-paths #{"src"}           ; Give templates use of project code
           :resource-paths #{"content"})    ; Render all .art templates in the content/ directory
 
@@ -157,38 +132,7 @@ __See also:__
 
 
 
-#### Re-render templates whenever their source files change
-```clojure
-(defproject art-example--watch "0"
-
-  :aliases {"watch" ["auto" "art"]}
-
-  ; ART template batch configuration
-  :art {:templates    "resources"
-        :output-dir   "target"}
-
-  ; lein-auto configuration
-  :auto {:default {:file-pattern #"\.(art)$"    ; Monitor .art files for changes ..
-                   :paths ["resources"]}}       ; .. in the resources/ directory
-
-  :plugins [[vivid/lein-art "0.5.0"]    ; Render ART templates with lein-art
-            [lein-auto "0.1.3"]])       ; Monitor files for changes, run a command on change
-```
-
-__Discussion:__
-There are several Leiningen plugins that can be used to monitor files and react to changes.
-In this example, we use WeaveJester's (`lein-auto`)[https://github.com/weavejester/lein-auto].
-
-__See also:__
-[Example](../examples/watch).
-
-
-
-
-
-
-
-#### Specify ART template files and/or the output directory
+### Specify ART template files and/or the output directory
 ```clojure
 (import '(java.io File))
 
@@ -198,8 +142,53 @@ __See also:__
 ```
 
 __Discussion:__
-If `:templates` is specified, `art` will use those files instead of searching Boot's fileset.
-Providing an `:output-dir` will cause templates to be written there as well as to Boot's `(target)` (if any).
+If `:templates` is specified, `(art)` will use those files instead of searching Boot's fileset.
+Providing an `:output-dir` will cause templates to be written there, instead of Boot's `(target)`.
+Internally, the rendered files are removed from Boot's fileset and written out by `(art)`, depriving any downstream `(target)` tasks.
+
+__See also:__
+[Example](../examples/boot-templates-output-dir).
+
+
+
+### Override bundled Clojure version
+```clojure
+(deftask rndr []
+         (comp (art :dependencies '{org.clojure/clojure {:mvn/version "{%= (last clojure-versions) %}"}})
+               (target)))
+```
+
+__Discussion:__
+As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version {%= (first clojure-versions) %}, but this can be overridden by supplying the `org.clojure/clojure` dependency with a different version.
+
+__See also:__
+[Example](../examples/override-clojure-version).
+[`:dependencies`](../art/README.md#external-dependencies) in the ART documentation.
+
+
+
+### Re-render templates whenever their source files change
+```clojure
+(set-env! :dependencies '[[vivid/boot-art "{%= vivid-art-version %}"]]
+          :resource-paths #{"resources"})    ; Render all .art templates in the content/ directory
+
+(require '[vivid.boot-art :refer [art]])
+
+(deftask dev
+  "Development mode: Render all .art template files in the resources/ directory to target/
+  whenever they change."
+  []
+  (comp (watch)
+        (art)
+        (target)))
+```
+
+__Discussion:__
+Boot offers a build-in `(watch)` task.
+
+__See also:__
+[Example](../examples/watch).
+[`(watch)`](https://github.com/boot-clj/boot/blob/master/doc/boot.task.built-in.md#watch) in Boot's documentation.
 
 
 

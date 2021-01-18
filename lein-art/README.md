@@ -2,15 +2,6 @@
 
 
 
-<style type="text/css>
-.warning {
-  background-color: lightyellow;
-  border: 2px solid yellow;
-  color: #222;
-  padding: 0.25em 1em;
-}
-</style>
-
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/vivid/lein-art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/lein-art)
 
@@ -92,7 +83,7 @@ ART attempts to interpret argument values in this order of precedence:
 
 
 
-#### Override bundled Clojure version
+### Override bundled Clojure version
 ```clojure
   :art {:templates    "templates"
         :dependencies {org.clojure/clojure {:mvn/version "1.10.1"}}}
@@ -103,19 +94,14 @@ As an implicit dependency, the template execution environment provides ART's min
 
 __See also:__
 [Example](../examples/override-clojure-version).
-[`:dependencies` option](../art/README.md#external-dependencies) in the ART documentation.
+[`:dependencies`](../art/README.md#external-dependencies) in the ART documentation.
 
 
 
-#### Custom bindings, delimiters, and dependencies, and project code
-<div class="warning">
-<p>NOTE: THIS deps.edn EXAMPLE IS INCOMPLETE</p>
-<p>The authors so far don't know how to specify a Var that is defined within src/ as in:
-<pre>
-  :bindings   #'com.acme.data/widget                 ; Var, value is a map
-</pre>
+### Custom bindings, delimiters, dependencies, and project code
+NOTE: THIS deps.edn EXAMPLE IS INCOMPLETE
+The authors so far don't know how to specify a Var that is defined within `src/`.
 For the sake of completeness, its value is copy & pasted into the example below in place of the var.
-</div>
 ```clojure
 ; Render all .art template files in the content/ directory to out/cdn/
 (defproject example-custom-options "0"
@@ -172,7 +158,7 @@ __See also:__
 
 
 
-#### Re-render templates whenever their source files change
+### Re-render templates whenever their source files change
 ```clojure
 (defproject art-example--watch "0"
 
@@ -196,10 +182,11 @@ In this example, we use WeaveJester's (`lein-auto`)[https://github.com/weavejest
 
 __See also:__
 [Example](../examples/watch).
+[Filesystem Watchers](https://www.clojure-toolbox.com/) category at Clojure Toolbox.
 
 
 
-#### Configure multiple batches in `project.clj`
+### Configure multiple batches in `project.clj`
 ```clojure
   ; Two ART render batches are defined here:
   :art [

@@ -119,6 +119,11 @@
                                      (t/is (= 0 (res :exit))))))
 
 (boot.test/deftesttask
+  boot-task-example-boot-templates-output-dir []
+  (comp (shell-cmd :cmd ["./test.sh"]
+                   :dir "../examples/boot-templates-output-dir")))
+
+(boot.test/deftesttask
   boot-task-example-custom-options []
   (comp (shell-cmd :cmd ["./test.sh" "boot" "rndr"]
                    :dir "../examples/custom-options")))

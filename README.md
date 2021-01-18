@@ -94,7 +94,7 @@ Consider:
 - Illustration by [Ruxandra](https://www.instagram.com/chocolatechiphelmet/).
 - The Boot test code initially mimicked [perun-selmer](https://github.com/rwstauner/perun-selmer).
 
-![](workshop.png)
+![](assets/workshop.png)
 
 Of the Clojure templating libraries we identified, none seemed to assist in porting a non-trivial amount of ERB-templated content to a Clojure-based static site generation tool.
 We find the ability to in-line arbitrary Clojure code is intoxicatingly pragmatic (also expressed as: Enough rope to hang oneself).
