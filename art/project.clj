@@ -81,4 +81,6 @@
                               :resource-paths ["test-resources" "../examples"],
                               :test-refresh   {:quiet true}}}
 
-  :repositories [["clojars" {:sign-releases false}]])
+  :repositories [["central" {:url "https://repo.maven.apache.org/maven2"}]
+                 ["clojars" {:url "https://clojars.org/repo/"
+                             :sign-releases false}]])

@@ -31,7 +31,10 @@
 (def ^:const cli-options
   [[;; --bindings is passed through to vivid.art/render
     nil "--bindings VAL"
-    "Bindings made available to templates for symbol resolution"]
+    "Bindings made available to templates for symbol resolution"
+    ; TODO Enable :multi -ple --bindings when org.clojure/tools.cli is updated.
+    ;:multi true :default [] :update-fn conj
+    ]
 
    [;; --delimiters is passed through to vivid.art/render
     nil "--delimiters VAL"

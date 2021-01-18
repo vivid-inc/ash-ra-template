@@ -56,24 +56,16 @@ Unproductive behavior such as unkindness towards others and derailment is not to
 
 ### The Path to Version 1.0
 
-- ~Default to a subset of ERB syntax (as of Ruby 2.0). Accept alternative tag nomenclature ``:delimiters``. Provide examples for Mustache, PHP, and others.~
-- ~Accept an optional map of ``:bindings`` (definitions) that are made available for symbol resolution during render.~
-- ~api-contract tests for ``:dependencies``.~
-- ~Automated testing on all supported versions of Clojure.~
-- ~Boot task for rendering templates.~
-- ~Leiningen plugin for rendering templates.~
-- ~Document approach to quality assurance.~
-- ~Stabilize minimal requirements of the project, including Clojure version and dependencies.~
-- ~Expose a public API.~
-- ~Documentation organized by project and use.~
-- ~Test on the most recent releases of each significant JDK (8 and 11 at the time of this writing).~
-- 0.6.0: Heavy testing of quote nesting and escaping, Clojure reader.
-- 0.6.0: Provide a direct execution mode in addition to ShimDandy's sandbox.
-- 0.7.0: Sufficient error reporting + documentation.
-- (include) and (yield) -like content inclusion/nesting mechanisms. One simple and one complicated exemplar.
+#### Next:
+- Heavy testing of quote nesting and escaping, Clojure reader, Clojure comments.
+- Direct execution mode as the default; ShimDandy's sandbox as an option.
+- Sufficient error reporting.
+- `(include)` and `(yield)` -like content inclusion/nesting mechanisms. One simple and one complicated exemplar.
+  
+#### Further out:
 - Sign releases.
 - Provide access to execution context from within the evaluation environment: (render) args. The evaluation stack starting from the page through to the current (yield).
-- Allow for filewatch mode.
+- Demonstrate filewatch mode, with re-render on template modification.
 - Require Clojure version to be explicitly supplied.
 - Explain the value of ART. Compare and contrast with other templating systems. Emphasize symbolic computation, and the importance of providing native idioms at each point along the value chain, for example a web-based production workflow where professionals handle HTML and CSS.
 - Delimiter escaping rules.

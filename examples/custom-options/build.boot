@@ -11,14 +11,13 @@
   []
   (comp (art :bindings     [{'manufacturer     "Acme Corporation"   ; Map literal
                              'manufacture-year "2022"}
-                            #'com.acme.data/products                ; Var, value is a map
-                            "{current-year 2021}"                   ; EDN as a string
-                            "data/sales-partners.edn"]              ; EDN file; top-level form is a map
-
+                             #'com.acme.data/product-data           ; Var, value is a map
+                             "{current-year 2021}"                  ; EDN as a string
+                             "data/sales-offices.edn"]              ; EDN file; top-level form is a map
              :delimiters   'jinja                                   ; Unqualified, resolves to #'vivid.art.delimiters/jinja
-
-:dependencies '{hiccup {:mvn/version "1.0.5"}
-                com.acme {:local/root "."}})
+             :dependencies '{hiccup {:mvn/version "1.0.5"}
+;                             com.acme {:local/root "."}             ; Make project sources available to templates
+                             })
 
         (target :dir #{"out/cdn"})))
 

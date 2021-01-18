@@ -136,4 +136,6 @@
                       lines (line-seq (BufferedReader. (StringReader. zp)))]
                   (indent-rest 12 lines)) %>
 
-  :repositories [["clojars" {:sign-releases false}]])
+  :repositories [["central" {:url "https://repo.maven.apache.org/maven2"}]
+                 ["clojars" {:url "https://clojars.org/repo/"
+                             :sign-releases false}]])

@@ -3,21 +3,41 @@
 (require '[hiccup.core :as hiccup])
 
 %}
+
 <h1>{{manufacturer}} Product Catalog {{manufacture-year}}</h1>
+
+<!-- hiccup employed only for tabular content -->
+<h2>Sales Offices</h2>
+<p>Contraption design &amp; consulting services available through all sales offices.</p>
 <table>
   <thead>
     <tr>
-      <th>Company</th>
       <th>Region</th>
+      <th>Phone Number</th>
     </tr>
   </thead>
   <tbody>
     {{ (hiccup/html
-         (for [{:keys [:company :region]} sales-partners]
-           (hiccup/html [:tr [:td company] [:td region]]))) }}
+         (for [{:keys [:region :phone]} sales-offices]
+           (hiccup/html [:tr [:td region] [:td phone]]))) }}
   </tbody>
 </table>
 
+<!-- HTML generated completely with hiccup -->
+{{
+(hiccup/html
+  [:h2 "Products"
+    [:table
+      [:thead [:tr [:th "Name"] [:th "Weight"] [:th "Minimum Order Qty"]]]
+      [:tbody
+        (hiccup/html
+          (for [{:keys [name weight-kgs minimum-order-qty unit-price-dollars]} products]
+             (hiccup/html [:tr [:td name]
+                               [:td (str weight-kgs " kg")]
+                               [:td minimum-order-qty]
+                               [:td (str unit-price-dollars " $")]])))]]])
+}}
+
 <footer>
-Copyright (c) {{ current-year }} {{ manufacturer }}
+  Copyright (c) {{ current-year }} {{ manufacturer }}
 </footer>

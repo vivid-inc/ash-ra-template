@@ -1,0 +1,4 @@
+{sales-offices [{:region  "Kalamazoo"
+                 :phone  "+1-800-123-4567"}
+                {:region  "Shenandoah"
+                 :phone  "+7654-321-008-1"}]}
