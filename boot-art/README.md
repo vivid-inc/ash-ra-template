@@ -86,6 +86,7 @@ ART attempts to interpret argument values in this order of precedence:
 
 
 
+
 #### Override bundled Clojure version
 As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version 1.9.0, but this can be overridden by supplying the `org.clojure/clojure` dependency with a different version:
 ```clojure
@@ -93,22 +94,52 @@ As an implicit dependency, the template execution environment provides ART's min
          (comp (art :dependencies '{org.clojure/clojure {:mvn/version "1.10.1"}})
                (target)))
 ```
-See:
+See also:
 [Example](../examples/override-clojure-version).
 [`:dependencies` option](../art/README.md#external-dependencies) in the ART documentation.
 
 
-#### Custom bindings, delims, deps
+
+#### Custom bindings, delimiters, and dependencies, and project code
+Template syntax is set by the `:delimiters` options.
+Clojure forms within the templates can resolve vars and dependencies provided
+by several factors: `:bindings` for resolving vars, `:dependencies` for
+libraries, and code in the project.
+This is all set as follows:
+```clojure
+(set-env! :dependencies '[[vivid/boot-art "0.5.0"]]
+          :source-paths #{"src"}           ; Give templates use of project code
+          :resource-paths #{"content"})    ; Render all .art templates in the content/ directory
+
+(require '[clojure.java.io :as io]
+         '[com.acme.data]
+         '[vivid.boot-art :refer [art]])
+
+(deftask rndr
+  "Render all .art template files in the content/ directory to out/cdn/"
+  []
+  (comp (art :bindings     [{'manufacturer     "Acme Corporation"   ; Map literal
+                             'manufacture-year "2022"}
+                             #'com.acme.data/product-data           ; Var, value is a map
+                             "{current-year 2021}"                  ; EDN as a string
+                             "data/sales-offices.edn"]              ; EDN file; top-level form is a map
+             :delimiters   'jinja                                   ; Unqualified, resolves to #'vivid.art.delimiters/jinja
+             :dependencies '{hiccup {:mvn/version "1.0.5"}})
+
+        (target :dir #{"out/cdn"})))
+```
+See also:
+[Example](../examples/custom-options).
+[Rendering and options](../art/README.md#rendering-and-options) in the ART documentation.
+
+
+
+
+
 
 #### Re-render with watch
 
 #### Specify files and output dir
-
-
-
-
-
-
 
 #### CLI: Render ART templates with bindings and custom delimiters
 ```bash

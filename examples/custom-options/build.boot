@@ -1,6 +1,6 @@
 (set-env! :dependencies '[[vivid/boot-art "0.5.0"]]
-          :source-paths #{"src"}
-          :resource-paths #{"content"})
+          :source-paths #{"src"}           ; Give templates use of project code
+          :resource-paths #{"content"})    ; Render all .art templates in the content/ directory
 
 (require '[clojure.java.io :as io]
          '[com.acme.data]
@@ -15,9 +15,6 @@
                              "{current-year 2021}"                  ; EDN as a string
                              "data/sales-offices.edn"]              ; EDN file; top-level form is a map
              :delimiters   'jinja                                   ; Unqualified, resolves to #'vivid.art.delimiters/jinja
-             :dependencies '{hiccup {:mvn/version "1.0.5"}
-;                             com.acme {:local/root "."}             ; Make project sources available to templates
-                             })
+             :dependencies '{hiccup {:mvn/version "1.0.5"}})
 
         (target :dir #{"out/cdn"})))
-

@@ -64,7 +64,7 @@ filename extensions, overwriting any existing files with the same paths.
 
 | Argument | Parameters | Default | Explanation |
 | --- | --- | --- | --- |
-| `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
+| `--bindings` | VAL | | Bindings made available to templates for symbol resolution. Limited to a single usage. |
 | `--delimiters` | VAL | `{%= vivid.art/default-delimiters-name %}` | Template delimiters |
 | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
 | `-h`, `--help` | | | Displays lovely help and then exits |
@@ -87,6 +87,7 @@ ART attempts to interpret argument values in this order of precedence:
 %}
 
 
+
 #### Override bundled Clojure version
 As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version {%= (first clojure-versions) %}, but this can be overridden by supplying the `org.clojure/clojure` dependency with a different version:
 ```edn
@@ -95,13 +96,54 @@ As an implicit dependency, the template execution environment provides ART's min
          :main-opts  ["-m" "vivid.art.clj-tool" "templates"
                       "--dependencies" "{org.clojure/clojure,{:mvn/version,\"{%= (last clojure-versions) %}\"}}"]}}}
 ```
-See:
+See also:
 [Example](../examples/override-clojure-version).
 [`:dependencies` option](../art/README.md#external-dependencies) in the ART documentation.
 
 
-#### Custom bindings, delims, deps
 
+#### Custom bindings, delimiters, and dependencies, and project code
+<div style="background-color: lightyellow; border: 2px solid yellow; color: #222; padding: 0.25em 1em;">
+<p>NOTE: THIS deps.edn EXAMPLE CURRENTLY FAILS</p>
+<p><code>--bindings</code> cannot be used more than once. This is due to
+<code>org.clojure/tools.cli</code> 1.0.194 processing multiple issuances of a given CLI option
+by overwriting its previous value; only the last issuance survives as the
+option's value. The next newer version of <code>tools.cli</code> features a new <code>:multi</code>
+setting on the option spec.</p>
+</div>
+Template syntax is set by the `:delimiters` options.
+Clojure forms within the templates can resolve vars and dependencies provided
+by several factors: `:bindings` for resolving vars, `:dependencies` for
+libraries, and code in the project.
+This is all set as follows:
+```edn
+{:aliases
+ {:art {:extra-deps {vivid/clj-art {:mvn/version "0.5.0"}}
+        :main-opts  ["-m" "vivid.art.clj-tool"
+
+                     ; Render all .art templates in the content/ directory
+                     "content"
+
+                     ; Map as a string
+                     "--bindings" "{manufacturer,\"Acme,Corporation\",manufacture-year,\"2022\"}"
+                     ; Var whose value is a map
+                     "--bindings" "com.acme.data/product-data"
+                     ; EDN as a string
+                     "--bindings" "{current-year,2021}"
+                     ; EDN file; top-level form is a map
+                     "--bindings" "data/sales-offices.edn"
+
+                     ; Unqualified, resolves to #'vivid.art.delimiters/jinja
+                     "--delimiters" "jinja"
+
+                     "--dependencies" "{hiccup,{:mvn/version,\"1.0.5\"}}"
+                     "--to-phase" "enscript"
+                     ; Render to the our/cdn/ directory
+                     "--output-dir" "out/cdn"]}}}
+```
+See also:
+[Example](../examples/custom-options).
+[Rendering and options](../art/README.md#rendering-and-options) in the ART documentation.
 
 
 

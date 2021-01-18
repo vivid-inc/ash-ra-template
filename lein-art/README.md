@@ -82,18 +82,84 @@ ART attempts to interpret argument values in this order of precedence:
 
 
 
+
 #### Override bundled Clojure version
 As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version 1.9.0, but this can be overridden by supplying the `org.clojure/clojure` dependency with a different version:
 ```clojure
   :art {:templates    "templates"
         :dependencies {org.clojure/clojure {:mvn/version "1.10.1"}}}
 ```
-See:
+See also:
 [Example](../examples/override-clojure-version).
 [`:dependencies` option](../art/README.md#external-dependencies) in the ART documentation.
 
 
-#### Custom bindings, delims, deps
+
+#### Custom bindings, delimiters, and dependencies, and project code
+<div style="background-color: lightyellow; border: 2px solid yellow; color: #222; padding: 0.25em 1em;">
+<p>NOTE: THIS deps.edn EXAMPLE IS INCOMPLETE</p>
+<p>The authors so far don't know how to specify a Var that is defined within src/ as in:
+<pre>
+  :bindings   #'com.acme.data/widget                 ; Var, value is a map
+</pre>
+For the sake of completeness, its value is copy & pasted into the example below in place of the var.
+</div>
+Template syntax is set by the `:delimiters` options.
+Clojure forms within the templates can resolve vars and dependencies provided
+by several factors: `:bindings` for resolving vars, `:dependencies` for
+libraries, and code in the project.
+This is all set as follows:
+```clojure
+; Render all .art template files in the content/ directory to out/cdn/
+(defproject example-custom-options "0"
+
+  :plugins [[vivid/lein-art "0.5.0"]]
+
+  ; Render all .art template files in the content/ directory to out/cdn/
+  :art {:templates    "content"
+
+        :bindings     [{manufacturer     "Acme Corporation"    ; Map literal
+                        manufacture-year "2022"}
+
+                       ; (See note above)
+                       ;#'com.acme.data/widget                 ; Var, value is a map
+                       {products [{:name               "Bag of bird seed"
+                                    :weight-kgs         1.0
+                                    :minimum-order-qty  50
+                                    :unit-price-dollars 0.39M}
+                                   {:name               "Ironing board on rollerskates"
+                                    :weight-kgs         2.0
+                                    :minimum-order-qty  10
+                                    :unit-price-dollars 17.95M}]}
+
+                       "{current-year 2021}"                   ; EDN as a string
+                       "data/sales-offices.edn"]               ; EDN file; top-level form is a map
+
+        :delimiters   "jinja"                                  ; Resolves to #'vivid.art.delimiters/jinja
+
+        :dependencies {hiccup {:mvn/version "1.0.5"}
+                       ; Give templates use of project code.
+                       example-custom-options {:mvn/version "LATEST"
+                                               :local/root "."}}
+
+        :output-dir   "out/cdn"})
+```
+Install the project code as a Jar into your local `.m2` repository and then
+render the ART templates, perhaps as a Leiningen alias:
+```sh
+$ lein do clean, install, art
+...
+Rendering ART catalog/index.html
+$ diff -r expected/ out/cdn/
+```
+
+See also:
+[Example](../examples/custom-all).
+[Rendering and options](../art/README.md#rendering-and-options) in the ART documentation.
+
+
+
+
 
 #### Re-render with watch
 
@@ -111,29 +177,7 @@ $ lein art
 ```
 
 
-#### WHAT IS THIS
 
-```clojure
-  ; Rendered output written to target/index.html
-  :art {:templates ["index.html.art"]}
-
-  ; Renders all .art template files in the content/ directory to out/cdn/
-  :art {:templates (filter (#.endsWith (.getName %) vivid.art/art-filename-suffix)
-                           (file-seq (clojure.java.io/file "content")))
-
-        :bindings     [{:manufacturer     "Acme Inc."          # Map literal
-                        :manufacture-year "2019"}
-                       com.acme.data/all-data                  # Var, value is a map
-                       "data/tabular.edn"]                     # EDN file; top-level form is a map
-
-        :delimiters   vivid.art.delimiters/jinja
-
-        :dependencies {'hiccup {:mvn/version "1.0.5"}
-                       'com.acme.core {:mvn/version "1.0.0"    # Use local project from within template code
-                                       :local/root  "."}}
-
-        :output       "out/cdn"}
-```
 
 
 ## License

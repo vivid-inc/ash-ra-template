@@ -1,6 +1,7 @@
 {%
 
 (require '[hiccup.core :as hiccup])
+(require '[com.acme.ordering])
 
 %}
 
@@ -34,7 +35,7 @@
           (for [{:keys [name weight-kgs minimum-order-qty unit-price-dollars]} products]
              (hiccup/html [:tr [:td name]
                                [:td (str weight-kgs " kg")]
-                               [:td minimum-order-qty]
+                               [:td (com.acme.ordering/minimum-order-qty unit-price-dollars)]
                                [:td (str unit-price-dollars " $")]])))]]])
 }}
 

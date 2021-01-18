@@ -1,4 +1,5 @@
 {;; Referencing https://github.com/practicalli/clojure-deps-edn
+ ;; Referencing https://github.com/seancorfield/dot-clojure/blob/develop/deps.edn
 
  :deps    {org.clojure/data.json {:mvn/version "0.2.6"}
            special               {:mvn/version "0.1.3-Beta1"}

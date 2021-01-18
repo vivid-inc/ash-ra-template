@@ -1,6 +1,14 @@
+;; Run with:
+;;
+;;   $ lein do clean, install, art
+;;   ...
+;;   Rendering ART catalog/index.html
+;;   $ diff -r expected/ out/cdn/
+
 (defproject example-custom-options "0"
 
   :plugins [[vivid/lein-art "0.5.0"]]
+  :dependencies [[example-custom-options "LATEST"]]
 
   ; Render all .art template files in the content/ directory to out/cdn/
   :art {:templates    "content"
@@ -20,16 +28,20 @@
                                     :weight-kgs         2.0
                                     :minimum-order-qty  10
                                     :unit-price-dollars 17.95M}]}
+
                        "{current-year 2021}"                   ; EDN as a string
                        "data/sales-offices.edn"]               ; EDN file; top-level form is a map
 
         :delimiters   "jinja"                                  ; Resolves to #'vivid.art.delimiters/jinja
 
         :dependencies {hiccup {:mvn/version "1.0.5"}
-                       ; Use local project from within template code.
-                       ; Note that Clojure Deps requires a `deps.edn` file in
-                       ; order to resolve `com.acme.core` as a dependency.
-                       ;com.acme.core {:local/root "."}
-                       }
+                       ; Give templates use of project code.
+                       ; Note that ART's Clojure Deps -based dependency resolver
+                       ; requires a `deps.edn` or `pom.xml` file in
+                       ; order to recognize this "." project as a dependency.
+                       ; The name is the same as this Lein project.
+                       ; Use a version spec that suites your needs.
+                       example-custom-options {:mvn/version "LATEST"
+                                               :local/root "."}}
 
         :output-dir   "out/cdn"})
