@@ -110,8 +110,18 @@
 
 
 
-;; Note: I don't know how to write a test for examples/custom-options
-;; that accommodates it's src/ requirements.
+(boot/deftask shell-cmd
+              [_ cmd VAL [str] "Run this command and args"
+               _ dir VAL str "Run in this directory"]
+              (boot/with-pass-thru fileset
+                                   (let [c (concat cmd [:dir dir])
+                                         res (apply clojure.java.shell/sh c)]
+                                     (t/is (= 0 (res :exit))))))
+
+(boot.test/deftesttask
+  boot-task-example-custom-options []
+  (comp (shell-cmd :cmd ["./test.sh" "boot" "rndr"]
+                   :dir "../examples/custom-options")))
 
 (boot.test/deftesttask
   boot-task-example-override-clojure-version []

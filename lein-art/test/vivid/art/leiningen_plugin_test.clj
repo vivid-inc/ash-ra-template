@@ -93,8 +93,15 @@
 
 
 
-;; Note: I don't know how to write a test for examples/custom-options
-;; that accommodates it's src/ requirements.
+(t/deftest lein-plugin-example-custom-options
+  (let [res (clojure.java.shell/sh "./test.sh" "lein" "do" "clean," "install," "art"
+                                   :dir "../examples/custom-options")]
+    (t/is (= 0 (res :exit)))))
+
+(t/deftest lein-plugin-example-lein-multiple-batches
+  (let [res (clojure.java.shell/sh "./test.sh"
+                                   :dir "../examples/lein-multiple-batches")]
+    (t/is (= 0 (res :exit)))))
 
 (t/deftest lein-plugin-example-override-clojure-version
   (all-invocation-patterns "../examples/override-clojure-version"

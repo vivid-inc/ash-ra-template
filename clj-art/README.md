@@ -88,14 +88,17 @@ ART attempts to interpret argument values in this order of precedence:
 
 
 #### Override bundled Clojure version
-As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version 1.9.0, but this can be overridden by supplying the `org.clojure/clojure` dependency with a different version:
 ```edn
 {:aliases
   {:art {:extra-deps {vivid/clj-art {:mvn/version "0.5.0"}}
          :main-opts  ["-m" "vivid.art.clj-tool" "templates"
                       "--dependencies" "{org.clojure/clojure,{:mvn/version,\"1.10.1\"}}"]}}}
 ```
-See also:
+
+__Discussion:__
+As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version 1.9.0, but this can be overridden by supplying the `org.clojure/clojure` dependency with a different version.
+
+__See also:__
 [Example](../examples/override-clojure-version).
 [`:dependencies` option](../art/README.md#external-dependencies) in the ART documentation.
 
@@ -110,11 +113,6 @@ by overwriting its previous value; only the last issuance survives as the
 option's value. The next newer version of <code>tools.cli</code> features a new <code>:multi</code>
 setting on the option spec.</p>
 </div>
-Template syntax is set by the `:delimiters` options.
-Clojure forms within the templates can resolve vars and dependencies provided
-by several factors: `:bindings` for resolving vars, `:dependencies` for
-libraries, and code in the project.
-This is all set as follows:
 ```edn
 {:aliases
  {:art {:extra-deps {vivid/clj-art {:mvn/version "0.5.0"}}
@@ -140,7 +138,14 @@ This is all set as follows:
                      ; Render to the our/cdn/ directory
                      "--output-dir" "out/cdn"]}}}
 ```
-See also:
+
+__Discussion:__
+Template syntax is set by the `:delimiters` options.
+Clojure forms within the templates can resolve vars and dependencies provided
+by several factors: `:bindings` for resolving vars, `:dependencies` for
+libraries, and code in the project.
+
+__See also:__
 [Example](../examples/custom-options).
 [Rendering and options](../art/README.md#rendering-and-options) in the ART documentation.
 

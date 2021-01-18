@@ -93,12 +93,15 @@ ART attempts to interpret argument values in this order of precedence:
 
 
 #### Override bundled Clojure version
-As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version 1.9.0, but this can be overridden by supplying the `org.clojure/clojure` dependency with a different version:
 ```clojure
   :art {:templates    "templates"
         :dependencies {org.clojure/clojure {:mvn/version "1.10.1"}}}
 ```
-See also:
+
+__Discussion:__
+As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version 1.9.0, but this can be overridden by supplying the `org.clojure/clojure` dependency with a different version.
+
+__See also:__
 [Example](../examples/override-clojure-version).
 [`:dependencies` option](../art/README.md#external-dependencies) in the ART documentation.
 
@@ -113,11 +116,6 @@ See also:
 </pre>
 For the sake of completeness, its value is copy & pasted into the example below in place of the var.
 </div>
-Template syntax is set by the `:delimiters` options.
-Clojure forms within the templates can resolve vars and dependencies provided
-by several factors: `:bindings` for resolving vars, `:dependencies` for
-libraries, and code in the project.
-This is all set as follows:
 ```clojure
 ; Render all .art template files in the content/ directory to out/cdn/
 (defproject example-custom-options "0"
@@ -162,15 +160,19 @@ Rendering ART catalog/index.html
 $ diff -r expected/ out/cdn/
 ```
 
-See also:
+__Discussion:__
+Template syntax is set by the `:delimiters` options.
+Clojure forms within the templates can resolve vars and dependencies provided
+by several factors: `:bindings` for resolving vars, `:dependencies` for
+libraries, and code in the project.
+
+__See also:__
 [Example](../examples/custom-all).
 [Rendering and options](../art/README.md#rendering-and-options) in the ART documentation.
 
 
 
-#### Watch .art templates, re-rendering on change
-There are several Leiningen plugins that can be used to monitor files and react to changes.
-In this example, we use WeaveJester's (`lein-auto`)[https://github.com/weavejester/lein-auto].
+#### Re-render templates whenever their source files change
 ```clojure
 (defproject art-example--watch "0"
 
@@ -187,25 +189,36 @@ In this example, we use WeaveJester's (`lein-auto`)[https://github.com/weavejest
   :plugins [[vivid/lein-art "0.5.0"]    ; Render ART templates with lein-art
             [lein-auto "0.1.3"]])       ; Monitor files for changes, run a command on change
 ```
-See also:
+
+__Discussion:__
+There are several Leiningen plugins that can be used to monitor files and react to changes.
+In this example, we use WeaveJester's (`lein-auto`)[https://github.com/weavejester/lein-auto].
+
+__See also:__
 [Example](../examples/watch).
 
 
 
-#### Multiple render batches
-One or more rendering batches can also be specified as a section in `project.clj':
-
+#### Configure multiple batches in `project.clj`
 ```clojure
-:art [{}
-      {}]
+  ; Two ART render batches are defined here:
+  :art [
+    ; An ART render batch configuration
+    {:templates    "src/templates/css"
+     :dependencies {garden {:mvn/version "1.3.10"}}
+     :output-dir   "src/resources"}
+
+    ; Another, different batch
+    {:templates  ["src/templates/java"]
+     :bindings   {version "1.2.3"}
+     :output-dir "target/generated-sources/java"}]
 ```
 
-Run all batches with:
-```sh
-$ lein art
-```
+__Discussion:__
+Several ART render batches can be specified as a section in `project.clj':
 
-
+__See also:__
+[Example](../examples/lein-multiple-batches).
 
 
 
