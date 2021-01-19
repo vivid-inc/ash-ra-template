@@ -1,7 +1,7 @@
 # Ash Ra Template
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
-[![Current version](https://img.shields.io/clojars/v/vivid/ash-ra-template.svg?color=blue&style=flat-square)](https://clojars.org/vivid/ash-ra-template)
+[![Current version](https://img.shields.io/clojars/v/vivid/art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/art)
 [![CircleCI](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master.svg?style=svg)](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master)
 [![Codecov](https://codecov.io/gh/vivid-inc/ash-ra-template/branch/master/graph/badge.svg)](https://codecov.io/gh/vivid-inc/ash-ra-template)
 

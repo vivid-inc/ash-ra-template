@@ -81,8 +81,6 @@
 (t/deftest clj-tool-example-multi-batch
   (let [res (clojure.java.shell/sh "./test.sh" "clj-art"
                                    :dir "../examples/multi-batch")]
-(println "** res")
-(clojure.pprint/pprint res)
     (t/is (= 0 (res :exit)))))
 
 (t/deftest clj-tool-example-override-clojure-version

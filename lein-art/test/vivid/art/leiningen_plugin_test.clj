@@ -96,15 +96,11 @@
 (t/deftest lein-plugin-example-custom-options
   (let [res (clojure.java.shell/sh "./test.sh" "lein" "do" "clean," "install," "art"
                                    :dir "../examples/custom-options")]
-(println "** res")
-(clojure.pprint/pprint res)
     (t/is (= 0 (res :exit)))))
 
 (t/deftest lein-plugin-example-multi-batch
   (let [res (clojure.java.shell/sh "./test.sh" "lein" "art"
                                    :dir "../examples/multi-batch")]
-(println "** res")
-(clojure.pprint/pprint res)
     (t/is (= 0 (res :exit)))))
 
 (t/deftest lein-plugin-example-override-clojure-version

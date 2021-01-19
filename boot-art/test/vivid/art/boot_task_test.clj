@@ -74,8 +74,6 @@
               (boot/with-pass-thru fileset
                                    (let [c (concat cmd [:dir dir])
                                          res (apply clojure.java.shell/sh c)]
-(println "** res")
-(clojure.pprint/pprint res)
                                      (t/is (= 0 (res :exit))))))
 
 (defn files-under-dir [dir]

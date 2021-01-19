@@ -37,7 +37,7 @@ A VCS commit is considered releasable provided that all of its components satisf
 - CI is building the release branch.
 
 ### Executing the release
-- Deploy `vivid/art`, `vivid/boot-art`, `vivid/clj-art`, and `lein-art` to Clojars.
+- Deploy `vivid/art`, `vivid/boot-art`, `vivid/clj-art`, and `vivid/lein-art` to Clojars.
 - Tag the release and push the tag to upstream Git.
 
 ### Immediately after release
