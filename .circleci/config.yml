@@ -23,7 +23,7 @@ ash-ra-template-job: &ash-ra-template-job
           - m2-deps-
     - run:
         command: lein test
-        working_directory: ash-ra-template
+        working_directory: art
     # TODO Emit XUnit-format tests so that CircleCI can provide reports: https://circleci.com/docs/2.0/configuration-reference/#store_test_results
     - save_cache:
         key: m2-deps-{{ checksum "art/project.clj" }}
@@ -37,7 +37,7 @@ ash-ra-template-job: &ash-ra-template-job
           else
             echo skipping codecov.io: script download error
           fi
-        working_directory: ash-ra-template
+        working_directory: art
     # The boot-art build requires the ART jar file installed in the local ~/.m2 directory
     - persist_to_workspace:
         root: ~/.m2
