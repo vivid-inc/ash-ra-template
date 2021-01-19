@@ -1,7 +1,7 @@
 # Ash Ra Template Changelog
 
 ## [0.5.0]
-_Unreleased_
+Released 2021-01-19.
 - Breaking change: Renamed `vivid/ash-ra-template` to `vivid/art` to more closely mirror its Clojure namespace.
 - License changed from EPL to Apache License, version 2.0.
 - Introducing Clojure CLI tools plugin `clj-art`.
