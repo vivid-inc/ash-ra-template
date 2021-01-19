@@ -98,9 +98,9 @@
                                    :dir "../examples/custom-options")]
     (t/is (= 0 (res :exit)))))
 
-(t/deftest lein-plugin-example-lein-multiple-batches
-  (let [res (clojure.java.shell/sh "./test.sh"
-                                   :dir "../examples/lein-multiple-batches")]
+(t/deftest lein-plugin-example-multi-batch
+  (let [res (clojure.java.shell/sh "./test.sh" "lein" "art"
+                                   :dir "../examples/multi-batch")]
     (t/is (= 0 (res :exit)))))
 
 (t/deftest lein-plugin-example-override-clojure-version

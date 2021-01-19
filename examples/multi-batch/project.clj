@@ -9,7 +9,7 @@
 ;;   $ diff -r expected-src-resources/ src/resources/
 ;;   $ diff -r expected-target-generated-sources-java/ target/generated-sources/java/
 
-(defproject art-example--multiple-batches "0"
+(defproject art-example--multi-batch "0"
 
   ; Add the lein-art Leiningen plugin:
   :plugins [[vivid/lein-art "0.5.0"]]

@@ -78,23 +78,6 @@ ART attempts to interpret argument values in this order of precedence:
 
 
 
-### Override bundled Clojure version
-```edn
-{:aliases
-  {:art {:extra-deps {vivid/clj-art {:mvn/version "0.5.0"}}
-         :main-opts  ["-m" "vivid.art.clj-tool" "templates"
-                      "--dependencies" "{org.clojure/clojure,{:mvn/version,\"1.10.1\"}}"]}}}
-```
-
-__Discussion:__
-As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version 1.9.0, but this can be overridden by supplying the `org.clojure/clojure` dependency with a different version.
-
-__See also:__
-[Example](../examples/override-clojure-version).
-[`:dependencies`](../art/README.md#external-dependencies) in the ART documentation.
-
-
-
 ### Custom bindings, delimiters, dependencies, and project code
 NOTE: THIS deps.edn EXAMPLE CURRENTLY FAILS
 `--bindings` cannot be used more than once. This is due to
@@ -140,31 +123,72 @@ __See also:__
 
 
 
-
-
-
-
-### You can specify several ART rendering batches in `deps.edn', each with a unique alias.
-
-
-
-
 ### Use space characters in arguments within `deps.edn`
-
-When supplying double-quoted parameters to options in your `deps.edn` file, spaces must be replaced with comma ',' characters.
-Example:
+__Discussion:__
+When supplying double-quoted parameters to options in your `deps.edn` file,
+spaces must be replaced with comma ',' characters.
 ```edn
-  "--dependencies" "{vivid/art {:mvn/version \"0.5.0\"}}"    ; Bad, will fail
+  "--dependencies" "{hiccup {:mvn/version \"1.0.5\"}}"    ; Bad, will fail
 
-  "--dependencies" "{vivid/art,{:mvn/version,\"0.5.0\"}}"    ; OK
+  "--dependencies" "{hiccup,{:mvn/version,\"1.0.5\"}}"    ; OK
 ```
 This mangling is idiosyncratic to `deps.edn`.
 `clj-art` invoked at the command line obediently accepts the plain form:
 ```
 $ clojure -m vivid.art.clj-tool \
-    --dependencies "{vivid/art {:mvn/version \"0.5.0\"}}"    ; OK
+    "--dependencies" "{hiccup {:mvn/version \"1.0.5\"}}"    ; OK
     ...
 ```
+
+__See also:__
+[Example](../examples/all-options).
+
+
+
+### Override bundled Clojure version
+```edn
+{:aliases
+  {:art {:extra-deps {vivid/clj-art {:mvn/version "0.5.0"}}
+         :main-opts  ["-m" "vivid.art.clj-tool" "templates"
+                      "--dependencies" "{org.clojure/clojure,{:mvn/version,\"1.10.1\"}}"]}}}
+```
+
+__Discussion:__
+As an implicit dependency, the template execution environment provides ART's
+minimum supported version of Clojure, version 1.9.0,
+but this can be overridden by supplying the `org.clojure/clojure` dependency
+with a different version.
+
+__See also:__
+[Example](../examples/override-clojure-version).
+[`:dependencies`](../art/README.md#external-dependencies) in the ART documentation.
+
+
+
+### Configure multi-batch rendering in `deps.edn`
+```edn
+{:aliases
+  {:rndr-a {:extra-deps {vivid/clj-art {:mvn/version "0.5.0"}}
+            :main-opts  ["-m" "vivid.art.clj-tool" "src/templates/css"
+                         "--dependencies" "{garden,{:mvn/version,\"1.3.10\"}}"
+                         "--output-dir" "src/resources"]}
+   :rndr-b {:extra-deps {vivid/clj-art {:mvn/version "0.5.0"}}
+            :main-opts  ["-m" "vivid.art.clj-tool" "src/templates/java"
+                         "--bindings" "{version,\"1.2.3\"}"
+                         "--output-dir" "target/generated-sources/java"]}}}
+```
+
+__Discussion:__
+Each individual render batch is assigned its own unique key under `:aliases`,
+in this example aliases `rndr-a` and `rndr-b`. As `deps.edn` is not a build tool,
+but instead focuses on dependency resolution and the running of a single entry point,
+we are able to run any one batch:
+```bash
+$ clojure -A:rndr-a
+```
+
+__See also:__
+[Example](../examples/multi-batch).
 
 
 

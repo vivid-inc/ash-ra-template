@@ -129,6 +129,11 @@
                    :dir "../examples/custom-options")))
 
 (boot.test/deftesttask
+  boot-task-example-multi-batch []
+  (comp (shell-cmd :cmd ["./test.sh" "boot" "rndr"]
+                   :dir "../examples/multi-batch")))
+
+(boot.test/deftesttask
   boot-task-example-override-clojure-version []
   (all-invocation-patterns "../examples/override-clojure-version"
                            :dependencies '{org.clojure/clojure {:mvn/version "1.10.1"}}))

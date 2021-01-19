@@ -53,8 +53,8 @@ Templates occur as `.art` template files in Boot's fileset, or optionally by
 The `art` Boot task scans those paths for all ART template files with the `.art`
 filename extension.
 
-Templates are rendered and written with a task like `(target)`, or optionally
-diverted to the output directory `:output-dir`, stripped of their `.art`
+Templates are rendered and written with a task like `(target)`, and optionally
+copied to the output directory `:output-dir`, stripped of their `.art`
 filename extensions, overwriting any existing files with the same paths.
 `output-dir` and sub-paths therein are created as necessary.
 
@@ -68,7 +68,7 @@ filename extensions, overwriting any existing files with the same paths.
 | `:delimiters` | `--delimiters` | VAL | `erb` | Template delimiters |
 | `:dependencies` | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
 | | `-h`, `--help` | | | Displays lovely help and then exits |
-| `:output-dir` | `--output-dir` | DIR | | Divert rendered file output to DIR |
+| `:output-dir` | `--output-dir` | DIR | | Write a copy of the rendered file set to DIR |
 | `:templates` | `--templates` | FILES | | Render these ART files and directory trees thereof, instead of Boot's fileset |
 | `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `evaluate` | Stop the render dataflow on each template at an earlier phase |
 
@@ -134,8 +134,7 @@ __See also:__
 
 __Discussion:__
 If `:templates` is specified, `(art)` will use those files instead of searching Boot's fileset.
-Providing an `:output-dir` will cause templates to be written there, instead of Boot's `(target)`.
-Internally, the rendered files are removed from Boot's fileset and written out by `(art)`, depriving any downstream `(target)` tasks.
+Providing an `:output-dir` will cause a copy of the rendered output fileset to be written there, in addition to Boot's `(target)`.
 
 __See also:__
 [Example](../examples/boot-templates-output-dir).
@@ -180,6 +179,29 @@ Boot offers a build-in `(watch)` task.
 __See also:__
 [Example](../examples/watch).
 [`(watch)`](https://github.com/boot-clj/boot/blob/master/doc/boot.task.built-in.md#watch) in Boot's documentation.
+
+
+
+### Configure multi-batch rendering in `build.boot`
+```clojure
+(deftask rndr []
+  (comp
+    ; An ART render batch configuration
+    (art :templates    [(io/file "src/templates/css")]
+         :dependencies '{garden {:mvn/version "1.3.10"}}
+         :output-dir   (io/file "src/resources"))
+
+    ; Another, different batch
+    (art :templates  [(io/file "src/templates/java")]
+         :bindings   '{version "1.2.3"}
+         :output-dir (io/file "target/generated-sources/java"))))
+```
+__Discussion:__
+Each individual render batch is performed as a sequence of `(art)` tasks,
+leveraging Boot's idiom of pipelined tasks operating on a fileset.
+
+__See also:__
+[Example](../examples/multi-batch).
 
 
 

@@ -92,21 +92,6 @@ ART attempts to interpret argument values in this order of precedence:
 
 
 
-### Override bundled Clojure version
-```clojure
-  :art {:templates    "templates"
-        :dependencies {org.clojure/clojure {:mvn/version "{%= (last clojure-versions) %}"}}}
-```
-
-__Discussion:__
-As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version {%= (first clojure-versions) %}, but this can be overridden by supplying the `org.clojure/clojure` dependency with a different version.
-
-__See also:__
-[Example](../examples/override-clojure-version).
-[`:dependencies`](../art/README.md#external-dependencies) in the ART documentation.
-
-
-
 ### Custom bindings, delimiters, dependencies, and project code
 NOTE: THIS deps.edn EXAMPLE IS INCOMPLETE
 The authors so far don't know how to specify a Var that is defined within `src/`.
@@ -167,6 +152,21 @@ __See also:__
 
 
 
+### Override bundled Clojure version
+```clojure
+  :art {:templates    "templates"
+        :dependencies {org.clojure/clojure {:mvn/version "{%= (last clojure-versions) %}"}}}
+```
+
+__Discussion:__
+As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version {%= (first clojure-versions) %}, but this can be overridden by supplying the `org.clojure/clojure` dependency with a different version.
+
+__See also:__
+[Example](../examples/override-clojure-version).
+[`:dependencies`](../art/README.md#external-dependencies) in the ART documentation.
+
+
+
 ### Re-render templates whenever their source files change
 ```clojure
 (defproject art-example--watch "0"
@@ -195,7 +195,7 @@ __See also:__
 
 
 
-### Configure multiple batches in `project.clj`
+### Configure multi-batch rendering in `project.clj`
 ```clojure
   ; Two ART render batches are defined here:
   :art [
@@ -214,7 +214,7 @@ __Discussion:__
 Several ART render batches can be specified as a section in `project.clj':
 
 __See also:__
-[Example](../examples/lein-multiple-batches).
+[Example](../examples/multi-batch).
 
 
 
