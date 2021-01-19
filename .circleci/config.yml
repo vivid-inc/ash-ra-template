@@ -50,7 +50,12 @@ boot-art: &boot-art-job
     - attach_workspace:
         at: ~/.m2
     - run:
-        command: boot test
+        command: |
+          for ver in "1.9.0" "1.10.0" "1.10.1"
+          do
+            export BOOT_CLOJURE_VERSION=${ver}
+            boot test
+          done
         working_directory: boot-art
 
 clj-art: &clj-art-job
@@ -59,12 +64,25 @@ clj-art: &clj-art-job
     - attach_workspace:
         at: ~/.m2
     - run:
-        command: clojure -A:test
+        # Installing Clojure provides `clj` and `clojure`
+        # Referencing https://clojure.org/guides/getting_started#_installation_on_linux
+        name: Install Clojure
+        command: |
+          curl -O https://download.clojure.org/install/linux-install-1.10.1.763.sh
+          chmod +x linux-install-1.10.1.763.sh
+          sudo ./linux-install-1.10.1.763.sh
+    - run:
+        command: |
+          for ver in "1.9.0" "1.10.0" "1.10.1"
+          do
+            clojure -A:clojure-${ver}:test
+          done
         working_directory: clj-art
 
 lein-art: &lein-art-job
   environment:
     LEIN_ROOT: "true"
+    LEIN_USE_BOOTCLASSPATH: no
   steps:
     - checkout
     - attach_workspace:
