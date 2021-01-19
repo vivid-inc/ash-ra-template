@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 set -o errexit
+set -o nounset
+set -o pipefail
 set -o xtrace
 
 CLJ_VERSIONS=( "1.9.0" "1.10.0" "1.10.1" )

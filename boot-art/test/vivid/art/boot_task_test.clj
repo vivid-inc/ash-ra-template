@@ -68,6 +68,16 @@
                                         (boot/add-resource tmp-dir)
                                         boot/commit!))))
 
+(boot/deftask shell-cmd
+              [_ cmd VAL [str] "Run this command and args"
+               _ dir VAL str "Run in this directory"]
+              (boot/with-pass-thru fileset
+                                   (let [c (concat cmd [:dir dir])
+                                         res (apply clojure.java.shell/sh c)]
+(println "** res")
+(clojure.pprint/pprint res)
+                                     (t/is (= 0 (res :exit))))))
+
 (defn files-under-dir [dir]
   (->> (io/file dir)
        (file-seq)
@@ -109,14 +119,6 @@
                            :delimiters vivid.art.delimiters/jinja))
 
 
-
-(boot/deftask shell-cmd
-              [_ cmd VAL [str] "Run this command and args"
-               _ dir VAL str "Run in this directory"]
-              (boot/with-pass-thru fileset
-                                   (let [c (concat cmd [:dir dir])
-                                         res (apply clojure.java.shell/sh c)]
-                                     (t/is (= 0 (res :exit))))))
 
 (boot.test/deftesttask
   boot-task-example-boot-templates-output-dir []
