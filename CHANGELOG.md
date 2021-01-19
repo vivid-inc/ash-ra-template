@@ -6,7 +6,7 @@ _Unreleased_
 - License changed from EPL to Apache License, version 2.0.
 - Introducing Clojure CLI tools plugin `clj-art`.
 - Defect fix: Honors the Java system property `user.dir` when determining file paths.
-  The defect came to light during a Maven multi-module build using vivid:clojure-maven-plugin.
+  The defect came to light during a Maven multi-module build using (`vivid:clojure-maven-plugin`)[https://github.com/vivid-inc/clojure-maven-plugin].
 - _(Unstable until version 1.0)_ Render option `:to-phase` allows the dataflow to stop at an earlier `(render)` phase.
   Useful for inspecting ART output at intermediate phases for diagnosis and for understanding ART's behavior.
 - Cookbook recipes in README files and (example projects)[../examples/].

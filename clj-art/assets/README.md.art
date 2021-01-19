@@ -47,11 +47,11 @@ $ clojure -A:art --help
 
 ## Synopsis
 
-`clj-art` is usable with `deps.edn`.
+`clj-art` is used with `deps.edn`.
 
 Templates are supplied as one or more paths to `.art` template files and/or
 directory trees thereof.
-The `art` Boot task scans those paths for all ART template files with the `.art`
+Those paths are scanned for all ART template files with the `.art`
 filename extension.
 
 Templates are rendered and written under `output-dir` stripped of their `.art`
@@ -64,15 +64,15 @@ filename extensions, overwriting any existing files with the same paths.
 
 | Argument | Parameters | Default | Explanation |
 | --- | --- | --- | --- |
-| `--bindings` | VAL | | Bindings made available to templates for symbol resolution. Limited to a single usage. |
+| `--bindings` | VAL | | Bindings made available to templates for symbol resolution. Currently limited to a single usage in `clj-art`. |
 | `--delimiters` | VAL | `{%= vivid.art/default-delimiters-name %}` | Template delimiters |
-| `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
+| `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. |
 | `-h`, `--help` | | | Displays lovely help and then exits |
 | `--output-dir` | DIR | `{%= (:output-dir vivid.art.clj-tool/default-options) %}` | Write rendered files to DIR |
 | `--to-phase` | One of: {%= to-phase-values %} | `{%= (name vivid.art/default-to-phase) %}` | Stop the render dataflow on each template at an earlier phase |
 
 Depending on what types of values a particular option accepts,
-ART attempts to interpret argument values in this order of precedence:
+ART attempts to interpret arguments in this order of precedence:
 1. As a map.
 1. As the (un-)qualified name of a var.
 1. As a path to an EDN file.
@@ -93,7 +93,7 @@ NOTE: THIS deps.edn EXAMPLE CURRENTLY FAILS
 `--bindings` cannot be used more than once. This is due to
 `org.clojure/tools.cli` 1.0.194 processing multiple issuances of a given CLI option
 by overwriting its previous value; only the last issuance survives as the
-option's value. The next newer version of `tools.cli` features a new `:multi`
+option's value. The next newer version of `tools.cli` apparently features a new `:multi`
 setting on the option spec.
 ```edn
 {:aliases
@@ -133,7 +133,7 @@ __See also:__
 
 
 
-### Use space characters in arguments within `deps.edn`
+### Use space characters in arguments within deps.edn
 __Discussion:__
 When supplying double-quoted parameters to options in your `deps.edn` file,
 spaces must be replaced with comma ',' characters.
@@ -175,7 +175,7 @@ __See also:__
 
 
 
-### Configure multi-batch rendering in `deps.edn`
+### Configure multi-batch rendering in deps.edn
 ```edn
 {:aliases
   {:rndr-a {:extra-deps {vivid/clj-art {:mvn/version "{%= vivid-art-version %}"}}

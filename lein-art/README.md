@@ -47,7 +47,7 @@ $ lein art --help
 
 Templates are supplied as one or more paths to `.art` template files and/or
 directory trees thereof.
-The `art` Boot task scans those paths for all ART template files with the `.art`
+Those paths are scanned for all ART template files with the `.art`
 filename extension.
 
 Templates are rendered and written under `output-dir` stripped of their `.art`
@@ -62,14 +62,14 @@ filename extensions, overwriting any existing files with the same paths.
 | --- | --- | --- | --- | --- |
 | `:bindings` | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
 | `:delimiters` | `--delimiters` | VAL | `erb` | Template delimiters |
-| `:dependencies` | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. Deps maps are merged into this one. Supply your own Clojure dep to override the current version. |
+| `:dependencies` | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. |
 | | `-h`, `--help` | | | Displays lovely help and then exits |
 | `:output-dir` | `--output-dir` | DIR | `.` | Write rendered files to DIR |
 | `:templates` | [FILES] | VAL | | Paths to ART template files |
 | `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `evaluate` | Stop the render dataflow on each template at an earlier phase |
 
 Depending on what types of values a particular option accepts and whether `lein-art` was invoked as a Leiningen configuration or from the CLI,
-ART attempts to interpret argument values in this order of precedence:
+ART attempts to interpret arguments in this order of precedence:
 1. As a map.
 1. As the (un-)qualified name of a var.
 1. As a path to an EDN file.
@@ -138,7 +138,7 @@ by several factors: `:bindings` for resolving vars, `:dependencies` for
 libraries, and code in the project.
 
 __See also:__
-[Example](../examples/custom-all).
+[Example](../examples/custom-options).
 [Rendering and options](../art/README.md#rendering-and-options) in the ART documentation.
 
 
@@ -186,7 +186,7 @@ __See also:__
 
 
 
-### Configure multi-batch rendering in `project.clj`
+### Configure multi-batch rendering in project.clj
 ```clojure
   ; Two ART render batches are defined here:
   :art [
