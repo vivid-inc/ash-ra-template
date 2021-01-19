@@ -62,6 +62,4 @@
                                         [clj-kondo "RELEASE"]]}
              :dev       {:dependencies [[org.clojure/clojure "1.9.0"]]}}
 
-  :repositories [["central" {:url "https://repo.maven.apache.org/maven2"}]
-                 ["clojars" {:url "https://clojars.org/repo/"
-                             :sign-releases false}]])
+  :repositories [["clojars" {:sign-releases false}]])

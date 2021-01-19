@@ -22,21 +22,14 @@ ash-ra-template-job: &ash-ra-template-job
           # Fallback
           - m2-deps-
     - run:
-        command: |
-          echo '** M2'
-          find ~/.m2/repository/vivid
-    - run:
         command: lein test
         working_directory: art
-    # TODO Emit XUnit-format tests so that CircleCI can provide reports: https://circleci.com/docs/2.0/configuration-reference/#store_test_results
+    - store_test_results:
+        path: cloverage
     - save_cache:
         key: m2-deps-{{ checksum "art/project.clj" }}
         paths:
           - ~/.m2
-    - run:
-        command: |
-          echo '** M2'
-          find ~/.m2/repository/vivid
     - run:
         name: Upload code coverage report to codecov.io
         command: |
@@ -59,10 +52,6 @@ boot-art: &boot-art-job
         at: ~/.m2
     - run:
         command: |
-          echo '** M2'
-          find ~/.m2/repository/vivid
-    - run:
-        command: |
           for ver in "1.9.0" "1.10.0" "1.10.1"
           do
             export BOOT_CLOJURE_VERSION=${ver}
@@ -76,11 +65,7 @@ clj-art: &clj-art-job
     - attach_workspace:
         at: ~/.m2
     - run:
-        command: |
-          echo '** M2'
-          find ~/.m2/repository/vivid
-    - run:
-        # Installing Clojure provides `clj` and `clojure`
+        # Installing Clojure provides the `clojure` command
         # Referencing https://clojure.org/guides/getting_started#_installation_on_linux
         name: Install Clojure
         command: |
@@ -103,10 +88,6 @@ lein-art: &lein-art-job
     - checkout
     - attach_workspace:
         at: ~/.m2
-    - run:
-        command: |
-          echo '** M2'
-          find ~/.m2/repository/vivid
     - run:
         command: lein test
         working_directory: lein-art
