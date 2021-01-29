@@ -1,5 +1,5 @@
 (set-env! :dependencies '[[boot/core "2.8.3" :scope "provided"]
-                          [vivid/boot-art "0.5.0"]])
+                          [vivid/boot-art "0.6.0"]])
 
 (require '[vivid.boot-art :refer [art]]
          '[clojure.java.io :as io])

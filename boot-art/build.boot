@@ -8,14 +8,14 @@
 (require '[boot.core :refer [deftask set-env! task-options!]]
          '[boot.task.built-in :refer [install jar pom]])
 
-(def version "0.5.0")
+(def version "0.6.0")
 
 (set-env! :source-paths #{"test"}
           :resource-paths #{"src"}
           :dependencies '[[adzerk/bootlaces    "0.2.0"   :scope "test"]
                           [boot/core           "2.8.2"   :scope "provided"]
                           [sparkfund/boot-lein "0.4.0"   :scope "test"]
-                          [vivid/art           "0.5.0"]]
+                          [vivid/art           "0.6.0"]]
           :repositories (partial map (fn [[k v]]
                                        [k (cond-> v (#{"clojars"} k) (assoc :username (System/getenv "CLOJARS_USER")
                                                                             :password (System/getenv "CLOJARS_PASS")))])))
@@ -43,10 +43,10 @@
          (comp
            (pom)
            (jar)
-           (target)
            (install)
            (push :repo "clojars"
-                 :gpg-sign false)))
+                 :ensure-branch "art-0.6.0"
+                 :ensure-clean  false)))
 
 (deftask lein-generate
          []

@@ -10,7 +10,7 @@ set -o pipefail
 set -o xtrace
 
 function bootstrap_art {
-  clojure -Sdeps '{:deps {vivid/ash-ra-template {:mvn/version "0.5.0"
+  clojure -Sdeps '{:deps {vivid/ash-ra-template {:mvn/version "0.6.0"
                                                  :local/root  "art"}
                           zprint {:mvn/version "1.0.2"}}}' - <<EOS
 

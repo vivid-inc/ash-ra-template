@@ -21,7 +21,7 @@ Wait, I see it! Your destiny lies deep within the number <%= (mult mysterious-pr
 $ cat project.clj
 
 (defproject rndr "1.2.3"
-  :plugins [[vivid/lein-art "0.5.0"]]
+  :plugins [[vivid/lein-art "0.6.0"]]
   :art {:bindings   "{mysterious-primes [7 191]}"
         :templates  "oracle.art"
         :output-dir "."})
@@ -32,7 +32,7 @@ $ lein art
 
 You can also add `lein-art` to your `~/.lein/profiles.clj`
 ```clojure
-{:user {:plugins [[vivid/lein-art "0.5.0"]]}}
+{:user {:plugins [[vivid/lein-art "0.6.0"]]}}
 ```
 You'll then be able to render ART templates using `lein` at the CLI anywhere you desire.
 ```sh
@@ -91,7 +91,7 @@ For the sake of completeness, its value is copy & pasted into the example below 
 ; Render all .art template files in the content/ directory to out/cdn/
 (defproject example-custom-options "0"
 
-  :plugins [[vivid/lein-art "0.5.0"]]
+  :plugins [[vivid/lein-art "0.6.0"]]
 
   ; Render all .art template files in the content/ directory to out/cdn/
   :art {:templates    "content"
@@ -172,7 +172,7 @@ __See also:__
   :auto {:default {:file-pattern #"\.(art)$"    ; Monitor .art files for changes ..
                    :paths ["resources"]}}       ; .. in the resources/ directory
 
-  :plugins [[vivid/lein-art "0.5.0"]    ; Render ART templates with lein-art
+  :plugins [[vivid/lein-art "0.6.0"]    ; Render ART templates with lein-art
             [lein-auto "0.1.3"]])       ; Monitor files for changes, run a command on change
 ```
 

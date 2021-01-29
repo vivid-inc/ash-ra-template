@@ -7,7 +7,7 @@
 
 (defproject example-custom-options "0"
 
-  :plugins [[vivid/lein-art "0.5.0"]]
+  :plugins [[vivid/lein-art "0.6.0"]]
   :dependencies [[example-custom-options "LATEST"]]
 
   ; Render all .art template files in the content/ directory to out/cdn/

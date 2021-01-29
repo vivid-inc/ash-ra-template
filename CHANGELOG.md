@@ -1,5 +1,8 @@
 # Ash Ra Template Changelog
 
+## [0.6.0]
+__Unreleased__
+
 ## [0.5.0]
 Released 2021-01-19.
 - Breaking change: Renamed `vivid/ash-ra-template` to `vivid/art` to more closely mirror its Clojure namespace.
@@ -36,6 +39,7 @@ Released 2019-04-13.
 Released 2017-11-20.
 - Use `eval-soup` to render templates featuring Clojure language processing with ERB 2.0-esque syntax.
 
+[0.6.0]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.5.0...ash-ra-template-0.6.0
 [0.5.0]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.4.0...ash-ra-template-0.5.0
 [0.4.0]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.3.0...ash-ra-template-0.4.0
 [0.3.0]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.2.0...ash-ra-template-0.3.0

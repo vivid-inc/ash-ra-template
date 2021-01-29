@@ -9,7 +9,7 @@
 ; TODO Add :multi support to :bindings tools.cli option spec after a successive version of org.clojure/tools.cli 1.0.194 is released.
 
 {:aliases
- {:art {:extra-deps {vivid/clj-art {:mvn/version "0.5.0"}}
+ {:art {:extra-deps {vivid/clj-art {:mvn/version "0.6.0"}}
         :main-opts  ["-m" "vivid.art.clj-tool"
 
                      ; Render all .art templates in the content/ directory

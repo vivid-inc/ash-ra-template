@@ -27,7 +27,7 @@ $ boot -d vivid/boot-art art --bindings "'{mysterious-primes [7 191]}" \
 Re-writing the above into a `build.boot`:
 
 ```clojure
-(set-env! :dependencies '[[vivid/boot-art "0.5.0"]]
+(set-env! :dependencies '[[vivid/boot-art "0.6.0"]]
           :resource-paths #{"templates"})    ; NOTE: Move oracle.art into this dir
 
 (require '[vivid.boot-art :refer [art]])
@@ -89,7 +89,7 @@ ART attempts to interpret arguments in this order of precedence:
 
 ### Custom bindings, delimiters, dependencies, and project code
 ```clojure
-(set-env! :dependencies '[[vivid/boot-art "0.5.0"]]
+(set-env! :dependencies '[[vivid/boot-art "0.6.0"]]
           :source-paths #{"src"}           ; Give templates use of project code
           :resource-paths #{"content"})    ; Render all .art templates in the content/ directory
 
@@ -159,7 +159,7 @@ __See also:__
 
 ### Re-render templates whenever their source files change
 ```clojure
-(set-env! :dependencies '[[vivid/boot-art "0.5.0"]]
+(set-env! :dependencies '[[vivid/boot-art "0.6.0"]]
           :resource-paths #{"resources"})    ; Render all .art templates in the content/ directory
 
 (require '[vivid.boot-art :refer [art]])

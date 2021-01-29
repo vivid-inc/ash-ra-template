@@ -1,6 +1,6 @@
 ; Copyright 2019 Vivid Inc.
 
-(defproject vivid/lein-art "0.5.0"
+(defproject vivid/lein-art "0.6.0"
 
   :description "Leiningen plugin for rendering Ash Ra .art templates"
   :url "https://github.com/vivid-inc/ash-ra-template"
@@ -33,7 +33,7 @@
               }
 
   :dependencies [[org.clojure/tools.cli "1.0.194"]
-                 [vivid/art "0.5.0"]]
+                 [vivid/art "0.6.0"]]
 
   :dev-dependencies [[org.clojure/clojure "1.9.0"]
                      [leiningen "2.9.1"]]

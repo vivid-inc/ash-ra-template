@@ -28,9 +28,9 @@ Tested with Clojure 1.9 and newer, Java 8 and newer LTS releases.
 
 Include this library from Clojars by adding the latest version of ``vivid/art`` to your project dependencies:
 ```clojure
-(set-env! :dependencies '[[vivid/art "0.5.0"]])    ; Boot build.boot
-{:deps {vivid/art {:mvn/version "0.5.0"}}}         ; Clojure tools deps.edn
-:dependencies [[vivid/art "0.5.0"]]                ; Leiningen project.clj
+(set-env! :dependencies '[[vivid/art "0.6.0"]])    ; Boot build.boot
+{:deps {vivid/art {:mvn/version "0.6.0"}}}         ; Clojure tools deps.edn
+:dependencies [[vivid/art "0.6.0"]]                ; Leiningen project.clj
 ```
 
 Render a template string:
