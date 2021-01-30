@@ -79,7 +79,8 @@
 (defn validate-output-dir
   "A string path of the output directory."
   [output-dir]
-  (let [f (resolve/resolve-as-file output-dir)]
+  (let [f (some-> (resolve/resolve-as-file output-dir)
+                  (.getAbsoluteFile))]
     (if f
       f
       (special/condition :vivid.art.cli/error
@@ -92,7 +93,8 @@
   Any unresolvable named path is special/condition'ed as an error."
   [x]
   (letfn [(conv [path]
-            (let [f (resolve/resolve-as-file path)]
+            (let [f (some-> (resolve/resolve-as-file path)
+                            (.getAbsoluteFile))]
               (if (and f (.exists f))
                 f
                 (special/condition :vivid.art.cli/error

@@ -1,7 +1,7 @@
 # Ash Ra Template Changelog
 
 ## [0.6.0]
-__Unreleased__
+_Unreleased_
 
 ## [0.5.0]
 Released 2021-01-19.

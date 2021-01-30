@@ -32,7 +32,7 @@
   (try
     (let [output-path (io/file output-dir dest-rel-path)
           to-phase (get batch :to-phase vivid.art/default-to-phase)]
-      (log/*info-fn* (format "Rendering ART %s" dest-rel-path))
+      (log/*info-fn* (format "Rendering ART %s" output-path))
       (io/make-parents output-path)
       (as-> (slurp src-path) c
             (art/render c (select-keys batch [:bindings

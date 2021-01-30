@@ -72,7 +72,7 @@
       (catch RuntimeException _
         nil))))
 
-(defn resolve-as-file
+(defn ^File resolve-as-file
   "Attempt to interpret a value as a java.io.File."
   [path]
   (cond
