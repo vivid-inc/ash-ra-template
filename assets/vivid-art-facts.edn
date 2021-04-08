@@ -1,2 +1,2 @@
-{clojure-versions  ["1.9.0" "1.10.0" "1.10.1"] ; Ordered from earliest to most recent.
+{clojure-versions  ["1.9.0" "1.10.0" "1.10.1" "1.10.2" "1.10.3"] ; Ordered from earliest to most recent.
  vivid-art-version "0.6.0"}

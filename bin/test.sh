@@ -5,7 +5,7 @@ set -o nounset
 set -o pipefail
 set -o xtrace
 
-CLJ_VERSIONS=( "1.9.0" "1.10.0" "1.10.1" )
+CLJ_VERSIONS=( "1.9.0" "1.10.0" "1.10.1" "1.10.2" "1.10.3" )
 
 echo Running all tests
 

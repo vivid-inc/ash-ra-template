@@ -146,7 +146,7 @@ __See also:__
 ### Override bundled Clojure version
 ```clojure
   :art {:templates    "templates"
-        :dependencies {org.clojure/clojure {:mvn/version "1.10.1"}}}
+        :dependencies {org.clojure/clojure {:mvn/version "1.10.3"}}}
 ```
 
 __Discussion:__

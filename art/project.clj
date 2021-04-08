@@ -20,7 +20,7 @@
             "clj-kondo" ["with-profile" "clj-kondo" "run" "-m" "clj-kondo.main" "--"
                          "--lint" "src/"]
             "nvd"      ["nvd" "check"]
-            "test"     ["with-profile" "+clojure-1.9.0:+clojure-1.10.0:+clojure-1.10.1" "build"]}
+            "test"     ["with-profile" "+clojure-1.9.0:+clojure-1.10.0:+clojure-1.10.1:+clojure-1.10.2:+clojure-1.10.3" "build"]}
 
   :cloverage {:codecov? true
               :html?    true
@@ -69,6 +69,8 @@
                                              [clj-kondo "RELEASE"]]},
              :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]},
              :clojure-1.10.1 {:dependencies [[org.clojure/clojure "1.10.1"]]},
+             :clojure-1.10.2 {:dependencies [[org.clojure/clojure "1.10.2"]]},
+             :clojure-1.10.3 {:dependencies [[org.clojure/clojure "1.10.3"]]},
              :clojure-1.9.0  {:dependencies [[org.clojure/clojure "1.9.0"]]},
              :dev            {:dependencies   [[pjstadig/humane-test-output "0.10.0"]],
                               :injections     [(require (quote pjstadig.humane-test-output))

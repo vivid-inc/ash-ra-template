@@ -12,7 +12,7 @@ set -o xtrace
 function bootstrap_art {
   clojure -Sdeps '{:deps {vivid/ash-ra-template {:mvn/version "0.6.0"
                                                  :local/root  "art"}
-                          zprint {:mvn/version "1.0.2"}}}' - <<EOS
+                          zprint/zprint {:mvn/version "1.0.2"}}}' - <<EOS
 
 (require '[clojure.edn :as edn]
          '[clojure.java.io :as io]

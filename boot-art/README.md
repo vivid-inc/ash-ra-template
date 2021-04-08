@@ -144,7 +144,7 @@ __See also:__
 ### Override bundled Clojure version
 ```clojure
 (deftask rndr []
-         (comp (art :dependencies '{org.clojure/clojure {:mvn/version "1.10.1"}})
+         (comp (art :dependencies '{org.clojure/clojure {:mvn/version "1.10.3"}})
                (target)))
 ```
 

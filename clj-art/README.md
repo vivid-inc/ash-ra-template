@@ -33,8 +33,6 @@ You can also add the above alias to your personal `~/.clojure/deps.edn`.
 You'll then be able to render ART templates using `clojure` at the CLI anywhere you desire.
 ```sh
 $ clojure -A:art --help
-
-Rendering ART oracle
 ```
 
 
@@ -152,7 +150,7 @@ __See also:__
 {:aliases
   {:art {:extra-deps {vivid/clj-art {:mvn/version "0.6.0"}}
          :main-opts  ["-m" "vivid.art.clj-tool" "templates"
-                      "--dependencies" "{org.clojure/clojure,{:mvn/version,\"1.10.1\"}}"]}}}
+                      "--dependencies" "{org.clojure/clojure,{:mvn/version,\"1.10.3\"}}"]}}}
 ```
 
 __Discussion:__
