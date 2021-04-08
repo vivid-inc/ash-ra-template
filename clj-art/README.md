@@ -33,6 +33,8 @@ You can also add the above alias to your personal `~/.clojure/deps.edn`.
 You'll then be able to render ART templates using `clojure` at the CLI anywhere you desire.
 ```sh
 $ clojure -A:art --help
+
+Rendering ART oracle
 ```
 
 

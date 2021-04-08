@@ -84,6 +84,7 @@ Consider:
 - Ability to list rendered file paths without writing.
 - Cache ala https://github.com/davidsantiago/stencil
 - AOT compilation.
+- Demonstrating integration with Ring.
 
 
 

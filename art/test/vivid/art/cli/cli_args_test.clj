@@ -39,8 +39,8 @@
        (vivid.art.cli.args/cli-args->batch args cli-options))
 
     ["test-resources/empty.art"]
-    {:output-dir (File. ^String vivid.art.cli.usage/default-output-dir)
-     :templates  (list {:src-path (File. "test-resources/empty.art")
+    {:output-dir (.getAbsoluteFile (File. ^String vivid.art.cli.usage/default-output-dir))
+     :templates  (list {:src-path (.getAbsoluteFile (File. "test-resources/empty.art"))
                         :dest-rel-path (File. "empty")})}))
 
 (deftest bad-template-args

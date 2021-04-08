@@ -24,10 +24,9 @@
 
 (deftest output-dir-cli-args
   (are [args ^String dir]
-    (let [expected (File. dir)
-          {:keys [output-dir]} (vivid.art.cli.args/cli-args->batch args vivid.art.cli.usage/cli-options)]
-     (= expected
-        output-dir))
+    (= (.getAbsoluteFile (File. dir))
+       (-> (vivid.art.cli.args/cli-args->batch args vivid.art.cli.usage/cli-options)
+           :output-dir))
 
     ["test-resources/empty.art" "--output-dir" "/"]
     "/"
@@ -49,7 +48,7 @@
              ["--output-dir" "" "test-resources/empty.art"]
              vivid.art.cli.usage/cli-options)
         {:keys [step]} (special-unwind-on-signal f :vivid.art.cli/error)]
-    (is (= 'validate-output-dir step))))
+    (= 'validate-output-dir step)))
 
 (deftest template-paths
   (are [^String base-path ^String template-file dest-rel-path]
