@@ -8,8 +8,8 @@ set -o xtrace
 rm -r target || true
 
 function clj-art {
-    clojure -A:rndr-a
-    clojure -A:rndr-b
+    clojure -M:rndr-a
+    clojure -M:rndr-b
 }
 
 # Hack: If the command-line args are "clj-art", the following will execute

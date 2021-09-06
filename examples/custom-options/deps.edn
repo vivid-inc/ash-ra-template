@@ -1,15 +1,6 @@
-; NOTE: THIS deps.edn EXAMPLE CURRENTLY FAILS
-;
-; --bindings cannot be used more than once. This is due to
-; org.clojure/tools.cli 1.0.194 processing multiple issuances of a given CLI option
-; by overwriting its previous value; only the last issuance survives as the
-; option's value. The next newer version of tools.cli features a new :multi
-; setting on the option spec.
-;
-; TODO Add :multi support to :bindings tools.cli option spec after a successive version of org.clojure/tools.cli 1.0.194 is released.
-
 {:aliases
- {:art {:extra-deps {vivid/clj-art {:mvn/version "0.6.0"}}
+ {:art {:extra-deps {vivid/clj-art {:mvn/version "0.6.0"}
+                     example-custom-options/example-custom-options {:mvn/version "0"}}
         :main-opts  ["-m" "vivid.art.clj-tool"
 
                      ; Render all .art templates in the content/ directory
@@ -30,4 +21,5 @@
                      "--dependencies" "{hiccup,{:mvn/version,\"1.0.5\"}}"
                      "--to-phase" "enscript"
                      ; Render to the our/cdn/ directory
-                     "--output-dir" "out/cdn"]}}}
+                     "--output-dir" "out/cdn"]}}
+ :paths ["src"]}

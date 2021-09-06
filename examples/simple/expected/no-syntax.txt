@@ -1,1 +1,1 @@
-Processing this content with ART will not change its contents as there is no ART syntax.
+This content passes through the ART render pipeline unaltered as there is no ART syntax.

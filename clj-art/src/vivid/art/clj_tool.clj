@@ -26,7 +26,7 @@
 
 (defn- exit [exit-status message]
   (println message)
-  (System/exit exit-status))
+  (java.lang.System/exit exit-status))
 
 (defn- from-cli-args [args]
   (->> (vivid.art.cli.args/cli-args->batch args cli-options)

@@ -27,7 +27,7 @@
               :output   "cloverage"                  ; "lein jar" destroys target/cloverage
               }
 
-  :dependencies [[org.clojure/tools.cli "1.0.194"]
+  :dependencies [[org.clojure/tools.cli "1.0.206"]
                  [special "0.1.3-Beta1"]
                  [vivid/art "0.6.0"]]
 

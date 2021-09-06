@@ -2,6 +2,8 @@
 
 ## [0.6.0]
 _Unreleased_
+- Templates can access a new var `*render-context*`, untested and undocumented at this point in time.
+- Upgraded org.clojure/tools.cli from version 1.0.196 to the new version 1.0.206 which offers the `:multi` option, allowing >= 2 binding specifications on the CLI.
 
 ## [0.5.0]
 Released 2021-01-19.

@@ -32,7 +32,9 @@
                  [org.clojure/tools.deps.alpha "0.9.857" :exclusions [commons-logging
                                                                       org.clojure/clojure
                                                                       org.clojure/data.json
-                                                                      org.slf4j/slf4j-api]] ; TODO CLJ Only
+                                                                      org.clojure/tools.cli
+                                                                      org.slf4j/slf4j-api]] ; TODO CLJ only
+                 [org.clojure/tools.cli "1.0.206"]          ; TODO CLJ art-cli tools only
                  [org.projectodd.shimdandy/shimdandy-api "1.2.1"] ; TODO Eliminate; use jcl-core only
                  [org.projectodd.shimdandy/shimdandy-impl "1.2.1"] ; TODO Eliminate; use jcl-core only
                  [org.xeustechnologies/jcl-core "2.8"] ; TODO CLJ only

@@ -79,12 +79,6 @@ ART attempts to interpret arguments in this order of precedence:
 
 
 ### Custom bindings, delimiters, dependencies, and project code
-NOTE: THIS deps.edn EXAMPLE CURRENTLY FAILS
-`--bindings` cannot be used more than once. This is due to
-`org.clojure/tools.cli` 1.0.194 processing multiple issuances of a given CLI option
-by overwriting its previous value; only the last issuance survives as the
-option's value. The next newer version of `tools.cli` apparently features a new `:multi`
-setting on the option spec.
 ```edn
 {:aliases
  {:art {:extra-deps {vivid/clj-art {:mvn/version "0.6.0"}}

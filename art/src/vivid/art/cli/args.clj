@@ -80,7 +80,7 @@
     {:templates (validate/validate-templates templates)
      :output-dir (validate/validate-output-dir output-dir)}
     ; Optional
-    (when-let [bindings (:bindings options)]
+    (when-let [bindings (when (seq (:bindings options)) (:bindings options))]
       {:bindings (validate/validate-bindings bindings)})
     (when-let [delimiters (:delimiters options)]
       {:delimiters (validate/validate-delimiters delimiters)})

@@ -32,9 +32,8 @@
   [[;; --bindings is passed through to vivid.art/render
     nil "--bindings VAL"
     "Bindings made available to templates for symbol resolution"
-    ; TODO Enable :multi -ple --bindings when org.clojure/tools.cli is updated.
-    ;:multi true :default [] :update-fn conj
-    ]
+    ; The data structure must preserve order of appearance as later bindings override earlier ones.
+    :update-fn conj :default [] :multi true]
 
    [;; --delimiters is passed through to vivid.art/render
     nil "--delimiters VAL"
@@ -55,7 +54,6 @@
 
    [;; --to-phase is passed through to vivid.art/render
     nil "--to-phase VAL"
-    "Stop the render dataflow on each template at an earlier phase"
-    ]])
+    "Stop the render dataflow on each template at an earlier phase"]])
 
 (def ^:const for-more-info "For more info, see\n  https://github.com/vivid-inc/ash-ra-template")

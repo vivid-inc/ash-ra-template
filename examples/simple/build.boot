@@ -6,5 +6,5 @@
 
 (deftask rndr []
   (comp
-    (art :templates      [(io/file "templates")]
+    (art :templates  [(io/file "templates")]
          :output-dir (io/file "target"))))

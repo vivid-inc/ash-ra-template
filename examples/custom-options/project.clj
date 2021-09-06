@@ -8,7 +8,6 @@
 (defproject example-custom-options "0"
 
   :plugins [[vivid/lein-art "0.6.0"]]
-  :dependencies [[example-custom-options "LATEST"]]
 
   ; Render all .art template files in the content/ directory to out/cdn/
   :art {:templates    "content"
@@ -41,7 +40,6 @@
                        ; order to recognize this "." project as a dependency.
                        ; The name is the same as this Lein project.
                        ; Use a version spec that suites your needs.
-                       example-custom-options {:mvn/version "LATEST"
-                                               :local/root "."}}
+                       example-custom-options/example-custom-options {:mvn/version "0"}}
 
         :output-dir   "out/cdn"})

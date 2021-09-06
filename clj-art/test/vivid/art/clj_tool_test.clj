@@ -31,18 +31,17 @@
      (io/delete-file file silently))
    (io/file path)))
 
-(defn all-invocation-patterns
-  [path & art-options]
+(defn invocation-pattern
+  [path & command]
   (let [expected-dir (str path "/expected")
         target-dir (str path "/target")
-        templates-dir (str path "/templates")]
+        ]
     (delete-file-tree target-dir :silently)
-    (let [art-args (concat [templates-dir "--output-dir" target-dir] art-options)
-          art-res (apply vivid.art.clj-tool/-main art-args)
+    (let [clj-res (apply clojure.java.shell/sh (concat command [:dir path]))
           diff-res (clojure.java.shell/sh "/usr/bin/diff" "--recursive"
                                           target-dir
                                           expected-dir)]
-      (t/is (nil? art-res))
+      (t/is (= 0 (clj-res :exit)))
       (t/is (= 0 (diff-res :exit))))))
 
 (t/deftest usage
@@ -54,35 +53,33 @@
     (t/testing "(usage) mentions the ART file extension"
       (t/is (clojure.string/includes? usage vivid.art/art-filename-suffix)))))
 
-(t/deftest clj-tool-all-options-exercise
-  (all-invocation-patterns "../examples/all-options"
-                           "--bindings" "{updated \"2021-01-01\"}"
-                           "--delimiters" "{:begin-forms \"{%\" :end-forms \"%}\" :begin-eval \"{%=\" :end-eval \"%}\"}"
-                           "--dependencies" "{hiccup {:mvn/version \"1.0.5\"}}"
-                           "--to-phase" "evaluate"))
+(t/deftest clj-tool-example-all-options
+  (invocation-pattern "../examples/all-options"
+                      "clj" "-M:art"))
 
-(t/deftest clj-tool-readme-examples
-  (all-invocation-patterns "../examples/readme-examples"
-                           "--bindings" "{mysterious-primes [7 191]}"
-                           "--delimiters" "{:begin-forms \"{%\" :end-forms \"%}\" :begin-eval \"{%=\" :end-eval \"%}\"}"))
-
-(t/deftest clj-tool-simple
-  (all-invocation-patterns "../examples/simple"))
-
-(t/deftest clj-tool-utf-8
-  (all-invocation-patterns "../examples/utf-8"
-                           "--bindings" "../examples/utf-8/greek.edn"
-                           "--delimiters" "jinja"))
-
-
-
-;; TODO: examples/custom-options is currently failing until a newer version of org.clojure/tools.cli is released.
+; TODO Test example-custom-options
 
 (t/deftest clj-tool-example-multi-batch
+  (let [target-a "expected-src-resources"
+        target-b "expected-target-generated-sources-java"]
+    (doseq [dir [target-a target-b]]
+      (delete-file-tree dir :silently)))
   (let [res (clojure.java.shell/sh "./test.sh" "clj-art"
                                    :dir "../examples/multi-batch")]
     (t/is (= 0 (res :exit)))))
 
 (t/deftest clj-tool-example-override-clojure-version
-  (all-invocation-patterns "../examples/override-clojure-version"
-                           "--dependencies" "{org.clojure/clojure {:mvn/version \"1.10.1\"}}"))
+  (invocation-pattern "../examples/readme-examples"
+                      "clj" "-M:art"))
+
+(t/deftest clj-tool-example-readme-examples
+  (invocation-pattern "../examples/readme-examples"
+                      "clj" "-M:art"))
+
+(t/deftest clj-tool-example-simple
+  (invocation-pattern "../examples/simple"
+                      "clj" "-M:art"))
+
+(t/deftest clj-tool-example-utf-8
+  (invocation-pattern "../examples/utf-8"
+                      "clj" "-M:art"))

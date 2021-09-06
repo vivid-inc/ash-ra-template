@@ -91,11 +91,7 @@
                            {:bindings "../examples/utf-8/greek.edn"
                             :delimiters 'jinja}))
 
-
-
-;; TODO: examples/custom-options is currently failing until a newer version of org.clojure/tools.cli is released.
-
-#_(t/deftest lein-plugin-example-custom-options
+(t/deftest lein-plugin-example-custom-options
   (let [res (clojure.java.shell/sh "./test.sh" "lein" "do" "clean," "install," "art"
                                    :dir "../examples/custom-options")]
     (t/is (= 0 (res :exit)))))
