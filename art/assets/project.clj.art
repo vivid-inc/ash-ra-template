@@ -95,16 +95,16 @@
               :output   "cloverage"                  ; "lein jar" destroys target/cloverage
               }
 
-  :dependencies [[instaparse "1.4.10" :exclusions [org.clojure/spec.alpha]]
+  :dependencies [[instaparse "1.4.10" :exclusions [org.clojure/spec.alpha]] ; TODO CLJ + CLJS
                  [org.clojure/tools.deps.alpha "0.9.857" :exclusions [commons-logging
                                                                       org.clojure/clojure
                                                                       org.clojure/data.json
-                                                                      org.slf4j/slf4j-api]]
-                 [org.projectodd.shimdandy/shimdandy-api "1.2.1"]
-                 [org.projectodd.shimdandy/shimdandy-impl "1.2.1"]
-                 [org.xeustechnologies/jcl-core "2.8"]
-                 [reduce-fsm "0.1.4"]
-                 [special "0.1.3-Beta1"]]
+                                                                      org.slf4j/slf4j-api]] ; TODO CLJ Only
+                 [org.projectodd.shimdandy/shimdandy-api "1.2.1"] ; TODO Eliminate; use jcl-core only
+                 [org.projectodd.shimdandy/shimdandy-impl "1.2.1"] ; TODO Eliminate; use jcl-core only
+                 [org.xeustechnologies/jcl-core "2.8"] ; TODO CLJ only
+                 [reduce-fsm "0.1.4"] ; TODO CLJ + CLJS maybe
+                 [special "0.1.3-Beta1"]] ; TODO Replace with Farolero which is CLJ + CLJS
 
   :exclusions [org.clojure/clojure]
 

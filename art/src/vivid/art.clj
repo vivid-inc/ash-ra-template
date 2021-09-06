@@ -49,10 +49,15 @@
     {:keys [bindings delimiters dependencies to-phase]
      :or   {bindings {} delimiters default-delimiters dependencies {} to-phase default-to-phase}}]
    (when template
-     (let [render* #(cond-> template
+     (let [render-context {:render-options {:bindings     bindings
+                                            :delimiters   delimiters
+                                            :dependencies dependencies
+                                            :to-phase     to-phase}
+                           :template       :vivid.art/unknown}
+           render* #(cond-> template
                         (to-phase? :parse     to-phase) (parse delimiters)
                         (to-phase? :translate to-phase) (translate)
-                        (to-phase? :enscript  to-phase) (enscript bindings)
+                        (to-phase? :enscript  to-phase) (enscript render-context)
                         (to-phase? :evaluate  to-phase) (evaluate dependencies))
            f (special/manage render*
                      :parse-error #(make-failure :parse-error % template))]

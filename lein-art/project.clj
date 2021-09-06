@@ -19,7 +19,7 @@
             "clj-kondo" ["with-profile" "clj-kondo" "run" "-m" "clj-kondo.main" "--"
                          "--lint" "src/"]
             "mkdocs"    ["art"]
-            "test"      ["with-profile" "+clojure-1.9.0:+clojure-1.10.0:+clojure-1.10.1" "build"]}
+            "test"      ["with-profile" "+clojure-1.9.0:+clojure-1.10.0:+clojure-1.10.1:+clojure-1.10.2:+clojure-1.10.3" "build"]}
 
   :art {:templates  "assets/README.md.art"
         :bindings   "../assets/vivid-art-facts.edn"
@@ -70,9 +70,12 @@
   :profiles {:clj-kondo {:dependencies [[org.clojure/clojure "1.9.0"]
                                         [clj-kondo "RELEASE"]]}
 
+             ; TODO Automate generation of this project.clj to dynamically declare clojure versions
+             :clojure-1.9.0  {:dependencies [[org.clojure/clojure "1.9.0"]]},
              :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]},
              :clojure-1.10.1 {:dependencies [[org.clojure/clojure "1.10.1"]]},
-             :clojure-1.9.0  {:dependencies [[org.clojure/clojure "1.9.0"]]},
+             :clojure-1.10.2 {:dependencies [[org.clojure/clojure "1.10.2"]]},
+             :clojure-1.10.3 {:dependencies [[org.clojure/clojure "1.10.3"]]},
 
              :dev {:dependencies   [;; Diffs equality assertions in test failure output
                                     ;; https://github.com/pjstadig/humane-test-output
