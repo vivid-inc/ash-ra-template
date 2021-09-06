@@ -28,8 +28,8 @@
               }
 
   :dependencies [[org.clojure/tools.cli "1.0.206"]
-                 [special "0.1.3-Beta1"]
-                 [vivid/art "0.6.0"]]
+                 [special               "0.1.3-Beta1"]
+                 [vivid/art-cli         "0.6.0"]]
 
   :dev-dependencies [[org.clojure/clojure "1.9.0"]]
 

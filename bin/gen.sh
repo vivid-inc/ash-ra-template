@@ -56,6 +56,7 @@ echo Generating resources in all projects
 bootstrap_art
 (cd art && lein install)
 
+(cd art-cli && lein mkdocs)
 (cd boot-art && boot lein-generate mkdocs)
 (cd clj-art  && clojure -A:mkdocs)
 (cd lein-art && lein mkdocs)
