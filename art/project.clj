@@ -33,6 +33,7 @@
                                                                       org.clojure/clojure
                                                                       org.clojure/data.json
                                                                       org.clojure/tools.cli
+                                                                      org.clojure/tools.logging
                                                                       org.slf4j/slf4j-api]]
                  [org.projectodd.shimdandy/shimdandy-api "1.2.1"]
                  [org.projectodd.shimdandy/shimdandy-impl "1.2.1"]
@@ -55,7 +56,8 @@
   ;:pedantic? :abort
 
   :plugins [[lein-ancient "0.6.15"]
-            [lein-cljfmt "0.7.0"]
+            [lein-cljfmt "0.7.0" :exclusions [org.clojure/clojure
+                                              com.fasterxml.jackson.core/jackson-core]]
             [lein-cloverage "1.2.2"]
             [lein-eftest "0.5.9"]
             [lein-ns-dep-graph "0.2.0-SNAPSHOT" :exclusions [org.clojure/clojure]]
