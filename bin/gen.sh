@@ -10,8 +10,7 @@ set -o pipefail
 set -o xtrace
 
 function bootstrap_art {
-  clojure -Sdeps '{:deps {vivid/ash-ra-template {:mvn/version "0.6.0"
-                                                 :local/root  "art"}
+  clojure -Sdeps '{:deps {vivid/art {:local/root "art"}
                           zprint/zprint {:mvn/version "1.0.2"}}}' - <<EOS
 
 (require '[clojure.edn :as edn]
@@ -34,6 +33,9 @@ function bootstrap_art {
                   :end-eval    "%}"}
    :dependencies {'vivid/art {:mvn/version ('vivid-art-version vivid-art-facts)}
                   'zprint    {:mvn/version "1.0.2"}}}
+
+  "art-cli/assets/project.clj.art" "art-cli/project.clj"
+  {:dependencies {'zprint {:mvn/version "1.0.2"}}}
 ])
 
 (defn rndr [from to opts-overrides]
@@ -56,7 +58,6 @@ echo Generating resources in all projects
 bootstrap_art
 (cd art && lein install)
 
-(cd art-cli && lein mkdocs)
 (cd boot-art && boot lein-generate mkdocs)
 (cd clj-art  && clojure -A:mkdocs)
 (cd lein-art && lein mkdocs)

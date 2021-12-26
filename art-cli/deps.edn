@@ -1,3 +1,0 @@
-; Use a previous version of ART to render the Leiningen project.clj from an .art template.
-{:deps {vivid/ash-ra-template {:mvn/version "0.5.0"
-                               :local/root  "."}}}
