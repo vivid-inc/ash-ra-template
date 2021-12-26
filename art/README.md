@@ -31,7 +31,7 @@ _Note_ that until ART achieves version 1.0 status, details may be subject to cha
 Clojure is tested on:
 
 - Clojure 1.9.0 and newer, for [spec](https://clojure.org/guides/spec), and because it is compatible with a ``clojure.alpha.tools.deps`` version that has reasonable Maven-style dependency resolution capability.
-- Java 8 and all subsequent LTS releases (currently: Java 8 and Java 11). Java 8, because it strikes a good balance between wide adoption and long-term stability.
+- Java LTS releases 8, 11, 17. Starting with Java 8, because it strikes a good balance between wide adoption and long-term stability.
 
 <a name="quickstart"></a>
 ## Quick Start

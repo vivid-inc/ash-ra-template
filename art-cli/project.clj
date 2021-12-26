@@ -64,7 +64,7 @@
              :clojure-1.10.2 {:dependencies [[org.clojure/clojure "1.10.2"]]},
              :clojure-1.10.3 {:dependencies [[org.clojure/clojure "1.10.3"]]},
              :clojure-1.9.0  {:dependencies [[org.clojure/clojure "1.9.0"]]},
-             :dev            {:dependencies   [[pjstadig/humane-test-output "0.10.0"]],
+             :dev            {:dependencies   [[pjstadig/humane-test-output "0.11.0"]],
                               :injections     [(require (quote pjstadig.humane-test-output))
                                                (pjstadig.humane-test-output/activate!)
                                                (require (quote vivid.art))

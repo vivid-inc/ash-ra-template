@@ -178,7 +178,7 @@ __See also:__
 
 __Discussion:__
 There are several Leiningen plugins that can be used to monitor files and react to changes.
-In this example, we use WeaveJester's (`lein-auto`)[https://github.com/weavejester/lein-auto].
+In this example, we use WeaveJester's [`lein-auto`](https://github.com/weavejester/lein-auto).
 
 __See also:__
 [Example](../examples/watch).

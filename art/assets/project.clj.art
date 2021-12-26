@@ -1,4 +1,9 @@
-; Copyright 2020 Vivid Inc.
+; Copyright 2021 Vivid Inc.
+
+; Interesting commands:
+;
+; Examine the full list of transitive dependencies
+; $ lein with-profile '' deps :tree
 <%
 
 (require
@@ -43,7 +48,7 @@
 
       :dev       {:dependencies   [;; Diffs equality assertions in test failure output
                                    ;; https://github.com/pjstadig/humane-test-output
-                                   [pjstadig/humane-test-output "0.10.0"]]
+                                   [pjstadig/humane-test-output "0.11.0"]]
 
                   :injections     [(require 'pjstadig.humane-test-output)
                                    (pjstadig.humane-test-output/activate!)
