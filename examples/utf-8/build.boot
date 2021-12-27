@@ -9,5 +9,5 @@
   (comp
     (art :templates  [(io/file "templates")]
          :output-dir (io/file "target")
-         :bindings   (read-string (slurp "greek.edn"))
+         :bindings   ["greek.edn"]
          :delimiters vivid.art.delimiters/jinja)))

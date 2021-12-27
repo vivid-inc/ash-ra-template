@@ -73,6 +73,7 @@ ART attempts to interpret arguments in this order of precedence:
 1. As a map.
 1. As the (un-)qualified name of a var.
 1. As a path to an EDN file.
+1. As a path to a JSON file.
 1. As an EDN literal.
 
 
@@ -111,7 +112,9 @@ For the sake of completeness, its value is copy & pasted into the example below 
                                     :unit-price-dollars 17.95M}]}
 
                        "{current-year 2021}"                   ; EDN as a string
-                       "data/sales-offices.edn"]               ; EDN file; top-level form is a map
+                       "data/sales-offices.edn"                ; EDN file; top-level form is a map
+                       "data/partner-list.json"]               ; JSON file; file content is made available under the symbol 'partner-list
+
 
         :delimiters   "jinja"                                  ; Resolves to #'vivid.art.delimiters/jinja
 

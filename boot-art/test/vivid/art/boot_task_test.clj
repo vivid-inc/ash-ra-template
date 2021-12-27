@@ -113,7 +113,7 @@
 (boot.test/deftesttask
   boot-task-utf-8 []
   (all-invocation-patterns "../examples/utf-8"
-                           :bindings (read-string (slurp "../examples/utf-8/greek.edn"))
+                           :bindings ["../examples/utf-8/greek.edn"]
                            :delimiters vivid.art.delimiters/jinja))
 
 

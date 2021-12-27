@@ -23,6 +23,7 @@
            (hiccup/html [:tr [:td region] [:td phone]]))) }}
   </tbody>
 </table>
+<p>Or contact any of our eager partners at {{ (clojure.string/join " or " partner-list) }}.</p>
 
 <!-- HTML generated completely with hiccup -->
 {{

@@ -28,22 +28,31 @@
   (:require
     [clojure.edn :as edn]
     [clojure.java.io :as io]
+    [clojure.data.json :as json]
     [clojure.string]
     [special.core :as special])
   (:import
     (java.io File IOException PushbackReader)))
 
 (defn resolve-as-edn-file
-  "Attempt to interpret a value as a path to an EDN file. The value would then
-  be an io/reader source, either a string filename or an io/resource."
-  [x]
+  "Attempt to interpret a value as a path to an EDN file.
+  If successful, returns either the file content as a data structure, or when
+  option wrap-in-map is true, a map containing a single entry:
+  [the filename sans .edn extension as a symbol, the EDN file's contents]."
+  [x & options]
   (when (and (string? x)
-             (seq (clojure.string/trim x)))
-    (let [f (io/file (System/getProperty "user.dir") x)]
+             (clojure.string/ends-with? x ".edn"))
+    (let [{:keys [wrap-in-map] :or {wrap-in-map false}} options
+          f   (io/file (System/getProperty "user.dir") x)]
       (when (.exists f)
         (try
           (with-open [r (io/reader f)]
-            (edn/read (PushbackReader. r)))
+            (let [content (edn/read (PushbackReader. r))]
+              (if wrap-in-map
+                (let [n   (clojure.string/replace (.getName f) #"\.edn$" "")
+                      sym (symbol n)]
+                  {sym content})
+                content)))
           (catch IOException e
             (special/condition :vivid.art.cli/error
                                {:step      'resolve-as-edn-file
@@ -79,6 +88,46 @@
     (instance? File path)                                 path
     (and (string? path) (seq (clojure.string/trim path))) (File. ^String path)
     :else                                                 nil))
+
+(defn resolve-as-json-file
+  "Attempt to interpret a value as a string path to a JSON file.
+  If successful, returns either the file content as a data structure, or when
+  option wrap-in-map is true, a map containing a single entry:
+  [the filename sans .json extension as a symbol, the JSON file's contents]."
+  ; TODO This fn is nearly a copy & paste of resolve-as-edn-file
+  ; TODO glob -> select only .json files. (.getPathMatcher (java.nio.file.FileSystems/getDefault) "glob:**/*.json") https://clojuredocs.org/clojure.core/file-seq
+  [x & options]
+  (when (and (string? x)
+             (clojure.string/ends-with? x ".json"))
+    (let [{:keys [wrap-in-map] :or {wrap-in-map false}} options
+          f (io/file (System/getProperty "user.dir") x)]
+      (when (.exists f)
+        (try
+          (with-open [r (io/reader f)]
+            (let [content (json/read r :eof-error? false)]
+              (if wrap-in-map
+                (let [n   (clojure.string/replace (.getName f) #"\.json$" "")
+                      sym (symbol n)]
+                  {sym content})
+                content)))
+          (catch IOException e
+            (special/condition :vivid.art.cli/error
+                               {:step      'resolve-as-json-file
+                                :message   (str "Error opening file: " x \newline
+                                                (.getMessage e) \newline
+                                                (.getStackTrace e))
+                                :file      f
+                                :exception e}
+                               :normally nil))
+          (catch RuntimeException e
+            (special/condition :vivid.art.cli/error
+                               {:step      'resolve-as-json-file
+                                :message   (str "Error reading JSON from file: " x \newline
+                                                (.getMessage e) \newline
+                                                (.getStackTrace e))
+                                :file      f
+                                :exception e}
+                               :normally nil)))))))
 
 (defn resolve-as-map
   "Attempt to interpret a value as a Clojure map."

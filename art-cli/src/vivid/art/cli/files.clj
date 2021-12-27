@@ -22,7 +22,7 @@
     (java.io File)))
 
 (def ^:const prohibited-template-output-filenames
-  "Attempting to (over-)write or delete to these filenames might have
+  "Attempting to (over-)write or delete these filenames might have
   undesirable or catastrophic consequences."
   #{"." ".."})
 

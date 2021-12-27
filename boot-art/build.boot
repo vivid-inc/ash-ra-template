@@ -64,8 +64,8 @@
            ; So we leave it in Boot's fileset for now ...
            (sift :add-resource #{"assets"})
            (art :bindings "../assets/vivid-art-facts.edn"
-                :dependencies '{boot/core {:mvn/version "2.8.2"}}
-                :delimiters "{:begin-forms \"{%\" :end-forms \"%}\" :begin-eval \"{%=\" :end-eval \"%}\"}")
+                :delimiters "{:begin-forms \"{%\" :end-forms \"%}\" :begin-eval \"{%=\" :end-eval \"%}\"}"
+                :dependencies '{boot/core {:mvn/version "2.8.2"}})
            ; ... until the docs are rendered, which is all we are interested in:
            (sift :include #{#"^README\.md$"})
            (target :dir #{"."}

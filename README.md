@@ -15,6 +15,8 @@ Tested with Clojure 1.9 and newer, Java 8 and newer LTS releases.
 
 [ART library](art/README.md), including detailed information about using the ART library and ART template syntax, rendering API and options, and processing.
 
+[ART CLI library](art-cli/README.md) aggregates code common to the translation and processing of ART build tool and command line arguments into parameters for ART's Clojure API.
+
 [Boot task](boot-art/README.md) for rendering ART templates.
 
 [Clojure tool](clj-art/README.md) for rendering ART templates.

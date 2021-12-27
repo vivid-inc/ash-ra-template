@@ -25,14 +25,15 @@
 (defn validate-bindings
   "Is either a single or collection of binding maps. Each
   binding definition is a Clojure map, a Clojure var, a string path to an
-  EDN file containing a map, or a stringified EDN literal map."
+  EDN or JSON file, or a stringified EDN literal map."
   [bindings]
   (reduce
     (fn [acc x]
       (as-> x b
             (or (resolve/resolve-as-map b)
                 (resolve/resolve-as-var b)
-                (resolve/resolve-as-edn-file b)
+                (resolve/resolve-as-edn-file b :wrap-in-map true)
+                (resolve/resolve-as-json-file b :wrap-in-map true)
                 (resolve/resolve-as-edn-literal b))
             (resolve/resolve-as-map b)
             (s/conform :vivid.art/bindings b)

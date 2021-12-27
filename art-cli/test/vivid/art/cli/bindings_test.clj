@@ -33,7 +33,7 @@
     (let [args ["--bindings" x "test-resources/empty.art"]
           {:keys [bindings]} (vivid.art.cli.args/cli-args->batch args cli-options)]
       (= expected bindings))
-    {:a 1} "test-resources/simple-bindings.edn"))
+    {'simple-bindings {:a 1}} "test-resources/simple-bindings.edn"))
 
 (deftest cli-edn-literal-bindings
   (are [expected x]
@@ -53,7 +53,8 @@
     'validate-bindings "nonsense"
     'validate-bindings "{:non"
     'validate-bindings "sense}"
-    'resolve-as-edn-file "test-resources/malformed.edn"))
+    'resolve-as-edn-file "test-resources/malformed.edn"
+    'resolve-as-json-file "test-resources/malformed.json"))
 
 
 ;
@@ -87,7 +88,10 @@
     custom-bindings "vivid.art.cli.bindings-test/custom-bindings"
 
     ; As a string path to an EDN file:
-    {:a 1} "test-resources/simple-bindings.edn"
+    {'simple-bindings {:a 1}} "test-resources/simple-bindings.edn"
+
+    ; As a string path to a JSON file:
+    {'simple-bindings {"j" 5766}} "test-resources/simple-bindings.json"
 
     ; As EDN literal:
     custom-bindings (pr-str custom-bindings)))
@@ -96,10 +100,10 @@
   (are [expected x]
     (= expected
        (validate/validate-bindings x))
-    {:a 1 :b 2 :c 3 :d 4} ["test-resources/simple-bindings.edn"
-                           'vivid.art.cli.bindings-test/custom-bindings
-                           {:c 3}
-                           "{:d 4}"]))
+    {'simple-bindings {:a 1} :b 2 :c 3 :d 4} ["test-resources/simple-bindings.edn"
+                                              'vivid.art.cli.bindings-test/custom-bindings
+                                              {:c 3}
+                                              "{:d 4}"]))
 
 (deftest malformed-bindings
   (are [expected x]
@@ -114,7 +118,8 @@
     'validate-bindings "{:non"
     'validate-bindings "sense}"
     'validate-bindings 'non.sense/ns
-    'resolve-as-edn-file "test-resources/malformed.edn"))
+    'resolve-as-edn-file "test-resources/malformed.edn"
+    'resolve-as-json-file "test-resources/malformed.json"))
 
 (deftest mixed-bindings-one-bad
   (is (= 'validate-bindings

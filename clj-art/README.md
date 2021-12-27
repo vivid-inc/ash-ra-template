@@ -68,6 +68,7 @@ ART attempts to interpret arguments in this order of precedence:
 1. As a map.
 1. As the (un-)qualified name of a var.
 1. As a path to an EDN file.
+1. As a path to a JSON file.
 1. As an EDN literal.
 
 
@@ -95,6 +96,8 @@ ART attempts to interpret arguments in this order of precedence:
                      "--bindings" "{current-year,2021}"
                      ; EDN file; top-level form is a map
                      "--bindings" "data/sales-offices.edn"
+                     ; JSON file; file content is made available under the symbol 'partner-list
+                     "--bindings" "data/partner-list.json"
 
                      ; Unqualified, resolves to #'vivid.art.delimiters/jinja
                      "--delimiters" "jinja"

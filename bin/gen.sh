@@ -20,22 +20,22 @@ function bootstrap_art {
 
 (def ^:const vivid-art-facts (with-open [r (io/reader "assets/vivid-art-facts.edn")]
                                (edn/read (PushbackReader. r))))
-(def ^:const base-rndr-opts {:bindings vivid-art-facts})
+(def ^:const base-rndr-opts {:bindings {'vivid-art-facts vivid-art-facts}})
 
 (def ^:const batches [
   "art/assets/project.clj.art" "art/project.clj"
-  {:dependencies {'zprint {:mvn/version "1.0.2"}}}
+  {:dependencies {'zprint/zprint {:mvn/version "1.0.2"}}}
 
   "art/assets/README.md.art" "art/README.md"
   {:delimiters   {:begin-forms "{%"
                   :end-forms   "%}"
                   :begin-eval  "{%="
                   :end-eval    "%}"}
-   :dependencies {'vivid/art {:mvn/version ('vivid-art-version vivid-art-facts)}
-                  'zprint    {:mvn/version "1.0.2"}}}
+   :dependencies {'vivid/art {:mvn/version (get vivid-art-facts "vivid-art-version")}
+                  'zprint/zprint {:mvn/version "1.0.2"}}}
 
   "art-cli/assets/project.clj.art" "art-cli/project.clj"
-  {:dependencies {'zprint {:mvn/version "1.0.2"}}}
+  {:dependencies {'zprint/zprint {:mvn/version "1.0.2"}}}
 ])
 
 (defn rndr [from to opts-overrides]

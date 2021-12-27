@@ -22,6 +22,7 @@ _Note_ that until ART achieves version 1.0 status, details may be subject to cha
   - [Providing ``:bindings``](#bindings)
   - [Configurable ``:delimiters``](#delimiters)
   - [External ``:dependencies``](#dependencies)
+  - [Render ``:to-phase``](#to-phase)
 
 
 

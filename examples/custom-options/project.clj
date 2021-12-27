@@ -29,7 +29,9 @@
                                     :unit-price-dollars 17.95M}]}
 
                        "{current-year 2021}"                   ; EDN as a string
-                       "data/sales-offices.edn"]               ; EDN file; top-level form is a map
+                       "data/sales-offices.edn"                ; EDN file; top-level form is a map
+                       "data/partner-list.json"]               ; JSON file; file content is made available under the symbol 'partner-list
+
 
         :delimiters   "jinja"                                  ; Resolves to #'vivid.art.delimiters/jinja
 
