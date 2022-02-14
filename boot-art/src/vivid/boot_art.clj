@@ -20,6 +20,7 @@
     [clojure.java.io :as io]
     [special.core :as special]
     [vivid.art :as art]
+    [vivid.art.cli]
     [vivid.art.cli.args]
     [vivid.art.cli.exec]
     [vivid.art.cli.log :as log]
@@ -36,14 +37,14 @@
   [boot-file]
   {:src-path (io/file (:dir boot-file) (:path boot-file))
    :dest-rel-path (io/file (clojure.string/replace (:path boot-file)
-                                                   art/art-filename-suffix-regex ""))})
+                                                   vivid.art.cli/art-filename-suffix-regex ""))})
 
 (defn boot-fileset->template-paths
   [boot-fileset prev-fileset]
   (let [art-files (->> boot-fileset
                        (boot/fileset-diff @prev-fileset)
                        (boot/input-files)
-                       (boot/by-ext [art/art-filename-suffix]))
+                       (boot/by-ext [vivid.art.cli/art-filename-suffix]))
         template-paths (map boot-file->template-path art-files)]
     (reset! prev-fileset boot-fileset)
     [art-files template-paths]))

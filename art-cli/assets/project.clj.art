@@ -99,6 +99,14 @@
 
   :dependencies [[org.clojure/data.json "2.4.0"]
                  [org.clojure/tools.cli "1.0.206"]
+                 [org.clojure/tools.deps.alpha "0.9.857" :exclusions [commons-logging/commons-logging
+                                                                      org.clojure/clojure
+                                                                      org.clojure/data.json
+                                                                      org.clojure/tools.cli
+                                                                      org.slf4j/slf4j-api]]
+                 [org.projectodd.shimdandy/shimdandy-api "1.2.1"]
+                 [org.projectodd.shimdandy/shimdandy-impl "1.2.1"]
+                 [org.xeustechnologies/jcl-core "2.8"]
                  [vivid/art "0.6.0"]]
 
   :exclusions [org.clojure/clojure]

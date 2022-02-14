@@ -10,7 +10,8 @@ set -o pipefail
 set -o xtrace
 
 function bootstrap_art {
-  clojure -Sdeps '{:deps {vivid/art {:local/root "art"}
+  clojure -Sdeps '{:deps {vivid/art     {:local/root "art"}
+                          vivid/art-cli {:local/root "art-cli"}
                           zprint/zprint {:mvn/version "1.0.2"}}}' - <<EOS
 
 (require '[clojure.edn :as edn]
@@ -22,16 +23,24 @@ function bootstrap_art {
                                (edn/read (PushbackReader. r))))
 (def ^:const base-rndr-opts {:bindings {'vivid-art-facts vivid-art-facts}})
 
+(def ^:const bootstrap-delimiters {:begin-forms "{%"
+                                :end-forms   "%}"
+                                :begin-eval  "{%="
+                                :end-eval    "%}"})
+
 (def ^:const batches [
   "art/assets/project.clj.art" "art/project.clj"
   {:dependencies {'zprint/zprint {:mvn/version "1.0.2"}}}
 
   "art/assets/README.md.art" "art/README.md"
-  {:delimiters   {:begin-forms "{%"
-                  :end-forms   "%}"
-                  :begin-eval  "{%="
-                  :end-eval    "%}"}
-   :dependencies {'vivid/art {:mvn/version (get vivid-art-facts "vivid-art-version")}
+  {:delimiters   bootstrap-delimiters
+   :dependencies {'vivid/art     {:mvn/version (get vivid-art-facts "vivid-art-version")}
+                  'zprint/zprint {:mvn/version "1.0.2"}}}
+
+  "art-cli/assets/README.md.art" "art-cli/README.md"
+  {:delimiters   bootstrap-delimiters
+   :dependencies {'vivid/art     {:mvn/version (get vivid-art-facts "vivid-art-version")}
+                  'vivid/art-cli {:mvn/version (get vivid-art-facts "vivid-art-version")}
                   'zprint/zprint {:mvn/version "1.0.2"}}}
 
   "art-cli/assets/project.clj.art" "art-cli/project.clj"

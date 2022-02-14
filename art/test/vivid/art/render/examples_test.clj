@@ -93,23 +93,4 @@ The natural number e is approximately 2.7182"
 The natural number e is approximately {|= e |}"
                                      {:delimiters {:begin-forms "{|"
                                                    :end-forms   "|}"
-                                                   :begin-eval  "{|="}})))
-
-                  (is (= "\n\n<li><a href=\"#739\" id=\"link\">Moving wing assembly into place</a></li><li><a href=\"#740\" id=\"link\">Connecting fuel lines and hydraulics</a></li><li><a href=\"#741\" id=\"link\">Attaching wing assembly to fuselage</a></li>\n"
-                         (art/render "
-<%
-(require '[hiccup.core])
-
-(def ^:const toc-headings [{:id 739 :text \"Moving wing assembly into place\"}
-                           {:id 740 :text \"Connecting fuel lines and hydraulics\"}
-                           {:id 741 :text \"Attaching wing assembly to fuselage\"}])
-
-(defn toc-entry [heading]
-  (hiccup.core/html [:li
-    [:a#link
-      {:href (str \"#\" (heading :id))}
-      (heading :text)]]))
-%>
-<%= (apply str (map toc-entry toc-headings)) %>
-"
-                                     {:dependencies {'hiccup {:mvn/version "1.0.5"}}})))))
+                                                   :begin-eval  "{|="}})))))

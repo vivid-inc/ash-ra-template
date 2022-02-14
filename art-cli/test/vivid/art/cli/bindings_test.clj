@@ -1,4 +1,4 @@
-; Copyright 2020 Vivid Inc.
+; Copyright 2022 Vivid Inc.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -13,120 +13,65 @@
 ; limitations under the License.
 
 (ns vivid.art.cli.bindings-test
+  "Guarantee certain types can be transported across the shimdandy bridge unspoiled."
   (:require
     [clojure.test :refer :all]
-    [vivid.art.cli.args]
-    [vivid.art.cli.test-lib :refer [special-unwind-on-signal]]
-    [vivid.art.cli.usage :refer [cli-options]]
-    [vivid.art.cli.validate :as validate]))
+    [vivid.art :as art]))
 
-(def ^:const custom-bindings
-  {:b 2})
+(deftest bindings-styles
+  (testing "Quote the entire bindings map"
+    (are [expected template opts]
+      (= expected (art/render template opts))
 
+      "" "" {:bindings '{}}))
+  (testing "Quote individual bindings map keys and/or values"
+    (are [expected template opts]
+      (= expected (art/render template opts))
 
-;
-; CLI args
-;
+      "" "" {:bindings '{}})))
 
-(deftest cli-edn-file-bindings
-  (are [expected x]
-    (let [args ["--bindings" x "test-resources/empty.art"]
-          {:keys [bindings]} (vivid.art.cli.args/cli-args->batch args cli-options)]
-      (= expected bindings))
-    {'simple-bindings {:a 1}} "test-resources/simple-bindings.edn"))
+(deftest data-types
+  (testing "Unspoiled transport of Clojure data types across the Java classloader and ShimDandy divide"
+    (are [expected template opts]
+      (= expected (art/render template opts))
 
-(deftest cli-edn-literal-bindings
-  (are [expected x]
-    (let [args ["--bindings" x "test-resources/empty.art"]
-          {:keys [bindings]} (vivid.art.cli.args/cli-args->batch args cli-options)]
-      (= expected bindings))
-    {:a 1 :b 2} "{:a 1 :b 2}"))
+      ; Empty bindings
+      "empty" "<%= 'empty %>" {}
+      "empty" "<%= 'empty %>" {:bindings '{}}
 
-(deftest cli-malformed-bindings
-  (are [expected x]
-    (= expected
-       (let [f #(validate/validate-bindings x)
-             {:keys [step]} (special-unwind-on-signal f :vivid.art.cli/error)]
-         step))
-    'validate-bindings ""
-    'validate-bindings " "
-    'validate-bindings "nonsense"
-    'validate-bindings "{:non"
-    'validate-bindings "sense}"
-    'resolve-as-edn-file "test-resources/malformed.edn"
-    'resolve-as-json-file "test-resources/malformed.json"))
+      ; Booleans
+      "true class java.lang.Boolean false class java.lang.Boolean" "<%= t %> <%= (type t) %> <%= f %> <%= (type f) %>" {:bindings {'t true 'f 'false}}
 
+      ; Characters
+      "z" "<%= a %>" {:bindings '{a \z}}
 
-;
-; Internal API
-;
+      ; Collections
+      "true" "<%= (coll? c) %>"                     {:bindings '{c (list 0 1 2)}}
+      "true" "<%= (seq? s) %>"                      {:bindings '{s (list 0 1 2)}}
+      "true (0 1 2)" "<%= (list? l) %> <%= l %>"    {:bindings '{l (list 0 1 2)}}
+      "true {:a 5}" "<%= (map? m) %> <%= m %>"      {:bindings '{m {:a 5}}}
+      "true #{9}" "<%= (set? s) %> <%= s %>"        {:bindings '{s #{9}}}
+      "true [0 1 2]" "<%= (vector? v) %> <%= v %>"  {:bindings '{v [0 1 2]}}
 
-(deftest variants
-  (are [expected x]
-    (= expected
-       (validate/validate-bindings x))
+      ; Functions
+      "123" "<%= (my-lambda 62) %>" {:bindings '{my-lambda #(+ 61 %)}}
+      "2.71828" "<%= (trunc java.lang.Math/E 7) %>" {:bindings '{trunc (fn [x n] (subs (pr-str x) 0 n))}}
 
-    ; As Clojure map:
-    ; Empty
-    {} {}
-    ; Single binding definition
-    {:a 1 :b 2} {:a 1 :b 2}
-    ; Collection of a single binding definition
-    {:a 1} [{:a 1}]
-    ; Collection of several, disjoint binding definitions
-    {:a 1 :b 2} [{:a 1} {:b 2}]
-    {:a 1 :b 2} [{:b 2} {:a 1}]
-    ; Collection of several, conflicting binding definitions. Older map keys'
-    ; values are clobbered in order of appearance in the collection.
-    {:a 2 :b 9} [{:a 1 :b 9} {:a 2}]
-    {:a 1 :b 9} [{:a 2} {:a 1 :b 9}]
+      ; Integers
+      "3" "<%= (+ a b) %>" {:bindings '{a 1 b 2}}
 
-    ; As symbol of qualified var:
-    custom-bindings #'vivid.art.cli.bindings-test/custom-bindings
+      ; Keywords
+      ":im-a-keyword class clojure.lang.Keyword" "<%= (str a \" \" (type a)) %>" {:bindings '{a :im-a-keyword}}
 
-    ; As string of qualified var:
-    custom-bindings "vivid.art.cli.bindings-test/custom-bindings"
+      ; nil
+      "true" "<%= (= nil a) %>" {:bindings {'a 'nil}}
+      "null" "<%= (type a) %>"  {:bindings {'a 'nil}}
 
-    ; As a string path to an EDN file:
-    {'simple-bindings {:a 1}} "test-resources/simple-bindings.edn"
+      ; Strings
+      "Mass-produced comedy .." "Mass-produced <%= plain %> .." {:bindings '{plain "comedy"}}
+      ".. is \"culture\" dependent" ".. is <%= embedded-quotes %>" {:bindings {'embedded-quotes "\"culture\" dependent"}}
 
-    ; As a string path to a JSON file:
-    {'simple-bindings {"j" 5766}} "test-resources/simple-bindings.json"
-
-    ; As EDN literal:
-    custom-bindings (pr-str custom-bindings)))
-
-(deftest mixed-bindings
-  (are [expected x]
-    (= expected
-       (validate/validate-bindings x))
-    {'simple-bindings {:a 1} :b 2 :c 3 :d 4} ["test-resources/simple-bindings.edn"
-                                              'vivid.art.cli.bindings-test/custom-bindings
-                                              {:c 3}
-                                              "{:d 4}"]))
-
-(deftest malformed-bindings
-  (are [expected x]
-    (= expected
-       (let [f #(validate/validate-bindings x)
-             {:keys [step]} (special-unwind-on-signal f :vivid.art.cli/error)]
-         step))
-    'validate-bindings nil
-    'validate-bindings ""
-    'validate-bindings " "
-    'validate-bindings "nonsense"
-    'validate-bindings "{:non"
-    'validate-bindings "sense}"
-    'validate-bindings 'non.sense/ns
-    'resolve-as-edn-file "test-resources/malformed.edn"
-    'resolve-as-json-file "test-resources/malformed.json"))
-
-(deftest mixed-bindings-one-bad
-  (is (= 'validate-bindings
-         (let [x ["test-resources/simple-bindings.edn"
-                  'vivid.art.cli.bindings-test/custom-bindings
-                  {:c 3}
-                  "{:non"]
-               f #(validate/validate-bindings x)
-               {:keys [step]} (special-unwind-on-signal f :vivid.art.cli/error)]
-           step))))
+      ; Symbols
+      "xyz" "<%= sym %>" {:bindings '{sym 'xyz}}
+      "a*b+c!d.e:f-g_h?9" "<%= all-chars %>" {:bindings '{all-chars 'a*b+c!d.e:f-g_h?9}}
+      (pr-str ::namespaced-sym) "<%= with-ns %>" {:bindings {'with-ns ::namespaced-sym}})))

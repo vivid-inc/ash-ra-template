@@ -12,10 +12,21 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.evaluate
-  (:require
-    [vivid.art.embed :as embed]))
+(ns vivid.art.evaluate)
+
+(defmulti evaluate-fn
+  "Internal API. Function in the templating processing pipeline that is
+   responsible for evaluating the stream. This multimethod decl exists
+   so that the sandbox variant of the evaluator defined in art-cli can
+   be used whenever :dependencies are defined in the options map."
+  (fn [_ options]
+    (contains? options :dependencies)))
+
+(defmethod evaluate-fn :default
+  [code _]
+  (locking *out*
+    (load-string code)))
 
 (defn evaluate
-  [code dependencies]
-      (embed/eval-in-one-shot-runtime code dependencies))
+  [code render-options]
+  (evaluate-fn code render-options))

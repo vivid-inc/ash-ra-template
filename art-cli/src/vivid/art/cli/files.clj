@@ -16,8 +16,8 @@
   "File and path handling common to this ART CLI library in general."
   (:require
     [clojure.string]
-    [vivid.art :as art]
-    [special.core :as special])
+    [special.core :as special]
+    [vivid.art.cli])
   (:import
     (java.io File)))
 
@@ -29,7 +29,7 @@
 (defn art-template-file?
   [^File f]
   (and (.isFile f)
-       (.endsWith (.getName f) art/art-filename-suffix)))
+       (.endsWith (.getName f) vivid.art.cli/art-filename-suffix)))
 
 (defn- path-seq
   "File's path components as a seq."
@@ -62,7 +62,7 @@
 
 (defn strip-art-filename-suffix
   [path]
-  (let [out (clojure.string/replace path art/art-filename-suffix-regex "")
+  (let [out (clojure.string/replace path vivid.art.cli/art-filename-suffix-regex "")
         filename (.getName (File. out))]
     (when (get prohibited-template-output-filenames filename)
       (special/condition :vivid.art.cli/error

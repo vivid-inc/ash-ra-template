@@ -1,4 +1,4 @@
-; Copyright 2020 Vivid Inc.
+; Copyright 2022 Vivid Inc.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -14,11 +14,18 @@
 
 (ns vivid.art.cli.dependencies-test
   (:require
+    [clojure.edn :as edn]
+    [clojure.java.io :as io]
     [clojure.test :refer :all]
     [vivid.art.cli.args]
+    ; Register art-cli's :dependencies -aware evaluator
+    [vivid.art.cli.exec]
     [vivid.art.cli.test-lib :refer [special-unwind-on-signal]]
     [vivid.art.cli.usage :refer [cli-options]]
-    [vivid.art.cli.validate :as validate]))
+    [vivid.art.cli.validate :as validate]
+    [vivid.art :as art])
+  (:import
+    (java.io PushbackReader)))
 
 (def ^:const custom-deps
   '{compojure {:mvn/version "1.6.2"}})
@@ -59,6 +66,17 @@
 ;
 ; Internal API
 ;
+
+(def ^:const vivid-art-facts (with-open [r (io/reader "../assets/vivid-art-facts.edn")]
+                               (edn/read (PushbackReader. r))))
+
+(deftest clojure-versions
+  (let [versions (get vivid-art-facts "clojure-versions")]
+    (doseq [version-string versions]
+      (is (= (art/render "<%= (let [{:keys [major minor incremental]} *clojure-version*]
+(format \"%d.%d.%d\" major minor incremental))%>"
+                         {:dependencies {'org.clojure/clojure {:mvn/version version-string}}})
+             version-string)))))
 
 (deftest variants
   (are [expected x]

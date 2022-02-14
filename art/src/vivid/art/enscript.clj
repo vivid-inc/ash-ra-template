@@ -27,26 +27,13 @@
                                      (pr-str k)
                                      (pr-str v)))))
 
-(defn define-render-context
-  [render-context]
-  #_(println "** define-render-context " (binding [*print-namespace-maps* false]
-                                         (pr-str render-context)))
-  [(format "(def ^:dynamic *render-context* )"
-           ; Disabling *print-namespace-maps* prevents {:a/b 1} from being
-           ; printed as "#:a{:b 1}".
-           ; Referencing https://clojure.atlassian.net/browse/CLJ-2469
-           "nil" #_(binding [*print-namespace-maps* false]
-             (pr-str render-context)))])
-
 (defn enscript
-  [forms render-context]
-  (let [bindings (get-in render-context [:render-options :bindings])]
-    (as-> [prelude
-           (define-render-context render-context)
-           (define-bindings bindings)
-           forms
-           coda] s
-          (remove empty? s)
-          (interleave s (repeat ""))
-          (flatten s)
-          (clojure.string/join "\n" s))))
+  [forms bindings]
+  (as-> [prelude
+         (define-bindings bindings)
+         forms
+         coda] s
+        (remove empty? s)
+        (interleave s (repeat ""))
+        (flatten s)
+        (clojure.string/join "\n" s)))

@@ -21,11 +21,19 @@
     [clojure.string]
     [special.core :as special]
     [vivid.art :as art]
+    [vivid.art.evaluate]                                    ; Enable our sand-boxed evaluate-fn
+    [vivid.art.cli.embed]
     [vivid.art.cli.files]
     [vivid.art.cli.log :as log]
     [vivid.art.cli.specs])
   (:import
     (java.io File)))
+
+(defmethod vivid.art.evaluate/evaluate-fn true
+  [code render-options]
+  (let [{:keys [dependencies]} render-options]
+    ; TODO Design idea: Incur the cost of creating the runtime just once per batch
+    (vivid.art.cli.embed/eval-in-one-shot-runtime code dependencies)))
 
 (defn- render-file
   [{:keys [^File src-path ^File dest-rel-path] :as template-file} {:keys [^File output-dir] :as batch}]

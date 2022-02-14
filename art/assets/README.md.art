@@ -1,20 +1,14 @@
 # Ash Ra Template ART Library 
 
 {%
-(require '[vivid.art]
-         '[vivid.art.embed]
-         '[zprint.core])
+(require '[vivid.art])
 
-(def clojure-versions (get vivid-art-facts "clojure-versions"))
 (def java-versions (get vivid-art-facts "java-versions"))
 (def vivid-art-version (get vivid-art-facts "vivid-art-version"))
 
 (def to-phase-values (->> vivid.art/render-phases
                           (map #(format "`%s`" %))
                           (clojure.string/join ", ")))
-
-(defn zp-str [x]
-  (zprint.core/zprint-str x {:style :justified}))
 %}
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
@@ -36,7 +30,6 @@ _Note_ that until ART achieves version 1.0 status, details may be subject to cha
 - [Rendering and options](#rendering-and-options)
   - [Providing ``:bindings``](#bindings)
   - [Configurable ``:delimiters``](#delimiters)
-  - [External ``:dependencies``](#dependencies)
   - [Render ``:to-phase``](#to-phase)
 
 
@@ -126,8 +119,6 @@ Chondrichthyes research published in 1987, 1989, 1992.
 ### ART templates in detail
 **File extension**: All ART components that interpret files, cheerily treat files with the ``.art`` filename extension as ART template files.
 
-**Sandboxed execution**: All Clojure code embedded in templates is evaluated within a sandboxed Clojure runtime courtesy of [ShimDandy](https://github.com/projectodd/shimdandy).
-
 **No advanced tag processing**: ART doesn't feature any advanced tag processing, such as conditionals or HTML escaping.
 Instead, equivalent processing can be delegated to occur within Clojure code blocks.
 
@@ -167,7 +158,6 @@ ART provides the ``(vivid.art/render)`` function which renders an input string c
 ```clojure
 (art/render template {:bindings     bindings
                       :delimiters   delimiters
-                      :dependencies deps
                       :to-phase     phase})
 ```
 
@@ -215,47 +205,6 @@ There is no particular restriction on what can and cannot be used as delimiters,
 There are several predefined sets in `vivid.art.delimiters` such as `jinja`, `mustache`, and `php` that can be used directly or serve as a starting point for creating your own delimiter sets.
 
 The template syntax parser is lenient in that both `:end-form` or `:end-eval` delimiters will end a Clojure forms block regardless of whether that block began with `:begin-form` or `:begin-eval` delimiters.
-
-<a name="dependencies"></a>
-### External ``:dependencies``
-Given a template that ``require``s namespaces from external dependencies in Clojure, such as:
-```clojure
-<%
-(require '[hiccup.core])
-
-(def ^:const toc-headings [{:id 739 :text "Move wing assembly into place"}
-                           {:id 740 :text "Connect fuel lines and hydraulics"}
-                           {:id 741 :text "Attach wing assembly to fuselage"}])
-
-(defn toc-entry [heading]
-  (hiccup.core/html [:li
-    [:a#link
-      {:href (str "#" (heading :id))}
-      (heading :text)]]))
-%>
-<%= (apply str (map toc-entry toc-headings)) %>
-```
-The template's external dependencies can be specified as a Clojure deps [lib map](https://clojure.org/reference/deps_and_cli) with `:dependencies` in the option map argument:
-```clojure
-(art/render template-str
-            {:dependencies {'hiccup {:mvn/version "1.0.5"}}})
-```
-Dependencies are resolved prior to template rendering using Clojure's ``org.clojure/tools.deps.alpha``.
-
-As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version {%= (first clojure-versions) %}, but this can be overridden using the same mechanism by supplying the `org.clojure/clojure` dependency with a different version:
-```clojure
-            {:dependencies {'org.clojure/clojure {:mvn/version "{%= (last clojure-versions) %}"}}}
-```
-
-The Maven repositories for dependency resolution are hard-coded:
-```clojure
-{%= (zp-str vivid.art.embed/default-repos) %}
-```
-The base (or default) dependencies are:
-```clojure
-{%= (zp-str vivid.art.embed/default-deps) %}
-```
-If `:dependencies` is supplied as an option to `(render)`, its map will be merged into the base dependency map.
 
 <a name="to-phase"></a>
 ### Render ``:to-phase``

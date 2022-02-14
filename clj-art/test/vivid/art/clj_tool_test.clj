@@ -18,6 +18,7 @@
     [clojure.java.shell]
     [clojure.string]
     [clojure.test :as t]
+    [vivid.art.cli]
     [vivid.art.clj-tool :as clj-tool])
   (:import
     (java.io File)))
@@ -34,8 +35,7 @@
 (defn invocation-pattern
   [path & command]
   (let [expected-dir (str path "/expected")
-        target-dir (str path "/target")
-        ]
+        target-dir (str path "/target")]
     (delete-file-tree target-dir :silently)
     (let [clj-res (apply clojure.java.shell/sh (concat command [:dir path]))
           diff-res (clojure.java.shell/sh "/usr/bin/diff" "--recursive"
@@ -51,7 +51,7 @@
     (t/testing "(usage) mentions the overall project name"
       (t/is (clojure.string/includes? usage "Ash Ra")))
     (t/testing "(usage) mentions the ART file extension"
-      (t/is (clojure.string/includes? usage vivid.art/art-filename-suffix)))))
+      (t/is (clojure.string/includes? usage vivid.art.cli/art-filename-suffix)))))
 
 (t/deftest clj-tool-example-all-options
   (invocation-pattern "../examples/all-options"

@@ -17,8 +17,7 @@
   All definitions exposed through ART's API plus all key
   definitions are namespaced."
   (:require
-    [clojure.spec.alpha :as s]
-    [clojure.tools.deps.alpha.specs]))
+    [clojure.spec.alpha :as s]))
 
 
 ; ART templates
@@ -44,10 +43,6 @@
   (s/keys :opt-un [::begin-forms ::end-forms
                    ::begin-eval ::end-eval]))
 
-
-; Clojure dependency maps, required to render a given template
-
-(s/def :vivid.art/dependencies :clojure.tools.deps.alpha.specs/deps-map)
 
 
 ; Failure descriptors

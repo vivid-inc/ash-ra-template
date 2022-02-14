@@ -14,7 +14,9 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.embed
+(ns vivid.art.cli.embed
+  "Evaluate the Clojure code, translated from the template source, in a
+  sandbox using shimdandy."
   (:require
     [clojure.string :as string]
     [clojure.tools.deps.alpha :as deps])

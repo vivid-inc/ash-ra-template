@@ -2,12 +2,12 @@
 
 ## [0.6.0]
 _Unreleased_
-- Breaking change: Bindings can be specified as paths to EDN or JSON files. In such cases, the content of the given file is set as the value of a symbol, created by removing the file extension from the base filename (`.edn`, `.json`).
+- Breaking change: Bindings can be specified as paths to EDN or JSON files. In such cases, the content of the given bindings file is set as the value of a symbol, created by removing the file extension from the base filename (`.edn`, `.json`).
+- Breaking change: With the goal of reducing `vivid/art` project dependencies, branched off CLI-specific code from `vivid/art` into a new `vivid/art-cli` lib. The `:dependencies` option to `vivid.art/render` is also migrated there.
+- `vivid/art` is now orders of magnitude faster than previous versions that relied on shimdandy, by dint of the `vivid.art/render` option `:dependencies` having moved to the `vivid/art-cli` lib
 - New feature: Specify a path to a JSON file to provide bindings.
-- With the goal of reducing `vivid/art` project dependencies, branched off CLI-specific code from `vivid/art` into a new `vivid/art-cli` lib, and the dependency-heavy `org.clojure/tools.cli` with it.
 - Adding Java 17, an LTS release, to the set of Java versions that ART is tested with.
 - Upgraded org.clojure/tools.cli from version 1.0.196 to the new version 1.0.206 which offers the `:multi` option, allowing >= 2 binding specifications on the CLI.
-- Templates can access a new var `*render-context*`, untested and undocumented at this point in time.
 
 ## [0.5.0]
 Released 2021-01-19.

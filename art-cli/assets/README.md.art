@@ -1,6 +1,15 @@
 # art-cli Ash Ra Template CLI Library
 
+{%
+(require '[vivid.art]
+         '[vivid.art.cli.embed]
+         '[zprint.core])
 
+(def clojure-versions (get vivid-art-facts "clojure-versions"))
+
+(defn zp-str [x]
+  (zprint.core/zprint-str x {:style :justified}))
+%}
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/vivid/art-cli.svg?color=blue&style=flat-square)](https://clojars.org/vivid/art-cli)
@@ -50,21 +59,18 @@ The template's external dependencies can be specified as a Clojure deps [lib map
 ```
 Dependencies are resolved prior to template rendering using Clojure's ``org.clojure/tools.deps.alpha``.
 
-As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version 1.9.0, but this can be overridden using the same mechanism by supplying the `org.clojure/clojure` dependency with a different version:
+As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version {%= (first clojure-versions) %}, but this can be overridden using the same mechanism by supplying the `org.clojure/clojure` dependency with a different version:
 ```clojure
-                  {:dependencies {'org.clojure/clojure {:mvn/version "1.10.3"}}}
+                  {:dependencies {'org.clojure/clojure {:mvn/version "{%= (last clojure-versions) %}"}}}
 ```
 
 The Maven repositories for dependency resolution are hard-coded:
 ```clojure
-{"central" {:url "https://repo.maven.apache.org/maven2"},
- "clojars" {:url "https://clojars.org/repo/"}}
+{%= (zp-str vivid.art.cli.embed/default-repos) %}
 ```
 The base (or default) dependencies are:
 ```clojure
-{org.clojure/clojure                     {:mvn/version "1.9.0"},
- org.projectodd.shimdandy/shimdandy-api  {:mvn/version "1.2.1"},
- org.projectodd.shimdandy/shimdandy-impl {:mvn/version "1.2.1"}}
+{%= (zp-str vivid.art.cli.embed/default-deps) %}
 ```
 If `:dependencies` is supplied as an option to `(vivid.art/render)`, its map will be merged into the base dependency map, overwriting duplicate keys.
 

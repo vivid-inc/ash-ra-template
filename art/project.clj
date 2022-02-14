@@ -34,14 +34,6 @@
               }
 
   :dependencies [[instaparse/instaparse "1.4.10" :exclusions [org.clojure/spec.alpha]]
-                 [org.clojure/tools.deps.alpha "0.9.857" :exclusions [commons-logging/commons-logging
-                                                                      org.clojure/clojure
-                                                                      org.clojure/data.json
-                                                                      org.clojure/tools.cli
-                                                                      org.slf4j/slf4j-api]]
-                 [org.projectodd.shimdandy/shimdandy-api "1.2.1"]
-                 [org.projectodd.shimdandy/shimdandy-impl "1.2.1"]
-                 [org.xeustechnologies/jcl-core "2.8"]
                  [reduce-fsm/reduce-fsm "0.1.4"]
                  [special/special "0.1.3-Beta1"]] ; TODO Replace with Farolero
 

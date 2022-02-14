@@ -18,16 +18,12 @@
     [clojure.spec.alpha :as s]
     [special.core :as special]
     [vivid.art.delimiters :refer [erb]]
-    [vivid.art.embed]
     [vivid.art.enscript :refer [enscript]]
     [vivid.art.evaluate :refer [evaluate]]
     [vivid.art.failure :refer [make-failure]]
     [vivid.art.parse :refer [parse]]
     [vivid.art.specs :refer [to-phase?]]
     [vivid.art.xlate :refer [translate]]))
-
-(def ^:const art-filename-suffix ".art")
-(def ^:const art-filename-suffix-regex #"\.art$")
 
 (def ^:const default-delimiters-name "erb")
 (def ^:const default-delimiters (var-get
@@ -46,19 +42,15 @@
   to an output string."
   ([^String template] (render template {}))
   ([^String template
-    {:keys [bindings delimiters dependencies to-phase]
-     :or   {bindings {} delimiters default-delimiters dependencies {} to-phase default-to-phase}}]
+    {:keys [bindings delimiters to-phase]
+     :or   {bindings {} delimiters default-delimiters to-phase default-to-phase}
+     :as   render-options}]
    (when template
-     (let [render-context {:render-options {:bindings     bindings
-                                            :delimiters   delimiters
-                                            :dependencies dependencies
-                                            :to-phase     to-phase}
-                           :template       :vivid.art/unknown}
-           render* #(cond-> template
+     (let [render* #(cond-> template
                         (to-phase? :parse     to-phase) (parse delimiters)
                         (to-phase? :translate to-phase) (translate)
-                        (to-phase? :enscript  to-phase) (enscript render-context)
-                        (to-phase? :evaluate  to-phase) (evaluate dependencies))
+                        (to-phase? :enscript  to-phase) (enscript bindings)
+                        (to-phase? :evaluate  to-phase) (evaluate render-options))
            f (special/manage render*
                      :parse-error #(make-failure :parse-error % template))]
        (f)))))
@@ -66,5 +58,4 @@
         :args (s/cat :t :vivid.art/template
                      :o (s/? (s/keys :opt-un [:vivid.art/bindings
                                               :vivid.art/delimiters
-                                              :vivid.art/dependencies
                                               :vivid.art/to-phase]))))
