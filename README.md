@@ -68,7 +68,6 @@ Unproductive behavior such as unkindness towards others and derailment is not to
 - `(include)` and `(yield)` -like content inclusion/nesting mechanisms. One simple and one complicated exemplar.
 
 #### Considerations, further out:
-- Demonstrate integration with Ring.
 - Sufficient error reporting.
 - Heavy testing of quote nesting and escaping, Clojure reader, Clojure comments.
 - Allow for parallel execution, as a non-functional requirement.
