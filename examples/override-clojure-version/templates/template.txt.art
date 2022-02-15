@@ -1,1 +1,1 @@
-(clojure-version) returns <%= (clojure-version) %>
+(clojure-version) returns <(= (clojure-version) )>

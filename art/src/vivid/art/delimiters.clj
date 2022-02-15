@@ -34,6 +34,12 @@
    :begin-eval  "{{"
    :end-eval    "}}"})
 
+(def ^:const lispy
+  "Default delimiters in ART"
+  {:begin-forms "<("
+   :end-forms   ")>"
+   :begin-eval  "<(="})
+
 (def ^:const mustache
   "Referencing https://mustache.github.io/mustache.5.html"
   {:begin-eval "{{"

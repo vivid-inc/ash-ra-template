@@ -20,9 +20,9 @@
 
 ; ART template
 (def ^:const greeting-template
-  "<% (require 'clojure.string) %>
+  "<( (require 'clojure.string) )>
   Wait! Allow me to first guess your nickname.
-  Is it perchance, <%= (clojure.string/upper-case nickname) %>?")
+  Is it perchance, <(= (clojure.string/upper-case nickname) )>?")
 
 (defn handler [request]
       (let [nickname (get-in request [:params "nickname"] "[redacted]")]

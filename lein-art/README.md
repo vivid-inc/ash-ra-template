@@ -15,8 +15,8 @@
 ```sh
 $ cat oracle.art
 
-<% (defn mult [multiplicands] (apply * multiplicands)) %>
-Wait, I see it! Your destiny lies deep within the number <%= (mult mysterious-primes) %>.
+<( (defn mult [multiplicands] (apply * multiplicands)) )>
+Wait, I see it! Your destiny lies deep within the number <(= (mult mysterious-primes) )>.
 
 $ cat project.clj
 

@@ -25,7 +25,7 @@
     [vivid.art.specs :refer [to-phase?]]
     [vivid.art.xlate :refer [translate]]))
 
-(def ^:const default-delimiters-name "erb")
+(def ^:const default-delimiters-name "lispy")
 (def ^:const default-delimiters (var-get
                                   (ns-resolve 'vivid.art.delimiters
                                               (symbol default-delimiters-name))))

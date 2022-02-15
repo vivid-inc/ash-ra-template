@@ -19,21 +19,21 @@
     [vivid.art.delimiters]))
 
 (deftest api-contract
-  (testing "Default ERB-style delimiters"
+  (testing "Default lispy delimiters"
     (are [expected template]
       (= expected (art/render template))
       "plain text" "plain text"
-      "juniper" "juni<%%>per"
-      "START 1234 END" "START <%(def cnt 4)(doseq [i (range 1 (inc cnt))]%><%=i%><%)%> END"))
-  (testing "Manually specify ERB-style delimiters"
+      "juniper" "juni<()>per"
+      "START 1234 END" "START <((def cnt 4)(doseq [i (range 1 (inc cnt))])><(=i)><())> END"))
+  (testing "Manually specify lispy delimiters"
     (are [expected template]
       (= expected (art/render template
-                              {:delimiters {:begin-forms "<%"
-                                            :begin-eval  "<%="
-                                            :end-forms   "%>"}}))
+                              {:delimiters {:begin-forms "<("
+                                            :begin-eval  "<(="
+                                            :end-forms   ")>"}}))
       "plain text" "plain text"
-      "juniper" "juni<%%>per"
-      "START 1234 END" "START <%(def cnt 4)(doseq [i (range 1 (inc cnt))]%><%=i%><%)%> END")))
+      "juniper" "juni<()>per"
+      "START 1234 END" "START <((def cnt 4)(doseq [i (range 1 (inc cnt))])><(=i)><())> END")))
 
 (deftest bundled-delimiter-definitions
   (testing "ART-provided delimiter library: ERB"
@@ -70,21 +70,21 @@
   (testing "Unbalanced delimiters"
     (are [expected template]
       (= expected (art/render template))
-      "Unbalanced does switchstream processing mode" "Unbalanced <% (emit (str \"does switch\" \"stream processing mode\"))"
-      "Unbalanced  doesn't switch stream processing mode" "Unbalanced %> doesn't switch stream processing mode"))
+      "Unbalanced does switchstream processing mode" "Unbalanced <( (emit (str \"does switch\" \"stream processing mode\"))"
+      "Unbalanced  doesn't switch stream processing mode" "Unbalanced )> doesn't switch stream processing mode"))
   (testing "Each delimiter one-by-one"
     (are [expected template]
       (= expected (art/render template))
-      "" "<%"
-      "" "<%="
-      "" "%>"))
+      "" "<("
+      "" "<(="
+      "" ")>"))
   (testing "Tricky syntax"
     (are [expected template]
       (= expected (art/render template))
       "<" "<"
-      "abc<" "abc<<%"
+      "abc<" "abc<<("
       ; The middle '<' evaluates to the '<' Clojure function, resulting in no template output.
-      "" "<%<<%")))
+      "" "<(<<(")))
 
 (deftest pathological
   (testing "Failed at some point during development"

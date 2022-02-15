@@ -28,7 +28,7 @@ Doing so activates sandboxing, and the rules change:
 
 Given a template that ``require``s namespaces from external dependencies in Clojure, such as:
 ```clojure
-<%
+<(
 (require '[hiccup.core])
 
 (def ^:const toc-headings [{:id 739 :text "Move wing assembly into place"}
@@ -40,8 +40,8 @@ Given a template that ``require``s namespaces from external dependencies in Cloj
     [:a#link
       {:href (str "#" (heading :id))}
       (heading :text)]]))
-%>
-<%= (apply str (map toc-entry toc-headings)) %>
+)>
+<(= (apply str (map toc-entry toc-headings)) )>
 ```
 The template's external dependencies can be specified as a Clojure deps [lib map](https://clojure.org/reference/deps_and_cli) with `:dependencies` in the option map argument:
 ```clojure

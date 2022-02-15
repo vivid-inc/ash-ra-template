@@ -24,7 +24,7 @@
                   (are [expected template]
                        (= expected (art/render template))
                        "There were 3 swallows, dancing in the sky."
-                       "There were <%= (+ 1 2) %> swallows, dancing in the sky."
+                       "There were <(= (+ 1 2) )> swallows, dancing in the sky."
 
                        "There were 3 swallows, dancing in the sky."
                        (slurp (io/resource "prelude.html.art"))
@@ -33,16 +33,16 @@
                        "We are but stowaways aboard a drifting ship, forsaken to the caprices of the wind and currents."
 
                        ""
-                       "<% (def button-classes [:primary :secondary :disabled]) %>"
+                       "<( (def button-classes [:primary :secondary :disabled]) )>"
 
                        "\n\n"
                        "
-<%
+<(
 (defn updated-statement
   [date version]
   (format \"This document was updated on %s for version %s\"
           date version))
-%>
+)>
 ")
 
                   (is (= "
@@ -50,13 +50,13 @@
 Chondrichthyes research published in 1987, 1989, 1992.
 </p>
 "
-                         (art/render "<%
+                         (art/render "<(
 (require '[clojure.string])
 (def publication-dates [1987 1989 1992])
 (defn cite-dates [xs] (clojure.string/join \", \" xs))
-%>
+)>
 <p>
-Chondrichthyes research published in <%= (cite-dates publication-dates) %>.
+Chondrichthyes research published in <(= (cite-dates publication-dates) )>.
 </p>
 ")))
 
@@ -65,13 +65,13 @@ Chondrichthyes research published in <%= (cite-dates publication-dates) %>.
                   (are [expected template]
                        (= expected (art/render template))
                        "Splash!"
-                       "<% (emit \"Splash!\") %>"
+                       "<( (emit \"Splash!\") )>"
 
                        "Splash!"
-                       "<%= \"Splash!\" %>"
+                       "<(= \"Splash!\" )>"
 
                        "Splash!"
-                       "<%= (str \"Splash!\") %>")
+                       "<(= (str \"Splash!\") )>")
 
 
                   (is (=
@@ -79,13 +79,13 @@ Chondrichthyes research published in <%= (cite-dates publication-dates) %>.
                         (do
                           (def my-bindings {'month "April"
                                             'day   5})
-                          (art/render "<%= month %> <%= day %> was a most pleasant, memorable day."
+                          (art/render "<(= month )> <(= day )> was a most pleasant, memorable day."
                                       {:bindings my-bindings}))))
 
                   (is (= "
 The natural number e is approximately 2.7182"
-                         (art/render "<% (def e 2.7182) %>
-The natural number e is approximately <%= e %>")))
+                         (art/render "<( (def e 2.7182) )>
+The natural number e is approximately <(= e )>")))
 
                   (is (= "
 The natural number e is approximately 2.7182"

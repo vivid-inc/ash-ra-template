@@ -2,6 +2,6 @@ package com.acme;
 
 public class Identity {
 
-    public final String VERSION_STRING = "<%= version %>";
+    public final String VERSION_STRING = "<(= version )>";
 
 }

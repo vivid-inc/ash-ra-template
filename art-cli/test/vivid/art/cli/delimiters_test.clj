@@ -54,6 +54,9 @@
     vivid.art.delimiters/jinja "{:begin-forms \"{%\" :end-forms \"%}\" :begin-eval \"{{\" :end-eval \"}}\"}"
     vivid.art.delimiters/jinja (pr-str vivid.art.delimiters/jinja)
 
+    vivid.art.delimiters/lispy "{:begin-forms \"<(\" :end-forms \")>\" :begin-eval \"<(=\"}"
+    vivid.art.delimiters/lispy (pr-str vivid.art.delimiters/lispy)
+
     vivid.art.delimiters/mustache "{:begin-eval \"{{\" :end-eval \"}}\"}"
     vivid.art.delimiters/mustache (pr-str vivid.art.delimiters/mustache)
 
@@ -85,59 +88,65 @@
   (are [expected s]
     (= expected
        (validate/validate-delimiters s))
-    vivid.art.delimiters/erb "erb"
-    vivid.art.delimiters/jinja "jinja"
+    vivid.art.delimiters/erb      "erb"
+    vivid.art.delimiters/jinja    "jinja"
+    vivid.art.delimiters/lispy    "lispy"
     vivid.art.delimiters/mustache "mustache"
-    vivid.art.delimiters/php "php"))
+    vivid.art.delimiters/php      "php"))
 
 (deftest qualified-vars-as-strings
   (are [expected s]
     (= expected
        (validate/validate-delimiters s))
-    vivid.art.delimiters/erb "vivid.art.delimiters/erb"
-    vivid.art.delimiters/jinja "vivid.art.delimiters/jinja"
+    vivid.art.delimiters/erb      "vivid.art.delimiters/erb"
+    vivid.art.delimiters/jinja    "vivid.art.delimiters/jinja"
+    vivid.art.delimiters/lispy    "vivid.art.delimiters/lispy"
     vivid.art.delimiters/mustache "vivid.art.delimiters/mustache"
-    vivid.art.delimiters/php "vivid.art.delimiters/php"))
+    vivid.art.delimiters/php      "vivid.art.delimiters/php"))
 
 (deftest unqualified-vars-as-symbols
   (are [expected s]
     (= expected
        (validate/validate-delimiters s))
-    vivid.art.delimiters/erb 'erb
-    vivid.art.delimiters/jinja 'jinja
+    vivid.art.delimiters/erb      'erb
+    vivid.art.delimiters/jinja    'jinja
+    vivid.art.delimiters/lispy    'lispy
     vivid.art.delimiters/mustache 'mustache
-    vivid.art.delimiters/php 'php
-    custom-delimiters 'vivid.art.cli.delimiters-test/custom-delimiters))
+    vivid.art.delimiters/php      'php
+    custom-delimiters             'vivid.art.cli.delimiters-test/custom-delimiters))
 
 (deftest qualified-vars-as-symbols
   (are [expected s]
     (= expected
        (validate/validate-delimiters s))
-    vivid.art.delimiters/erb #'vivid.art.delimiters/erb
-    vivid.art.delimiters/jinja #'vivid.art.delimiters/jinja
+    vivid.art.delimiters/erb      #'vivid.art.delimiters/erb
+    vivid.art.delimiters/jinja    #'vivid.art.delimiters/jinja
+    vivid.art.delimiters/lispy    #'vivid.art.delimiters/lispy
     vivid.art.delimiters/mustache #'vivid.art.delimiters/mustache
-    vivid.art.delimiters/php #'vivid.art.delimiters/php
-    custom-delimiters #'custom-delimiters))
+    vivid.art.delimiters/php      #'vivid.art.delimiters/php
+    custom-delimiters             #'custom-delimiters))
 
 (deftest clojure-maps
   (are [expected s]
     (= expected
        (validate/validate-delimiters s))
-    vivid.art.delimiters/erb vivid.art.delimiters/erb
-    vivid.art.delimiters/jinja vivid.art.delimiters/jinja
+    vivid.art.delimiters/erb      vivid.art.delimiters/erb
+    vivid.art.delimiters/jinja    vivid.art.delimiters/jinja
+    vivid.art.delimiters/lispy    vivid.art.delimiters/lispy
     vivid.art.delimiters/mustache vivid.art.delimiters/mustache
-    vivid.art.delimiters/php vivid.art.delimiters/php
-    custom-delimiters custom-delimiters))
+    vivid.art.delimiters/php      vivid.art.delimiters/php
+    custom-delimiters             custom-delimiters))
 
 (deftest edn-literals
   (are [expected s]
     (= expected
        (validate/validate-delimiters s))
-    vivid.art.delimiters/erb (pr-str vivid.art.delimiters/erb)
-    vivid.art.delimiters/jinja (pr-str vivid.art.delimiters/jinja)
+    vivid.art.delimiters/erb      (pr-str vivid.art.delimiters/erb)
+    vivid.art.delimiters/jinja    (pr-str vivid.art.delimiters/jinja)
+    vivid.art.delimiters/lispy    (pr-str vivid.art.delimiters/lispy)
     vivid.art.delimiters/mustache (pr-str vivid.art.delimiters/mustache)
-    vivid.art.delimiters/php (pr-str vivid.art.delimiters/php)
-    custom-delimiters (pr-str custom-delimiters)))
+    vivid.art.delimiters/php      (pr-str vivid.art.delimiters/php)
+    custom-delimiters             (pr-str custom-delimiters)))
 
 (deftest bad-values
   (are [s]

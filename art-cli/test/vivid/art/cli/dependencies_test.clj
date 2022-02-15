@@ -73,8 +73,8 @@
 (deftest clojure-versions
   (let [versions (get vivid-art-facts "clojure-versions")]
     (doseq [version-string versions]
-      (is (= (art/render "<%= (let [{:keys [major minor incremental]} *clojure-version*]
-(format \"%d.%d.%d\" major minor incremental))%>"
+      (is (= (art/render "<(= (let [{:keys [major minor incremental]} *clojure-version*]
+(format \"%d.%d.%d\" major minor incremental)))>"
                          {:dependencies {'org.clojure/clojure {:mvn/version version-string}}})
              version-string)))))
 

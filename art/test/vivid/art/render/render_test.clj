@@ -36,18 +36,18 @@
 (deftest well-formed-templates
   (testing "Well-formed templates"
     (is (= "Pi is approximately equal to 3.14."
-           (art/render "<%(def pi 3.14)%>Pi is approximately equal to <%=pi%>.")))
+           (art/render "<((def pi 3.14))>Pi is approximately equal to <(=pi)>.")))
     (is (= "
 3 + 9 = 12
 Sally Forth"
-           (art/render "<%
+           (art/render "<(
 (defn appnd [s] (str s \"th\"))
 (defn plus9 [x] (+ x 9))
-%>
-3 + 9 = <%= (plus9 3) %>
-Sally <%= (appnd \"For\") %>")))
+)>
+3 + 9 = <(= (plus9 3) )>
+Sally <(= (appnd \"For\") )>")))
     (is (= "Countdown: 5 4 3 2 1 0"
-           (art/render "Countdown:<%=(loop [s \"\"  x 5] (if (>= x 0) (recur (str s \" \" x) (dec x)) s))%>")))))
+           (art/render "Countdown:<(=(loop [s \"\"  x 5] (if (>= x 0) (recur (str s \" \" x) (dec x)) s)))>")))))
 
 (deftest whitespace-preservation
   (testing "Whitespace is preserved"
@@ -56,13 +56,13 @@ Sally <%= (appnd \"For\") %>")))
       " " " "
       "\t" "\t"
       "\n" "\n"
-      " " " <%      %>"
-      "\n" "<%      %>\n"
+      " " " <(      )>"
+      "\n" "<(      )>\n"
       ; Consecutive tags
-      " \t\n " " <%%><% %>\t\n "
-      " \n\n" "<%%> <%=\n\t\"\n\"\t%><%   %>\n<%%>")))
+      " \t\n " " <()><( )>\t\n "
+      " \n\n" "<()> <(=\n\t\"\n\"\t)><(   )>\n<()>")))
 
 (deftest quintessential-template-code-constructs
   (testing "Sequence-based HTML list"
     (is (= "<ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>"
-           (art/render "<ul><%(doseq [i (range 1 4)]%><li>Item <%=i%></li><%)%></ul>")))))
+           (art/render "<ul><((doseq [i (range 1 4)])><li>Item <(=i)></li><())></ul>")))))

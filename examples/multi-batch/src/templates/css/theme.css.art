@@ -1,2 +1,2 @@
-<% (require '[garden.core :as garden]) %>
-<%= (garden/css [:message {:background-color "lightblue"}]) %>
+<( (require '[garden.core :as garden]) )>
+<(= (garden/css [:message {:background-color "lightblue"}]) )>

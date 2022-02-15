@@ -23,7 +23,7 @@
          (testing "All code samples in the README file"
                   (is (= "\n\n<li><a href=\"#739\" id=\"link\">Moving wing assembly into place</a></li><li><a href=\"#740\" id=\"link\">Connecting fuel lines and hydraulics</a></li><li><a href=\"#741\" id=\"link\">Attaching wing assembly to fuselage</a></li>\n"
                          (art/render "
-<%
+<(
 (require '[hiccup.core])
 
 (def ^:const toc-headings [{:id 739 :text \"Moving wing assembly into place\"}
@@ -35,7 +35,7 @@
     [:a#link
       {:href (str \"#\" (heading :id))}
       (heading :text)]]))
-%>
-<%= (apply str (map toc-entry toc-headings)) %>
+)>
+<(= (apply str (map toc-entry toc-headings)) )>
 "
                                      {:dependencies {'hiccup {:mvn/version "1.0.5"}}})))))

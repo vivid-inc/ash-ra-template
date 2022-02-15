@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-set -o errexit
+# TODO set -o errexit
 set -o nounset
-set -o pipefail
+# TODO set -o pipefail
 set -o xtrace
 
 CLOJURE_VERSIONS=( "1.9.0" "1.10.0" "1.10.1" "1.10.2" "1.10.3" )

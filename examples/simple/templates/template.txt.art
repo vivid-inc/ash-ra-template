@@ -1,4 +1,4 @@
-<%
+<(
 
 (def spring-flowers '[dandelions
                       crocuses
@@ -10,6 +10,6 @@
 (defn modular-addition [a b z] (mod (+ a b) z))
 (def z 11)
 
-%>Rejoice! Spring brings warmth to our hearts with <%= (clojure.string/join ", " spring-flowers) %> and more
+)>Rejoice! Spring brings warmth to our hearts with <(= (clojure.string/join ", " spring-flowers) )> and more
 
-And now for some modular addition: 8 + 7 is <%= (modular-addition 8 7 z) %> in Z-<%=z%>.
+And now for some modular addition: 8 + 7 is <(= (modular-addition 8 7 z) )> in Z-<(=z)>.

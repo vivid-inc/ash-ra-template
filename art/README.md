@@ -47,7 +47,7 @@ Render a template string:
 ```clojure
 (require '[vivid.art :as art])
 
-(art/render "There were <%= (+ 1 2) %> swallows, dancing in the sky.")
+(art/render "There were <(= (+ 1 2) )> swallows, dancing in the sky.")
 ```
 
 Or, to render from a file:
@@ -74,30 +74,30 @@ We are but stowaways aboard a drifting ship, forsaken to the caprices of the win
 
 ### Clojure code blocks
 
-You can embed Clojure code within the template by surrounding forms with ``<%`` and ``%>`` tags, on one line:
+You can embed Clojure code within the template by surrounding forms with ``<(`` and ``)>`` tags, on one line:
 ```clojure
-<% (def button-classes [:primary :secondary :disabled]) %>
+<( (def button-classes [:primary :secondary :disabled]) )>
 ```
 or over many lines:
 ```clojure
-<%
+<(
 (defn updated-statement
   [date version]
   (format "This document was updated on %s for version %s"
           date version))
-%>
+)>
 ```
 
 ### Intermixed text and code
-``<%=`` and ``%>`` emit the result of evaluation to the rendered template output stream.
+``<(=`` and ``)>`` emit the result of evaluation to the rendered template output stream.
 An example of intermixing text and Clojure code blocks that demonstrates the expressive power of ART templates:
 ```clojure
-<%
+<(
 (require '[clojure.string])
 (def publication-dates [1987 1989 1992])
 (defn cite-dates [xs] (clojure.string/join ", " xs))
-%><p>
-Chondrichthyes research published in <%= (cite-dates publication-dates) %>.
+)><p>
+Chondrichthyes research published in <(= (cite-dates publication-dates) )>.
 </p>
 ```
 Renders to:
@@ -121,23 +121,23 @@ Instead, equivalent processing can be delegated to occur within Clojure code blo
 Everything including whitespace in the text portions of the template is preserved.
 
 ```
-<% Clojure forms -- will be evaluated but not included in rendered output %>
+<( Clojure forms -- will be evaluated but not included in rendered output )>
 
-<%= Clojure forms -- replaced with result of evaluation %>
+<(= Clojure forms -- replaced with result of evaluation )>
 ```
 
 ``(user/emit x)``
-As in ERB, the ``<%=`` syntax causes the value of the expression to be emitted to the rendered template output.
+As in ERB, the ``<(=`` syntax causes the value of the expression to be emitted to the rendered template output.
 The same effect can be accomplished with the ``(emit)`` function which is available within templates.
 To demonstrate, each of the ART directives in the following template snippet are functionally equivalent in that each emits the string "Splash!" to the rendered output:
 ```clojure
-<% (emit "Splash!") %>
+<( (emit "Splash!") )>
 
-<%= "Splash!" %>
+<(= "Splash!" )>
 
-<%= (str "Splash!") %>
+<(= (str "Splash!") )>
 ```
-The `(emit)` variant can mingle with more Clojure forms, while `<%= ... %>` succinctly expresses the intention of emitting a value to the rendered output.
+The `(emit)` variant can mingle with more Clojure forms, while `<(= ... )>` succinctly expresses the intention of emitting a value to the rendered output.
 `(emit)` evaluates to `nil`.
 
 
@@ -155,30 +155,30 @@ ART provides the ``(vivid.art/render)`` function which renders an input string c
 <a name="bindings"></a>
 ### Providing ``:bindings``
 `(art/render)` accepts an optional map of `:bindings` that are made available to the template for symbol resolution during render.
-Bindings are optimal for use with the echo-eval form ``<%=``.
+Bindings are optimal for use with the echo-eval form ``<(=``.
 
 Simple:
 ```clojure
 (def my-bindings {'month "April"
                   'day   5})
-(art/render "<%= month %> <%= day %> was a most pleasant, memorable day."
+(art/render "<(= month )> <(= day )> was a most pleasant, memorable day."
             {:bindings my-bindings})
 ```
 
 More complex:
 ```clojure
 (def labor-tallies [7 24 13 11])
-(art/render "<% (def total (apply + periods)) %>
-             LEED certification expended a total of <%= total %> human months."
+(art/render "<( (def total (apply + periods)) )>
+             LEED certification expended a total of <(= total )> human months."
             {:bindings {'periods labor-tallies}})
 ```
 
 <a name="delimiters"></a>
 ### Configurable ``:delimiters``
-ART's configurable template delimiters default to ERB-esque syntax.
+ART's configurable template delimiters default to a `lispy` syntax:
 ```clojure
-<% (def e 2.7182) %>
-The natural number e is approximately <%= e %>
+<( (def e 2.7182) )>
+The natural number e is approximately <(= e )>
 ```
 A template with the following style of delimiters
 ```clojure
@@ -193,7 +193,7 @@ can be specified with `:delimiters` in the optional map argument:
                           :begin-eval  "{|="}})
 ```
 There is no particular restriction on what can and cannot be used as delimiters, but beware choosing delimiters whose character strings also occur in your document and in Clojure code.
-There are several predefined sets in `vivid.art.delimiters` such as `jinja`, `mustache`, and `php` that can be used directly or serve as a starting point for creating your own delimiter sets.
+There are several predefined sets in `vivid.art.delimiters` such as `erb`, `jinja`, `mustache`, and `php` that can be used directly or serve as a starting point for creating your own delimiter sets.
 
 The template syntax parser is lenient in that both `:end-form` or `:end-eval` delimiters will end a Clojure forms block regardless of whether that block began with `:begin-form` or `:begin-eval` delimiters.
 

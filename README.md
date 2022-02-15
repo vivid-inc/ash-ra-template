@@ -39,7 +39,7 @@ Render a template string:
 ```clojure
 (require '[vivid.art :as art])
 
-(art/render "There were <%= (+ 1 2) %> swallows, dancing in the sky.")
+(art/render "There were <(= (+ 1 2) )> swallows, dancing in the sky.")
 ```
 
 Or, to render from a file:
@@ -63,7 +63,6 @@ Unproductive behavior such as unkindness towards others and derailment is not to
 ### Along the Path to Version 1.0 and Beyond
 
 #### Next:
-- New default syntax: `<( )>`. `<(= )>` as `(vivid.art/emit)`.
 - Replace special with https://github.com/IGJoshua/farolero for conditions and restarts.
 - `(include)` and `(yield)` -like content inclusion/nesting mechanisms. One simple and one complicated exemplar.
 
