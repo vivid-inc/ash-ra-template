@@ -20,6 +20,7 @@
                          ["clean"]
                          ["eftest"]
                          ["cloverage"]
+                         ;["clj-kondo"]
                          ["jar"]
                          ["install"]]
             "clj-kondo" ["with-profile" "clj-kondo" "run" "-m" "clj-kondo.main" "--"

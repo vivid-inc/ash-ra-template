@@ -61,9 +61,12 @@
             art-res (call-fn project-stanza)
             diff-res (clojure.java.shell/sh "/usr/bin/diff" "--recursive"
                                             target-dir
-                                            expected-dir)]
-        (t/is (nil? art-res))
-        (t/is (= 0 (diff-res :exit)))))))
+                                            expected-dir)
+            test-failure-message (pr-str {:project-stanza project-stanza
+                                          :art-res        art-res
+                                          :diff-res       diff-res})]
+        (t/is (nil? art-res) test-failure-message)
+        (t/is (= 0 (diff-res :exit)) test-failure-message)))))
 
 (defn all-invocation-patterns
   [path art-options]
@@ -94,12 +97,14 @@
 (t/deftest lein-plugin-example-custom-options
   (let [res (clojure.java.shell/sh "./test.sh" "lein" "do" "clean," "install," "art"
                                    :dir "../examples/custom-options")]
-    (t/is (= 0 (res :exit)))))
+    (t/is (= 0 (res :exit))
+          (pr-str res))))
 
 (t/deftest lein-plugin-example-multi-batch
   (let [res (clojure.java.shell/sh "./test.sh" "lein" "art"
                                    :dir "../examples/multi-batch")]
-    (t/is (= 0 (res :exit)))))
+    (t/is (= 0 (res :exit))
+          (pr-str res))))
 
 (t/deftest lein-plugin-example-override-clojure-version
   (all-invocation-patterns "../examples/override-clojure-version"

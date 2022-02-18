@@ -40,9 +40,11 @@
     (let [clj-res (apply clojure.java.shell/sh (concat command [:dir path]))
           diff-res (clojure.java.shell/sh "/usr/bin/diff" "--recursive"
                                           target-dir
-                                          expected-dir)]
-      (t/is (= 0 (clj-res :exit)))
-      (t/is (= 0 (diff-res :exit))))))
+                                          expected-dir)
+          test-failure-message (pr-str {:clj-res  clj-res
+                                        :diff-res diff-res})]
+      (t/is (= 0 (clj-res :exit)) test-failure-message)
+      (t/is (= 0 (diff-res :exit)) test-failure-message))))
 
 (t/deftest usage
   (let [usage (clj-tool/usage)]
@@ -66,7 +68,8 @@
       (delete-file-tree dir :silently)))
   (let [res (clojure.java.shell/sh "./test.sh" "clj-art"
                                    :dir "../examples/multi-batch")]
-    (t/is (= 0 (res :exit)))))
+    (t/is (= 0 (res :exit))
+          (pr-str {:res res}))))
 
 (t/deftest clj-tool-example-override-clojure-version
   (invocation-pattern "../examples/readme-examples"
