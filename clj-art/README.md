@@ -57,7 +57,7 @@ filename extensions, overwriting any existing files with the same paths.
 | Argument | Parameters | Default | Explanation |
 | --- | --- | --- | --- |
 | `--bindings` | VAL | | Bindings made available to templates for symbol resolution. Currently limited to a single usage in `clj-art`. |
-| `--delimiters` | VAL | `erb` | Template delimiters |
+| `--delimiters` | VAL | `lispy` | Template delimiters |
 | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. |
 | `-h`, `--help` | | | Displays lovely help and then exits |
 | `--output-dir` | DIR | `.` | Write rendered files to DIR |

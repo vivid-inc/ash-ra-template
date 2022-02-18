@@ -65,7 +65,7 @@ filename extensions, overwriting any existing files with the same paths.
 | `build.boot` | CLI argument | Parameters | Default | Explanation |
 | --- | --- | --- | --- | --- |
 | `:bindings` | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
-| `:delimiters` | `--delimiters` | VAL | `erb` | Template delimiters |
+| `:delimiters` | `--delimiters` | VAL | `lispy` | Template delimiters |
 | `:dependencies` | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. |
 | | `-h`, `--help` | | | Displays lovely help and then exits |
 | `:output-dir` | `--output-dir` | DIR | | Write a copy of the rendered file set to DIR |

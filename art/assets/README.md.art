@@ -3,7 +3,8 @@
 {%
 (require '[vivid.art])
 
-(def java-versions (get vivid-art-facts "java-versions"))
+(def clojure-versions  (get vivid-art-facts "clojure-versions"))
+(def java-versions     (get vivid-art-facts "java-versions"))
 (def vivid-art-version (get vivid-art-facts "vivid-art-version"))
 
 (def to-phase-values (->> vivid.art/render-phases
@@ -37,10 +38,10 @@ _Note_ that until ART achieves version 1.0 status, details may be subject to cha
 <a name="requirements"></a>
 ## Requirements
 
-Clojure is tested on:
+ART is tested on:
 
-- Clojure 1.10.0 and newer, for [spec](https://clojure.org/guides/spec), and because it is compatible with a ``clojure.alpha.tools.deps`` version that has reasonable Maven-style dependency resolution capability.
-- Java LTS releases {%= (clojure.string/join ", " java-versions) %}. Starting with Java 8, because it strikes a good balance between wide adoption and long-term stability.
+- Clojure {%= (first clojure-versions) %} and newer
+- Java LTS releases {%= (clojure.string/join ", " java-versions) %}
 
 <a name="quickstart"></a>
 ## Quick Start
@@ -184,7 +185,7 @@ More complex:
 
 <a name="delimiters"></a>
 ### Configurable ``:delimiters``
-ART's configurable template delimiters default to ERB-esque syntax.
+ART's configurable template delimiters use a `{%= vivid.art/default-delimiters-name %}` syntax by default.
 ```clojure
 <( (def e 2.7182) )>
 The natural number e is approximately <(= e )>
@@ -202,7 +203,7 @@ can be specified with `:delimiters` in the optional map argument:
                           :begin-eval  "{|="}})
 ```
 There is no particular restriction on what can and cannot be used as delimiters, but beware choosing delimiters whose character strings also occur in your document and in Clojure code.
-There are several predefined sets in `vivid.art.delimiters` such as `jinja`, `mustache`, and `php` that can be used directly or serve as a starting point for creating your own delimiter sets.
+There are several predefined sets in `vivid.art.delimiters` such as `erb`, ``jinja`, `mustache`, and `php` that can be used directly or serve as a starting point for creating your own delimiter sets.
 
 The template syntax parser is lenient in that both `:end-form` or `:end-eval` delimiters will end a Clojure forms block regardless of whether that block began with `:begin-form` or `:begin-eval` delimiters.
 
@@ -214,7 +215,7 @@ This is useful for learning ART's internals and for debugging.
 The phases are, in order: {%= to-phase-values %}.
 
 ```clojure
+; Output raw Clojure code that, if evaluated, produces the final rendered output.
 (art/render template-str
-            {:to-phase :enscript    ; (render) output will be the Clojure code that writes the final rendered output.
-            })
+            {:to-phase :enscript})
 ```
