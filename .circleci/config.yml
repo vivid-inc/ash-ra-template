@@ -86,6 +86,7 @@ clj-art: &clj-art-job
         # Referencing https://clojure.org/guides/getting_started#_installation_on_linux
         name: Install Clojure
         command: |
+          sudo DEBIAN_FRONTEND=noninteractive apt install -yq rlwrap
           curl -O https://download.clojure.org/install/linux-install-1.10.1.763.sh
           chmod +x linux-install-1.10.1.763.sh
           sudo ./linux-install-1.10.1.763.sh
