@@ -1,7 +1,7 @@
 # Ash Ra Template Changelog
 
 ## [0.6.0]
-_Unreleased_
+Released 2022-02-18.
 - New: `art-cli`-based tooling allows callers to specify a path to a JSON file to provide bindings.
 - New: [Ring server](examples/ring-server/) cookbook recipe.
 - Breaking change: Bindings can be specified as paths to EDN or JSON files. In such cases, the content of the given bindings file is set as the value of a symbol, created by removing the file extension from the base filename (`.edn`, `.json`).

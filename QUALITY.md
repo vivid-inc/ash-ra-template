@@ -28,20 +28,23 @@ A VCS commit is considered releasable provided that all of its components satisf
 ## Release checklist
 
 ### Before release
+- Ensure the contents of the project metadata file [vivid-art-facts.edn](assets/vivid-art-facts.edn) is correct.
+- `bin/gen.sh` doesn't change any files. In other words, all generated files are up-to-date.
 - Update [CHANGELOG.md](CHANGELOG.md) to reflect the new version.
   - Replace the ``_Unreleased_`` attribute with the actual date.
-- Update ART version in assets, code, and documentation.
+  - Ensure the entries genuinely reflect the nature of the changes in this release.
 - Choose a specific VCS commit identifier as the release target.
 - Ensure the [release criteria](QUALITY.md) are satisfied.
 - All README.md files are synchronized in content.
 - CI is building the release branch.
 
 ### Executing the release
-- Deploy `vivid/art`, `vivid/boot-art`, `vivid/clj-art`, and `vivid/lein-art` to Clojars.
+- Use `bin/deploy.sh` to deploy all projects to Clojars.
 - Tag the release and push the tag to upstream Git.
 
 ### Immediately after release
 - Smoke test each downloadable deliverable.
+- In the GitHub project, change the [default branch](https://github.com/vivid-inc/ash-ra-template/settings/branches) to this new release.
 - Confirm correctness of:
   - All project URLs.
   - Default branch in GitHub.
@@ -50,3 +53,4 @@ A VCS commit is considered releasable provided that all of its components satisf
 - Announce the release to the Clojure community. Listings at:
   - https://clojure.org/community/resources
   - https://www.reddit.com/r/Clojure/
+- (Vivid Inc. internal) In an env that doesn't have the new release in its `~/.m2` repo, update all project build dependencies to this release of ART and run their full builds on clean VCS checkouts to ensure correct operation of the new release obtained from Clojars.
