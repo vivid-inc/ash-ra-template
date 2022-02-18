@@ -26,12 +26,12 @@ ash-ra-template-job: &ash-ra-template-job
         command: lein test
         working_directory: art
     - store_test_results:
-        path: art/cloverage
+        path: art/cloverage/junit.xml
     - run:
         command: lein test
         working_directory: art-cli
     - store_test_results:
-        path: art-cli/cloverage
+        path: art-cli/cloverage/junit.xml
     - save_cache:
         key: m2-deps-{{ checksum "art/project.clj" }}-{{ checksum "art-cli/project.clj" }}
         paths:
@@ -73,6 +73,8 @@ boot-art: &boot-art-job
             boot test
           done
         working_directory: boot-art
+    # TODO - store_test_results:
+    #    path: boot-art/.../junit.xml
 
 clj-art: &clj-art-job
   steps:
@@ -94,6 +96,8 @@ clj-art: &clj-art-job
             clojure -A:clojure-${ver}:test
           done
         working_directory: clj-art
+    # TODO - store_test_results:
+    #    path: clj-art/.../junit.xml
 
 lein-art: &lein-art-job
   environment:
@@ -106,6 +110,8 @@ lein-art: &lein-art-job
     - run:
         command: lein test
         working_directory: lein-art
+    # TODO - store_test_results:
+    #    path: lein-art/.../junit.xml
 
 
 # Referencing https://hub.docker.com/r/circleci/clojure/tags

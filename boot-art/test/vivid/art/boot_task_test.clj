@@ -48,9 +48,13 @@
                                    (let [expected-contents (map slurp paths)
                                          output-filenames (map #(.getName %) paths)]
                                      (t/testing "Rendered template file output path"
-                                       (t/is (= output-filenames (fs-paths fileset))))
+                                       (t/is (= output-filenames (fs-paths fileset))
+                                             (pr-str {:output-filenames output-filenames
+                                                      :fileset-fs-paths (fs-paths fileset)})))
                                      (t/testing "Rendered template file output content"
-                                       (t/is (= expected-contents (fs-contents fileset)))))))
+                                       (t/is (= expected-contents (fs-contents fileset))
+                                             (pr-str {:expected-contents   expected-contents
+                                                      :fileset-fs-contents (fs-contents fileset)}))))))
 
 (boot/deftask populate
               "Populates the Boot working set of files with templates"
