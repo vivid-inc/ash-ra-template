@@ -14,20 +14,26 @@ ash-ra-template-job: &ash-ra-template-job
     # Customize the JVM maximum heap limit
     JVM_OPTS: -Xmx3200m
 
+  # Build art and art-cli in one go, for expediency.
   steps:
     - checkout
     - restore_cache:
         keys:
-          - m2-deps-{{ checksum "art/project.clj" }}
+          - m2-deps-{{ checksum "art/project.clj" }}-{{ checksum "art-cli/project.clj" }}
           # Fallback
           - m2-deps-
     - run:
         command: lein test
         working_directory: art
     - store_test_results:
-        path: cloverage
+        path: art/cloverage
+    - run:
+        command: lein test
+        working_directory: art-cli
+    - store_test_results:
+        path: art-cli/cloverage
     - save_cache:
-        key: m2-deps-{{ checksum "art/project.clj" }}
+        key: m2-deps-{{ checksum "art/project.clj" }}-{{ checksum "art-cli/project.clj" }}
         paths:
           - ~/.m2
     - run:
@@ -39,6 +45,15 @@ ash-ra-template-job: &ash-ra-template-job
             echo skipping codecov.io: script download error
           fi
         working_directory: art
+    - run:
+        name: Upload code coverage report to codecov.io
+        command: |
+          if curl --silent --fail https://codecov.io/bash > codecov.sh ; then
+            bash < codecov.sh
+          else
+            echo skipping codecov.io: script download error
+          fi
+        working_directory: art-cli
     # The downstream builds require the ART jar file installed in the local ~/.m2 directory
     - persist_to_workspace:
         root: ~/.m2
@@ -52,7 +67,7 @@ boot-art: &boot-art-job
         at: ~/.m2
     - run:
         command: |
-          for ver in "1.9.0" "1.10.0" "1.10.1"
+          for ver in "1.10.0" "1.10.1" "1.10.2" "1.10.3"
           do
             export BOOT_CLOJURE_VERSION=${ver}
             boot test
@@ -74,7 +89,7 @@ clj-art: &clj-art-job
           sudo ./linux-install-1.10.1.763.sh
     - run:
         command: |
-          for ver in "1.9.0" "1.10.0" "1.10.1"
+          for ver in "1.10.0" "1.10.1" "1.10.2" "1.10.3"
           do
             clojure -A:clojure-${ver}:test
           done
@@ -93,39 +108,56 @@ lein-art: &lein-art-job
         working_directory: lein-art
 
 
+# Referencing https://hub.docker.com/r/circleci/clojure/tags
 jobs:
   ash-ra-template-jdk-8-job:
     <<: *ash-ra-template-job
     docker:
-      - image: circleci/clojure:openjdk-8-lein-2.9.1
+      - image: circleci/clojure:openjdk-8-lein-2.9.8-bullseye
   boot-art-jdk-8-job:
     <<: *boot-art-job
     docker:
-      - image: circleci/clojure:openjdk-8-boot-2.8.2
+      - image: circleci/clojure:openjdk-8-boot-2.8.3-bullseye
   clj-art-jdk-8-job:
     <<: *clj-art-job
     docker:
-      - image: circleci/clojure:openjdk-8-lein-2.9.1
+      - image: circleci/clojure:openjdk-8-lein-2.9.8-bullseye
   lein-art-jdk-8-job:
     <<: *lein-art-job
     docker:
-      - image: circleci/clojure:openjdk-8-lein-2.9.1
+      - image: circleci/clojure:openjdk-8-lein-2.9.8-bullseye
   ash-ra-template-jdk-11-job:
     <<: *ash-ra-template-job
     docker:
-      - image: circleci/clojure:openjdk-11-lein-2.9.1
+      - image: circleci/clojure:openjdk-11-lein-2.9.8-bullseye
   boot-art-jdk-11-job:
     <<: *boot-art-job
     docker:
-      - image: circleci/clojure:openjdk-11-boot-2.8.2
+      - image: circleci/clojure:openjdk-11-boot-2.8.3-bullseye
   clj-art-jdk-11-job:
     <<: *clj-art-job
     docker:
-      - image: circleci/clojure:openjdk-11-lein-2.9.1
+      - image: circleci/clojure:openjdk-11-lein-2.9.8-bullseye
   lein-art-jdk-11-job:
     <<: *lein-art-job
     docker:
-      - image: circleci/clojure:openjdk-11-lein-2.9.1
+      - image: circleci/clojure:openjdk-11-lein-2.9.8-bullseye
+  ash-ra-template-jdk-17-job:
+    <<: *ash-ra-template-job
+    docker:
+      - image: circleci/clojure:openjdk-17-lein-2.9.8-bullseye
+  boot-art-jdk-17-job:
+    <<: *boot-art-job
+    docker:
+      - image: circleci/clojure:openjdk-17-boot-2.8.3-bullseye
+  clj-art-jdk-17-job:
+    <<: *clj-art-job
+    docker:
+      - image: circleci/clojure:openjdk-17-lein-2.9.8-bullseye
+  lein-art-jdk-17-job:
+    <<: *lein-art-job
+    docker:
+      - image: circleci/clojure:openjdk-17-lein-2.9.8-bullseye
 
 workflows:
   version: 2
@@ -151,3 +183,13 @@ workflows:
       - lein-art-jdk-11-job:
           requires:
             - ash-ra-template-jdk-11-job
+      - ash-ra-template-jdk-17-job
+      - boot-art-jdk-17-job:
+          requires:
+            - ash-ra-template-jdk-17-job
+      - clj-art-jdk-17-job:
+          requires:
+            - ash-ra-template-jdk-17-job
+      - lein-art-jdk-17-job:
+          requires:
+            - ash-ra-template-jdk-17-job

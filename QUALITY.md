@@ -50,7 +50,9 @@ A VCS commit is considered releasable provided that all of its components satisf
   - Default branch in GitHub.
   - Versions appearing in current documentation.
   - CI build results.
-- Announce the release to the Clojure community. Listings at:
+- Announce the release to the Clojure community.
   - https://clojure.org/community/resources
+  - https://clojureverse.org/
   - https://www.reddit.com/r/Clojure/
+  - Twitter
 - (Vivid Inc. internal) In an env that doesn't have the new release in its `~/.m2` repo, update all project build dependencies to this release of ART and run their full builds on clean VCS checkouts to ensure correct operation of the new release obtained from Clojars.
