@@ -19,7 +19,7 @@
     [clojure.pprint]
     [clojure.spec.alpha :as s]
     [clojure.string]
-    [special.core :as special]
+    [farolero.core :as farolero]
     [vivid.art :as art]
     [vivid.art.evaluate]                                    ; Enable our sand-boxed evaluate-fn
     [vivid.art.cli.embed]
@@ -51,13 +51,13 @@
               (clojure.pprint/pprint c (io/writer output-path)) ; Possibly more readable
               (spit output-path c))))
     (catch Exception e
-      (special/condition :vivid.art.cli/error
-                         {:step      'render-file
-                          :message   (format "Exception while rendering ART template %s\n%s\n%s"
-                                             (.getCanonicalPath (:src-path template-file))
-                                             (.toString e)
-                                             (clojure.string/join \newline (.getStackTrace e)))
-                          :exception e}))))
+      (farolero/signal :vivid.art.cli/error
+                       {:step      'render-file
+                        :message   (format "Exception while rendering ART template %s\n%s\n%s"
+                                           (.getCanonicalPath (:src-path template-file))
+                                           (.toString e)
+                                           (clojure.string/join \newline (.getStackTrace e)))
+                        :exception e}))))
 
 (defn render-batch
   "Scans :templates for files and directories, renders all ART templates found

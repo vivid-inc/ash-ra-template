@@ -10,9 +10,10 @@ set -o pipefail
 set -o xtrace
 
 function bootstrap_art {
-  clojure -Sdeps '{:deps {vivid/art     {:local/root "art"}
-                          vivid/art-cli {:local/root "art-cli"}
-                          zprint/zprint {:mvn/version "1.0.2"}}}' - <<EOS
+  clojure -Sdeps '{:deps {org.suskalo/farolero {:mvn/version "1.4.3"}
+                          vivid/art            {:local/root "art"}
+                          vivid/art-cli        {:local/root "art-cli"}
+                          zprint/zprint        {:mvn/version "1.0.2"}}}' - <<EOS
 
 (require '[clojure.edn :as edn]
          '[clojure.java.io :as io]

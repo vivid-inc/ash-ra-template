@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-# TODO set -o errexit
+set -o errexit
 set -o nounset
-# TODO set -o pipefail
+set -o pipefail
 set -o xtrace
 
-CLOJURE_VERSIONS=( "1.9.0" "1.10.0" "1.10.1" "1.10.2" "1.10.3" )
+CLOJURE_VERSIONS=( "1.10.0" "1.10.1" "1.10.2" "1.10.3" )
 
 echo Running all tests
 

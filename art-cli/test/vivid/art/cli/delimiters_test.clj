@@ -15,8 +15,8 @@
 (ns vivid.art.cli.delimiters-test
   (:require
     [clojure.test :refer :all]
+    [farolero.core :as farolero]
     [vivid.art.cli.args]
-    [vivid.art.cli.test-lib :refer [special-unwind-on-signal]]
     [vivid.art.cli.usage :refer [cli-options]]
     [vivid.art.cli.validate :as validate]
     [vivid.art.delimiters]))
@@ -70,10 +70,9 @@
 (deftest cli-bad-literal-delim-spec
   (are [delims]
     (= 'validate-delimiters
-       (let [args ["--delimiters" delims "test-resources/empty.art"]
-             f #(vivid.art.cli.args/cli-args->batch args cli-options)
-             {:keys [step]} (special-unwind-on-signal f :vivid.art.cli/error)]
-         step))
+       (let [args ["--delimiters" delims "test-resources/empty.art"]]
+         (farolero/handler-case (vivid.art.cli.args/cli-args->batch args cli-options)
+                                (:vivid.art.cli/error [_ {:keys [step]}] step))))
     ; Malformed
     ""
     " "
@@ -151,9 +150,8 @@
 (deftest bad-values
   (are [s]
     (= 'validate-delimiters
-       (let [f #(validate/validate-delimiters s)
-             {:keys [step]} (special-unwind-on-signal f :vivid.art.cli/error)]
-         step))
+       (farolero/handler-case (validate/validate-delimiters s)
+                              (:vivid.art.cli/error [_ {:keys [step]}] step)))
     nil
     ""
     " "

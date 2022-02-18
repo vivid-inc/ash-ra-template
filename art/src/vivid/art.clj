@@ -16,7 +16,7 @@
   "Ash Ra Template public API."
   (:require
     [clojure.spec.alpha :as s]
-    [special.core :as special]
+    [farolero.core :as farolero]
     [vivid.art.delimiters :refer [erb]]
     [vivid.art.enscript :refer [enscript]]
     [vivid.art.evaluate :refer [evaluate]]
@@ -50,10 +50,10 @@
                         (to-phase? :parse     to-phase) (parse delimiters)
                         (to-phase? :translate to-phase) (translate)
                         (to-phase? :enscript  to-phase) (enscript bindings)
-                        (to-phase? :evaluate  to-phase) (evaluate render-options))
-           f (special/manage render*
-                     :parse-error #(make-failure :parse-error % template))]
-       (f)))))
+                        (to-phase? :evaluate  to-phase) (evaluate render-options))]
+       (farolero/handler-case (render*)
+                              (:vivid.art/parse-error [_ details]
+                                (make-failure :parse-error details template)))))))
 (s/fdef render
         :args (s/cat :t :vivid.art/template
                      :o (s/? (s/keys :opt-un [:vivid.art/bindings

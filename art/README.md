@@ -28,10 +28,12 @@ _Note_ that until ART achieves version 1.0 status, details may be subject to cha
 <a name="requirements"></a>
 ## Requirements
 
-Clojure is tested on:
+ART is tested on:
 
-- Clojure 1.9.0 and newer, for [spec](https://clojure.org/guides/spec), and because it is compatible with a ``clojure.alpha.tools.deps`` version that has reasonable Maven-style dependency resolution capability.
-- Java LTS releases 8, 11, 17. Starting with Java 8, because it strikes a good balance between wide adoption and long-term stability.
+- Clojure 1.10.0 and newer
+- Java LTS releases 8, 11, 17
+
+
 
 <a name="quickstart"></a>
 ## Quick Start

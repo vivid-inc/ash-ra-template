@@ -16,8 +16,8 @@
   (:require
     [clojure.string]
     [clojure.test :refer :all]
+    [farolero.core :as farolero]
     [vivid.art.cli.exec]
-    [vivid.art.cli.test-lib :refer [special-unwind-on-signal]]
     [vivid.art.cli.usage])
   (:import
     (java.io File)))
@@ -44,11 +44,11 @@
     "../here/there"))
 
 (deftest cli-empty-output-dir
-  (let [f #(vivid.art.cli.args/cli-args->batch
-             ["--output-dir" "" "test-resources/empty.art"]
-             vivid.art.cli.usage/cli-options)
-        {:keys [step]} (special-unwind-on-signal f :vivid.art.cli/error)]
-    (= 'validate-output-dir step)))
+  (= 'validate-output-dir
+     (farolero/handler-case (vivid.art.cli.args/cli-args->batch
+                              ["--output-dir" "" "test-resources/empty.art"]
+                              vivid.art.cli.usage/cli-options)
+                            (:vivid.art.cli/error [_ {:keys [step]}] step))))
 
 (deftest template-paths
   (are [^String base-path ^String template-file dest-rel-path]

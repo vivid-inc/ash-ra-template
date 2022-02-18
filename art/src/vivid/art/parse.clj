@@ -16,8 +16,8 @@
   (:require
     [clojure.spec.alpha :as s]
     [clojure.string :as str]
+    [farolero.core :as farolero]
     [instaparse.core :as insta]
-    [special.core :as special]
     [vivid.art.specs])
   (:import
     (java.util.regex Pattern)))
@@ -53,7 +53,7 @@
    parse-result to pass through."
   [parse-result]
   (if (insta/failure? parse-result)
-    (special/condition :parse-error (insta/get-failure parse-result))
+    (farolero/signal :vivid.art/parse-error {:instaparse (insta/get-failure parse-result)})
     parse-result))
 
 (defn parse

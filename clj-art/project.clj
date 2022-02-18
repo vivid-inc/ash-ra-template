@@ -27,11 +27,9 @@
               :output   "cloverage"                  ; "lein jar" destroys target/cloverage
               }
 
-  :dependencies [[org.clojure/tools.cli "1.0.206"]
-                 [special               "0.1.3-Beta1"]
-                 [vivid/art-cli         "0.6.0"]]
+  :dependencies [[vivid/art-cli "0.6.0"]]
 
-  :dev-dependencies [[org.clojure/clojure "1.9.0"]]
+  :dev-dependencies [[org.clojure/clojure "1.10.0"]]
 
   :exclusions [org.clojure/clojure]
 
@@ -58,8 +56,8 @@
                                            org.slf4j/jcl-over-slf4j
                                            org.slf4j/slf4j-api]]]
 
-  :profiles {:clj-kondo {:dependencies [[org.clojure/clojure "1.9.0"]
+  :profiles {:clj-kondo {:dependencies [[org.clojure/clojure "1.10.0"]
                                         [clj-kondo "RELEASE"]]}
-             :dev       {:dependencies [[org.clojure/clojure "1.9.0"]]}}
+             :dev       {:dependencies [[org.clojure/clojure "1.10.0"]]}}
 
   :repositories [["clojars" {:sign-releases false}]])

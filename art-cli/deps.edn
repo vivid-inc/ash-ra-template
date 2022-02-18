@@ -1,4 +1,4 @@
-{:deps {org.clojure/tools.deps.alpha {:mvn/version "0.9.857" :exclusions [commons-logging
+{:deps {org.clojure/tools.deps.alpha {:mvn/version "0.9.857" :exclusions [commons-logging/commons-logging
                                                                       org.clojure/clojure
                                                                       org.clojure/data.json
                                                                       org.clojure/tools.cli

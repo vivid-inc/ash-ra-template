@@ -17,10 +17,10 @@
     [clojure.edn :as edn]
     [clojure.java.io :as io]
     [clojure.test :refer :all]
+    [farolero.core :as farolero]
     [vivid.art.cli.args]
     ; Register art-cli's :dependencies -aware evaluator
     [vivid.art.cli.exec]
-    [vivid.art.cli.test-lib :refer [special-unwind-on-signal]]
     [vivid.art.cli.usage :refer [cli-options]]
     [vivid.art.cli.validate :as validate]
     [vivid.art :as art])
@@ -52,9 +52,8 @@
 (deftest cli-malformed-dependencies
   (are [expected x]
     (= expected
-       (let [f #(validate/validate-dependencies x)
-             {:keys [step]} (special-unwind-on-signal f :vivid.art.cli/error)]
-         step))
+       (farolero/handler-case (validate/validate-dependencies x)
+                              (:vivid.art.cli/error [_ {:keys [step]}] step)))
     'validate-dependencies ""
     'validate-dependencies " "
     'validate-dependencies "nonsense"
@@ -102,9 +101,8 @@
 (deftest malformed-dependencies
   (are [expected x]
     (= expected
-       (let [f #(validate/validate-dependencies x)
-             {:keys [step]} (special-unwind-on-signal f :vivid.art.cli/error)]
-         step))
+       (farolero/handler-case (validate/validate-dependencies x)
+                              (:vivid.art.cli/error [_ {:keys [step]}] step)))
     'validate-dependencies nil
     'validate-dependencies ""
     'validate-dependencies " "

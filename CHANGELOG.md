@@ -2,12 +2,15 @@
 
 ## [0.6.0]
 _Unreleased_
-- Breaking change: Bindings can be specified as paths to EDN or JSON files. In such cases, the content of the given bindings file is set as the value of a symbol, created by removing the file extension from the base filename (`.edn`, `.json`).
-- Breaking change: With the goal of reducing `vivid/art` project dependencies, branched off CLI-specific code from `vivid/art` into a new `vivid/art-cli` lib. The `:dependencies` option to `vivid.art/render` is also migrated there.
-- Breaking change: The default delimiters has been changed to a new `vivid.art.delimiters/lispy` set of delimiters that looks like `<( )>` (note how they ooze with LISP-iness); changed from the prior default of `vivid.art.delimiters/erb`.
-- Change: Adding Java 17, an LTS release, to the set of Java versions that ART is tested with.
-- Change: Upgraded org.clojure/tools.cli from version 1.0.196 to the new version 1.0.206 which offers the `:multi` option, allowing >= 2 binding specifications on the CLI.
 - New: `art-cli`-based tooling allows callers to specify a path to a JSON file to provide bindings.
+- New: [Ring server](examples/ring-server/) cookbook recipe.
+- Breaking change: Bindings can be specified as paths to EDN or JSON files. In such cases, the content of the given bindings file is set as the value of a symbol, created by removing the file extension from the base filename (`.edn`, `.json`).
+- Breaking change: The default delimiters has been changed to a new `vivid.art.delimiters/lispy` that looks like `<( )>` (note how they ooze with LISP-iness); changed from the prior default of `vivid.art.delimiters/erb`.
+- Breaking change: Minimum supported Clojure version is advanced from 1.9.0 to 1.10.0 (minimum version supported by farolero).
+- Change: With the goal of reducing `vivid/art` project dependencies, branched off CLI-specific code from `vivid/art` into a new `vivid/art-cli` lib. The `:dependencies` option to `vivid.art/render` is also migrated there.
+- Change: Adding Java 17, an LTS release, to the set of Java versions that ART is tested with.
+- Change: [farolero](https://github.com/IGJoshua/farolero) replaces `special` for condition handling.
+- Change: Upgraded org.clojure/tools.cli from version 1.0.196 to the new version 1.0.206 which offers the `:multi` option, allowing >= 2 binding specifications on the CLI.
 
 ## [0.5.0]
 Released 2021-01-19.
@@ -15,10 +18,10 @@ Released 2021-01-19.
 - License changed from EPL to Apache License, version 2.0.
 - Introducing Clojure CLI tools plugin `clj-art`.
 - Defect fix: Honors the Java system property `user.dir` when determining file paths.
-  The defect came to light during a Maven multi-module build using (`vivid:clojure-maven-plugin`)[https://github.com/vivid-inc/clojure-maven-plugin].
+  The defect came to light during a Maven multi-module build using [`vivid:clojure-maven-plugin`](https://github.com/vivid-inc/clojure-maven-plugin).
 - _(Unstable until version 1.0)_ Render option `:to-phase` allows the dataflow to stop at an earlier `(render)` phase.
   Useful for inspecting ART output at intermediate phases for diagnosis and for understanding ART's behavior.
-- Cookbook recipes in README files and (example projects)[../examples/].
+- Cookbook recipes in README files and [example projects](examples/).
 
 ## [0.4.0]
 Released 2019-07-05.

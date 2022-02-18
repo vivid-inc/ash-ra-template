@@ -16,7 +16,7 @@
   "File and path handling common to this ART CLI library in general."
   (:require
     [clojure.string]
-    [special.core :as special]
+    [farolero.core :as farolero]
     [vivid.art.cli])
   (:import
     (java.io File)))
@@ -65,9 +65,9 @@
   (let [out (clojure.string/replace path vivid.art.cli/art-filename-suffix-regex "")
         filename (.getName (File. out))]
     (when (get prohibited-template-output-filenames filename)
-      (special/condition :vivid.art.cli/error
-                         {:step    'strip-art-filename-suffix
-                          :message (format "Cowardly refusing to create output file named '%s' from path: '%s'" out path)}))
+      (farolero/signal :vivid.art.cli/error
+                       {:step    'strip-art-filename-suffix
+                        :message (format "Cowardly refusing to create output file named '%s' from path: '%s'" out path)}))
     out))
 
 (defn template-file-seq

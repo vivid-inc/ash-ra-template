@@ -18,8 +18,8 @@
   If an argument doesn't appear to be resolvable according to the nature of
   a given resolver fn, it returns nil. Otherwise, these fns proceed with
   resolution and will signal any errors encountered as :vivid.art.cli/error
-  conditions, :normally nil for production but special/manage'd for use
-  in automated testing.
+  conditions, :normally nil for production but managed by the condition
+  system for use in automated testing.
 
   As an example, a file resolver function interprets its argument as a file
   path. If the file doesn't exist, the resolver fn sensibly returns nil, but
@@ -30,7 +30,7 @@
     [clojure.java.io :as io]
     [clojure.data.json :as json]
     [clojure.string]
-    [special.core :as special])
+    [farolero.core :as farolero])
   (:import
     (java.io File IOException PushbackReader)))
 
@@ -54,23 +54,23 @@
                   {sym content})
                 content)))
           (catch IOException e
-            (special/condition :vivid.art.cli/error
-                               {:step      'resolve-as-edn-file
-                                :message   (str "Error opening file: " x \newline
-                                                (.getMessage e) \newline
-                                                (.getStackTrace e))
-                                :file      f
-                                :exception e}
-                               :normally nil))
+            (farolero/signal :vivid.art.cli/error
+                             {:step      'resolve-as-edn-file
+                              :message   (str "Error opening file: " x \newline
+                                              (.getMessage e) \newline
+                                              (.getStackTrace e))
+                              :file      f
+                              :exception e}
+                             :normally nil))
           (catch RuntimeException e
-            (special/condition :vivid.art.cli/error
-                               {:step      'resolve-as-edn-file
-                                :message   (str "Error reading EDN from file: " x \newline
-                                                (.getMessage e) \newline
-                                                (.getStackTrace e))
-                                :file      f
-                                :exception e}
-                               :normally nil)))))))
+            (farolero/signal :vivid.art.cli/error
+                             {:step      'resolve-as-edn-file
+                              :message   (str "Error reading EDN from file: " x \newline
+                                              (.getMessage e) \newline
+                                              (.getStackTrace e))
+                              :file      f
+                              :exception e}
+                             :normally nil)))))))
 
 (defn resolve-as-edn-literal
   "Attempt to interpret a value as an EDN string."
@@ -111,23 +111,23 @@
                   {sym content})
                 content)))
           (catch IOException e
-            (special/condition :vivid.art.cli/error
-                               {:step      'resolve-as-json-file
-                                :message   (str "Error opening file: " x \newline
-                                                (.getMessage e) \newline
-                                                (.getStackTrace e))
-                                :file      f
-                                :exception e}
-                               :normally nil))
+            (farolero/signal :vivid.art.cli/error
+                             {:step      'resolve-as-json-file
+                              :message   (str "Error opening file: " x \newline
+                                              (.getMessage e) \newline
+                                              (.getStackTrace e))
+                              :file      f
+                              :exception e}
+                             :normally nil))
           (catch RuntimeException e
-            (special/condition :vivid.art.cli/error
-                               {:step      'resolve-as-json-file
-                                :message   (str "Error reading JSON from file: " x \newline
-                                                (.getMessage e) \newline
-                                                (.getStackTrace e))
-                                :file      f
-                                :exception e}
-                               :normally nil)))))))
+            (farolero/signal :vivid.art.cli/error
+                             {:step      'resolve-as-json-file
+                              :message   (str "Error reading JSON from file: " x \newline
+                                              (.getMessage e) \newline
+                                              (.getStackTrace e))
+                              :file      f
+                              :exception e}
+                             :normally nil)))))))
 
 (defn resolve-as-map
   "Attempt to interpret a value as a Clojure map."

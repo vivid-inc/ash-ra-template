@@ -18,7 +18,7 @@
     [boot.core :as boot :refer [deftask]]
     [boot.util :as util]
     [clojure.java.io :as io]
-    [special.core :as special]
+    [farolero.core :as farolero]
     [vivid.art :as art]
     [vivid.art.cli]
     [vivid.art.cli.args]
@@ -87,8 +87,7 @@ For more info, see
    _ output-dir   DIR   ^:! file   "Divert rendered file output to DIR"
    _ templates    FILES ^:! [file] "Render these ART files and directory trees thereof, instead of Boot's fileset"
    _ to-phase     VAL   ^:! kw     "Stop the render dataflow on each template at an earlier phase"]
-  ((special/manage process
-                   :vivid.art.cli/error #(if (:show-usage %)
-                                           (exit (or (:exit-status %) 1) (art help :true))
-                                           (exit 1 (str "ART error: " (:message %)))))
-   *opts*))
+  (farolero/handler-case (process *opts*)
+                         (:vivid.art.cli/error [details] (if (:show-usage details)
+                                                           (exit (or (:exit-status details) 1) (art help :true))
+                                                           (exit 1 (str "ART error: " (:message details)))))))

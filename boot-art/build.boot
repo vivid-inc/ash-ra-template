@@ -53,7 +53,7 @@
          ; Generate a Leiningen project.clj file for importing the project into an
          ; IDE with the following overrides to make the in-IDE experience pleasant.
          (let [boot-deps (boot/get-env :dependencies)
-               overrides (conj boot-deps '[org.clojure/clojure "1.9.0" :scope "provided"])]
+               overrides (conj boot-deps '[org.clojure/clojure "1.10.0" :scope "provided"])]
            (boot-lein/write-project-clj :override {:dependencies overrides})))
 
 (deftask mkdocs

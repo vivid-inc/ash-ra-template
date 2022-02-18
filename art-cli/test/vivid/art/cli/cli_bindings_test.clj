@@ -15,8 +15,8 @@
 (ns vivid.art.cli.cli-bindings-test
   (:require
     [clojure.test :refer :all]
+    [farolero.core :as farolero]
     [vivid.art.cli.args]
-    [vivid.art.cli.test-lib :refer [special-unwind-on-signal]]
     [vivid.art.cli.usage :refer [cli-options]]
     [vivid.art.cli.validate :as validate]))
 
@@ -45,9 +45,8 @@
 (deftest cli-malformed-bindings
   (are [expected x]
     (= expected
-       (let [f #(validate/validate-bindings x)
-             {:keys [step]} (special-unwind-on-signal f :vivid.art.cli/error)]
-         step))
+       (farolero/handler-case (validate/validate-bindings x)
+                              (:vivid.art.cli/error [_ {:keys [step]}] step)))
     'validate-bindings ""
     'validate-bindings " "
     'validate-bindings "nonsense"
@@ -108,9 +107,8 @@
 (deftest malformed-bindings
   (are [expected x]
     (= expected
-       (let [f #(validate/validate-bindings x)
-             {:keys [step]} (special-unwind-on-signal f :vivid.art.cli/error)]
-         step))
+       (farolero/handler-case (validate/validate-bindings x)
+                              (:vivid.art.cli/error [_ {:keys [step]}] step)))
     'validate-bindings nil
     'validate-bindings ""
     'validate-bindings " "
@@ -126,7 +124,6 @@
          (let [x ["test-resources/simple-bindings.edn"
                   'vivid.art.cli.cli-bindings-test/custom-bindings
                   {:c 3}
-                  "{:non"]
-               f #(validate/validate-bindings x)
-               {:keys [step]} (special-unwind-on-signal f :vivid.art.cli/error)]
-           step))))
+                  "{:non"]]
+           (farolero/handler-case (validate/validate-bindings x)
+                                  (:vivid.art.cli/error [_ {:keys [step]}] step))))))

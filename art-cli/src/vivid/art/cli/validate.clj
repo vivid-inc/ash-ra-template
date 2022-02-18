@@ -17,7 +17,7 @@
   (:require
     [clojure.spec.alpha :as s]
     [clojure.string]
-    [special.core :as special]
+    [farolero.core :as farolero]
     [vivid.art]
     [vivid.art.cli.resolve :as resolve]
     [vivid.art.specs]))
@@ -39,9 +39,9 @@
             (s/conform :vivid.art/bindings b)
             (if-not (s/invalid? b)
               (merge acc b)
-              (special/condition :vivid.art.cli/error
-                                 {:step    'validate-bindings
-                                  :message (format "Bad bindings: '%s'" x)}))))
+              (farolero/signal :vivid.art.cli/error
+                               {:step    'validate-bindings
+                                :message (format "Bad bindings: '%s'" x)}))))
     {}
     ; Flattened, bindings will be fed to (reduce) as a collection if it wasn't one already.
     (flatten [bindings])
@@ -58,9 +58,9 @@
         (s/conform :vivid.art/delimiters d)
         (if-not (s/invalid? d)
           d
-          (special/condition :vivid.art.cli/error
-                             {:step    'validate-delimiters
-                              :message (format "Non-conformant delimiter specification: '%s'" x)}))))
+          (farolero/signal :vivid.art.cli/error
+                           {:step    'validate-delimiters
+                            :message (format "Non-conformant delimiter specification: '%s'" x)}))))
 
 (defn validate-dependencies
   [x]
@@ -73,9 +73,9 @@
         (s/conform :vivid.art/dependencies d)
         (if-not (s/invalid? d)
           d
-          (special/condition :vivid.art.cli/error
-                             {:step    'validate-dependencies
-                              :message (format "Non-conformant dependency map: '%s'" x)}))))
+          (farolero/signal :vivid.art.cli/error
+                           {:step    'validate-dependencies
+                            :message (format "Non-conformant dependency map: '%s'" x)}))))
 
 (defn validate-output-dir
   "A string path of the output directory."
@@ -84,23 +84,23 @@
                   (.getAbsoluteFile))]
     (if f
       f
-      (special/condition :vivid.art.cli/error
-                         {:step    'validate-output-dir
-                          :message (format "output-dir '%s' must name a directory path" output-dir)}))))
+      (farolero/signal :vivid.art.cli/error
+                       {:step    'validate-output-dir
+                        :message (format "output-dir '%s' must name a directory path" output-dir)}))))
 
 (defn validate-templates
   "Returns a collection of java.io.File's representing each of the named
   template file paths, being any mix of existing files and directories.
-  Any unresolvable named path is special/condition'ed as an error."
+  Any unresolvable named path is signaled as an error."
   [x]
   (letfn [(conv [path]
             (let [f (some-> (resolve/resolve-as-file path)
                             (.getAbsoluteFile))]
               (if (and f (.exists f))
                 f
-                (special/condition :vivid.art.cli/error
-                                   {:step    'validate-templates
-                                    :message (format "Template path doesn't exist: '%s'" path)}))))]
+                (farolero/signal :vivid.art.cli/error
+                                 {:step    'validate-templates
+                                  :message (format "Template path doesn't exist: '%s'" path)}))))]
     (map conv (if (coll? x) x [x]))))
 
 (defn validate-to-phase
@@ -114,8 +114,8 @@
         (s/conform :vivid.art/render-phase p)
         (if-not (s/invalid? p)
           p
-          (special/condition :vivid.art.cli/error
-                             {:step    'validate-to-phase
-                              :message (format "to-phase '%s' is unknown; must be one of:  %s"
-                                               x
-                                               (clojure.string/join "  " (map name vivid.art/render-phases)))}))))
+          (farolero/signal :vivid.art.cli/error
+                           {:step    'validate-to-phase
+                            :message (format "to-phase '%s' is unknown; must be one of:  %s"
+                                             x
+                                             (clojure.string/join "  " (map name vivid.art/render-phases)))}))))

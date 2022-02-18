@@ -40,7 +40,7 @@
 
 (def ^:const profiles
   (merge
-    '{:clj-kondo {:dependencies [[org.clojure/clojure "1.9.0"]
+    '{:clj-kondo {:dependencies [[org.clojure/clojure "1.10.0"]
                                  [clj-kondo "RELEASE"]]}
 
       :dev       {:dependencies   [;; Diffs equality assertions in test failure output

@@ -16,8 +16,8 @@
   (:require
     [clojure.string]
     [clojure.test :refer :all]
+    [farolero.core :as farolero]
     [vivid.art.cli.args]
-    [vivid.art.cli.test-lib :refer [special-unwind-on-signal]]
     [vivid.art.cli.usage]
     [vivid.art.cli.validate :as validate]
     [vivid.art.specs]))
@@ -38,8 +38,8 @@
                  " "
                  "nonsense"]]
     (let [args ["--to-phase" phase "test-resources/empty.art"]
-          f #(vivid.art.cli.args/cli-args->batch args vivid.art.cli.usage/cli-options)
-          {:keys [step message]} (special-unwind-on-signal f :vivid.art.cli/error)]
+          {:keys [step message]} (farolero/handler-case (vivid.art.cli.args/cli-args->batch args vivid.art.cli.usage/cli-options)
+                                                        (:vivid.art.cli/error [_ details] details))]
       (is (and (= 'validate-to-phase step)
                (clojure.string/includes? message (str "'" phase "'")))))))
 
@@ -60,9 +60,9 @@
 
 (deftest unknown-phases
   (are [phase]
-    (let [f #(validate/validate-to-phase phase)
-          {:keys [step]} (special-unwind-on-signal f :vivid.art.cli/error)]
-      (= 'validate-to-phase step))
+    (= 'validate-to-phase
+       (farolero/handler-case (validate/validate-to-phase phase)
+                              (:vivid.art.cli/error [_ {:keys [step]}] step)))
     nil
     5
     ""

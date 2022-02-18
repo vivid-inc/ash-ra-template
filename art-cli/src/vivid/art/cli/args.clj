@@ -18,7 +18,7 @@
     [clojure.spec.alpha :as s]
     [clojure.string]
     [clojure.tools.cli]
-    [special.core :as special]
+    [farolero.core :as farolero]
     [vivid.art.cli.files :as files]
     [vivid.art.cli.specs]
     [vivid.art.cli.validate :as validate])
@@ -30,20 +30,20 @@
   (let [{:keys [options arguments errors]} (clojure.tools.cli/parse-opts args options-spec)]
     (cond
       (:help options)
-      (special/condition :vivid.art.cli/error
-                         {:step        'parse-cli-args
-                          :exit-status 0
-                          :show-usage  true})
+      (farolero/signal :vivid.art.cli/error
+                       {:step        'parse-cli-args
+                        :exit-status 0
+                        :show-usage  true})
 
       errors
-      (special/condition :vivid.art.cli/error
-                         {:step    'parse-cli-args
-                          :message (clojure.string/join \newline errors)})
+      (farolero/signal :vivid.art.cli/error
+                       {:step    'parse-cli-args
+                        :message (clojure.string/join \newline errors)})
 
       (= 0 (count arguments))
-      (special/condition :vivid.art.cli/error
-                         {:step        'parse-cli-args
-                          :show-usage  true})
+      (farolero/signal :vivid.art.cli/error
+                       {:step       'parse-cli-args
+                        :show-usage true})
 
       :else
       [arguments options])))
@@ -98,7 +98,7 @@
   "Interpret command line arguments, producing a map representing an ART render
   batch job that can be executed by this CLI lib's (render-batch) fn. All
   arguments are validated according to the clojure.tools.cli -compliant options
-  specification and resolved. Exceptional cases are special/condition'ed."
+  specification and resolved. Exceptional cases are signaled."
   [args options-spec]
   (let [[arguments options] (parse-cli-args args options-spec)]
     (-> (validate-as-batch arguments options)

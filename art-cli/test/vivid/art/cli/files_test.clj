@@ -15,9 +15,9 @@
 (ns vivid.art.cli.files-test
   (:require
     [clojure.test :refer :all]
+    [farolero.core :as farolero]
     [vivid.art.specs]
-    [vivid.art.cli.files]
-    [vivid.art.cli.test-lib :refer [special-unwind-on-signal]])
+    [vivid.art.cli.files])
   (:import
     (java.io File)))
 
@@ -41,9 +41,8 @@
 (deftest strip-art-filename-suffixes-prohibited
   (are [filename]
     (= 'strip-art-filename-suffix
-       (let [f #(vivid.art.cli.files/strip-art-filename-suffix filename)
-             {:keys [step]} (special-unwind-on-signal f :vivid.art.cli/error)]
-         step))
+       (farolero/handler-case (vivid.art.cli.files/strip-art-filename-suffix filename)
+                              (:vivid.art.cli/error [_ {:keys [step]}] step)))
     "..art"                                                 ; Stripped to "."
     "...art"                                                ; Stripped to ".."
     ))

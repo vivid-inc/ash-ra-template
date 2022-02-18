@@ -17,7 +17,7 @@
     [clojure.string]
     [clojure.tools.cli]
     [leiningen.core.main :as main-lein]
-    [special.core :as special]
+    [farolero.core :as farolero]
     [vivid.art.cli.args]
     [vivid.art.cli.exec]
     [vivid.art.cli.log :as log]
@@ -66,8 +66,7 @@
 (defn ^:no-project-needed
   ^{:doc (usage)}
   art [project & args]
-  ((special/manage process
-                   :vivid.art.cli/error #(if (:show-usage %)
-                                           (exit (or (:exit-status %) 1) (usage))
-                                           (main-lein/abort (str "ART error: " (:message %)))))
-   project args))
+  (farolero/handler-case (process project args)
+                         (:vivid.art.cli/error [details] (if (:show-usage details)
+                                                           (exit (or (:exit-status details) 1) (usage))
+                                                           (main-lein/abort (str "ART error: " (:message details)))))))

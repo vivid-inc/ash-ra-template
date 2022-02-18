@@ -1,4 +1,4 @@
 {:deps {instaparse/instaparse {:mvn/version "1.4.10" :exclusions [org.clojure/spec.alpha]}
         reduce-fsm/reduce-fsm {:mvn/version "0.1.4"}
-        special/special {:mvn/version "0.1.3-Beta1"}}
+        org.suskalo/farolero  {:mvn/version "1.4.3"}}
  :paths ["src"]}

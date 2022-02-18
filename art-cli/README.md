@@ -50,7 +50,7 @@ The template's external dependencies can be specified as a Clojure deps [lib map
 ```
 Dependencies are resolved prior to template rendering using Clojure's ``org.clojure/tools.deps.alpha``.
 
-As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version 1.9.0, but this can be overridden using the same mechanism by supplying the `org.clojure/clojure` dependency with a different version:
+As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version 1.10.0, but this can be overridden using the same mechanism by supplying the `org.clojure/clojure` dependency with a different version:
 ```clojure
                   {:dependencies {'org.clojure/clojure {:mvn/version "1.10.3"}}}
 ```
@@ -62,7 +62,7 @@ The Maven repositories for dependency resolution are hard-coded:
 ```
 The base (or default) dependencies are:
 ```clojure
-{org.clojure/clojure                     {:mvn/version "1.9.0"},
+{org.clojure/clojure                     {:mvn/version "1.10.0"},
  org.projectodd.shimdandy/shimdandy-api  {:mvn/version "1.2.1"},
  org.projectodd.shimdandy/shimdandy-impl {:mvn/version "1.2.1"}}
 ```

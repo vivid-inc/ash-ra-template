@@ -16,7 +16,7 @@
   (:require
     [clojure.string]
     [clojure.tools.cli]
-    [special.core :as special]
+    [farolero.core :as farolero]
     [vivid.art.cli.args]
     [vivid.art.cli.exec]
     [vivid.art.cli.log :as log]
@@ -50,8 +50,7 @@
 (defn -main
   "Clojure tools entry point for clj-art."
   [& args]
-  ((special/manage process
-                   :vivid.art.cli/error #(if (:show-usage %)
-                                           (exit (or (:exit-status %) 1) (usage))
-                                           (exit 1 (str "ART error: " (:message %)))))
-   args))
+  (farolero/handler-case (process args)
+                         (:vivid.art.cli/error [details] (if (:show-usage details)
+                                                           (exit (or (:exit-status details) 1) (usage))
+                                                           (exit 1 (str "ART error: " (:message details)))))))

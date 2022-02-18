@@ -9,7 +9,7 @@
 
 (defproject ring-server "1.0.0-SNAPSHOT"
             :description "Minimal demonstration rendering responses in Ring handlers using ART templates."
-            :dependencies [[org.clojure/clojure     "1.9.0"]
+            :dependencies [[org.clojure/clojure     "1.10.0"]
                            [ring/ring-core          "1.9.5"]
                            [ring/ring-jetty-adapter "1.9.5"]
                            [vivid/art               "0.6.0"]]

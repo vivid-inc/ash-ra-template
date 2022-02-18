@@ -25,7 +25,7 @@
             "clj-kondo" ["with-profile" "clj-kondo" "run" "-m" "clj-kondo.main" "--"
                          "--lint" "src/"]
             "nvd"      ["nvd" "check"]
-            "test"     ["with-profile" "+clojure-1.9.0:+clojure-1.10.0:+clojure-1.10.1:+clojure-1.10.2:+clojure-1.10.3" "build"]}
+            "test"     ["with-profile" "+clojure-1.10.0:+clojure-1.10.1:+clojure-1.10.2:+clojure-1.10.3" "build"]}
 
   :cloverage {:codecov? true
               :html?    true
@@ -35,7 +35,7 @@
 
   :dependencies [[instaparse/instaparse "1.4.10" :exclusions [org.clojure/spec.alpha]]
                  [reduce-fsm/reduce-fsm "0.1.4"]
-                 [special/special "0.1.3-Beta1"]] ; TODO Replace with Farolero
+                 [org.suskalo/farolero "1.4.3"]]
 
   :exclusions [org.clojure/clojure]
 
@@ -64,13 +64,12 @@
                                            org.slf4j/jcl-over-slf4j
                                            org.slf4j/slf4j-api]]]
 
-  :profiles {:clj-kondo      {:dependencies [[org.clojure/clojure "1.9.0"]
+  :profiles {:clj-kondo      {:dependencies [[org.clojure/clojure "1.10.0"]
                                              [clj-kondo "RELEASE"]]},
              :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]},
              :clojure-1.10.1 {:dependencies [[org.clojure/clojure "1.10.1"]]},
              :clojure-1.10.2 {:dependencies [[org.clojure/clojure "1.10.2"]]},
              :clojure-1.10.3 {:dependencies [[org.clojure/clojure "1.10.3"]]},
-             :clojure-1.9.0  {:dependencies [[org.clojure/clojure "1.9.0"]]},
              :dev            {:dependencies   [[pjstadig/humane-test-output "0.11.0"]],
                               :injections     [(require (quote pjstadig.humane-test-output))
                                                (pjstadig.humane-test-output/activate!)

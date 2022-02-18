@@ -153,7 +153,7 @@ __See also:__
 ```
 
 __Discussion:__
-As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version 1.9.0, but this can be overridden by supplying the `org.clojure/clojure` dependency with a different version.
+As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version 1.10.0, but this can be overridden by supplying the `org.clojure/clojure` dependency with a different version.
 
 __See also:__
 [Example](../examples/override-clojure-version).

@@ -30,7 +30,7 @@
    "clojars" {:url "https://clojars.org/repo/"}})
 
 (def ^:const default-deps
-  {'org.clojure/clojure                     {:mvn/version "1.9.0"}
+  {'org.clojure/clojure                     {:mvn/version "1.10.0"}
    'org.projectodd.shimdandy/shimdandy-api  {:mvn/version "1.2.1"}
    'org.projectodd.shimdandy/shimdandy-impl {:mvn/version "1.2.1"}})
 
