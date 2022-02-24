@@ -1,13 +1,15 @@
 # Ash Ra Template Changelog
 
 ## [0.6.0]
-Released 2022-02-18.
+Released 2022-02-24.
 - New: `art-cli`-based tooling allows callers to specify a path to a JSON file to provide bindings.
 - New: [Ring server](examples/ring-server/) cookbook recipe.
+- Breaking change:  In alignment with [clojars.org verified group names](https://github.com/clojars/clojars-web/wiki/Verified-Group-Names), the Maven Group name `vivid` that had served as the umbrella for the ART project changes in this 0.6.0 release to `net.vivid-inc`.
+  Please update your dependencies from i.e. `vivid/art` to `net.vivid-inc/art` for ART 0.6.0 onwards.
 - Breaking change: Bindings can be specified as paths to EDN or JSON files. In such cases, the content of the given bindings file is set as the value of a symbol, created by removing the file extension from the base filename (`.edn`, `.json`).
 - Breaking change: The default delimiters has been changed to a new `vivid.art.delimiters/lispy` that looks like `<( )>` (note how they ooze with LISP-iness); changed from the prior default of `vivid.art.delimiters/erb`.
 - Breaking change: Minimum supported Clojure version is advanced from 1.9.0 to 1.10.0 (minimum version supported by farolero).
-- Change: With the goal of reducing `vivid/art` project dependencies, branched off CLI-specific code from `vivid/art` into a new `vivid/art-cli` lib. The `:dependencies` option to `vivid.art/render` is also migrated there.
+- Change: With the goal of reducing `net.vivid-inc/art` project dependencies, branched off CLI-specific code from `net.vivid-inc/art` into a new `net.vivid-inc/art-cli` lib. The `:dependencies` option to `vivid.art/render` is also migrated there.
 - Change: Adding Java 17, an LTS release, to the set of Java versions that ART is tested with.
 - Change: [farolero](https://github.com/IGJoshua/farolero) replaces `special` for condition handling.
 - Change: Upgraded org.clojure/tools.cli from version 1.0.196 to the new version 1.0.206 which offers the `:multi` option, allowing >= 2 binding specifications on the CLI.

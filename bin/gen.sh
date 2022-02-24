@@ -11,8 +11,8 @@ set -o xtrace
 
 function bootstrap_art {
   clojure -Sdeps '{:deps {org.suskalo/farolero {:mvn/version "1.4.3"}
-                          vivid/art            {:local/root "art"}
-                          vivid/art-cli        {:local/root "art-cli"}
+                          net.vivid-inc/art            {:local/root "art"}
+                          net.vivid-inc/art-cli        {:local/root "art-cli"}
                           zprint/zprint        {:mvn/version "1.0.2"}}}' - <<EOS
 
 (require '[clojure.edn :as edn]
@@ -35,13 +35,13 @@ function bootstrap_art {
 
   "art/assets/README.md.art" "art/README.md"
   {:delimiters   bootstrap-delimiters
-   :dependencies {'vivid/art     {:mvn/version (get vivid-art-facts "vivid-art-version")}
+   :dependencies {'net.vivid-inc/art     {:mvn/version (get vivid-art-facts "vivid-art-version")}
                   'zprint/zprint {:mvn/version "1.0.2"}}}
 
   "art-cli/assets/README.md.art" "art-cli/README.md"
   {:delimiters   bootstrap-delimiters
-   :dependencies {'vivid/art     {:mvn/version (get vivid-art-facts "vivid-art-version")}
-                  'vivid/art-cli {:mvn/version (get vivid-art-facts "vivid-art-version")}
+   :dependencies {'net.vivid-inc/art     {:mvn/version (get vivid-art-facts "vivid-art-version")}
+                  'net.vivid-inc/art-cli {:mvn/version (get vivid-art-facts "vivid-art-version")}
                   'zprint/zprint {:mvn/version "1.0.2"}}}
 
   "art-cli/assets/project.clj.art" "art-cli/project.clj"

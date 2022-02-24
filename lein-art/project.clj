@@ -33,7 +33,7 @@
               }
 
   :dependencies [[org.clojure/tools.cli "1.0.206"]
-                 [vivid/art-cli         "0.6.0"]]
+                 [net.vivid-inc/art-cli         "0.6.0"]]
 
   :dev-dependencies [[org.clojure/clojure "1.10.0"]
                      [leiningen           "2.9.1"]]

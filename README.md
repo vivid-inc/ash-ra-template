@@ -1,7 +1,7 @@
 # Ash Ra Template
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
-[![Current version](https://img.shields.io/clojars/v/vivid/art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/art)
+[![Current version](https://img.shields.io/clojars/v/net.vivid-inc/art.svg?color=blue&style=flat-square)](https://clojars.org/net.vivid-inc/art)
 [![CircleCI](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master.svg?style=svg)](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/master)
 [![Codecov](https://codecov.io/gh/vivid-inc/ash-ra-template/branch/master/graph/badge.svg)](https://codecov.io/gh/vivid-inc/ash-ra-template)
 
@@ -28,11 +28,11 @@ Tested with Clojure 1.10.0 and newer, and with Java 8 and newer LTS releases.
 <a name="quickstart"></a>
 ## Quick Start
 
-Include this library from Clojars by adding the latest version of ``vivid/art`` to your project dependencies:
+Include this library from Clojars by adding the latest version of ``net.vivid-inc/art`` to your project dependencies:
 ```clojure
-(set-env! :dependencies '[[vivid/art "0.6.0"]])    ; Boot build.boot
-{:deps {vivid/art {:mvn/version "0.6.0"}}}         ; Clojure tools deps.edn
-:dependencies [[vivid/art "0.6.0"]]                ; Leiningen project.clj
+(set-env! :dependencies '[[net.vivid-inc/art "0.6.0"]])    ; Boot build.boot
+{:deps {net.vivid-inc/art {:mvn/version "0.6.0"}}}         ; Clojure tools deps.edn
+:dependencies [[net.vivid-inc/art "0.6.0"]]                ; Leiningen project.clj
 ```
 
 Render a template string:

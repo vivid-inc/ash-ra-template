@@ -3,7 +3,7 @@
 
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
-[![Current version](https://img.shields.io/clojars/v/vivid/art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/art)
+[![Current version](https://img.shields.io/clojars/v/net.vivid-inc/art.svg?color=blue&style=flat-square)](https://clojars.org/net.vivid-inc/art)
 
 ART is an expressive & customizable template system for Clojure.
 It's **design goals** are:
@@ -36,11 +36,11 @@ ART is tested on:
 <a name="quickstart"></a>
 ## Quick Start
 
-Include this library from Clojars by adding the latest version of ``vivid/art`` to your project dependencies:
+Include this library from Clojars by adding the latest version of ``net.vivid-inc/art`` to your project dependencies:
 ```clojure
-(set-env! :dependencies '[[vivid/art "0.6.0"]])    ; Boot build.boot
-{:deps {vivid/art {:mvn/version "0.6.0"}}}         ; Clojure tools deps.edn
-:dependencies [[vivid/art "0.6.0"]]                ; Leiningen project.clj
+(set-env! :dependencies '[[net.vivid-inc/art "0.6.0"]])    ; Boot build.boot
+{:deps {net.vivid-inc/art {:mvn/version "0.6.0"}}}         ; Clojure tools deps.edn
+:dependencies [[net.vivid-inc/art "0.6.0"]]                ; Leiningen project.clj
 ```
 
 Render a template string:

@@ -15,7 +15,7 @@
           :dependencies '[[adzerk/bootlaces    "0.2.0"   :scope "test"]
                           [boot/core           "2.8.2"   :scope "provided"]
                           [sparkfund/boot-lein "0.4.0"   :scope "test"]
-                          [vivid/art-cli       "0.6.0"]]
+                          [net.vivid-inc/art-cli       "0.6.0"]]
           :repositories (partial map (fn [[k v]]
                                        [k (cond-> v (#{"clojars"} k) (assoc :username (System/getenv "CLOJARS_USER")
                                                                             :password (System/getenv "CLOJARS_PASS")))])))

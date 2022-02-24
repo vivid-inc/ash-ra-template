@@ -12,7 +12,7 @@
             :dependencies [[org.clojure/clojure     "1.10.0"]
                            [ring/ring-core          "1.9.5"]
                            [ring/ring-jetty-adapter "1.9.5"]
-                           [vivid/art               "0.6.0"]]
+                           [net.vivid-inc/art               "0.6.0"]]
             :main hello.core
             :plugins [[lein-ring "0.12.6"]]
             :ring {:handler hello.core/app-handler})
