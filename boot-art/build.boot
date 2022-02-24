@@ -10,15 +10,16 @@
 
 (def version "0.6.0")
 
+(def +license+ {"Apache License 2.0"
+                "https://www.apache.org/licenses/LICENSE-2.0"})
+
 (set-env! :source-paths #{"test"}
           :resource-paths #{"src"}
           :dependencies '[[adzerk/bootlaces    "0.2.0"   :scope "test"]
                           [boot/core           "2.8.2"   :scope "provided"]
                           [sparkfund/boot-lein "0.4.0"   :scope "test"]
                           [net.vivid-inc/art-cli       "0.6.0"]]
-          :repositories (partial map (fn [[k v]]
-                                       [k (cond-> v (#{"clojars"} k) (assoc :username (System/getenv "CLOJARS_USER")
-                                                                            :password (System/getenv "CLOJARS_PASS")))])))
+          :repositories [["clojars" {:sign-releases false}]])
 
 (require '[adzerk.bootlaces]
          '[boot.core :as boot]
@@ -28,7 +29,7 @@
 
 (adzerk.bootlaces/bootlaces! version)
 (task-options!
-  pom {:project     'vivid/boot-art
+  pom {:project     'net.vivid-inc/boot-art
        :version     version
        :description "Boot task for rendering Ash Ra .art templates"
        :url         "https://github.com/vivid-inc/ash-ra-template"

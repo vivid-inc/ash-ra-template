@@ -1,6 +1,6 @@
 ; Copyright 2019 Vivid Inc.
 
-(defproject vivid/lein-art "0.6.0"
+(defproject net.vivid-inc/lein-art "0.6.0"
 
   :description "Leiningen plugin for rendering Ash Ra .art templates"
   :url "https://github.com/vivid-inc/ash-ra-template"

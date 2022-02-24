@@ -27,5 +27,5 @@
   :auto {:default {:file-pattern #"\.(art)$"    ; Monitor .art files for changes ..
                    :paths ["resources"]}}       ; .. in the resources/ directory
 
-  :plugins [[vivid/lein-art "0.6.0"]    ; Render ART templates with lein-art
+  :plugins [[net.vivid-inc/lein-art "0.6.0"]    ; Render ART templates with lein-art
             [lein-auto "0.1.3"]])       ; Monitor files for changes, run a command on change

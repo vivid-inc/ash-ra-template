@@ -3,7 +3,7 @@
 
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
-[![Current version](https://img.shields.io/clojars/v/vivid/boot-art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/boot-art)
+[![Current version](https://img.shields.io/clojars/v/net.vivid-inc/boot-art.svg?color=blue&style=flat-square)](https://clojars.org/net.vivid-inc/boot-art)
 
 `boot-art` composes easily into your existing [Boot](https://github.com/boot-clj/boot) infrastructure for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates.
 
@@ -18,7 +18,7 @@ $ cat oracle.art
 <( (defn mult [multiplicands] (apply * multiplicands)) )>
 Wait, I see it! Your destiny lies deep within the number <(= (mult mysterious-primes) )>.
 
-$ boot -d vivid/boot-art art --bindings "'{mysterious-primes [7 191]}" \
+$ boot -d net.vivid-inc/boot-art art --bindings "'{mysterious-primes [7 191]}" \
                              --files oracle.art \
                              --output-dir .
 ```
@@ -27,7 +27,7 @@ $ boot -d vivid/boot-art art --bindings "'{mysterious-primes [7 191]}" \
 Re-writing the above into a `build.boot`:
 
 ```clojure
-(set-env! :dependencies '[[vivid/boot-art "0.6.0"]]
+(set-env! :dependencies '[[net.vivid-inc/boot-art "0.6.0"]]
           :resource-paths #{"templates"})    ; NOTE: Move oracle.art into this dir
 
 (require '[vivid.boot-art :refer [art]])
@@ -39,7 +39,7 @@ Re-writing the above into a `build.boot`:
 
 You can render ART templates using `boot` at the CLI anywhere you desire:
 ```sh
-$ boot -d vivid/boot-art art --help
+$ boot -d net.vivid-inc/boot-art art --help
 ```
 
 
@@ -90,7 +90,7 @@ ART attempts to interpret arguments in this order of precedence:
 
 ### Custom bindings, delimiters, dependencies, and project code
 ```clojure
-(set-env! :dependencies '[[vivid/boot-art "0.6.0"]]
+(set-env! :dependencies '[[net.vivid-inc/boot-art "0.6.0"]]
           :source-paths #{"src"}           ; Give templates use of project code
           :resource-paths #{"content"})    ; Render all .art templates in the content/ directory
 
@@ -161,7 +161,7 @@ __See also:__
 
 ### Re-render templates whenever their source files change
 ```clojure
-(set-env! :dependencies '[[vivid/boot-art "0.6.0"]]
+(set-env! :dependencies '[[net.vivid-inc/boot-art "0.6.0"]]
           :resource-paths #{"resources"})    ; Render all .art templates in the content/ directory
 
 (require '[vivid.boot-art :refer [art]])

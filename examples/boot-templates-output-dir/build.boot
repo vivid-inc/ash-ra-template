@@ -1,4 +1,4 @@
-(set-env! :dependencies '[[vivid/boot-art "0.6.0"]])
+(set-env! :dependencies '[[net.vivid-inc/boot-art "0.6.0"]])
 
 (require '[clojure.java.io :as io]
          '[vivid.boot-art :refer [art]])

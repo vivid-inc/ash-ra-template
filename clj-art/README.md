@@ -3,7 +3,7 @@
 
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
-[![Current version](https://img.shields.io/clojars/v/vivid/clj-art.svg?color=blue&style=flat-square)](https://clojars.org/vivid/clj-art)
+[![Current version](https://img.shields.io/clojars/v/net.vivid-inc/clj-art.svg?color=blue&style=flat-square)](https://clojars.org/net.vivid-inc/clj-art)
 
 `clj-art` is a Clojure `deps.edn` tool for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates.
 
@@ -21,7 +21,7 @@ Wait, I see it! Your destiny lies deep within the number <(= (mult mysterious-pr
 $ cat deps.edn
 
 {:aliases
-  {:art {:extra-deps {vivid/clj-art {:mvn/version "0.6.0"}}
+  {:art {:extra-deps {net.vivid-inc/clj-art {:mvn/version "0.6.0"}}
          :main-opts  ["-m" "vivid.art.clj-tool"]}}}
 
 $ clojure -A:art --bindings "{mysterious-primes [7 191]}" \
@@ -82,7 +82,7 @@ ART attempts to interpret arguments in this order of precedence:
 ### Custom bindings, delimiters, dependencies, and project code
 ```edn
 {:aliases
- {:art {:extra-deps {vivid/clj-art {:mvn/version "0.6.0"}}
+ {:art {:extra-deps {net.vivid-inc/clj-art {:mvn/version "0.6.0"}}
         :main-opts  ["-m" "vivid.art.clj-tool"
 
                      ; Render all .art templates in the content/ directory
@@ -145,7 +145,7 @@ __See also:__
 ### Override bundled Clojure version
 ```edn
 {:aliases
-  {:art {:extra-deps {vivid/clj-art {:mvn/version "0.6.0"}}
+  {:art {:extra-deps {net.vivid-inc/clj-art {:mvn/version "0.6.0"}}
          :main-opts  ["-m" "vivid.art.clj-tool" "templates"
                       "--dependencies" "{org.clojure/clojure,{:mvn/version,\"1.10.3\"}}"]}}}
 ```
@@ -165,11 +165,11 @@ __See also:__
 ### Configure multi-batch rendering in deps.edn
 ```edn
 {:aliases
-  {:rndr-a {:extra-deps {vivid/clj-art {:mvn/version "0.6.0"}}
+  {:rndr-a {:extra-deps {net.vivid-inc/clj-art {:mvn/version "0.6.0"}}
             :main-opts  ["-m" "vivid.art.clj-tool" "src/templates/css"
                          "--dependencies" "{garden,{:mvn/version,\"1.3.10\"}}"
                          "--output-dir" "src/resources"]}
-   :rndr-b {:extra-deps {vivid/clj-art {:mvn/version "0.6.0"}}
+   :rndr-b {:extra-deps {net.vivid-inc/clj-art {:mvn/version "0.6.0"}}
             :main-opts  ["-m" "vivid.art.clj-tool" "src/templates/java"
                          "--bindings" "{version,\"1.2.3\"}"
                          "--output-dir" "target/generated-sources/java"]}}}

@@ -7,7 +7,7 @@
 
 (defproject example-custom-options "0"
 
-  :plugins [[vivid/lein-art "0.6.0"]]
+  :plugins [[net.vivid-inc/lein-art "0.6.0"]]
 
   ; Render all .art template files in the content/ directory to out/cdn/
   :art {:templates    "content"

@@ -1,6 +1,6 @@
 ; Copyright 2020 Vivid Inc.
 
-(defproject vivid/clj-art "0.6.0"
+(defproject net.vivid-inc/clj-art "0.6.0"
 
   :description "Clojure tool for rendering Ash Ra .art templates"
   :url "https://github.com/vivid-inc/ash-ra-template"
