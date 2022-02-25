@@ -50,27 +50,25 @@
     (reset! prev-fileset boot-fileset)
     [art-files template-paths]))
 
-(defn- process [options*]
-  (boot/with-pre-wrap
-    boot-fileset
-    (binding [log/*info-fn* #(util/info (str % \newline))
-              log/*warn-fn* #(util/warn (str % \newline))]
-      (let [options (merge
-                      options*
-                      (when-not (:output-dir options*)
-                        {:output-dir (boot/tmp-dir!)}))
-            prev-fileset (atom nil)
-            batch* (vivid.art.cli.args/validate-as-batch (:templates options*) options)
-            [art-files templates] (if (:templates options*)
-                                    [[] (vivid.art.cli.args/paths->template-paths! (:templates options*))]
-                                    (boot-fileset->template-paths boot-fileset prev-fileset))
-            batch (merge batch* {:templates templates})]
-        (vivid.art.cli.exec/render-batch batch)
-        (cond-> boot-fileset
-                ; .art files will be replaced by their rendered counterparts
-                (not (:templates options*)) (boot/rm art-files)
-                :always (boot/add-resource (:output-dir options))
-                :always (boot/commit!))))))
+(defn- process [boot-fileset options*]
+  (binding [log/*info-fn* #(util/info (str % \newline))
+            log/*warn-fn* #(util/warn (str % \newline))]
+    (let [options (merge
+                    options*
+                    (when-not (:output-dir options*)
+                      {:output-dir (boot/tmp-dir!)}))
+          prev-fileset (atom nil)
+          batch* (vivid.art.cli.args/validate-as-batch (:templates options*) options)
+          [art-files templates] (if (:templates options*)
+                                  [[] (vivid.art.cli.args/paths->template-paths! (:templates options*))]
+                                  (boot-fileset->template-paths boot-fileset prev-fileset))
+          batch (merge batch* {:templates templates})]
+      (vivid.art.cli.exec/render-batch batch)
+      (cond-> boot-fileset
+              ; .art files will be replaced by their rendered counterparts
+              (not (:templates options*)) (boot/rm art-files)
+              :always (boot/add-resource (:output-dir options))
+              :always (boot/commit!)))))
 
 (boot.core/deftask
   art
@@ -88,7 +86,11 @@ For more info, see
    _ output-dir   DIR   ^:! file   "Divert rendered file output to DIR"
    _ templates    FILES ^:! [file] "Render these ART files and directory trees thereof, instead of Boot's fileset"
    _ to-phase     VAL   ^:! kw     "Stop the render dataflow on each template at an earlier phase"]
-  (farolero/handler-case (process *opts*)
-                         (:vivid.art.cli/error [_ details] (if (:show-usage details)
-                                                             (exit (or (:exit-status details) 1) (art help :true))
-                                                             (exit 1 (messages/pp-str-error details))))))
+  ; (with-pre-wrap) intercepts farolero signals; signal handling
+  ; needs to be within the (with-pre-wrap).
+  (boot/with-pre-wrap
+    boot-fileset
+    (farolero/handler-case (process boot-fileset *opts*)
+                           (:vivid.art.cli/error [_ details] (if (:show-usage details)
+                                                               (exit (or (:exit-status details) 1) (art help :true))
+                                                               (exit 1 (messages/pp-str-error details)))))))
