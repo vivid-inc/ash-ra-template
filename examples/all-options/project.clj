@@ -1,7 +1,7 @@
 (defproject art-example--all-options "0"
 
   ; Add the lein-art Leiningen plugin:
-  :plugins [[net.vivid-inc/lein-art "0.6.0"]]
+  :plugins [[net.vivid-inc/lein-art "0.6.1"]]
 
   ; Render .art templates
   :art {:bindings     {updated "2021-01-01"}

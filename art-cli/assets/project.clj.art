@@ -107,7 +107,7 @@
                  [org.projectodd.shimdandy/shimdandy-api "1.2.1"]
                  [org.projectodd.shimdandy/shimdandy-impl "1.2.1"]
                  [org.xeustechnologies/jcl-core "2.8"]
-                 [net.vivid-inc/art "0.6.0"]]
+                 [net.vivid-inc/art "0.6.1"]]
 
   :exclusions [org.clojure/clojure]
 

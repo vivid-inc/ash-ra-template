@@ -1,4 +1,4 @@
 { ; List contents are ordered from earliest to most recent.
  "clojure-versions"  ["1.10.0" "1.10.1" "1.10.2" "1.10.3"]
  "java-versions"     [8, 11, 17]
- "vivid-art-version" "0.6.0"}
+ "vivid-art-version" "0.6.1"}

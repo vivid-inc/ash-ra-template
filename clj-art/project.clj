@@ -1,6 +1,6 @@
 ; Copyright 2020 Vivid Inc.
 
-(defproject net.vivid-inc/clj-art "0.6.0"
+(defproject net.vivid-inc/clj-art "0.6.1"
 
   :description "Clojure tool for rendering Ash Ra .art templates"
   :url "https://github.com/vivid-inc/ash-ra-template"
@@ -27,7 +27,7 @@
               :output   "cloverage"                  ; "lein jar" destroys target/cloverage
               }
 
-  :dependencies [[net.vivid-inc/art-cli "0.6.0"]]
+  :dependencies [[net.vivid-inc/art-cli "0.6.1"]]
 
   :dev-dependencies [[org.clojure/clojure "1.10.0"]]
 

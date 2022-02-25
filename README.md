@@ -30,9 +30,9 @@ Tested with Clojure 1.10.0 and newer, and with Java 8 and newer LTS releases.
 
 Include this library from Clojars by adding the latest version of ``net.vivid-inc/art`` to your project dependencies:
 ```clojure
-(set-env! :dependencies '[[net.vivid-inc/art "0.6.0"]])    ; Boot build.boot
-{:deps {net.vivid-inc/art {:mvn/version "0.6.0"}}}         ; Clojure tools deps.edn
-:dependencies [[net.vivid-inc/art "0.6.0"]]                ; Leiningen project.clj
+(set-env! :dependencies '[[net.vivid-inc/art "0.6.1"]])    ; Boot build.boot
+{:deps {net.vivid-inc/art {:mvn/version "0.6.1"}}}         ; Clojure tools deps.edn
+:dependencies [[net.vivid-inc/art "0.6.1"]]                ; Leiningen project.clj
 ```
 
 Render a template string:

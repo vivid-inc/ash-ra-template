@@ -67,6 +67,6 @@
   ^{:doc (usage)}
   art [project & args]
   (farolero/handler-case (process project args)
-                         (:vivid.art.cli/error [details] (if (:show-usage details)
-                                                           (exit (or (:exit-status details) 1) (usage))
-                                                           (main-lein/abort (str "ART error: " (:message details)))))))
+                         (:vivid.art.cli/error [_ details] (if (:show-usage details)
+                                                             (exit (or (:exit-status details) 1) (usage))
+                                                             (main-lein/abort (str "ART error: " (:message details)))))))

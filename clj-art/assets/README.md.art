@@ -35,8 +35,9 @@ $ cat deps.edn
   {:art {:extra-deps {net.vivid-inc/clj-art {:mvn/version "{%= vivid-art-version %}"}}
          :main-opts  ["-m" "vivid.art.clj-tool"]}}}
 
-$ clojure -A:art --bindings "{mysterious-primes [7 191]}" \
-                 oracle.art
+$ clojure -A:art \
+    --bindings "{mysterious-primes [7 191]}" \
+    oracle.art
 ```
 `clj-art` will render the output file `oracle` into the current directory.
 

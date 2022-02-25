@@ -1,7 +1,7 @@
 {;; Referencing https://github.com/practicalli/clojure-deps-edn
  ;; Referencing https://github.com/seancorfield/dot-clojure/blob/develop/deps.edn
 
- :deps    {net.vivid-inc/art-cli {:mvn/version "0.6.0"}}
+ :deps    {net.vivid-inc/art-cli {:mvn/version "0.6.1"}}
 
  :aliases {:art            {:extra-paths ["src"]
                             :main-opts   ["-m" "vivid.art.clj-tool"]}
@@ -17,7 +17,7 @@
                             :main-opts   ["-m" "vivid.art.clj-tool"
                                           "--bindings" "../assets/vivid-art-facts.edn"
                                           "--delimiters" "{:begin-forms,\"{%\",:end-forms,\"%}\",:begin-eval,\"{%=\",:end-eval,\"%}\"}"
-                                          "--dependencies" "{net.vivid-inc/art-cli,{:mvn/version,\"0.6.0\"}}"
+                                          "--dependencies" "{net.vivid-inc/art-cli,{:mvn/version,\"0.6.1\"}}"
                                           "assets/README.md.art"]}
            :test           {:extra-deps  {eftest/eftest {:mvn/version "0.5.9"}}
                             :extra-paths ["test"]

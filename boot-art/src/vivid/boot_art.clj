@@ -88,6 +88,6 @@ For more info, see
    _ templates    FILES ^:! [file] "Render these ART files and directory trees thereof, instead of Boot's fileset"
    _ to-phase     VAL   ^:! kw     "Stop the render dataflow on each template at an earlier phase"]
   (farolero/handler-case (process *opts*)
-                         (:vivid.art.cli/error [details] (if (:show-usage details)
-                                                           (exit (or (:exit-status details) 1) (art help :true))
-                                                           (exit 1 (str "ART error: " (:message details)))))))
+                         (:vivid.art.cli/error [_ details] (if (:show-usage details)
+                                                             (exit (or (:exit-status details) 1) (art help :true))
+                                                             (exit 1 (str "ART error: " (:message details)))))))

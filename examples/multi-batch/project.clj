@@ -12,7 +12,7 @@
 (defproject art-example--multi-batch "0"
 
   ; Add the lein-art Leiningen plugin:
-  :plugins [[net.vivid-inc/lein-art "0.6.0"]]
+  :plugins [[net.vivid-inc/lein-art "0.6.1"]]
 
   ; Two ART render batches are defined here:
   :art [

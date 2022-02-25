@@ -1,5 +1,9 @@
 # Ash Ra Template Changelog
 
+## [0.6.1]
+_Unreleased_
+- Defect fix: CLI tool didn't catch signals and print error messages properly.
+
 ## [0.6.0]
 Released 2022-02-24.
 - New: `art-cli`-based tooling allows callers to specify a path to a JSON file to provide bindings.
@@ -50,6 +54,7 @@ Released 2019-04-13.
 Released 2017-11-20.
 - Use `eval-soup` to render templates featuring Clojure language processing with ERB 2.0-esque syntax.
 
+[0.6.1]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.6.0...ash-ra-template-0.6.1
 [0.6.0]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.5.0...ash-ra-template-0.6.0
 [0.5.0]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.4.0...ash-ra-template-0.5.0
 [0.4.0]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.3.0...ash-ra-template-0.4.0

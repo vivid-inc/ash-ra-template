@@ -18,16 +18,17 @@ $ cat oracle.art
 <( (defn mult [multiplicands] (apply * multiplicands)) )>
 Wait, I see it! Your destiny lies deep within the number <(= (mult mysterious-primes) )>.
 
-$ boot -d net.vivid-inc/boot-art art --bindings "'{mysterious-primes [7 191]}" \
-                             --files oracle.art \
-                             --output-dir .
+$ boot -d net.vivid-inc/boot-art art \
+    --bindings "'{mysterious-primes [7 191]}" \
+    --templates oracle.art \
+    --output-dir .
 ```
 `boot-art` will render the output file `oracle` into the current directory.
 
 Re-writing the above into a `build.boot`:
 
 ```clojure
-(set-env! :dependencies '[[net.vivid-inc/boot-art "0.6.0"]]
+(set-env! :dependencies '[[net.vivid-inc/boot-art "0.6.1"]]
           :resource-paths #{"templates"})    ; NOTE: Move oracle.art into this dir
 
 (require '[vivid.boot-art :refer [art]])
@@ -90,7 +91,7 @@ ART attempts to interpret arguments in this order of precedence:
 
 ### Custom bindings, delimiters, dependencies, and project code
 ```clojure
-(set-env! :dependencies '[[net.vivid-inc/boot-art "0.6.0"]]
+(set-env! :dependencies '[[net.vivid-inc/boot-art "0.6.1"]]
           :source-paths #{"src"}           ; Give templates use of project code
           :resource-paths #{"content"})    ; Render all .art templates in the content/ directory
 
@@ -161,7 +162,7 @@ __See also:__
 
 ### Re-render templates whenever their source files change
 ```clojure
-(set-env! :dependencies '[[net.vivid-inc/boot-art "0.6.0"]]
+(set-env! :dependencies '[[net.vivid-inc/boot-art "0.6.1"]]
           :resource-paths #{"resources"})    ; Render all .art templates in the content/ directory
 
 (require '[vivid.boot-art :refer [art]])

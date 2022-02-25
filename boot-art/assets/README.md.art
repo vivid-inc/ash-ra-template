@@ -28,9 +28,10 @@ $ cat oracle.art
 <( (defn mult [multiplicands] (apply * multiplicands)) )>
 Wait, I see it! Your destiny lies deep within the number <(= (mult mysterious-primes) )>.
 
-$ boot -d net.vivid-inc/boot-art art --bindings "'{mysterious-primes [7 191]}" \
-                             --files oracle.art \
-                             --output-dir .
+$ boot -d net.vivid-inc/boot-art art \
+    --bindings "'{mysterious-primes [7 191]}" \
+    --templates oracle.art \
+    --output-dir .
 ```
 `boot-art` will render the output file `oracle` into the current directory.
 

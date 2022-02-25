@@ -51,6 +51,6 @@
   "Clojure tools entry point for clj-art."
   [& args]
   (farolero/handler-case (process args)
-                         (:vivid.art.cli/error [details] (if (:show-usage details)
-                                                           (exit (or (:exit-status details) 1) (usage))
-                                                           (exit 1 (str "ART error: " (:message details)))))))
+                         (:vivid.art.cli/error [_ details] (if (:show-usage details)
+                                                             (exit (or (:exit-status details) 1) (usage))
+                                                             (exit 1 (str "ART error: " (:message details)))))))

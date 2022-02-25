@@ -1,5 +1,5 @@
 {:aliases 
-  {:art {:extra-deps {net.vivid-inc/clj-art {:mvn/version "0.6.0"}}
+  {:art {:extra-deps {net.vivid-inc/clj-art {:mvn/version "0.6.1"}}
          :main-opts  ["-m" "vivid.art.clj-tool"
                       "--bindings" "{mysterious-primes,[7,191]}"
                       "--delimiters" "{:begin-forms,\"{%\",:end-forms,\"%}\",:begin-eval,\"{%=\",:end-eval,\"%}\"}"

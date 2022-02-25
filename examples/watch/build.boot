@@ -9,7 +9,7 @@
 ;;   Rendering ART template.txt
 ;;   Writing target dir(s)...
 
-(set-env! :dependencies '[[net.vivid-inc/boot-art "0.6.0"]]
+(set-env! :dependencies '[[net.vivid-inc/boot-art "0.6.1"]]
           :resource-paths #{"resources"})    ; Render all .art templates in the content/ directory
 
 (require '[vivid.boot-art :refer [art]])

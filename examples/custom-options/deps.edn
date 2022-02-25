@@ -1,5 +1,5 @@
 {:aliases
- {:art {:extra-deps {net.vivid-inc/clj-art {:mvn/version "0.6.0"}
+ {:art {:extra-deps {net.vivid-inc/clj-art {:mvn/version "0.6.1"}
                      example-custom-options/example-custom-options {:mvn/version "0"}}
         :main-opts  ["-m" "vivid.art.clj-tool"
 
