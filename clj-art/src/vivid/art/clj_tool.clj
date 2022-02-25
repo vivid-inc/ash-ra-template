@@ -20,6 +20,7 @@
     [vivid.art.cli.args]
     [vivid.art.cli.exec]
     [vivid.art.cli.log :as log]
+    [vivid.art.cli.messages :as messages]
     [vivid.art.cli.usage :refer [cli-options]]))
 
 (def ^:const default-options {:output-dir "."})
@@ -53,4 +54,4 @@
   (farolero/handler-case (process args)
                          (:vivid.art.cli/error [_ details] (if (:show-usage details)
                                                              (exit (or (:exit-status details) 1) (usage))
-                                                             (exit 1 (str "ART error: " (:message details)))))))
+                                                             (exit 1 (messages/pp-str-error details))))))

@@ -24,6 +24,7 @@
     [vivid.art.cli.args]
     [vivid.art.cli.exec]
     [vivid.art.cli.log :as log]
+    [vivid.art.cli.messages :as messages]
     [vivid.art.cli.usage]))
 
 ; Referencing https://github.com/boot-clj/boot/wiki/Filesets
@@ -90,4 +91,4 @@ For more info, see
   (farolero/handler-case (process *opts*)
                          (:vivid.art.cli/error [_ details] (if (:show-usage details)
                                                              (exit (or (:exit-status details) 1) (art help :true))
-                                                             (exit 1 (str "ART error: " (:message details)))))))
+                                                             (exit 1 (messages/pp-str-error details))))))
