@@ -11,5 +11,5 @@ set -o xtrace
 export TZ=UTC
 for DIR in art art-cli boot-art clj-art lein-art
 do
- cd $DIR && lein deploy clojars
+  (cd $DIR && lein deploy clojars)
 done

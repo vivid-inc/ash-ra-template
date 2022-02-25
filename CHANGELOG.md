@@ -1,7 +1,7 @@
 # Ash Ra Template Changelog
 
 ## [0.6.1]
-_Unreleased_
+Released 2022-02-25.
 - Defect fix: CLI tool didn't catch signals and print error messages properly.
 - Improvement: Pretty-prints error details as a Clojure data structure. Good starting point for improving on error diagnoses messaging.
 
