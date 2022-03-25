@@ -14,11 +14,11 @@
 
 (ns vivid.art.leiningen-plugin-test
   (:require
-    [clojure.java.io :as io]
-    [clojure.test :as t]
-    [leiningen.art :as lein-art])
+   [clojure.java.io :as io]
+   [clojure.test :as t]
+   [leiningen.art :as lein-art])
   (:import
-    (java.io File)))
+   (java.io File)))
 
 (defn delete-file-tree
   [path & [silently]]

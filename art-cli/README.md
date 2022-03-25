@@ -1,6 +1,8 @@
 # art-cli Ash Ra Template CLI Library
 
-
+- TODO 'auto' command.
+- TODO Modify (emit) to accept any number of args.
+- TODO Option to dump the effective configuration after processing all CLI args.
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/net.vivid-inc/art-cli.svg?color=blue&style=flat-square)](https://clojars.org/net.vivid-inc/art-cli)
@@ -52,7 +54,7 @@ Dependencies are resolved prior to template rendering using Clojure's ``org.cloj
 
 As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version 1.10.0, but this can be overridden using the same mechanism by supplying the `org.clojure/clojure` dependency with a different version:
 ```clojure
-                  {:dependencies {'org.clojure/clojure {:mvn/version "1.10.3"}}}
+                  {:dependencies {'org.clojure/clojure {:mvn/version "1.11.0"}}}
 ```
 
 The Maven repositories for dependency resolution are hard-coded:

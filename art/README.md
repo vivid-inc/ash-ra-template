@@ -38,9 +38,9 @@ ART is tested on:
 
 Include this library from Clojars by adding the latest version of ``net.vivid-inc/art`` to your project dependencies:
 ```clojure
-(set-env! :dependencies '[[net.vivid-inc/art "0.6.1"]])    ; Boot build.boot
-{:deps {net.vivid-inc/art {:mvn/version "0.6.1"}}}         ; Clojure tools deps.edn
-:dependencies [[net.vivid-inc/art "0.6.1"]]                ; Leiningen project.clj
+(set-env! :dependencies '[[net.vivid-inc/art "0.7.0"]])    ; Boot build.boot
+{:deps {net.vivid-inc/art {:mvn/version "0.7.0"}}}         ; Clojure tools deps.edn
+:dependencies [[net.vivid-inc/art "0.7.0"]]                ; Leiningen project.clj
 ```
 
 Render a template string:
@@ -153,7 +153,7 @@ ART provides the ``(vivid.art/render)`` function which renders an input string c
 ```
 
 <a name="bindings"></a>
-### Providing ``:bindings``
+### Provide ``:bindings``
 `(art/render)` accepts an optional map of `:bindings` that are made available to the template for symbol resolution during render.
 Bindings are optimal for use with the echo-eval form ``<(=``.
 
@@ -174,7 +174,7 @@ More complex:
 ```
 
 <a name="delimiters"></a>
-### Configurable ``:delimiters``
+### Configure ``:delimiters``
 ART's configurable template delimiters use a `lispy` syntax by default.
 ```clojure
 <( (def e 2.7182) )>

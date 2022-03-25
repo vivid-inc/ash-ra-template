@@ -1,4 +1,4 @@
-(set-env! :dependencies '[[net.vivid-inc/boot-art "0.6.1"]]
+(set-env! :dependencies '[[net.vivid-inc/boot-art "0.7.0"]]
           :source-paths #{"src"}           ; Give templates use of project code
           :resource-paths #{"content"})    ; Render all .art templates in the content/ directory
 

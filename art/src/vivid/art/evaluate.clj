@@ -25,6 +25,7 @@
 (defmethod evaluate-fn :default
   [code _]
   (locking *out*
+           ; TODO https://github.com/clojure/clojure/blob/master/src/jvm/clojure/lang/Compiler.java#L7618
     (load-string code)))
 
 (defn evaluate

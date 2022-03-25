@@ -8,7 +8,7 @@
 (require '[boot.core :refer [deftask set-env! task-options!]]
          '[boot.task.built-in :refer [install jar pom]])
 
-(def version "0.6.1")
+(def version "0.7.0")
 
 (def +license+ {"Apache License 2.0"
                 "https://www.apache.org/licenses/LICENSE-2.0"})
@@ -18,7 +18,7 @@
           :dependencies '[[adzerk/bootlaces    "0.2.0"   :scope "test"]
                           [boot/core           "2.8.2"   :scope "provided"]
                           [sparkfund/boot-lein "0.4.0"   :scope "test"]
-                          [net.vivid-inc/art-cli       "0.6.1"]]
+                          [net.vivid-inc/art-cli       "0.7.0"]]
           :repositories [["clojars" {:sign-releases false}]])
 
 (require '[adzerk.bootlaces]
@@ -46,7 +46,7 @@
            (jar)
            (install)
            (push :repo "clojars"
-                 :ensure-branch "art-0.6.1"
+                 :ensure-branch "art-0.7.0"
                  :ensure-clean  false)))
 
 (deftask lein-generate

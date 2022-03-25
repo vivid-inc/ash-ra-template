@@ -2,8 +2,8 @@
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/net.vivid-inc/art.svg?color=blue&style=flat-square)](https://clojars.org/net.vivid-inc/art)
-[![CircleCI](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/art-0.6.1.svg?style=svg)](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/art-0.6.1)
-[![Codecov](https://codecov.io/gh/vivid-inc/ash-ra-template/branch/art-0.6.1/graph/badge.svg)](https://codecov.io/gh/vivid-inc/ash-ra-template)
+[![CircleCI](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/art-0.7.0.svg?style=svg)](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/art-0.7.0)
+[![Codecov](https://codecov.io/gh/vivid-inc/ash-ra-template/branch/art-0.7.0/graph/badge.svg)](https://codecov.io/gh/vivid-inc/ash-ra-template)
 
 Expressive & customizable template system featuring Clojure language processing
 
@@ -30,9 +30,9 @@ Tested with Clojure 1.10.0 and newer, and with Java 8 and newer LTS releases.
 
 Include this library from Clojars by adding the latest version of ``net.vivid-inc/art`` to your project dependencies:
 ```clojure
-(set-env! :dependencies '[[net.vivid-inc/art "0.6.1"]])    ; Boot build.boot
-{:deps {net.vivid-inc/art {:mvn/version "0.6.1"}}}         ; Clojure tools deps.edn
-:dependencies [[net.vivid-inc/art "0.6.1"]]                ; Leiningen project.clj
+(set-env! :dependencies '[[net.vivid-inc/art "0.7.0"]])    ; Boot build.boot
+{:deps {net.vivid-inc/art {:mvn/version "0.7.0"}}}         ; Clojure tools deps.edn
+:dependencies [[net.vivid-inc/art "0.7.0"]]                ; Leiningen project.clj
 ```
 
 Render a template string:

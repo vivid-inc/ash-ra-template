@@ -1,5 +1,5 @@
 (set-env! :dependencies '[[boot/core "2.8.3" :scope "provided"]
-                          [net.vivid-inc/boot-art "0.6.1"]])
+                          [net.vivid-inc/boot-art "0.7.0"]])
 
 (require '[vivid.art.delimiters]
          '[vivid.boot-art :refer [art]]

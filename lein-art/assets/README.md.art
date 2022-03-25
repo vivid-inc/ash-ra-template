@@ -1,6 +1,6 @@
 # lein-art Ash Ra Template Leiningen Plugin 
 
-{%
+<%
 (require '[clojure.string]
          '[vivid.art])
 
@@ -10,7 +10,7 @@
 
 (def clojure-versions (get vivid-art-facts "clojure-versions"))
 (def vivid-art-version (get vivid-art-facts "vivid-art-version"))
-%}
+%>
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/net.vivid-inc/lein-art.svg?color=blue&style=flat-square)](https://clojars.org/net.vivid-inc/lein-art)
@@ -20,7 +20,7 @@
 
 
 ## Quick Start
-{% ; Quick Start introduces a least-friction sample that intrigues the reader to try it out themselves. %}
+<% ; Quick Start introduces a least-friction sample that intrigues the reader to try it out themselves. %>
 
 ```sh
 $ cat oracle.art
@@ -31,7 +31,7 @@ Wait, I see it! Your destiny lies deep within the number <(= (mult mysterious-pr
 $ cat project.clj
 
 (defproject rndr "1.2.3"
-  :plugins [[net.vivid-inc/lein-art "{%=vivid-art-version%}"]]
+  :plugins [[net.vivid-inc/lein-art "<%=vivid-art-version%>"]]
   :art {:bindings   "{mysterious-primes [7 191]}"
         :templates  "oracle.art"
         :output-dir "."})
@@ -42,7 +42,7 @@ $ lein art
 
 You can also add `lein-art` to your `~/.lein/profiles.clj`
 ```clojure
-{:user {:plugins [[net.vivid-inc/lein-art "{%=vivid-art-version%}"]]}}
+{:user {:plugins [[net.vivid-inc/lein-art "<%=vivid-art-version%>"]]}}
 ```
 You'll then be able to render ART templates using `lein` at the CLI anywhere you desire.
 ```sh
@@ -71,12 +71,12 @@ filename extensions, overwriting any existing files with the same paths.
 | `project.clj` | CLI argument | Parameters | Default | Explanation |
 | --- | --- | --- | --- | --- |
 | `:bindings` | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
-| `:delimiters` | `--delimiters` | VAL | `{%= vivid.art/default-delimiters-name %}` | Template delimiters |
+| `:delimiters` | `--delimiters` | VAL | `<%= vivid.art/default-delimiters-name %>` | Template delimiters |
 | `:dependencies` | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. |
 | | `-h`, `--help` | | | Displays lovely help and then exits |
 | `:output-dir` | `--output-dir` | DIR | `.` | Write rendered files to DIR |
 | `:templates` | [FILES] | VAL | | Paths to ART template files |
-| `:to-phase` | `--to-phase` | One of: {%= to-phase-values %} | `{%= (name vivid.art/default-to-phase) %}` | Stop the render dataflow on each template at an earlier phase |
+| `:to-phase` | `--to-phase` | One of: <%= to-phase-values %> | `<%= (name vivid.art/default-to-phase) %>` | Stop the render dataflow on each template at an earlier phase |
 
 Depending on what types of values a particular option accepts and whether `lein-art` was invoked as a Leiningen configuration or from the CLI,
 ART attempts to interpret arguments in this order of precedence:
@@ -90,9 +90,9 @@ ART attempts to interpret arguments in this order of precedence:
 
 ## Cookbook
 
-{% ; ../examples/ contains sample projects that parallel these recipes, and are included in the automated test suite.
+<% ; ../examples/ contains sample projects that parallel these recipes, and are included in the automated test suite.
    ; Each cookbook recipe should link to its corresponding ../examples/ directory.
-%}
+%>
 
 
 
@@ -104,7 +104,7 @@ For the sake of completeness, its value is copy & pasted into the example below 
 ; Render all .art template files in the content/ directory to out/cdn/
 (defproject example-custom-options "0"
 
-  :plugins [[net.vivid-inc/lein-art "{%= vivid-art-version %}"]]
+  :plugins [[net.vivid-inc/lein-art "<%= vivid-art-version %>"]]
 
   ; Render all .art template files in the content/ directory to out/cdn/
   :art {:templates    "content"
@@ -161,11 +161,11 @@ __See also:__
 ### Override bundled Clojure version
 ```clojure
   :art {:templates    "templates"
-        :dependencies {org.clojure/clojure {:mvn/version "{%= (last clojure-versions) %}"}}}
+        :dependencies {org.clojure/clojure {:mvn/version "<%= (last clojure-versions) %>"}}}
 ```
 
 __Discussion:__
-As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version {%= (first clojure-versions) %}, but this can be overridden by supplying the `org.clojure/clojure` dependency with a different version.
+As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version <%= (first clojure-versions) %>, but this can be overridden by supplying the `org.clojure/clojure` dependency with a different version.
 
 __See also:__
 [Example](../examples/override-clojure-version).
@@ -187,7 +187,7 @@ __See also:__
   :auto {:default {:file-pattern #"\.(art)$"    ; Monitor .art files for changes ..
                    :paths ["resources"]}}       ; .. in the resources/ directory
 
-  :plugins [[net.vivid-inc/lein-art "{%= vivid-art-version %}"]    ; Render ART templates with lein-art
+  :plugins [[net.vivid-inc/lein-art "<%= vivid-art-version %>"]    ; Render ART templates with lein-art
             [lein-auto "0.1.3"]])       ; Monitor files for changes, run a command on change
 ```
 

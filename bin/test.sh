@@ -5,7 +5,12 @@ set -o nounset
 set -o pipefail
 set -o xtrace
 
-CLOJURE_VERSIONS=( "1.10.0" "1.10.1" "1.10.2" "1.10.3" )
+CLOJURE_VERSIONS=$(lein run -m clojure.main -e \
+  '(print (as-> "assets/vivid-art-facts.edn" d
+                (with-open [r (clojure.java.io/reader d)]
+                  (clojure.edn/read (java.io.PushbackReader. r)))
+                (get d "clojure-versions")
+                (clojure.string/join " " d)))')
 
 echo Running all tests
 

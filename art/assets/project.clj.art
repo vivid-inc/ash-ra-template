@@ -118,7 +118,7 @@
   ; dependencies and plugins change, then re-disable it.
   ;:pedantic? :abort
 
-  :plugins [[lein-ancient "0.6.15"]
+  :plugins [[com.github.liquidz/antq "RELEASE"]
             [lein-cljfmt "0.7.0" :exclusions [com.fasterxml.jackson.core/jackson-core
                                               org.clojure/clojure]]
             [lein-cloverage "1.2.2"]

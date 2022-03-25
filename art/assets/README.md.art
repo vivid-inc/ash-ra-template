@@ -163,7 +163,7 @@ ART provides the ``(vivid.art/render)`` function which renders an input string c
 ```
 
 <a name="bindings"></a>
-### Providing ``:bindings``
+### Provide ``:bindings``
 `(art/render)` accepts an optional map of `:bindings` that are made available to the template for symbol resolution during render.
 Bindings are optimal for use with the echo-eval form ``<(=``.
 
@@ -184,7 +184,7 @@ More complex:
 ```
 
 <a name="delimiters"></a>
-### Configurable ``:delimiters``
+### Configure ``:delimiters``
 ART's configurable template delimiters use a `{%= vivid.art/default-delimiters-name %}` syntax by default.
 ```clojure
 <( (def e 2.7182) )>

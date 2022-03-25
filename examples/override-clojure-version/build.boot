@@ -1,4 +1,4 @@
-(set-env! :dependencies '[[net.vivid-inc/boot-art "0.6.1"]]
+(set-env! :dependencies '[[net.vivid-inc/boot-art "0.7.0"]]
           :resource-paths #{"templates"})
 
 (require '[clojure.java.io :as io]

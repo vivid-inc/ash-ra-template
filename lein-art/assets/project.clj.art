@@ -1,6 +1,40 @@
 ; Copyright 2022 Vivid Inc.
+<%
 
-(defproject net.vivid-inc/lein-art "0.7.0"
+(require
+  '[clojure.edn :as edn]
+  '[clojure.java.io :as io]
+  '[clojure.pprint])
+(import
+  '(java.io BufferedReader PushbackReader StringReader))
+
+(def ^:const vivid-art-facts (with-open [r (io/reader "../assets/vivid-art-facts.edn")]
+                               (edn/read (PushbackReader. r))))
+(def ^:const clojure-versions (get vivid-art-facts "clojure-versions"))
+
+(defn lein-profile-name-for-clojure-version
+  [clojure-version]
+  (format "clojure-%s" clojure-version))
+(def ^:const clojure-test-profiles-str
+  (clojure.string/join ":"
+                       (map #(str "+" (lein-profile-name-for-clojure-version %)) clojure-versions)))
+
+(defn test-dependency-block [clojure-version]
+  (format ":clojure-%s {:dependencies [[org.clojure/clojure \"%s\"]]}"
+          clojure-version clojure-version))
+
+(defn indent-str [qty s]
+  (let [indent (repeat qty " ")]
+    (apply str (concat indent [s]))))
+
+(defn clojure-version-profiles [& {:keys [indent]}]
+  (->> (for [v (get vivid-art-facts "clojure-versions")]
+            (indent-str indent (test-dependency-block v)))
+       (clojure.string/join \newline)
+       (apply str)))
+
+%>
+(defproject net.vivid-inc/lein-art "<%= (get vivid-art-facts "vivid-art-version") %>"
 
   :description "Leiningen plugin for rendering Ash Ra .art templates"
   :url "https://github.com/vivid-inc/ash-ra-template"
@@ -19,7 +53,7 @@
             "clj-kondo" ["with-profile" "clj-kondo" "run" "-m" "clj-kondo.main" "--"
                          "--lint" "src/"]
             "mkdocs"    ["art"]
-            "test"      ["with-profile" "+clojure-1.10.0:+clojure-1.10.1:+clojure-1.10.2:+clojure-1.10.3:+clojure-1.11.0" "build"]}
+            "test"      ["with-profile" "<%= clojure-test-profiles-str %>" "build"]}
 
   :art {:templates  "assets"
         :bindings   "../assets/vivid-art-facts.edn"
@@ -68,14 +102,10 @@
                                            org.slf4j/jcl-over-slf4j
                                            org.slf4j/slf4j-api]]]
 
-  :profiles {:clj-kondo {:dependencies [[org.clojure/clojure "1.10.0"]
+  :profiles {:clj-kondo {:dependencies [[org.clojure/clojure "<%= (first clojure-versions) %>"]
                                         [clj-kondo "RELEASE"]]}
 
-             :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]}
-             :clojure-1.10.1 {:dependencies [[org.clojure/clojure "1.10.1"]]}
-             :clojure-1.10.2 {:dependencies [[org.clojure/clojure "1.10.2"]]}
-             :clojure-1.10.3 {:dependencies [[org.clojure/clojure "1.10.3"]]}
-             :clojure-1.11.0 {:dependencies [[org.clojure/clojure "1.11.0"]]}
+<%= (clojure-version-profiles :indent 13) %>
 
              :dev {:dependencies   [;; Diffs equality assertions in test failure output
                                     ;; https://github.com/pjstadig/humane-test-output

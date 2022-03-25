@@ -67,6 +67,7 @@ echo Generating resources in all projects
 # repository, making it available to subsequent build steps that depend on it.
 bootstrap_art
 (cd art && lein install)
+(cd art-cli && lein install)
 
 (cd boot-art && boot lein-generate mkdocs)
 (cd clj-art  && clojure -A:mkdocs)

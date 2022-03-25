@@ -107,7 +107,7 @@
                  [org.projectodd.shimdandy/shimdandy-api "1.2.1"]
                  [org.projectodd.shimdandy/shimdandy-impl "1.2.1"]
                  [org.xeustechnologies/jcl-core "2.8"]
-                 [net.vivid-inc/art "0.6.1"]]
+                 [net.vivid-inc/art "0.7.0"]]
 
   :exclusions [org.clojure/clojure]
 
@@ -123,7 +123,7 @@
   ; plugins change, then re-disable it.
   ;:pedantic? :abort
 
-  :plugins [[lein-ancient "0.6.15"]
+  :plugins [[com.github.liquidz/antq "RELEASE"]
             [lein-cljfmt "0.7.0"]
             [lein-cloverage "1.2.2"]
             [lein-eftest "0.5.9"]
