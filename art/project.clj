@@ -45,7 +45,7 @@
 
   :manifest {"Built-By" "vivid"}
 
-  :min-lein-version "2.9.1"
+  :min-lein-version "2.9.8"
 
   ; Uncomment this :pedantic? to assist with determining :excludes whenever
   ; dependencies and plugins change, then re-disable it.

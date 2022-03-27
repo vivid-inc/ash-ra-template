@@ -117,7 +117,7 @@
 
   :manifest {"Built-By" "vivid"}
 
-  :min-lein-version "2.9.1"
+  :min-lein-version "<(= (get vivid-art-facts "lein-version") )>"
 
   ; Enable this to assist with determining :excludes whenever dependencies and
   ; plugins change, then re-disable it.

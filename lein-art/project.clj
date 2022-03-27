@@ -46,8 +46,7 @@
 
   :manifest {"Built-By" "vivid"}
 
-  ; This version of Leiningen is what we have available to us in CI.
-  :min-lein-version "2.9.1"
+  :min-lein-version "2.9.8"
 
   ; Enable this to assist with determining :excludes whenever dependencies and
   ; plugins change, then re-disable it.
@@ -87,6 +86,6 @@
 
                    :test-refresh   {:quiet true}}
 
-             :provided {:dependencies [[leiningen "2.9.1"]]}}
+             :provided {:dependencies [[leiningen "2.9.8"]]}}
 
   :repositories [["clojars" {:sign-releases false}]])
