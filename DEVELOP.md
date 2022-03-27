@@ -25,7 +25,7 @@ $ bin/deploy.sh
 ### Considerations, further out:
 - Declare version 1.0.0 once the community deems the ART feature-complete, reliable, and properly documented.
 - Explicit support for parallel execution.
-- Provide access to execution context from within the evaluation environment: (render) args. The evaluation stack starting from the page through to the current (yield). `user/*render-context*`
+- Provide access to execution context from within the evaluation environment: (render) args. The evaluation stack starting from the page through to the current (yield). `user/*art-render-context*`
 - Infer sensible defaults that can be customized via overrides.
 - ClojureScript.
 - How to achieve fast runtime performance, fast development & testing feedback loop.
@@ -52,3 +52,6 @@ Clojure:
 
 Java:
 - Lower-bound of Java 8, because it strikes a good balance between wide adoption and long-term stability.
+
+Leiningen:
+- Lower-bound of Leiningen 2.9.8. This is the most recent version of Leiningen provided by CircleCI at the time of this writing.

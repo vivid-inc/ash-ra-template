@@ -51,21 +51,22 @@
   ; dependencies and plugins change, then re-disable it.
   ;:pedantic? :abort
 
-  :plugins [[com.github.liquidz/antq "RELEASE"]
-            [lein-cljfmt "0.7.0" :exclusions [com.fasterxml.jackson.core/jackson-core
-                                              org.clojure/clojure]]
-            [lein-cloverage "1.2.2"]
-            [lein-eftest "0.5.9"]
-            [lein-ns-dep-graph "0.2.0-SNAPSHOT" :exclusions [org.clojure/clojure]]
-            [lein-nvd "1.4.1" :exclusions [com.fasterxml.jackson.core/jackson-annotations
-                                           commons-io
-                                           org.apache.commons/commons-lang3
-                                           org.clojure/clojure
-                                           org.slf4j/jcl-over-slf4j
-                                           org.slf4j/slf4j-api]]]
+  :plugins [[com.github.liquidz/antq "RELEASE" :exclusions [commons-codec/commons-codec
+                                                            org.apache.httpcomponents/httpclient
+                                                            org.codehaus.plexus/plexus-utils
+                                                            org.slf4j/slf4j-api]]
+            [lein-cljfmt             "0.8.0"   :exclusions [com.fasterxml.jackson.core/jackson-core]]
+            [lein-cloverage          "1.2.3"]
+            [lein-eftest             "0.5.9"]
+            [lein-nvd                "1.4.1"   :exclusions [com.fasterxml.jackson.core/jackson-annotations
+                                                            commons-io
+                                                            org.apache.commons/commons-lang3
+                                                            org.codehaus.plexus/plexus-utils
+                                                            org.slf4j/jcl-over-slf4j
+                                                            org.slf4j/slf4j-api]]]
 
-  :profiles {:clj-kondo      {:dependencies [[org.clojure/clojure "1.10.0"]
-                                             [clj-kondo "RELEASE"]]},
+  :profiles {:clj-kondo      {:dependencies [[clj-kondo "RELEASE"]
+                                             [org.clojure/clojure "1.10.0"]]},
              :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]},
              :clojure-1.10.1 {:dependencies [[org.clojure/clojure "1.10.1"]]},
              :clojure-1.10.2 {:dependencies [[org.clojure/clojure "1.10.2"]]},
@@ -78,7 +79,7 @@
                                                (require (quote clojure.spec.test.alpha))
                                                (clojure.spec.test.alpha/instrument)],
                               :plugins        [[com.jakemccrary/lein-test-refresh
-                                                "0.24.1"]],
+                                                "0.25.0"]],
                               :resource-paths ["test-resources" "../examples"],
                               :test-refresh   {:quiet true}}}
 

@@ -36,9 +36,6 @@
                  [net.vivid-inc/art-cli   "0.7.0"]
                  [org.clojure/tools.cli   "1.0.206"]]
 
-  :dev-dependencies [[org.clojure/clojure "1.10.0"]
-                     [leiningen           "2.9.1"]]
-
   :eval-in-leiningen true
 
   :exclusions [org.clojure/clojure]
@@ -88,6 +85,8 @@
                                     ;; https://github.com/jakemcc/lein-test-refresh
                                     [com.jakemccrary/lein-test-refresh "0.24.1"]]
 
-                   :test-refresh   {:quiet true}}}
+                   :test-refresh   {:quiet true}}
+
+             :provided {:dependencies [[leiningen "2.9.1"]]}}
 
   :repositories [["clojars" {:sign-releases false}]])

@@ -67,7 +67,7 @@ boot-art: &boot-art-job
         at: ~/.m2
     - run:
         command: |
-          for ver in "1.10.0" "1.10.1" "1.10.2" "1.10.3"
+          for ver in "1.10.0" "1.10.1" "1.10.2" "1.10.3" "1.11.0"
           do
             export BOOT_CLOJURE_VERSION=${ver}
             boot test
@@ -92,7 +92,7 @@ clj-art: &clj-art-job
           sudo ./linux-install-1.10.1.763.sh
     - run:
         command: |
-          for ver in "1.10.0" "1.10.1" "1.10.2" "1.10.3"
+          for ver in "1.10.0" "1.10.1" "1.10.2" "1.10.3" "1.11.0"
           do
             clojure -A:clojure-${ver}:test
           done

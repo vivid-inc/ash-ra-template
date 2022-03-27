@@ -22,6 +22,7 @@ A VCS commit is considered releasable provided that all of its components satisf
 - Reasonably unified test suite shared between the tools `clj-art` et. al.
 - All automated tests pass throughout the matrix of supported versions of Clojure and JDKs.
 - Test coverage from automated testing indicates a near-perfect or better test coverage rate.
+- All dependencies are as up-to-date as reasonable, and NVD doesn't indicate serious problems.
 
 
 
