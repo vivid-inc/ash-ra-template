@@ -5,6 +5,8 @@ _Unreleased_
 ### Added
 - `lein-art` provides project resources to the ART template evaluation environment.
 - Support for Clojure 1.11.0.
+### Changed
+- Template `(emit)` function accepts any number of args, emitting each in order to the output.
 
 ## [0.6.1]
 Released 2022-02-25.

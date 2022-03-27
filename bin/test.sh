@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
+# Copyright 2022 Vivid Inc.
+
+# This tool is meant to be used from the project root, as so:
+#     $ bin/test.sh
 
 set -o errexit
 set -o nounset
 set -o pipefail
 set -o xtrace
 
-CLOJURE_VERSIONS=$(lein run -m clojure.main -e \
+IFS=' ' read -a CLOJURE_VERSIONS <<< $(lein run -m clojure.main -e \
   '(print (as-> "assets/vivid-art-facts.edn" d
                 (with-open [r (clojure.java.io/reader d)]
                   (clojure.edn/read (java.io.PushbackReader. r)))

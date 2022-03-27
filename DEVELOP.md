@@ -16,6 +16,8 @@ $ bin/deploy.sh
 # Along the path to ART version 1.0 and beyond
 
 ### Next:
+- `auto` CLI command.
+- `print-conf` CLI command dumps the effective configuration after processing project configuration and CLI args.
 - `(include)` and `(yield)` -like content inclusion/nesting mechanisms. One simple and one complicated exemplar.
 - Heavy testing of quote nesting and escaping, delimiter escaping, Clojure reader forms, comments.
 - Sufficient error reporting.

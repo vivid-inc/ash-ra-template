@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Copyright 2021 Vivid Inc.
+# Copyright 2022 Vivid Inc.
 
 # This tool is meant to be used from the project root, as so:
-#     $ bin/gen.clj
+#     $ bin/gen.sh
 
 set -o errexit
 set -o nounset
@@ -10,10 +10,10 @@ set -o pipefail
 set -o xtrace
 
 function bootstrap_art {
-  clojure -Sdeps '{:deps {org.suskalo/farolero {:mvn/version "1.4.3"}
-                          net.vivid-inc/art            {:local/root "art"}
-                          net.vivid-inc/art-cli        {:local/root "art-cli"}
-                          zprint/zprint        {:mvn/version "1.0.2"}}}' - <<EOS
+  clojure -Sdeps '{:deps {org.suskalo/farolero  {:mvn/version "1.4.3"}
+                          net.vivid-inc/art     {:local/root "art"}
+                          net.vivid-inc/art-cli {:local/root "art-cli"}
+                          zprint/zprint         {:mvn/version "1.0.2"}}}' - <<EOS
 
 (require '[clojure.edn :as edn]
          '[clojure.java.io :as io]
@@ -68,7 +68,6 @@ echo Generating resources in all projects
 bootstrap_art
 (cd art && lein install)
 (cd art-cli && lein install)
-
 (cd boot-art && boot lein-generate mkdocs)
 (cd clj-art  && clojure -A:mkdocs)
 (cd lein-art && lein mkdocs)

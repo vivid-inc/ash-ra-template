@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+# Copyright 2022 Vivid Inc.
+
+# This tool is meant to be used from the project root, as so:
+#     $ bin/deploy.sh
 
 # Referencing https://github.com/clojars/clojars-web/wiki/Deploy-Tokens
 # Referencing https://github.com/clojars/clojars-web/wiki/Pushing

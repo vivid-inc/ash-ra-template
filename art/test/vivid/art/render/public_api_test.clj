@@ -94,16 +94,6 @@
       t)))
 
 (deftest function-arity
-  (testing "(emit) invalid arity"
-    (are [args]
-      (= (.getName ArityException)
-         (try
-           (art/render (str "<((emit " args " ))>"))
-           (catch Throwable t
-             (-> t (get-root-cause) (type) (.getName)))))
-      "0 1"
-      "0 1 2"
-      "0 1 2 3"))
   (testing "(failure?) invalid arity"
     (are [args]
       (thrown? ArityException (apply art/failure? args))

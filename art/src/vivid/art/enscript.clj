@@ -18,7 +18,7 @@
 
 (def ^:const prelude ["(ns user)"
                       "(def ^java.lang.StringBuilder __vivid__art__sb (new java.lang.StringBuilder))"
-                      "(defn emit ([]) ([v] (.append user/__vivid__art__sb v) nil))"])
+                      "(defn emit ([]) ([& more] (doseq [m more] (.append user/__vivid__art__sb m)) nil))"])
 (def ^:const coda ["(.toString user/__vivid__art__sb)"])
 
 (defn define-bindings

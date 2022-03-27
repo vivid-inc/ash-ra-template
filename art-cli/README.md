@@ -1,8 +1,6 @@
 # art-cli Ash Ra Template CLI Library
 
-- TODO 'auto' command.
-- TODO Modify (emit) to accept any number of args.
-- TODO Option to dump the effective configuration after processing all CLI args.
+
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/net.vivid-inc/art-cli.svg?color=blue&style=flat-square)](https://clojars.org/net.vivid-inc/art-cli)

@@ -126,8 +126,8 @@ Everything including whitespace in the text portions of the template is preserve
 <(= Clojure forms -- replaced with result of evaluation )>
 ```
 
-``(user/emit x)``
-As in ERB, the ``<(=`` syntax causes the value of the expression to be emitted to the rendered template output.
+``(user/emit xs)``
+As in ERB, the ``<(=`` syntax causes the values of the expression arguments to be emitted to the rendered template output.
 The same effect can be accomplished with the ``(emit)`` function which is available within templates.
 To demonstrate, each of the ART directives in the following template snippet are functionally equivalent in that each emits the string "Splash!" to the rendered output:
 ```clojure
