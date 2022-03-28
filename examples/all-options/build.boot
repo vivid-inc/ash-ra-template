@@ -8,8 +8,8 @@
 (deftask rndr []
   (comp 
     (art :bindings     '{updated "2021-01-01"}
-         :dependencies '{hiccup {:mvn/version "1.0.5"}}
+         :dependencies '[[hiccup/hiccup "1.0.5" :exclusions [org.clojure/clojure]]]
          :delimiters   {:begin-forms "{%" :end-forms "%}" :begin-eval "{%=" :end-eval "%}"}
-         :templates        [(io/file "templates")]
+         :templates    [(io/file "templates")]
          :output-dir   (io/file "target")
          :to-phase     :evaluate)))

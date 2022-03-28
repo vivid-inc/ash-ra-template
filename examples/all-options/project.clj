@@ -5,7 +5,7 @@
 
   ; Render .art templates
   :art {:bindings     {updated "2021-01-01"}
-        :dependencies {hiccup {:mvn/version "1.0.5"}}
+        :dependencies [[hiccup/hiccup "1.0.5" :exclusions [org.clojure/clojure]]]
         :delimiters   {:begin-forms "{%" :end-forms "%}" :begin-eval "{%=" :end-eval "%}"}
         :output-dir   "target"
         :templates    "templates"

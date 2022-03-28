@@ -7,21 +7,25 @@
                      "content"
 
                      ; Map as a string
-                     "--bindings" "{manufacturer,\"Acme,Corporation\",manufacture-year,\"2022\"}"
+                     "--bindings" "{manufacturer,\"Acme Corporation\",manufacture-year,\"2022\"}"
+
                      ; Var whose value is a map
-                     "--bindings" "com.acme.data/product-data"
+                     ; TODO Process the classpath, and then inside a (with-classpath ~@body) process the remainder of the args, a subset of which might be vars.
+                     ; TODO "--bindings" "com.acme.data/product-data"
+                     ; Its value is copy & pasted here:
+                     "--bindings" "{products [{:name \"Bag of bird seed\" :weight-kgs 1.0 :minimum-order-qty 50 :unit-price-dollars 0.39M}{:name \"Ironing board on rollerskates\" :weight-kgs 2.0 :minimum-order-qty 10 :unit-price-dollars 17.95M}]}"
+
                      ; EDN as a string
                      "--bindings" "{current-year,2021}"
-                     ; EDN file; top-level form is a map
+                     ; EDN file; top-level form is a map, value available as var 'sales-offices
                      "--bindings" "data/sales-offices.edn"
-                     ; JSON file; file content is made available under the symbol 'partner-list
+                     ; JSON file; file content is made available under the var 'partner-list
                      "--bindings" "data/partner-list.json"
 
                      ; Unqualified, resolves to #'vivid.art.delimiters/jinja
                      "--delimiters" "jinja"
 
-                     "--dependencies" "{hiccup,{:mvn/version,\"1.0.5\"}}"
-                     "--to-phase" "enscript"
+                     "--dependencies" "[[hiccup/hiccup \"1.0.5\" :exclusions [org.clojure/clojure]]]"
                      ; Render to the our/cdn/ directory
                      "--output-dir" "out/cdn"]}}
  :paths ["src"]}

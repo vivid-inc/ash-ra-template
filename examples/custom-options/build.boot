@@ -16,6 +16,6 @@
                              "data/sales-offices.edn"               ; EDN file; top-level form is a map
                              "data/partner-list.json"]              ; JSON file; file content is made available under the symbol 'partner-list
              :delimiters   'jinja                                   ; Unqualified, resolves to #'vivid.art.delimiters/jinja
-             :dependencies '{hiccup {:mvn/version "1.0.5"}})
+             :dependencies '[[hiccup/hiccup "1.0.5" :exclusions [org.clojure/clojure]]])
 
         (target :dir #{"out/cdn"})))

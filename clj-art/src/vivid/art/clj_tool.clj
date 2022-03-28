@@ -27,7 +27,9 @@
 
 (defn- exit [exit-status message]
   (println message)
-  (java.lang.System/exit exit-status))
+  ; TODO Clojure doesn't exit right away. https://clojureverse.org/t/why-doesnt-my-program-exit/3754
+  (shutdown-agents)
+  (System/exit exit-status))
 
 (defn- from-cli-args [args]
   (->> (vivid.art.cli.args/cli-args->batch args cli-options)
@@ -51,6 +53,7 @@
 (defn -main
   "Clojure tools entry point for clj-art."
   [& args]
+  ; TODO Include classpath and deps
   (farolero/handler-case (process args)
                          (:vivid.art.cli/error [_ details] (if (:show-usage details)
                                                              (exit (or (:exit-status details) 1) (usage))

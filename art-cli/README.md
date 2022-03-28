@@ -20,11 +20,7 @@ _This API is in flux; please don't expect to be able to rely on a stable API unt
 <a name="dependencies"></a>
 ### External ``:dependencies``
 `art-cli` provides the `vivid.art/render` rendering option `:dependencies`.
-Instead of ensuring that the relevant Maven-style dependencies are configured in the runtime that also hosts ART, this option allows you to specify your own set of dependencies.
-Doing so activates sandboxing, and the rules change:
-- _Sandboxed execution_: The entire template and its embedded Clojure code is evaluated within a sandboxed Clojure runtime courtesy of [ShimDandy](https://github.com/projectodd/shimdandy).
-- _Degraded performance_: A new Clojure runtime is instantiated within the current JVM for each template evaluation; this can take on the order of 1 second.
-- _Restricted bindings_: Only certain data types that can be serialized to textual Clojure code and reconstituted to their original values can be used as bindings, due to how the ShimDandy bridge functions.
+In addition to the dependencies configured in the runtime, this option allows you to specify your own set of dependencies for the template evaluation environment.
 
 Given a template that ``require``s namespaces from external dependencies in Clojure, such as:
 ```clojure
@@ -54,18 +50,3 @@ As an implicit dependency, the template execution environment provides ART's min
 ```clojure
                   {:dependencies {'org.clojure/clojure {:mvn/version "1.11.0"}}}
 ```
-
-The Maven repositories for dependency resolution are hard-coded:
-```clojure
-{"central" {:url "https://repo.maven.apache.org/maven2"},
- "clojars" {:url "https://clojars.org/repo/"}}
-```
-The base (or default) dependencies are:
-```clojure
-{org.clojure/clojure                     {:mvn/version "1.10.0"},
- org.projectodd.shimdandy/shimdandy-api  {:mvn/version "1.2.1"},
- org.projectodd.shimdandy/shimdandy-impl {:mvn/version "1.2.1"}}
-```
-If `:dependencies` is supplied as an option to `(vivid.art/render)`, its map will be merged into the base dependency map, overwriting duplicate keys.
-
-Note: The project maintainers are greatly interested in learning about faster ways to dynamically add dependencies to a self-contained Clojure runtime dedicated to rendering a batch of templates without impacting the current env; if you know of a better way or have ideas, please contact us.

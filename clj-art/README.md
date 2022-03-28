@@ -143,26 +143,6 @@ __See also:__
 
 
 
-### Override bundled Clojure version
-```edn
-{:aliases
-  {:art {:extra-deps {net.vivid-inc/clj-art {:mvn/version "0.7.0"}}
-         :main-opts  ["-m" "vivid.art.clj-tool" "templates"
-                      "--dependencies" "{org.clojure/clojure,{:mvn/version,\"1.11.0\"}}"]}}}
-```
-
-__Discussion:__
-As an implicit dependency, the template execution environment provides ART's
-minimum supported version of Clojure, version 1.10.0,
-but this can be overridden by supplying the `org.clojure/clojure` dependency
-with a different version.
-
-__See also:__
-[Example](../examples/override-clojure-version).
-[`:dependencies`](../art/README.md#external-dependencies) in the ART documentation.
-
-
-
 ### Configure multi-batch rendering in deps.edn
 ```edn
 {:aliases

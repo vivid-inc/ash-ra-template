@@ -121,7 +121,7 @@ ART attempts to interpret arguments in this order of precedence:
                              "data/sales-offices.edn"               ; EDN file; top-level form is a map
                              "data/partner-list.json"]              ; JSON file; file content is made available under the symbol 'partner-list
              :delimiters   'jinja                                   ; Unqualified, resolves to #'vivid.art.delimiters/jinja
-             :dependencies '{hiccup {:mvn/version "1.0.5"}})
+             :dependencies '[[hiccup/hiccup "1.0.5"]])
 
         (target :dir #{"out/cdn"})))
 ```
@@ -156,22 +156,6 @@ __See also:__
 
 
 
-### Override bundled Clojure version
-```clojure
-(deftask rndr []
-         (comp (art :dependencies '{org.clojure/clojure {:mvn/version "{%= (last clojure-versions) %}"}})
-               (target)))
-```
-
-__Discussion:__
-As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version {%= (first clojure-versions) %}, but this can be overridden by supplying the `org.clojure/clojure` dependency with a different version.
-
-__See also:__
-[Example](../examples/override-clojure-version).
-[`:dependencies`](../art/README.md#external-dependencies) in the ART documentation.
-
-
-
 ### Re-render templates whenever their source files change
 ```clojure
 (set-env! :dependencies '[[net.vivid-inc/boot-art "{%= vivid-art-version %}"]]
@@ -203,7 +187,7 @@ __See also:__
   (comp
     ; An ART render batch configuration
     (art :templates    [(io/file "src/templates/css")]
-         :dependencies '{garden {:mvn/version "1.3.10"}}
+         :dependencies '[[garden/garden "1.3.10"]]
          :output-dir   (io/file "src/resources"))
 
     ; Another, different batch

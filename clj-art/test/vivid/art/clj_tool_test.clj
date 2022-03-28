@@ -71,10 +71,6 @@
     (t/is (= 0 (res :exit))
           (pr-str {:res res}))))
 
-(t/deftest clj-tool-example-override-clojure-version
-  (invocation-pattern "../examples/readme-examples"
-                      "clj" "-M:art"))
-
 (t/deftest clj-tool-example-readme-examples
   (invocation-pattern "../examples/readme-examples"
                       "clj" "-M:art"))

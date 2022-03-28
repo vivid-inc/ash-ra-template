@@ -19,8 +19,6 @@
     [clojure.test :refer :all]
     [farolero.core :as farolero]
     [vivid.art.cli.args]
-    ; Register art-cli's :dependencies -aware evaluator
-    [vivid.art.cli.exec]
     [vivid.art.cli.usage :refer [cli-options]]
     [vivid.art.cli.validate :as validate]
     [vivid.art :as art])
@@ -28,7 +26,7 @@
     (java.io PushbackReader)))
 
 (def ^:const custom-deps
-  '{compojure {:mvn/version "1.6.2"}})
+  '[[compojure/compojure "1.6.2"]])
 
 
 ;
@@ -40,14 +38,14 @@
     (let [args ["--dependencies" x "test-resources/empty.art"]
           {:keys [dependencies]} (vivid.art.cli.args/cli-args->batch args cli-options)]
       (= expected dependencies))
-    '{hiccup {:mvn/version "1.0.5"}} "test-resources/simple-dependencies.edn"))
+    '[[hiccup/hiccup "1.0.5"]] "test-resources/simple-dependencies.edn"))
 
 (deftest cli-edn-literal-dependencies
   (are [expected x]
     (let [args ["--dependencies" x "test-resources/empty.art"]
           {:keys [dependencies]} (vivid.art.cli.args/cli-args->batch args cli-options)]
       (= expected dependencies))
-    '{hiccup {:mvn/version "1.0.5"}} "{hiccup {:mvn/version \"1.0.5\"}}"))
+       '[[org.suskalo/farolero "1.4.3"]] "[[org.suskalo/farolero \"1.4.3\"]]"))
 
 (deftest cli-malformed-dependencies
   (are [expected x]
@@ -66,25 +64,14 @@
 ; Internal API
 ;
 
-(def ^:const vivid-art-facts (with-open [r (io/reader "../assets/vivid-art-facts.edn")]
-                               (edn/read (PushbackReader. r))))
-
-(deftest clojure-versions
-  (let [versions (get vivid-art-facts "clojure-versions")]
-    (doseq [version-string versions]
-      (is (= (art/render "<(= (let [{:keys [major minor incremental]} *clojure-version*]
-(format \"%d.%d.%d\" major minor incremental)))>"
-                         {:dependencies {'org.clojure/clojure {:mvn/version version-string}}})
-             version-string)))))
-
 (deftest variants
   (are [expected x]
     (= expected
        (validate/validate-dependencies x))
 
-    ; As a Clojure map:
-    {} {}
-    '{hiccup {:mvn/version "1.0.5"}} '{hiccup {:mvn/version "1.0.5"}}
+    ; As a Leiningen dependency list:
+    [] []
+    '[[ring/ring-core "1.9.5"]] '[[ring/ring-core "1.9.5"]]
 
     ; As symbol of qualified var:
     custom-deps #'vivid.art.cli.dependencies-test/custom-deps
@@ -93,10 +80,10 @@
     custom-deps "vivid.art.cli.dependencies-test/custom-deps"
 
     ; As a string path to an EDN file:
-    '{hiccup {:mvn/version "1.0.5"}} "test-resources/simple-dependencies.edn"
+    '[[hiccup/hiccup "1.0.5"]] "test-resources/simple-dependencies.edn"
 
     ; As an EDN literal:
-    '{hiccup {:mvn/version "1.0.5"}} "{hiccup {:mvn/version \"1.0.5\"}}"))
+    '[[clj-http/clj-http "3.12.3"]] "[[clj-http/clj-http \"3.12.3\"]]"))
 
 (deftest malformed-dependencies
   (are [expected x]

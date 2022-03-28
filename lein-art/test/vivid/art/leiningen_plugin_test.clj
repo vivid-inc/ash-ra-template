@@ -77,7 +77,7 @@
   (all-invocation-patterns "../examples/all-options"
                            {:bindings '{updated "2021-01-01"}
                             :delimiters {:begin-forms "{%" :end-forms "%}" :begin-eval "{%=" :end-eval "%}"}
-                            :dependencies '{hiccup {:mvn/version "1.0.5"}}
+                            :dependencies '[[hiccup/hiccup "1.0.5"]]
                             :to-phase :evaluate}))
 
 (t/deftest lein-plugin-readme-examples
@@ -105,10 +105,6 @@
                                    :dir "../examples/multi-batch")]
     (t/is (= 0 (res :exit))
           (pr-str res))))
-
-(t/deftest lein-plugin-example-override-clojure-version
-  (all-invocation-patterns "../examples/override-clojure-version"
-                           {:dependencies '{org.clojure/clojure {:mvn/version "1.10.1"}}}))
 
 (t/deftest lein-plugin-example-watch
   (all-invocation-patterns "../examples/watch"

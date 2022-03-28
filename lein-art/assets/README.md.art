@@ -158,21 +158,6 @@ __See also:__
 
 
 
-### Override bundled Clojure version
-```clojure
-  :art {:templates    "templates"
-        :dependencies {org.clojure/clojure {:mvn/version "<%= (last clojure-versions) %>"}}}
-```
-
-__Discussion:__
-As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version <%= (first clojure-versions) %>, but this can be overridden by supplying the `org.clojure/clojure` dependency with a different version.
-
-__See also:__
-[Example](../examples/override-clojure-version).
-[`:dependencies`](../art/README.md#external-dependencies) in the ART documentation.
-
-
-
 ### Re-render templates whenever their source files change
 ```clojure
 (defproject art-example--watch "0"

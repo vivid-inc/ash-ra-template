@@ -63,6 +63,7 @@
                                   [[] (vivid.art.cli.args/paths->template-paths! (:templates options*))]
                                   (boot-fileset->template-paths boot-fileset prev-fileset))
           batch (merge batch* {:templates templates})]
+      ; TODO Include classpath and deps
       (vivid.art.cli.exec/render-batch batch)
       (cond-> boot-fileset
               ; .art files will be replaced by their rendered counterparts

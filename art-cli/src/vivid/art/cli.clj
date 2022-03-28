@@ -12,20 +12,10 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.cli
-  "Internal API."
+(ns ^:internal-api vivid.art.cli
   (:require
-    [clojure.spec.alpha :as s]
-    [clojure.tools.deps.alpha.specs]
-    [vivid.art]))
+    [vivid.art]
+    [vivid.art.cli.specs]))
 
 (def ^:const art-filename-suffix ".art")
 (def ^:const art-filename-suffix-regex #"\.art$")
-
-; Clojure dependency maps, required to render a given template
-(s/def :vivid.art/dependencies :clojure.tools.deps.alpha.specs/deps-map)
-
-; TODO How to incorporate this spec to the one that already exists?
-#_(s/fdef vivid.art/render
-          :args (s/cat :t :vivid.art/template
-                       :o (s/? (s/keys :opt-un [:vivid.art/dependencies]))))

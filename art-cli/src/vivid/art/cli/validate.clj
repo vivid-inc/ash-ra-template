@@ -13,14 +13,16 @@
 ; limitations under the License.
 
 (ns vivid.art.cli.validate
-  "Validation of individual options available in public API & CLI"
-  (:require
-    [clojure.spec.alpha :as s]
-    [clojure.string]
-    [farolero.core :as farolero]
-    [vivid.art]
-    [vivid.art.cli.resolve :as resolve]
-    [vivid.art.specs]))
+    "Validation of individual options available in public API & CLI"
+    (:require
+      [clojure.spec.alpha :as s]
+      [clojure.string]
+      [farolero.core :as farolero]
+      [vivid.art]
+      [vivid.art.cli.resolve :as resolve]
+      [vivid.art.specs])
+    (:import
+      (java.io File)))
 
 (defn validate-bindings
   "Is either a single or collection of binding maps. Each
@@ -65,17 +67,15 @@
 (defn validate-dependencies
   [x]
   (as-> x d
-        (or (resolve/resolve-as-map d)
+        (or (resolve/resolve-as-list-like d)
             (resolve/resolve-as-var d)
             (resolve/resolve-as-edn-file d)
             (resolve/resolve-as-edn-literal d))
-        (resolve/resolve-as-map d)
-        (s/conform :vivid.art/dependencies d)
-        (if-not (s/invalid? d)
+        (if-not (s/invalid? (s/conform :vivid.art.cli/dependencies d))
           d
           (farolero/signal :vivid.art.cli/error
                            {:step    'validate-dependencies
-                            :message (format "Non-conformant dependency map: '%s'" x)}))))
+                            :message (format "Non-conformant dependencies list: '%s'" x)}))))
 
 (defn validate-output-dir
   "A string path of the output directory."
@@ -96,7 +96,7 @@
   (letfn [(conv [path]
             (let [f (some-> (resolve/resolve-as-file path)
                             (.getAbsoluteFile))]
-              (if (and f (.exists f))
+              (if (and f (.exists ^File f))
                 f
                 (farolero/signal :vivid.art.cli/error
                                  {:step    'validate-templates

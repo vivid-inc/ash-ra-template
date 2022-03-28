@@ -32,8 +32,7 @@
               :output   "cloverage"                  ; "lein jar" destroys target/cloverage
               }
 
-  :dependencies [[clj-commons/pomegranate "1.2.1"]
-                 [net.vivid-inc/art-cli   "0.7.0"]
+  :dependencies [[net.vivid-inc/art-cli   "0.7.0"]
                  [org.clojure/tools.cli   "1.0.206"]]
 
   :eval-in-leiningen true

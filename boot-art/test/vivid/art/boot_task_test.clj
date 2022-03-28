@@ -101,7 +101,7 @@
   (all-invocation-patterns "../examples/all-options"
                            :bindings     '{updated "2021-01-01"}
                            :delimiters   '{:begin-forms "{%" :end-forms "%}" :begin-eval "{%=" :end-eval "%}"}
-                           :dependencies '{hiccup {:mvn/version "1.0.5"}}
+                           :dependencies '[[hiccup/hiccup "1.0.5" :exclusions [org.clojure/clojure]]]
                            :to-phase     :evaluate))
 
 (boot.test/deftesttask
@@ -136,11 +136,6 @@
   boot-task-example-multi-batch []
   (comp (shell-cmd :cmd ["./test.sh" "boot" "rndr"]
                    :dir "../examples/multi-batch")))
-
-(boot.test/deftesttask
-  boot-task-example-override-clojure-version []
-  (all-invocation-patterns "../examples/override-clojure-version"
-                           :dependencies '{org.clojure/clojure {:mvn/version "1.10.1"}}))
 
 (boot.test/deftesttask
   boot-task-example-watch []

@@ -14,20 +14,8 @@
 
 (ns vivid.art.evaluate)
 
-(defmulti evaluate-fn
-  "Internal API. Function in the templating processing pipeline that is
-   responsible for evaluating the stream. This multimethod decl exists
-   so that the sandbox variant of the evaluator defined in art-cli can
-   be used whenever :dependencies are defined in the options map."
-  (fn [_ options]
-    (contains? options :dependencies)))
-
-(defmethod evaluate-fn :default
-  [code _]
-  (locking *out*
-           ; TODO https://github.com/clojure/clojure/blob/master/src/jvm/clojure/lang/Compiler.java#L7618
-    (load-string code)))
-
 (defn evaluate
-  [code render-options]
-  (evaluate-fn code render-options))
+  [code]
+      (locking *out*
+               ; TODO https://github.com/clojure/clojure/blob/master/src/jvm/clojure/lang/Compiler.java#L7618
+               (load-string code)))

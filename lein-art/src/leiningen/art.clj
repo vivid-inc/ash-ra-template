@@ -14,20 +14,16 @@
 
 (ns leiningen.art
   (:require
-   [cemerick.pomegranate :as pomegranate]
    [clojure.string]
    [clojure.tools.cli]
    [farolero.core :as farolero]
-   [leiningen.core.classpath :as classpath]
+   [leiningen.core.classpath]
    [leiningen.core.main :as main-lein]
    [vivid.art.cli.args]
    [vivid.art.cli.exec]
    [vivid.art.cli.log :as log]
    [vivid.art.cli.messages :as messages]
-   [vivid.art.cli.usage])
-  (:import
-   (clojure.lang DynamicClassLoader)
-   (java.net URI)))
+   [vivid.art.cli.usage]))
 
 (def ^:const default-options {:output-dir "."})
 
@@ -42,10 +38,12 @@
 
 (defn- from-project
   [project]
-  (let [stanza (:art project)
-        pipeline #(->> (vivid.art.cli.args/direct->batch (:templates %) %)
-                       (merge default-options)
-                       (vivid.art.cli.exec/render-batch))]
+  (let [stanza        (:art project)
+        prj-classpath (leiningen.core.classpath/get-classpath project)
+        pipeline      #(->> (vivid.art.cli.args/direct->batch (:templates %) %)
+                            (merge default-options
+                                   {:classpath prj-classpath})
+                            (vivid.art.cli.exec/render-batch))]
     (cond
       (map? stanza) (pipeline stanza)
       (coll? stanza) (doseq [conf stanza]
@@ -55,6 +53,7 @@
 (defn- process [project args]
   (binding [log/*info-fn* main-lein/info
             log/*warn-fn* main-lein/warn]
+    ; TODO Make clear that specifying args will cause ART to ignore the project. Or, change this behavior.
     (if (coll? args)
       (from-cli-args args)
       (from-project project))))
@@ -69,46 +68,14 @@
          (clojure.string/join "\n\n"))))
 
 ;
-; Classpath setup
-;
-
-(defn strip-uri-file-scheme [paths]
-  ; paths is a seq of java.lang.String formatted like a URI i.e. "file:/home/me/.m2/repository/.../bleep.jar"
-  (map (fn [path]
-         (let [uri (URI. path)]
-           (when (not= "file" (.getScheme uri))
-             (log/*warn-fn* "ART WARNING: Path " uri " scheme is not 'file:'; proceeding blindly."))
-           (.getPath uri)))
-       paths))
-
-; TODO Migrate this mechanism to art-cli, replacing the ShimDandy -based :dependencies, and add equivalent mechanisms to boot-art and clj-art
-(defmacro with-custom-classloader [project & body]
-  `(let [thread#    (Thread/currentThread)
-         cl#        (.getContextClassLoader thread#)
-         dcl#       (DynamicClassLoader. cl#)
-         cur-ps#    (into #{} (strip-uri-file-scheme (pomegranate/get-classpath)))
-         prj-ps#    (into #{} (classpath/get-classpath ~project))
-         delta-ps#  (clojure.set/difference prj-ps# cur-ps#)]
-     (try (.setContextClassLoader thread# dcl#)
-          (doseq [path# delta-ps#]
-            (pomegranate/add-classpath (.getPath (URI. path#))))
-          ~@body
-          (finally
-            ; TODO The initial classloader cl# is still encumbered with the paths added from delta#, defeating the purpose of this mechanism.
-            (.setContextClassLoader thread# cl#)
-            (.close dcl#)))))
-
-;
 ; Leiningen entry point for lein-art
 ;
 
 (defn ^:no-project-needed
   ^{:doc (usage)}
   art [project & args]
-  (with-custom-classloader
-    project
-    (farolero/handler-case
-     (process project args)
-     (:vivid.art.cli/error [_ details] (if (:show-usage details)
-                                         (exit (or (:exit-status details) 1) (usage))
-                                         (main-lein/abort (messages/pp-str-error details)))))))
+  (farolero/handler-case
+    (process project args)
+    (:vivid.art.cli/error [_ details] (if (:show-usage details)
+                                        (exit (or (:exit-status details) 1) (usage))
+                                        (main-lein/abort (messages/pp-str-error details))))))

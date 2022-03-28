@@ -28,17 +28,10 @@
               :output   "cloverage"                  ; "lein jar" destroys target/cloverage
               }
 
-  :dependencies [[org.clojure/data.json "2.4.0"]
-                 [org.clojure/tools.cli "1.0.206"]
-                 [org.clojure/tools.deps.alpha "0.9.857" :exclusions [commons-logging/commons-logging
-                                                                      org.clojure/clojure
-                                                                      org.clojure/data.json
-                                                                      org.clojure/tools.cli
-                                                                      org.slf4j/slf4j-api]]
-                 [org.projectodd.shimdandy/shimdandy-api "1.2.1"]
-                 [org.projectodd.shimdandy/shimdandy-impl "1.2.1"]
-                 [org.xeustechnologies/jcl-core "2.8"]
-                 [net.vivid-inc/art "0.7.0"]]
+  :dependencies [[clj-commons/pomegranate "1.2.1"]
+                 [net.vivid-inc/art       "0.7.0"]
+                 [org.clojure/data.json   "2.4.0"]
+                 [org.clojure/tools.cli   "1.0.206"]]
 
   :exclusions [org.clojure/clojure]
 
@@ -54,34 +47,53 @@
   ; plugins change, then re-disable it.
   ;:pedantic? :abort
 
-  :plugins [[com.github.liquidz/antq "RELEASE"]
-            [lein-cljfmt "0.7.0"]
-            [lein-cloverage "1.2.2"]
-            [lein-eftest "0.5.9"]
-            [lein-ns-dep-graph "0.2.0-SNAPSHOT" :exclusions [org.clojure/clojure]]
-            [lein-nvd "1.4.1" :exclusions [com.fasterxml.jackson.core/jackson-annotations
-                                           commons-io
-                                           org.apache.commons/commons-lang3
-                                           org.clojure/clojure
-                                           org.slf4j/jcl-over-slf4j
-                                           org.slf4j/slf4j-api]]]
+  :plugins [[com.github.liquidz/antq "RELEASE" :exclusions [org.apache.httpcomponents/httpclient
+                                                            org.slf4j/slf4j-api
+                                                            org.codehaus.plexus/plexus-utils
+                                                            commons-codec]]
+            [lein-cljfmt             "0.8.0"   :exclusions [commons-codec]]
+            [lein-cloverage          "1.2.3"]
+            [lein-eftest             "0.5.9"]
+            [lein-nvd                "1.4.1"   :exclusions [com.fasterxml.jackson.core/jackson-annotations
+                                                            commons-io
+                                                            org.apache.commons/commons-lang3
+                                                            org.codehaus.plexus/plexus-utils
+                                                            org.slf4j/jcl-over-slf4j
+                                                            org.slf4j/slf4j-api]]]
 
-  :profiles {:clj-kondo      {:dependencies [[org.clojure/clojure "1.10.0"]
-                                             [clj-kondo "RELEASE"]]},
-             :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]},
-             :clojure-1.10.1 {:dependencies [[org.clojure/clojure "1.10.1"]]},
-             :clojure-1.10.2 {:dependencies [[org.clojure/clojure "1.10.2"]]},
-             :clojure-1.10.3 {:dependencies [[org.clojure/clojure "1.10.3"]]},
-             :clojure-1.11.0 {:dependencies [[org.clojure/clojure "1.11.0"]]},
-             :dev            {:dependencies   [[pjstadig/humane-test-output "0.11.0"]],
-                              :injections     [(require (quote pjstadig.humane-test-output))
-                                               (pjstadig.humane-test-output/activate!)
-                                               (require (quote vivid.art))
-                                               (require (quote clojure.spec.test.alpha))
-                                               (clojure.spec.test.alpha/instrument)],
-                              :plugins        [[com.jakemccrary/lein-test-refresh
-                                                "0.24.1"]],
-                              :resource-paths ["test-resources" "../examples"],
-                              :test-refresh   {:quiet true}}}
+  :profiles {:clj-kondo {:dependencies [[org.clojure/clojure "1.10.0"]
+                                        [clj-kondo "RELEASE"]]}
+
+             :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]}
+             :clojure-1.10.1 {:dependencies [[org.clojure/clojure "1.10.1"]]}
+             :clojure-1.10.2 {:dependencies [[org.clojure/clojure "1.10.2"]]}
+             :clojure-1.10.3 {:dependencies [[org.clojure/clojure "1.10.3"]]}
+             :clojure-1.11.0 {:dependencies [[org.clojure/clojure "1.11.0"]]}
+
+             :dev       {:dependencies   [;; Diffs equality assertions in test failure output
+                                          ;; https://github.com/pjstadig/humane-test-output
+                                          [pjstadig/humane-test-output "0.11.0"]]
+
+                         :injections     [(require 'pjstadig.humane-test-output)
+                                          (pjstadig.humane-test-output/activate!)
+
+                                          ; Keep Spec enabled in the context of development of ART,
+                                          ; but not in the shipping jar.
+                                          ;
+                                          ; Load all namespaces in the project + Spec
+                                          (require 'vivid.art)
+                                          (require 'clojure.spec.test.alpha)
+                                          ; Instrument everything Spec can find
+                                          (clojure.spec.test.alpha/instrument)]
+
+                         :plugins        [;; Reloads & re-runs tests on file changes
+                                          ;; https://github.com/jakemcc/lein-test-refresh
+                                          [com.jakemccrary/lein-test-refresh "0.25.0"]]
+
+                         :resource-paths ["test-resources" "../examples"]
+
+                         :test-refresh   {:quiet true}}
+
+            :provided {:dependencies [[leiningen "2.9.8"]]}}
 
   :repositories [["clojars" {:sign-releases false}]])

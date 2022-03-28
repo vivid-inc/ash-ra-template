@@ -18,7 +18,7 @@
   :art [
     ; An ART render batch configuration
     {:templates    "src/templates/css"
-     :dependencies {garden {:mvn/version "1.3.10"}}
+     :dependencies [[garden "1.3.10"]]
      :output-dir   "src/resources"}
 
     ; Another, different batch

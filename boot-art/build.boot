@@ -15,10 +15,10 @@
 
 (set-env! :source-paths #{"test"}
           :resource-paths #{"src"}
-          :dependencies '[[adzerk/bootlaces    "0.2.0"   :scope "test"]
-                          [boot/core           "2.8.2"   :scope "provided"]
-                          [sparkfund/boot-lein "0.4.0"   :scope "test"]
-                          [net.vivid-inc/art-cli       "0.7.0"]]
+          :dependencies '[[adzerk/bootlaces      "0.2.0" :scope "test"]
+                          [boot/core             "2.8.2" :scope "provided"]
+                          [sparkfund/boot-lein   "0.4.0" :scope "test"]
+                          [net.vivid-inc/art-cli "0.7.0"]]
           :repositories [["clojars" {:sign-releases false}]])
 
 (require '[adzerk.bootlaces]
@@ -65,8 +65,7 @@
            ; So we leave it in Boot's fileset for now ...
            (sift :add-resource #{"assets"})
            (art :bindings "../assets/vivid-art-facts.edn"
-                :delimiters "{:begin-forms \"{%\" :end-forms \"%}\" :begin-eval \"{%=\" :end-eval \"%}\"}"
-                :dependencies '{boot/core {:mvn/version "2.8.2"}})
+                :delimiters "{:begin-forms \"{%\" :end-forms \"%}\" :begin-eval \"{%=\" :end-eval \"%}\"}")
            ; ... until the docs are rendered, which is all we are interested in:
            (sift :include #{#"^README\.md$"})
            (target :dir #{"."}

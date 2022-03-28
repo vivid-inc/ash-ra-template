@@ -50,7 +50,7 @@
                         (to-phase? :parse     to-phase) (parse delimiters)
                         (to-phase? :translate to-phase) (translate)
                         (to-phase? :enscript  to-phase) (enscript bindings)
-                        (to-phase? :evaluate  to-phase) (evaluate render-options))]
+                        (to-phase? :evaluate  to-phase) (evaluate))]
        (farolero/handler-case (render*)
                               (:vivid.art/parse-error [_ details]
                                 (make-failure :parse-error details template)))))))

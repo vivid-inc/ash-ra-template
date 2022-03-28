@@ -1,1 +1,1 @@
-{hiccup {:mvn/version "1.0.5"}}
+[[hiccup/hiccup "1.0.5"]]

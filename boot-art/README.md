@@ -63,15 +63,15 @@ filename extensions, overwriting any existing files with the same paths.
 
 #### Options
 
-| `build.boot` | CLI argument | Parameters | Default | Explanation |
-| --- | --- | --- | --- | --- |
-| `:bindings` | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
-| `:delimiters` | `--delimiters` | VAL | `lispy` | Template delimiters |
-| `:dependencies` | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. |
-| | `-h`, `--help` | | | Displays lovely help and then exits |
-| `:output-dir` | `--output-dir` | DIR | | Write a copy of the rendered file set to DIR |
-| `:templates` | `--templates` | FILES | | Render these ART files and directory trees thereof, instead of Boot's fileset |
-| `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `evaluate` | Stop the render dataflow on each template at an earlier phase |
+| `build.boot` | CLI argument | Parameters | Default | Explanation                                                                            |
+| --- | --- | --- | --- |----------------------------------------------------------------------------------------|
+| `:bindings` | `--bindings` | VAL | | Bindings made available to templates for symbol resolution                             |
+| `:delimiters` | `--delimiters` | VAL | `lispy` | Template delimiters                                                                    |
+| `:dependencies` | `--dependencies` | VAL | | Leiningen dependencies list providing libs within the template evaluation environment. |
+| | `-h`, `--help` | | | Displays lovely help and then exits                                                    |
+| `:output-dir` | `--output-dir` | DIR | | Write a copy of the rendered file set to DIR                                           |
+| `:templates` | `--templates` | FILES | | Render these ART files and directory trees thereof, instead of Boot's fileset          |
+| `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `evaluate` | Stop the render dataflow on each template at an earlier phase                          |
 
 Depending on what types of values a particular option accepts and whether `boot-art` was invoked as a Boot task in Clojure or from the CLI,
 ART attempts to interpret arguments in this order of precedence:
@@ -109,7 +109,7 @@ ART attempts to interpret arguments in this order of precedence:
                              "data/sales-offices.edn"               ; EDN file; top-level form is a map
                              "data/partner-list.json"]              ; JSON file; file content is made available under the symbol 'partner-list
              :delimiters   'jinja                                   ; Unqualified, resolves to #'vivid.art.delimiters/jinja
-             :dependencies '{hiccup {:mvn/version "1.0.5"}})
+             :dependencies '[[hiccup/hiccup "1.0.5"]])
 
         (target :dir #{"out/cdn"})))
 ```
@@ -144,22 +144,6 @@ __See also:__
 
 
 
-### Override bundled Clojure version
-```clojure
-(deftask rndr []
-         (comp (art :dependencies '{org.clojure/clojure {:mvn/version "1.11.0"}})
-               (target)))
-```
-
-__Discussion:__
-As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version 1.10.0, but this can be overridden by supplying the `org.clojure/clojure` dependency with a different version.
-
-__See also:__
-[Example](../examples/override-clojure-version).
-[`:dependencies`](../art/README.md#external-dependencies) in the ART documentation.
-
-
-
 ### Re-render templates whenever their source files change
 ```clojure
 (set-env! :dependencies '[[net.vivid-inc/boot-art "0.7.0"]]
@@ -191,7 +175,7 @@ __See also:__
   (comp
     ; An ART render batch configuration
     (art :templates    [(io/file "src/templates/css")]
-         :dependencies '{garden {:mvn/version "1.3.10"}}
+         :dependencies '[[garden/garden "1.3.10"]]
          :output-dir   (io/file "src/resources"))
 
     ; Another, different batch

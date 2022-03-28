@@ -15,10 +15,8 @@
         :bindings     [{manufacturer     "Acme Corporation"    ; Map literal
                         manufacture-year "2022"}
 
-                       ; NOTE: The authors that have touched this file so far don't know
-                       ; how to specify a Var that is defined within src/ as in:
-                       ;   #'com.acme.data/widget                 ; Var, value is a map
-                       ; So its value is copy & pasted here:
+                       ; TODO #'com.acme.data/widget                 ; Var, value is a map
+                       ; Its value is copy & pasted here:
                        {products [{:name               "Bag of bird seed"
                                     :weight-kgs         1.0
                                     :minimum-order-qty  50
@@ -35,13 +33,6 @@
 
         :delimiters   "jinja"                                  ; Resolves to #'vivid.art.delimiters/jinja
 
-        :dependencies {hiccup {:mvn/version "1.0.5"}
-                       ; Give templates use of project code.
-                       ; Note that ART's Clojure Deps -based dependency resolver
-                       ; requires a `deps.edn` or `pom.xml` file in
-                       ; order to recognize this "." project as a dependency.
-                       ; The name is the same as this Lein project.
-                       ; Use a version spec that suites your needs.
-                       example-custom-options/example-custom-options {:mvn/version "0"}}
+        :dependencies [[hiccup/hiccup "1.0.5" :exclusions [org.clojure/clojure]]]
 
         :output-dir   "out/cdn"})

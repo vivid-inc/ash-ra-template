@@ -3,7 +3,7 @@
          :main-opts  ["-m" "vivid.art.clj-tool"
                       "--bindings" "{updated,\"2021-01-01\"}"
                       "--delimiters" "{:begin-forms,\"{%\",:end-forms,\"%}\",:begin-eval,\"{%=\",:end-eval,\"%}\"}"
-                      "--dependencies" "{hiccup,{:mvn/version,\"1.0.5\"}}"
+                      "--dependencies" "[[hiccup/hiccup \"1.0.5\" :exclusions [org.clojure/clojure]]]"
                       "templates"
                       "--output-dir" "target"
                       "--to-phase" "evaluate"]}}}

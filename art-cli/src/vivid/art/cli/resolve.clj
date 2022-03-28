@@ -129,6 +129,12 @@
                               :exception e}
                              :normally nil)))))))
 
+(defn resolve-as-list-like
+      "Attempt to interpret a value as a Clojure list or vector."
+      [x]
+      (when (or (list? x) (vector? x))
+            x))
+
 (defn resolve-as-map
   "Attempt to interpret a value as a Clojure map."
   [x]

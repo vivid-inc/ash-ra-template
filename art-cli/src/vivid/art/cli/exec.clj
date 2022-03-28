@@ -21,19 +21,12 @@
     [clojure.string]
     [farolero.core :as farolero]
     [vivid.art :as art]
-    [vivid.art.evaluate]                                    ; Enable our sand-boxed evaluate-fn
-    [vivid.art.cli.embed]
     [vivid.art.cli.files]
+    [vivid.art.cli.classpath :refer [with-custom-classloader]]
     [vivid.art.cli.log :as log]
     [vivid.art.cli.specs])
   (:import
     (java.io File)))
-
-(defmethod vivid.art.evaluate/evaluate-fn true
-  [code render-options]
-  (let [{:keys [dependencies]} render-options]
-    ; TODO Design idea: Incur the cost of creating the runtime just once per batch
-    (vivid.art.cli.embed/eval-in-one-shot-runtime code dependencies)))
 
 (defn- render-file
   [{:keys [^File src-path ^File dest-rel-path] :as template-file} {:keys [^File output-dir] :as batch}]
@@ -59,14 +52,24 @@
                                            (clojure.string/join \newline (.getStackTrace e)))
                         :exception e}))))
 
+(defn assemble-classpath
+      [batch]
+      ; TODO Derive repositories from the calling project as well, provide a default set (Maven Central + Clojars)
+      ; TODO Documentation: Ensure you don't add differing versions of the same library.
+      (concat []
+              (:classpath batch)
+              (vivid.art.cli.classpath/dependencies->file-paths (:dependencies batch))))
+
 (defn render-batch
   "Scans :templates for files and directories, renders all ART templates found
   within according to the batch settings. Fails fast in event of an error."
   [{:keys [templates] :as batch}]
   (if (empty? templates)
     (log/*warn-fn* "Warning: No ART templates to render.")
-    (doseq [template-file templates]
-      (render-file template-file batch))))
+    (let [classpath (assemble-classpath batch)]
+         (with-custom-classloader classpath
+                                  (doseq [template-file templates]
+                                         (render-file template-file batch))))))
 
 (s/fdef render-batch
         :args (s/cat :batch (s/? :vivid.art.cli/batch)))
