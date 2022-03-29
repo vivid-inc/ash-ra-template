@@ -69,5 +69,5 @@ bootstrap_art
 (cd art && lein install)
 (cd art-cli && lein install)
 (cd boot-art && boot lein-generate mkdocs)
-(cd clj-art  && clojure -A:mkdocs)
+(cd clj-art  && clojure -M:mkdocs)
 (cd lein-art && lein mkdocs)

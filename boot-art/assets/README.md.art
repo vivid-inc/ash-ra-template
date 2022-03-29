@@ -77,7 +77,7 @@ filename extensions, overwriting any existing files with the same paths.
 | --- | --- | --- | --- | --- |
 | `:bindings` | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
 | `:delimiters` | `--delimiters` | VAL | `{%=vivid.art/default-delimiters-name%}` | Template delimiters |
-| `:dependencies` | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. |
+| `:dependencies` | `--dependencies` | VAL | | Leiningen dependencies list providing libs within the template evaluation environment. |
 | | `-h`, `--help` | | | Displays lovely help and then exits |
 | `:output-dir` | `--output-dir` | DIR | | Write a copy of the rendered file set to DIR |
 | `:templates` | `--templates` | FILES | | Render these ART files and directory trees thereof, instead of Boot's fileset |

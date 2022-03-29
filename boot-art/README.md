@@ -63,15 +63,15 @@ filename extensions, overwriting any existing files with the same paths.
 
 #### Options
 
-| `build.boot` | CLI argument | Parameters | Default | Explanation                                                                            |
-| --- | --- | --- | --- |----------------------------------------------------------------------------------------|
-| `:bindings` | `--bindings` | VAL | | Bindings made available to templates for symbol resolution                             |
-| `:delimiters` | `--delimiters` | VAL | `lispy` | Template delimiters                                                                    |
+| `build.boot` | CLI argument | Parameters | Default | Explanation |
+| --- | --- | --- | --- | --- |
+| `:bindings` | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
+| `:delimiters` | `--delimiters` | VAL | `lispy` | Template delimiters |
 | `:dependencies` | `--dependencies` | VAL | | Leiningen dependencies list providing libs within the template evaluation environment. |
-| | `-h`, `--help` | | | Displays lovely help and then exits                                                    |
-| `:output-dir` | `--output-dir` | DIR | | Write a copy of the rendered file set to DIR                                           |
-| `:templates` | `--templates` | FILES | | Render these ART files and directory trees thereof, instead of Boot's fileset          |
-| `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `evaluate` | Stop the render dataflow on each template at an earlier phase                          |
+| | `-h`, `--help` | | | Displays lovely help and then exits |
+| `:output-dir` | `--output-dir` | DIR | | Write a copy of the rendered file set to DIR |
+| `:templates` | `--templates` | FILES | | Render these ART files and directory trees thereof, instead of Boot's fileset |
+| `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `evaluate` | Stop the render dataflow on each template at an earlier phase |
 
 Depending on what types of values a particular option accepts and whether `boot-art` was invoked as a Boot task in Clojure or from the CLI,
 ART attempts to interpret arguments in this order of precedence:

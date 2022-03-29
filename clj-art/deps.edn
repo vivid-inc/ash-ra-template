@@ -17,9 +17,9 @@
            :mkdocs         {:extra-paths ["src"]
                             :main-opts   ["-m" "vivid.art.clj-tool"
                                           "--bindings" "../assets/vivid-art-facts.edn"
-                                          "--delimiters" "{:begin-forms,\"{%\",:end-forms,\"%}\",:begin-eval,\"{%=\",:end-eval,\"%}\"}"
-                                          "--dependencies" "{net.vivid-inc/art-cli,{:mvn/version,\"0.7.0\"}}"
+                                          "--delimiters" "{:begin-forms \"{%\" :end-forms \"%}\" :begin-eval \"{%=\" :end-eval \"%}\"}"
+                                          "--dependencies" "[[net.vivid-inc/art-cli \"0.7.0\"]]"
                                           "assets/README.md.art"]}
            :test           {:extra-deps  {eftest/eftest {:mvn/version "0.5.9"}}
                             :extra-paths ["test"]
-                            :main-opts   ["-e" "(require,'[eftest.runner,:refer,[find-tests,run-tests]]),(run-tests,(find-tests,\"test\"))"]}}}
+                            :main-opts   ["-e" "(require '[eftest.runner :refer [find-tests run-tests]]) (run-tests (find-tests \"test\"))"]}}}
