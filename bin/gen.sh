@@ -12,7 +12,8 @@ set -o xtrace
 function bootstrap_art {
   clojure -Sdeps '{:deps {org.suskalo/farolero  {:mvn/version "1.4.3"}
                           net.vivid-inc/art     {:local/root "art"}
-                          net.vivid-inc/art-cli {:local/root "art-cli"}}}' - <<EOS
+                          net.vivid-inc/art-cli {:local/root "art-cli"}
+                          net.vivid-inc/clj-art {:local/root "clj-art"}}}' - <<EOS
 
 (require '[clojure.edn :as edn]
          '[clojure.java.io :as io]
@@ -20,24 +21,24 @@ function bootstrap_art {
          '[vivid.art.cli.exec])
 (import '(java.io PushbackReader))
 
-(def ^:const vivid-art-facts (with-open [r (io/reader "assets/vivid-art-facts.edn")]
-                               (edn/read (PushbackReader. r))))
+(def ^:const asset-dirs [
+  "art"
+  "art-cli"
+  "clj-art"
+  "lein-art"])
 
-(def ^:const build-files [
-  "art"      ["assets/project.clj.art"]
-  "art-cli"  ["assets/project.clj.art"]
-  "clj-art"  ["assets/deps.edn.art" "assets/project.clj.art"]
-  "lein-art" ["assets/project.clj.art"]])
-
-(defn ->b [[dir templates]]
-  {:templates (map #(str dir "/" %) templates)
-   :output-dir dir
-   :bindings   vivid-art-facts
-   :delimiters "erb"})
+(defn ->b [dir]
+  (let [templates (->> (file-seq (clojure.java.io/file (str dir "/assets/")))
+                       (filter #(not (.isDirectory %)))
+                       (map #(.getPath %))
+                       (filter #(re-find vivid.art.cli/art-filename-suffix-regex %)))]
+    {:templates  templates
+     :output-dir dir
+     :bindings   "assets/vivid-art-facts.edn"
+     :delimiters "erb"}))
 
 (def ^:const raw-batches
-  (->> (partition 2 build-files)
-       (map ->b)))
+  (map ->b asset-dirs))
 
 (farolero.core/handler-case
   (doseq [b raw-batches]

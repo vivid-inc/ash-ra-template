@@ -60,22 +60,6 @@ ash-ra-template-job: &ash-ra-template-job
         paths:
           - .
 
-boot-art: &boot-art-job
-  steps:
-    - checkout
-    - attach_workspace:
-        at: ~/.m2
-    - run:
-        command: |
-          for ver in "1.10.0" "1.10.1" "1.10.2" "1.10.3" "1.11.0"
-          do
-            export BOOT_CLOJURE_VERSION=${ver}
-            boot test
-          done
-        working_directory: boot-art
-    # TODO - store_test_results:
-    #    path: boot-art/.../junit.xml
-
 clj-art: &clj-art-job
   steps:
     - checkout
@@ -121,10 +105,6 @@ jobs:
     <<: *ash-ra-template-job
     docker:
       - image: circleci/clojure:openjdk-8-lein-2.9.8-bullseye
-  boot-art-jdk-8-job:
-    <<: *boot-art-job
-    docker:
-      - image: circleci/clojure:openjdk-8-boot-2.8.3-bullseye
   clj-art-jdk-8-job:
     <<: *clj-art-job
     docker:
@@ -137,10 +117,6 @@ jobs:
     <<: *ash-ra-template-job
     docker:
       - image: circleci/clojure:openjdk-11-lein-2.9.8-bullseye
-  boot-art-jdk-11-job:
-    <<: *boot-art-job
-    docker:
-      - image: circleci/clojure:openjdk-11-boot-2.8.3-bullseye
   clj-art-jdk-11-job:
     <<: *clj-art-job
     docker:
@@ -153,10 +129,6 @@ jobs:
     <<: *ash-ra-template-job
     docker:
       - image: circleci/clojure:openjdk-17-lein-2.9.8-bullseye
-  boot-art-jdk-17-job:
-    <<: *boot-art-job
-    docker:
-      - image: circleci/clojure:openjdk-17-boot-2.8.3-bullseye
   clj-art-jdk-17-job:
     <<: *clj-art-job
     docker:
@@ -171,9 +143,6 @@ workflows:
   assess-quality:
     jobs:
       - ash-ra-template-jdk-8-job
-      - boot-art-jdk-8-job:
-          requires:
-            - ash-ra-template-jdk-8-job
       - clj-art-jdk-8-job:
           requires:
             - ash-ra-template-jdk-8-job
@@ -181,9 +150,6 @@ workflows:
           requires:
             - ash-ra-template-jdk-8-job
       - ash-ra-template-jdk-11-job
-      - boot-art-jdk-11-job:
-          requires:
-            - ash-ra-template-jdk-11-job
       - clj-art-jdk-11-job:
           requires:
             - ash-ra-template-jdk-11-job
@@ -191,9 +157,6 @@ workflows:
           requires:
             - ash-ra-template-jdk-11-job
       - ash-ra-template-jdk-17-job
-      - boot-art-jdk-17-job:
-          requires:
-            - ash-ra-template-jdk-17-job
       - clj-art-jdk-17-job:
           requires:
             - ash-ra-template-jdk-17-job

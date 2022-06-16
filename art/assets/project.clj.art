@@ -5,6 +5,9 @@
 ; Examine the full list of transitive dependencies
 ; $ lein with-profile '' deps :tree
 <%
+(def clojure-versions  (get vivid-art-facts 'clojure-versions))
+(def lein-version      (get vivid-art-facts 'lein-version))
+(def vivid-art-version (get vivid-art-facts 'vivid-art-version))
 
 (defn lein-profile-name-for-clojure-version
   [clojure-version]

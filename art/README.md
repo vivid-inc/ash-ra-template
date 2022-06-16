@@ -38,7 +38,6 @@ ART is tested on:
 
 Include this library from Clojars by adding the latest version of ``net.vivid-inc/art`` to your project dependencies:
 ```clojure
-(set-env! :dependencies '[[net.vivid-inc/art "0.7.0"]])    ; Boot build.boot
 {:deps {net.vivid-inc/art {:mvn/version "0.7.0"}}}         ; Clojure tools deps.edn
 :dependencies [[net.vivid-inc/art "0.7.0"]]                ; Leiningen project.clj
 ```
@@ -55,7 +54,7 @@ Or, to render from a file:
 (art/render (slurp "index.html.art"))
 ```
 
-You might be interested in the ART [Boot task](../boot-art/README.md), [Clojure tool](../clj-art/README.md), or [Leiningen plugin](../lein-art/README.md).
+You might be interested in the ART [Clojure tool](../clj-art/README.md) or [Leiningen plugin](../lein-art/README.md).
 
 
 

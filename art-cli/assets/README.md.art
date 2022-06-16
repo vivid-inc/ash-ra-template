@@ -1,7 +1,7 @@
 # art-cli Ash Ra Template CLI Library
 
 <%
-(def clojure-versions (get vivid-art-facts "clojure-versions"))
+(def clojure-versions  (get vivid-art-facts 'clojure-versions))
 %>
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)

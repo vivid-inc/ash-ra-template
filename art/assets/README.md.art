@@ -3,9 +3,9 @@
 <%
 (require '[vivid.art])
 
-(def clojure-versions  (get vivid-art-facts "clojure-versions"))
-(def java-versions     (get vivid-art-facts "java-versions"))
-(def vivid-art-version (get vivid-art-facts "vivid-art-version"))
+(def clojure-versions  (get vivid-art-facts 'clojure-versions))
+(def java-versions     (get vivid-art-facts 'java-versions))
+(def vivid-art-version (get vivid-art-facts 'vivid-art-version))
 
 (def to-phase-values (->> vivid.art/render-phases
                           (map #(format "`%s`" %))
