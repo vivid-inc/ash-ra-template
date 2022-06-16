@@ -4,12 +4,12 @@
 (require '[clojure.string]
          '[vivid.art])
 
+(def clojure-versions  (get vivid-art-facts 'clojure-versions))
+(def vivid-art-version (get vivid-art-facts 'vivid-art-version))
+
 (def to-phase-values (->> vivid.art/render-phases
                           (map #(format "`%s`" (name %)))
                           (clojure.string/join ", ")))
-
-(def clojure-versions (get vivid-art-facts "clojure-versions"))
-(def vivid-art-version (get vivid-art-facts "vivid-art-version"))
 %>
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)

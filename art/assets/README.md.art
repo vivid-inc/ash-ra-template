@@ -1,6 +1,6 @@
 # Ash Ra Template ART Library 
 
-{%
+<%
 (require '[vivid.art])
 
 (def clojure-versions  (get vivid-art-facts "clojure-versions"))
@@ -10,7 +10,7 @@
 (def to-phase-values (->> vivid.art/render-phases
                           (map #(format "`%s`" %))
                           (clojure.string/join ", ")))
-%}
+%>
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/net.vivid-inc/art.svg?color=blue&style=flat-square)](https://clojars.org/net.vivid-inc/art)
@@ -40,17 +40,16 @@ _Note_ that until ART achieves version 1.0 status, details may be subject to cha
 
 ART is tested on:
 
-- Clojure {%= (first clojure-versions) %} and newer
-- Java LTS releases {%= (clojure.string/join ", " java-versions) %}
+- Clojure <%= (first clojure-versions) %> and newer
+- Java LTS releases <%= (clojure.string/join ", " java-versions) %>
 
 <a name="quickstart"></a>
 ## Quick Start
 
 Include this library from Clojars by adding the latest version of ``net.vivid-inc/art`` to your project dependencies:
 ```clojure
-(set-env! :dependencies '[[net.vivid-inc/art "{%=vivid-art-version%}"]])    ; Boot build.boot
-{:deps {net.vivid-inc/art {:mvn/version "{%=vivid-art-version%}"}}}         ; Clojure tools deps.edn
-:dependencies [[net.vivid-inc/art "{%=vivid-art-version%}"]]                ; Leiningen project.clj
+{:deps {net.vivid-inc/art {:mvn/version "<%=vivid-art-version%>"}}}         ; Clojure tools deps.edn
+:dependencies [[net.vivid-inc/art "<%=vivid-art-version%>"]]                ; Leiningen project.clj
 ```
 
 Render a template string:
@@ -65,7 +64,7 @@ Or, to render from a file:
 (art/render (slurp "index.html.art"))
 ```
 
-You might be interested in the ART [Boot task](../boot-art/README.md), [Clojure tool](../clj-art/README.md), or [Leiningen plugin](../lein-art/README.md).
+You might be interested in the ART [Clojure tool](../clj-art/README.md) or [Leiningen plugin](../lein-art/README.md).
 
 
 
@@ -185,7 +184,7 @@ More complex:
 
 <a name="delimiters"></a>
 ### Configure ``:delimiters``
-ART's configurable template delimiters use a `{%= vivid.art/default-delimiters-name %}` syntax by default.
+ART's configurable template delimiters use a `<%= vivid.art/default-delimiters-name %>` syntax by default.
 ```clojure
 <( (def e 2.7182) )>
 The natural number e is approximately <(= e )>
@@ -212,7 +211,7 @@ The template syntax parser is lenient in that both `:end-form` or `:end-eval` de
 The rendering process of a single template is composed of several phases.
 By default rendering completes all phases, but you can have `(render)` stop at an earlier phase.
 This is useful for learning ART's internals and for debugging.
-The phases are, in order: {%= to-phase-values %}.
+The phases are, in order: <%= to-phase-values %>.
 
 ```clojure
 ; Output raw Clojure code that, if evaluated, produces the final rendered output.

@@ -12,51 +12,39 @@ set -o xtrace
 function bootstrap_art {
   clojure -Sdeps '{:deps {org.suskalo/farolero  {:mvn/version "1.4.3"}
                           net.vivid-inc/art     {:local/root "art"}
-                          net.vivid-inc/art-cli {:local/root "art-cli"}
-                          zprint/zprint         {:mvn/version "1.0.2"}}}' - <<EOS
+                          net.vivid-inc/art-cli {:local/root "art-cli"}}}' - <<EOS
 
 (require '[clojure.edn :as edn]
          '[clojure.java.io :as io]
-         '[vivid.art])
+         '[vivid.art.cli.args]
+         '[vivid.art.cli.exec])
 (import '(java.io PushbackReader))
 
 (def ^:const vivid-art-facts (with-open [r (io/reader "assets/vivid-art-facts.edn")]
                                (edn/read (PushbackReader. r))))
-(def ^:const base-rndr-opts {:bindings {'vivid-art-facts vivid-art-facts}})
 
-(def ^:const bootstrap-delimiters {:begin-forms "{%"
-                                :end-forms   "%}"
-                                :begin-eval  "{%="
-                                :end-eval    "%}"})
+(def ^:const build-files [
+  "art"      ["assets/project.clj.art"]
+  "art-cli"  ["assets/project.clj.art"]
+  "clj-art"  ["assets/deps.edn.art" "assets/project.clj.art"]
+  "lein-art" ["assets/project.clj.art"]])
 
-(def ^:const batches [
-  "art/assets/project.clj.art" "art/project.clj"
-  {:dependencies {'zprint/zprint {:mvn/version "1.0.2"}}}
+(defn ->b [[dir templates]]
+  {:templates (map #(str dir "/" %) templates)
+   :output-dir dir
+   :bindings   vivid-art-facts
+   :delimiters "erb"})
 
-  "art/assets/README.md.art" "art/README.md"
-  {:delimiters   bootstrap-delimiters
-   :dependencies {'net.vivid-inc/art     {:mvn/version (get vivid-art-facts "vivid-art-version")}
-                  'zprint/zprint {:mvn/version "1.0.2"}}}
+(def ^:const raw-batches
+  (->> (partition 2 build-files)
+       (map ->b)))
 
-  "art-cli/assets/README.md.art" "art-cli/README.md"
-  {:delimiters   bootstrap-delimiters
-   :dependencies {'net.vivid-inc/art     {:mvn/version (get vivid-art-facts "vivid-art-version")}
-                  'net.vivid-inc/art-cli {:mvn/version (get vivid-art-facts "vivid-art-version")}
-                  'zprint/zprint {:mvn/version "1.0.2"}}}
-
-  "art-cli/assets/project.clj.art" "art-cli/project.clj"
-  {:dependencies {'zprint/zprint {:mvn/version "1.0.2"}}}
-])
-
-(defn rndr [from to opts-overrides]
-  (println "Rendering ART" to)
-  (let [opts* (merge base-rndr-opts opts-overrides)]
-    (as-> (slurp from) c
-          (vivid.art/render c opts*)
-          (spit to c))))
-
-(doseq [batch (partition 3 batches)]
-  (apply rndr batch))
+(farolero.core/handler-case
+  (doseq [b raw-batches]
+    (vivid.art.cli.exec/render-batches-once
+      [(vivid.art.cli.args/direct->batch (:templates b) b)]))
+  (:vivid.art.cli/error [_ details] (do (prn details)
+                                        (System/exit 1))))
 
 EOS
 }
@@ -68,6 +56,5 @@ echo Generating resources in all projects
 bootstrap_art
 (cd art && lein install)
 (cd art-cli && lein install)
-(cd boot-art && boot lein-generate mkdocs)
-(cd clj-art  && clojure -M:mkdocs)
-(cd lein-art && lein mkdocs)
+(cd clj-art  && clojure -M:gen)
+(cd lein-art && lein gen)

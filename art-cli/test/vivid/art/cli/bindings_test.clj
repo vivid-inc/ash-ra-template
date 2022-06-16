@@ -1,4 +1,4 @@
-; Copyright 2022 Vivid Inc.
+; Copyright 2022 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 (ns vivid.art.cli.bindings-test
   "Guarantee certain types can be transported across the shimdandy bridge unspoiled."
   (:require
-    [clojure.test :refer :all]
+    [clojure.test :refer [are deftest testing]]
     [vivid.art :as art]))
 
 (deftest bindings-styles

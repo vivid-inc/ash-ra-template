@@ -1,16 +1,8 @@
 ; Copyright 2022 Vivid Inc.
 <%
-
-(require
-  '[clojure.edn :as edn]
-  '[clojure.java.io :as io]
-  '[clojure.pprint])
-(import
-  '(java.io BufferedReader PushbackReader StringReader))
-
-(def ^:const vivid-art-facts (with-open [r (io/reader "../assets/vivid-art-facts.edn")]
-                               (edn/read (PushbackReader. r))))
-(def ^:const clojure-versions (get vivid-art-facts "clojure-versions"))
+(def clojure-versions  (get vivid-art-facts 'clojure-versions))
+(def lein-version      (get vivid-art-facts 'lein-version))
+(def vivid-art-version (get vivid-art-facts 'vivid-art-version))
 
 (defn lein-profile-name-for-clojure-version
   [clojure-version]
@@ -29,14 +21,15 @@
     (apply str (concat indent [s]))))
 
 (defn clojure-version-profiles [& {:keys [indent]}]
-  (->> (for [v (get vivid-art-facts "clojure-versions")]
+  (->> (for [v clojure-versions]
             (indent-str indent (test-dependency-block v)))
        (clojure.string/join \newline)
        (apply str)))
 
 %>
-(defproject net.vivid-inc/lein-art "<%= (get vivid-art-facts "vivid-art-version") %>"
+(defproject net.vivid-inc/lein-art "<%= vivid-art-version %>"
 
+  :note "THIS FILE IS GENERATED AUTOMATICALLY BY bin/gen.sh"
   :description "Leiningen plugin for rendering Ash Ra .art templates"
   :url "https://github.com/vivid-inc/ash-ra-template"
   :license {:distribution :repo
@@ -52,12 +45,15 @@
                          ["jar"]
                          ["install"]]
             "clj-kondo" ["with-profile" "clj-kondo" "run" "-m" "clj-kondo.main" "--"
-                         "--lint" "src/"]
-            "mkdocs"    ["art"]
+                         "--config" "../.clj-kondo/config.edn"
+                         "--lint" "src/:test/"
+                         "--parallel"]
+            "gen"       ["art" "render"]
             "test"      ["with-profile" "<%= clojure-test-profiles-str %>" "build"]}
 
   :art {:templates  "assets"
         :bindings   "../assets/vivid-art-facts.edn"
+        ; ERB delimiters because the README utilizes lispy delimiters in explanatory text.
         :delimiters erb
         :output-dir "."}
 
@@ -80,7 +76,7 @@
 
   :manifest {"Built-By" "vivid"}
 
-  :min-lein-version "<%= (get vivid-art-facts "lein-version") %>"
+  :min-lein-version "<%= lein-version %>"
 
   ; Enable this to assist with determining :excludes whenever dependencies and
   ; plugins change, then re-disable it.
@@ -98,12 +94,13 @@
                                            org.slf4j/jcl-over-slf4j
                                            org.slf4j/slf4j-api]]]
 
-  :profiles {:clj-kondo {:dependencies [[org.clojure/clojure "<%= (first clojure-versions) %>"]
-                                        [clj-kondo "RELEASE"]]}
+  :profiles {:clj-kondo {:dependencies [[clj-kondo "RELEASE"]
+                                        [org.clojure/clojure "<%= (first clojure-versions) %>"]]}
 
 <%= (clojure-version-profiles :indent 13) %>
 
-             :dev {:dependencies   [;; Diffs equality assertions in test failure output
+             :dev {:dependencies   [[org.clojure/clojure "<%= (first clojure-versions) %>"]
+                                    ;; Diffs equality assertions in test failure output
                                     ;; https://github.com/pjstadig/humane-test-output
                                     [pjstadig/humane-test-output "0.11.0"]]
 
@@ -116,6 +113,6 @@
 
                    :test-refresh   {:quiet true}}
 
-             :provided {:dependencies [[leiningen "<%= (get vivid-art-facts "lein-version") %>"]]}}
+             :provided {:dependencies [[leiningen "<%= lein-version %>"]]}}
 
   :repositories [["clojars" {:sign-releases false}]])

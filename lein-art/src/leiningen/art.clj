@@ -31,38 +31,39 @@
   (main-lein/info message)
   (main-lein/exit exit-status))
 
-(defn- from-cli-args [args]
+(defn- batch-from-cli-args [args]
   (let [batch* (vivid.art.cli.args/cli-args->batch args vivid.art.cli.usage/cli-options)
         batch (merge default-options batch*)]
-    (vivid.art.cli.exec/render-batch batch)))
+    batch))
 
-(defn- from-project
+(defn- batches-from-project
   [project]
   (let [stanza        (:art project)
         prj-classpath (leiningen.core.classpath/get-classpath project)
-        pipeline      #(->> (vivid.art.cli.args/direct->batch (:templates %) %)
+        ->batch       #(->> (vivid.art.cli.args/direct->batch (:templates %) %)
                             (merge default-options
-                                   {:classpath prj-classpath})
-                            (vivid.art.cli.exec/render-batch))]
+                                   {:classpath prj-classpath}))]
     (cond
-      (map? stanza) (pipeline stanza)
-      (coll? stanza) (doseq [conf stanza]
-                       (pipeline conf))
-      :else (main-lein/warn "Warning: Unknown lein-art ART configuration"))))
+      (map? stanza)  [(->batch stanza)]
+      (coll? stanza) (map ->batch stanza)
+      :else (exit 1 "Error: Uninterpretable lein-art ART configuration"))))
 
-(defn- process [project args]
-  (binding [log/*info-fn* main-lein/info
-            log/*warn-fn* main-lein/warn]
-    ; TODO Make clear that specifying args will cause ART to ignore the project. Or, change this behavior.
-    (if (coll? args)
-      (from-cli-args args)
-      (from-project project))))
+(defn- process [project command args]
+  (binding [log/*debug-fn* main-lein/debug
+            log/*info-fn*  main-lein/info
+            log/*warn-fn*  main-lein/warn]
+    ; TODO Documentation: Clarify that specifying options will cause ART to ignore project settings.
+    (let [batches (if (coll? args)
+                    [(batch-from-cli-args args)]
+                    (batches-from-project project))]
+      (vivid.art.cli.exec/dispatch-command command batches))))
 
 (defn- usage []
   (let [options-summary (:summary (clojure.tools.cli/parse-opts [] vivid.art.cli.usage/cli-options))]
     (->> [vivid.art.cli.usage/one-line-desc
           (vivid.art.cli.usage/summary "Leiningen plugin")
-          "Usage: lein art [options...] template-files..."
+          "Usage: lein art command [options...] [template-files...]"
+          (str "Commands:\n" (vivid.art.cli.usage/command-summary))
           (str "Options:\n" options-summary)
           vivid.art.cli.usage/for-more-info]
          (clojure.string/join "\n\n"))))
@@ -73,9 +74,9 @@
 
 (defn ^:no-project-needed
   ^{:doc (usage)}
-  art [project & args]
+  art [project command & args]
   (farolero/handler-case
-    (process project args)
+    (process project command args)
     (:vivid.art.cli/error [_ details] (if (:show-usage details)
                                         (exit (or (:exit-status details) 1) (usage))
                                         (main-lein/abort (messages/pp-str-error details))))))

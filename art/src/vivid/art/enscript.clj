@@ -1,4 +1,4 @@
-; Copyright 2020 Vivid Inc.
+; Copyright 2022 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -16,24 +16,30 @@
   (:require
     [clojure.string]))
 
-(def ^:const prelude ["(ns user)"
-                      "(def ^java.lang.StringBuilder __vivid__art__sb (new java.lang.StringBuilder))"
-                      "(defn emit ([]) ([& more] (doseq [m more] (.append user/__vivid__art__sb m)) nil))"])
-(def ^:const coda ["(.toString user/__vivid__art__sb)"])
+(defn prelude [sb-identifier]
+  ["(ns user)"
+   (str "(def ^java.lang.StringBuilder " sb-identifier " (new java.lang.StringBuilder))")
+   (str "(defn emit ([]) ([& more] (doseq [m more] (.append user/" sb-identifier " m)) nil))")])
+(defn coda [sb-identifier]
+  [(str "(.toString user/" sb-identifier ")")])
 
-(defn define-bindings
+(defn def-bindings
   [bindings]
-  (vec (for [[k v] bindings] (format "(def %s %s)"
-                                     (pr-str k)
-                                     (pr-str v)))))
+  (vec (for [[k v] bindings]
+         (let [quote-value? (get (meta v) :quote-value?)]
+           (format "(def %s %s%s)"
+                   (pr-str k)
+                   (if quote-value? "'" "")
+                   (pr-str v))))))
 
 (defn enscript
   [forms bindings]
-  (as-> [prelude
-         (define-bindings bindings)
-         forms
-         coda] s
-        (remove empty? s)
-        (interleave s (repeat ""))
-        (flatten s)
-        (clojure.string/join "\n" s)))
+  (let [sb-identifier (gensym '__vivid__art__sb)]
+    (as-> [(prelude sb-identifier)
+           (def-bindings bindings)
+           forms
+           (coda sb-identifier)] s
+          (remove empty? s)
+          (interleave s (repeat ""))
+          (flatten s)
+          (clojure.string/join "\n" s))))

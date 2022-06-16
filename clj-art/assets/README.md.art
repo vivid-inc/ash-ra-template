@@ -1,17 +1,17 @@
 # clj-art Ash Ra Template Clojure Tool 
 
-{%
+<%
 (require '[clojure.string]
          '[vivid.art]
          '[vivid.art.clj-tool])
 
+(def clojure-versions  (get vivid-art-facts 'clojure-versions))
+(def vivid-art-version (get vivid-art-facts 'vivid-art-version))
+
 (def to-phase-values (->> vivid.art/render-phases
                           (map #(format "`%s`" (name %)))
                           (clojure.string/join ", ")))
-
-(def clojure-versions (get vivid-art-facts "clojure-versions"))
-(def vivid-art-version (get vivid-art-facts "vivid-art-version"))
-%}
+%>
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/net.vivid-inc/clj-art.svg?color=blue&style=flat-square)](https://clojars.org/net.vivid-inc/clj-art)
@@ -21,7 +21,7 @@
 
 
 ## Quick Start
-{% ; Quick Start introduces a least-friction sample that intrigues the reader to try it out themselves. %}
+<% ; Quick Start introduces a least-friction sample that intrigues the reader to try it out themselves. %>
 
 ```sh
 $ cat oracle.art
@@ -32,7 +32,7 @@ Wait, I see it! Your destiny lies deep within the number <(= (mult mysterious-pr
 $ cat deps.edn
 
 {:aliases
-  {:art {:extra-deps {net.vivid-inc/clj-art {:mvn/version "{%= vivid-art-version %}"}}
+  {:art {:extra-deps {net.vivid-inc/clj-art {:mvn/version "<%= vivid-art-version %>"}}
          :main-opts  ["-m" "vivid.art.clj-tool"]}}}
 
 $ clojure -A:art \
@@ -69,11 +69,11 @@ filename extensions, overwriting any existing files with the same paths.
 | Argument | Parameters | Default | Explanation |
 | --- | --- | --- | --- |
 | `--bindings` | VAL | | Bindings made available to templates for symbol resolution. Currently limited to a single usage in `clj-art`. |
-| `--delimiters` | VAL | `{%= vivid.art/default-delimiters-name %}` | Template delimiters |
+| `--delimiters` | VAL | `<%= vivid.art/default-delimiters-name %>` | Template delimiters |
 | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. |
 | `-h`, `--help` | | | Displays lovely help and then exits |
-| `--output-dir` | DIR | `{%= (:output-dir vivid.art.clj-tool/default-options) %}` | Write rendered files to DIR |
-| `--to-phase` | One of: {%= to-phase-values %} | `{%= (name vivid.art/default-to-phase) %}` | Stop the render dataflow on each template at an earlier phase |
+| `--output-dir` | DIR | `<%= (:output-dir vivid.art.clj-tool/default-options) %>` | Write rendered files to DIR |
+| `--to-phase` | One of: <%= to-phase-values %> | `<%= (name vivid.art/default-to-phase) %>` | Stop the render dataflow on each template at an earlier phase |
 
 Depending on what types of values a particular option accepts,
 ART attempts to interpret arguments in this order of precedence:
@@ -87,16 +87,16 @@ ART attempts to interpret arguments in this order of precedence:
 
 ## Cookbook
 
-{% ; ../examples/ contains sample projects that parallel these recipes, and are included in the automated test suite.
+<% ; ../examples/ contains sample projects that parallel these recipes, and are included in the automated test suite.
    ; Each cookbook recipe should link to its corresponding ../examples/ directory.
-%}
+%>
 
 
 
 ### Custom bindings, delimiters, dependencies, and project code
 ```edn
 {:aliases
- {:art {:extra-deps {net.vivid-inc/clj-art {:mvn/version "{%= vivid-art-version %}"}}
+ {:art {:extra-deps {net.vivid-inc/clj-art {:mvn/version "<%= vivid-art-version %>"}}
         :main-opts  ["-m" "vivid.art.clj-tool"
 
                      ; Render all .art templates in the content/ directory
@@ -159,11 +159,11 @@ __See also:__
 ### Configure multi-batch rendering in deps.edn
 ```edn
 {:aliases
-  {:rndr-a {:extra-deps {net.vivid-inc/clj-art {:mvn/version "{%= vivid-art-version %}"}}
+  {:rndr-a {:extra-deps {net.vivid-inc/clj-art {:mvn/version "<%= vivid-art-version %>"}}
             :main-opts  ["-m" "vivid.art.clj-tool" "src/templates/css"
                          "--dependencies" "{garden,{:mvn/version,\"1.3.10\"}}"
                          "--output-dir" "src/resources"]}
-   :rndr-b {:extra-deps {net.vivid-inc/clj-art {:mvn/version "{%= vivid-art-version %}"}}
+   :rndr-b {:extra-deps {net.vivid-inc/clj-art {:mvn/version "<%= vivid-art-version %>"}}
             :main-opts  ["-m" "vivid.art.clj-tool" "src/templates/java"
                          "--bindings" "{version,\"1.2.3\"}"
                          "--output-dir" "target/generated-sources/java"]}}}

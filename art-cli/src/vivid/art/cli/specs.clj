@@ -1,4 +1,4 @@
-; Copyright 2021 Vivid Inc.
+; Copyright 2022 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -34,8 +34,7 @@
 (s/def :vivid.art.cli/classpath ::classpath)
 (s/def :vivid.art.cli/dependencies ::lein-dependencies)
 (s/def :vivid.art.cli/output-dir ::file)
-(s/def :vivid.art.cli/templates (s/or :single-file :vivid.art.cli/template-file
-                                      :coll-file   (s/coll-of :vivid.art.cli/template-file :min-count 1)))
+(s/def :vivid.art.cli/templates (s/coll-of ::file :min-count 1))
 
 ; A render batch, describing the input & output files and all
 ; (vivid.art/render) options.

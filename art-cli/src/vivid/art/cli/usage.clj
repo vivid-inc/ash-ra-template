@@ -1,4 +1,4 @@
-; Copyright 2020 Vivid Inc.
+; Copyright 2022 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -25,6 +25,23 @@
 (defn summary [what-i-am]
   (str "Provided file or directory tree paths containing Ash Ra .art template files, this
 " what-i-am " renders the ART templates to the output dir, preserving relative sub-paths."))
+
+(def ^:const cli-commands
+  [{:command     "auto"
+    :description "Watch templates, re-rendering on changes"}
+   {:command     "config"
+    :description "Dump the effective configuration and exit"}
+   {:command     "help"
+    :description "Display this lovely help and exit"}
+   {:command     "render"
+    :description "Render all template batches once"}])
+
+(defn cli-command? [s]
+      (some #{s} (map :command cli-commands)))
+
+(defn command-summary []
+      (->> (map #(format "  %-6s  %s" (:command %) (:description %)) cli-commands)
+           (clojure.string/join "\n")))
 
 ; CLI options are specified according to clojure.tools.cli.
 ; Entries are sorted alphabetically by long option.

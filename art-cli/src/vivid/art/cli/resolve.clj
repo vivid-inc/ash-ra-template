@@ -1,4 +1,4 @@
-; Copyright 2020 Vivid Inc.
+; Copyright 2022 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@
     [clojure.string]
     [farolero.core :as farolero])
   (:import
-    (java.io File IOException PushbackReader)))
+    (java.io File IOException PushbackReader Reader)))
 
 (defn resolve-as-edn-file
   "Attempt to interpret a value as a path to an EDN file.
@@ -43,15 +43,15 @@
   (when (and (string? x)
              (clojure.string/ends-with? x ".edn"))
     (let [{:keys [wrap-in-map] :or {wrap-in-map false}} options
-          f   (io/file (System/getProperty "user.dir") x)]
+          f ^File (io/file (System/getProperty "user.dir") x)]
       (when (.exists f)
         (try
-          (with-open [r (io/reader f)]
+          (with-open [r ^Reader (io/reader f)]
             (let [content (edn/read (PushbackReader. r))]
               (if wrap-in-map
                 (let [n   (clojure.string/replace (.getName f) #"\.edn$" "")
                       sym (symbol n)]
-                  {sym content})
+                  {sym (with-meta content {:quote-value? true})})
                 content)))
           (catch IOException e
             (farolero/signal :vivid.art.cli/error
@@ -100,10 +100,10 @@
   (when (and (string? x)
              (clojure.string/ends-with? x ".json"))
     (let [{:keys [wrap-in-map] :or {wrap-in-map false}} options
-          f (io/file (System/getProperty "user.dir") x)]
+          f ^File (io/file (System/getProperty "user.dir") x)]
       (when (.exists f)
         (try
-          (with-open [r (io/reader f)]
+          (with-open [r ^Reader (io/reader f)]
             (let [content (json/read r :eof-error? false)]
               (if wrap-in-map
                 (let [n   (clojure.string/replace (.getName f) #"\.json$" "")

@@ -1,4 +1,4 @@
-; Copyright 2020 Vivid Inc.
+; Copyright 2022 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 (ns vivid.art.cli.to-phase-test
   (:require
     [clojure.string]
-    [clojure.test :refer :all]
+    [clojure.test :refer [are deftest is]]
     [farolero.core :as farolero]
     [vivid.art.cli.args]
     [vivid.art.cli.usage]

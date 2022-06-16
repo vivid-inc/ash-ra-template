@@ -1,4 +1,4 @@
-; Copyright 2020 Vivid Inc.
+; Copyright 2022 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 
 (ns vivid.art.cli.bind-log-fns-test
   (:require
-    [clojure.test :refer :all]
+    [clojure.test :refer [are deftest]]
     [vivid.art.cli.log]))
 
 (deftest bound
@@ -26,9 +26,3 @@
     vivid.art.cli.log/*info-fn* "Amiga"
     vivid.art.cli.log/*warn-fn* "Amigo")))
 
-(deftest unbound
-  (are [log-fn]
-    (thrown? IllegalStateException
-             (apply log-fn ["message"]))
-    vivid.art.cli.log/*info-fn*
-    vivid.art.cli.log/*warn-fn*))

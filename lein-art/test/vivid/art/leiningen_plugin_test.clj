@@ -37,12 +37,12 @@
                         []
                         (dissoc project-stanza :templates))
         args (concat templates opts)]
-    (apply lein-art/art nil args)))
+    (apply lein-art/art nil "render" args)))
 
 (defn call-art-via-project-stanza
   [project-stanza]
   (let [project {:art project-stanza}]
-    (lein-art/art project)))
+    (lein-art/art project "render")))
 
 (def calls
   [[call-art-via-cli-args "cli-args"]
@@ -95,13 +95,13 @@
                             :delimiters 'jinja}))
 
 (t/deftest lein-plugin-example-custom-options
-  (let [res (clojure.java.shell/sh "./test.sh" "lein" "do" "clean," "install," "art"
+  (let [res (clojure.java.shell/sh "./test.sh" "lein" "do" "clean," "install," "art" "render"
                                    :dir "../examples/custom-options")]
     (t/is (= 0 (res :exit))
           (pr-str res))))
 
 (t/deftest lein-plugin-example-multi-batch
-  (let [res (clojure.java.shell/sh "./test.sh" "lein" "art"
+  (let [res (clojure.java.shell/sh "./test.sh" "lein" "art" "render"
                                    :dir "../examples/multi-batch")]
     (t/is (= 0 (res :exit))
           (pr-str res))))

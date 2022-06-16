@@ -1,8 +1,8 @@
 # art-cli Ash Ra Template CLI Library
 
-{%
+<%
 (def clojure-versions (get vivid-art-facts "clojure-versions"))
-%}
+%>
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/net.vivid-inc/art-cli.svg?color=blue&style=flat-square)](https://clojars.org/net.vivid-inc/art-cli)
@@ -48,7 +48,7 @@ The template's external dependencies can be specified as a Clojure deps [lib map
 ```
 Dependencies are resolved prior to template rendering using Clojure's ``org.clojure/tools.deps.alpha``.
 
-As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version {%= (first clojure-versions) %}, but this can be overridden using the same mechanism by supplying the `org.clojure/clojure` dependency with a different version:
+As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version <%= (first clojure-versions) %>, but this can be overridden using the same mechanism by supplying the `org.clojure/clojure` dependency with a different version:
 ```clojure
-                  {:dependencies {'org.clojure/clojure {:mvn/version "{%= (last clojure-versions) %}"}}}
+                  {:dependencies {'org.clojure/clojure {:mvn/version "<%= (last clojure-versions) %>"}}}
 ```

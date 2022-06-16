@@ -1,4 +1,4 @@
-; Copyright 2020 Vivid Inc.
+; Copyright 2022 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -46,8 +46,7 @@
                                 :message (format "Bad bindings: '%s'" x)}))))
     {}
     ; Flattened, bindings will be fed to (reduce) as a collection if it wasn't one already.
-    (flatten [bindings])
-    ))
+    (with-meta (flatten [bindings]) (meta bindings))))
 
 (defn validate-delimiters
   "ART is lenient in its acceptance of delimiter specifications."
@@ -80,7 +79,7 @@
 (defn validate-output-dir
   "A string path of the output directory."
   [output-dir]
-  (let [f (some-> (resolve/resolve-as-file output-dir)
+  (let [f (some-> ^File (resolve/resolve-as-file output-dir)
                   (.getAbsoluteFile))]
     (if f
       f
@@ -94,7 +93,7 @@
   Any unresolvable named path is signaled as an error."
   [x]
   (letfn [(conv [path]
-            (let [f (some-> (resolve/resolve-as-file path)
+            (let [f (some-> ^File (resolve/resolve-as-file path)
                             (.getAbsoluteFile))]
               (if (and f (.exists ^File f))
                 f

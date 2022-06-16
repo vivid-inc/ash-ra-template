@@ -30,10 +30,11 @@
            (aether/dependency-files)
            (map #(.getAbsolutePath ^File %))))
 
-(defn strip-uri-scheme [paths]
+(defn strip-uri-scheme
       "paths is a seq of java.lang.String formatted like a URI i.e.
           file:/home/me/.m2/repository/.../bleep.jar
       Returns a seq of strings without the scheme, file or any other."
+      [paths]
       (map (fn [path]
                (let [uri (URI. path)]
                     (when (not= "file" (.getScheme uri))

@@ -16,15 +16,13 @@ $ bin/deploy.sh
 # Along the path to ART version 1.0 and beyond
 
 ### Next:
-- `auto` CLI command.
-- `print-conf` CLI command dumps the effective configuration after processing project configuration and CLI args.
-- `(include)` and `(yield)` -like content inclusion/nesting mechanisms. One simple and one complicated exemplar.
+- `(include)` and `(yield)` -like content inclusion/nesting mechanisms. Exemplars of various inclusion & nesting mechanisms.
 - Heavy testing of quote nesting and escaping, delimiter escaping, Clojure reader forms, comments.
-- Sufficient error reporting.
+- Explicit support for parallel execution.
 
 ### Considerations, further out:
 - Declare version 1.0.0 once the community deems the ART feature-complete, reliable, and properly documented.
-- Explicit support for parallel execution.
+- Sufficient error reporting.
 - Provide access to execution context from within the evaluation environment: (render) args. The evaluation stack starting from the page through to the current (yield). `user/*art-render-context*`
 - Infer sensible defaults that can be customized via overrides.
 - ClojureScript.
@@ -37,7 +35,7 @@ $ bin/deploy.sh
 - Parsing option mode magic within template content. Example from Jinja: `#jinja2:variable_start_string:'[%', variable_end_string:'%]', trim_blocks: False`
 - IDE support for .art files: Eclipse, Emacs, IntelliJ, Vim, VS Code
 - Maven plugin for rendering ART templates.
-- Template registry + Cache à la https://github.com/davidsantiago/stencil.
+- Template registry + Cache à la https://github.com/davidsantiago/stencil , https://github.com/Flamefork/fleet
 - AOT compilation.
 
 

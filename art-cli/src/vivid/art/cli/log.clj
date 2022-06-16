@@ -1,4 +1,4 @@
-; Copyright 2020 Vivid Inc.
+; Copyright 2022 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -13,13 +13,25 @@
 ; limitations under the License.
 
 (ns vivid.art.cli.log
-  "Logging facility used by this library. Implemented by its consumers by
-  binding these vars to actual functions.")
+  "Logging facility used by this library. Consumers of this library may bind
+  the logging fn vars to their own functions.")
+
+(def mutex (Object.))
+
+(defn- p [level args]
+  (let [line (str "ART " (name level) ": "
+                  (apply pr-str args))]
+    (locking mutex
+      (println line))))
+
+(defn ^:dynamic *debug-fn*
+  [& args]
+  (p :debug args))
 
 (defn ^:dynamic *info-fn*
-  [& _]
-  (throw (IllegalStateException. (str "First, bind " (var *info-fn*) " to a function."))))
+  [& args]
+  (p :info args))
 
 (defn ^:dynamic *warn-fn*
-  [& _]
-  (throw (IllegalStateException. (str "First, bind " (var *warn-fn*) " to a function."))))
+  [& args]
+  (p :warn args))

@@ -1,4 +1,4 @@
-; Copyright 2022 Vivid Inc.
+; Copyright 2022 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -14,16 +14,11 @@
 
 (ns vivid.art.cli.dependencies-test
   (:require
-    [clojure.edn :as edn]
-    [clojure.java.io :as io]
-    [clojure.test :refer :all]
+    [clojure.test :refer [are deftest]]
     [farolero.core :as farolero]
     [vivid.art.cli.args]
     [vivid.art.cli.usage :refer [cli-options]]
-    [vivid.art.cli.validate :as validate]
-    [vivid.art :as art])
-  (:import
-    (java.io PushbackReader)))
+    [vivid.art.cli.validate :as validate]))
 
 (def ^:const custom-deps
   '[[compojure/compojure "1.6.2"]])

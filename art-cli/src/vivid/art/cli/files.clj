@@ -1,4 +1,4 @@
-; Copyright 2020 Vivid Inc.
+; Copyright 2022 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 (ns vivid.art.cli.files
   "File and path handling common to this ART CLI library in general."
   (:require
+    [clojure.java.io :as io]
     [clojure.string]
     [farolero.core :as farolero]
     [vivid.art.cli])
@@ -63,7 +64,7 @@
 (defn strip-art-filename-suffix
   [path]
   (let [out (clojure.string/replace path vivid.art.cli/art-filename-suffix-regex "")
-        filename (.getName (File. out))]
+        filename (.getName (File. ^String out))]
     (when (get prohibited-template-output-filenames filename)
       (farolero/signal :vivid.art.cli/error
                        {:step    'strip-art-filename-suffix
@@ -74,3 +75,26 @@
   "seq of all .art template files within the sub-dir hierarchy rooted in path."
   [^File path]
   (filter art-template-file? (file-seq path)))
+
+(defn ->template-path
+      "Takes a base path and a path to a template-file (ostensibly within the
+      base path) and returns a map indicating the providence :src-path and the
+      intended output path of the template file :dest-rel-path relative to the
+      batch's :output-dir."
+      [^File base-path ^File template-file]
+      (let [rel-path-parent (relative-path base-path (.getParentFile template-file))
+            dest-name (strip-art-filename-suffix (.getName template-file))
+            dest-rel-path (apply io/file (concat rel-path-parent
+                                                 [dest-name]))]
+           {:src-path      template-file
+            :dest-rel-path dest-rel-path}))
+
+(defn paths->template-paths!
+      "Finds all ART templates either at the given paths (as template files) or
+      within their sub-trees (as a directory). This function is impure, as it
+      directly scans the filesystem subtree of each of the paths."
+      [paths]
+      (letfn [(->template-paths [base-path]
+                                (let [template-files (template-file-seq base-path)]
+                                     (map #(->template-path base-path %) template-files)))]
+             (mapcat ->template-paths paths)))

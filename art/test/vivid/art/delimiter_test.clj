@@ -1,4 +1,4 @@
-; Copyright 2020 Vivid Inc.
+; Copyright 2022 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -12,9 +12,9 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.render.delimiter-test
+(ns vivid.art.delimiter-test
   (:require
-    [clojure.test :refer :all]
+    [clojure.test :refer [are deftest testing]]
     [vivid.art :as art]
     [vivid.art.delimiters]))
 

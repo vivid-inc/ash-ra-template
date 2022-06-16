@@ -1,4 +1,4 @@
-; Copyright 2020 Vivid Inc.
+; Copyright 2022 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -15,9 +15,10 @@
 (ns vivid.art.cli.output-path-test
   (:require
     [clojure.string]
-    [clojure.test :refer :all]
+    [clojure.test :refer [are deftest is]]
     [farolero.core :as farolero]
-    [vivid.art.cli.exec]
+    [vivid.art.cli.args]
+    [vivid.art.cli.files]
     [vivid.art.cli.usage])
   (:import
     (java.io File)))
@@ -44,17 +45,17 @@
     "../here/there"))
 
 (deftest cli-empty-output-dir
-  (= 'validate-output-dir
-     (farolero/handler-case (vivid.art.cli.args/cli-args->batch
-                              ["--output-dir" "" "test-resources/empty.art"]
-                              vivid.art.cli.usage/cli-options)
-                            (:vivid.art.cli/error [_ {:keys [step]}] step))))
+         (is (= 'validate-output-dir
+                (farolero/handler-case (vivid.art.cli.args/cli-args->batch
+                                         ["--output-dir" "" "test-resources/empty.art"]
+                                         vivid.art.cli.usage/cli-options)
+                                       (:vivid.art.cli/error [_ {:keys [step]}] step)))))
 
 (deftest template-paths
   (are [^String base-path ^String template-file dest-rel-path]
     (= {:src-path (File. ^String template-file)
         :dest-rel-path (File. ^String dest-rel-path)}
-       (vivid.art.cli.args/->template-path (File. base-path) (File. template-file)))
+       (vivid.art.cli.files/->template-path (File. base-path) (File. template-file)))
     "a.csv.art" "a.csv.art" "a.csv"
     "/a.csv.art" "/a.csv.art" "a.csv"
 

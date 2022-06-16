@@ -1,4 +1,4 @@
-; Copyright 2020 Vivid Inc.
+; Copyright 2022 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -12,11 +12,11 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.render.examples-test
+(ns vivid.art.examples-test
     "Confirms that ART works as promised in the README file."
     (:require
       [clojure.java.io :as io]
-      [clojure.test :refer :all]
+      [clojure.test :refer [are deftest is testing]]
       [vivid.art :as art]))
 
 (deftest usage
@@ -76,11 +76,9 @@ Chondrichthyes research published in <(= (cite-dates publication-dates) )>.
 
                   (is (=
                         "April 5 was a most pleasant, memorable day."
-                        (do
-                          (def my-bindings {'month "April"
-                                            'day   5})
-                          (art/render "<(= month )> <(= day )> was a most pleasant, memorable day."
-                                      {:bindings my-bindings}))))
+                        (art/render "<(= month )> <(= day )> was a most pleasant, memorable day."
+                                    {:bindings {'month "April"
+                                                'day   5}})))
 
                   (is (= "
 The natural number e is approximately 2.7182"

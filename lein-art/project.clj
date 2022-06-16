@@ -2,6 +2,7 @@
 
 (defproject net.vivid-inc/lein-art "0.7.0"
 
+  :note "THIS FILE IS GENERATED AUTOMATICALLY BY bin/gen.sh"
   :description "Leiningen plugin for rendering Ash Ra .art templates"
   :url "https://github.com/vivid-inc/ash-ra-template"
   :license {:distribution :repo
@@ -17,12 +18,15 @@
                          ["jar"]
                          ["install"]]
             "clj-kondo" ["with-profile" "clj-kondo" "run" "-m" "clj-kondo.main" "--"
-                         "--lint" "src/"]
-            "mkdocs"    ["art"]
-            "test"      ["with-profile" "+clojure-1.10.0:+clojure-1.10.1:+clojure-1.10.2:+clojure-1.10.3:+clojure-1.11.0" "build"]}
+                         "--config" "../.clj-kondo/config.edn"
+                         "--lint" "src/:test/"
+                         "--parallel"]
+            "gen"       ["art" "render"]
+            "test"      ["with-profile" "+clojure-1.10.0:+clojure-1.10.1:+clojure-1.10.2:+clojure-1.10.3:+clojure-1.11.0:+clojure-1.11.1" "build"]}
 
   :art {:templates  "assets"
         :bindings   "../assets/vivid-art-facts.edn"
+        ; ERB delimiters because the README utilizes lispy delimiters in explanatory text.
         :delimiters erb
         :output-dir "."}
 
@@ -63,16 +67,18 @@
                                            org.slf4j/jcl-over-slf4j
                                            org.slf4j/slf4j-api]]]
 
-  :profiles {:clj-kondo {:dependencies [[org.clojure/clojure "1.10.0"]
-                                        [clj-kondo "RELEASE"]]}
+  :profiles {:clj-kondo {:dependencies [[clj-kondo "RELEASE"]
+                                        [org.clojure/clojure "1.10.0"]]}
 
              :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]}
              :clojure-1.10.1 {:dependencies [[org.clojure/clojure "1.10.1"]]}
              :clojure-1.10.2 {:dependencies [[org.clojure/clojure "1.10.2"]]}
              :clojure-1.10.3 {:dependencies [[org.clojure/clojure "1.10.3"]]}
              :clojure-1.11.0 {:dependencies [[org.clojure/clojure "1.11.0"]]}
+             :clojure-1.11.1 {:dependencies [[org.clojure/clojure "1.11.1"]]}
 
-             :dev {:dependencies   [;; Diffs equality assertions in test failure output
+             :dev {:dependencies   [[org.clojure/clojure "1.10.0"]
+                                    ;; Diffs equality assertions in test failure output
                                     ;; https://github.com/pjstadig/humane-test-output
                                     [pjstadig/humane-test-output "0.11.0"]]
 

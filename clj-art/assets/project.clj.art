@@ -1,6 +1,10 @@
 ; Copyright 2020 Vivid Inc.
-
-(defproject net.vivid-inc/clj-art "0.7.0"
+<%
+(def clojure-versions  (get vivid-art-facts 'clojure-versions))
+(def lein-version      (get vivid-art-facts 'lein-version))
+(def vivid-art-version (get vivid-art-facts 'vivid-art-version))
+%>
+(defproject net.vivid-inc/clj-art "<%= vivid-art-version %>"
 
   :note "THIS FILE IS GENERATED AUTOMATICALLY BY bin/gen.sh"
   :description "Clojure tool for rendering Ash Ra .art templates"
@@ -29,7 +33,7 @@
               :output   "cloverage"                  ; "lein jar" destroys target/cloverage
               }
 
-  :dependencies [[net.vivid-inc/art-cli "0.7.0"]]
+  :dependencies [[net.vivid-inc/art-cli "<%= vivid-art-version %>"]]
 
   :exclusions [org.clojure/clojure]
 
@@ -39,7 +43,7 @@
 
   :manifest {"Built-By" "vivid"}
 
-  :min-lein-version "2.9.8"
+  :min-lein-version "<%= lein-version %>"
 
   ; Enable this to assist with determining :excludes whenever dependencies and
   ; plugins change, then re-disable it.
@@ -57,8 +61,8 @@
                                                           org.slf4j/slf4j-api]]]
 
   :profiles {:clj-kondo {:dependencies [[clj-kondo "RELEASE"]
-                                        [org.clojure/clojure "1.10.0"]]}
+                                        [org.clojure/clojure "<%= (first clojure-versions) %>"]]}
 
-             :dev       {:dependencies [[org.clojure/clojure "1.10.0"]]}}
+             :dev       {:dependencies [[org.clojure/clojure "<%= (first clojure-versions) %>"]]}}
 
   :repositories [["clojars" {:sign-releases false}]])

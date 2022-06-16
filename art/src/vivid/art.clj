@@ -1,4 +1,4 @@
-; Copyright 2019 Vivid Inc.
+; Copyright 2022 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
   (:require
     [clojure.spec.alpha :as s]
     [farolero.core :as farolero]
-    [vivid.art.delimiters :refer [erb]]
+    [vivid.art.delimiters]
     [vivid.art.enscript :refer [enscript]]
     [vivid.art.evaluate :refer [evaluate]]
     [vivid.art.failure :refer [make-failure]]
@@ -43,8 +43,7 @@
   ([^String template] (render template {}))
   ([^String template
     {:keys [bindings delimiters to-phase]
-     :or   {bindings {} delimiters default-delimiters to-phase default-to-phase}
-     :as   render-options}]
+     :or   {bindings {} delimiters default-delimiters to-phase default-to-phase}}]
    (when template
      (let [render* #(cond-> template
                         (to-phase? :parse     to-phase) (parse delimiters)

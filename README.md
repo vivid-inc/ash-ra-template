@@ -17,8 +17,6 @@ Tested with Clojure 1.10.0 and newer, and with Java 8 and newer LTS releases.
 
 [ART CLI library](art-cli/README.md) aggregates code common to the interpretation and processing of ART build tool and command line arguments.
 
-[Boot task](boot-art/README.md) for rendering ART templates.
-
 [Clojure tool](clj-art/README.md) for rendering ART templates.
 
 [Leiningen plugin](lein-art/README.md) for rendering ART templates.
@@ -30,7 +28,6 @@ Tested with Clojure 1.10.0 and newer, and with Java 8 and newer LTS releases.
 
 Include this library from Clojars by adding the latest version of ``net.vivid-inc/art`` to your project dependencies:
 ```clojure
-(set-env! :dependencies '[[net.vivid-inc/art "0.7.0"]])    ; Boot build.boot
 {:deps {net.vivid-inc/art {:mvn/version "0.7.0"}}}         ; Clojure tools deps.edn
 :dependencies [[net.vivid-inc/art "0.7.0"]]                ; Leiningen project.clj
 ```
@@ -68,9 +65,7 @@ Unproductive behavior such as unkindness towards others and derailment is not to
 ## Attributions
 
 - Original implementation by [Vivid Inc.](https://vivid-inc.net)
-- [ShimDandy](https://github.com/projectodd/shimdandy), [boot-pods](https://github.com/boot-clj/boot/wiki/Pods), [clj-embed](https://github.com/RutledgePaulV/clj-embed) as reference material regarding the evaluation of Clojure code within a sandboxed runtime.
 - Illustration by [Ruxandra](https://www.instagram.com/chocolatechiphelmet/).
-- The Boot test code initially mimicked [perun-selmer](https://github.com/rwstauner/perun-selmer).
 
 ![](assets/workshop.png)
 

@@ -1,24 +1,37 @@
 ; Copyright 2022 Vivid Inc.
+<%
+(def clojure-versions  (get vivid-art-facts 'clojure-versions))
+(def vivid-art-version (get vivid-art-facts 'vivid-art-version))
 
-{:deps    {net.vivid-inc/art-cli {:mvn/version "0.7.0"}}
+(defn test-dependency-block [clojure-version]
+  (format ":clojure-%s {:override-deps {org.clojure/clojure {:mvn/version \"%s\"}}}"
+          clojure-version clojure-version))
+
+(defn indent-str [qty s]
+  (let [indent (repeat qty " ")]
+    (apply str (concat indent [s]))))
+
+(defn clojure-version-aliases [& {:keys [indent]}]
+  (->> (for [v clojure-versions]
+            (indent-str indent (test-dependency-block v)))
+       (clojure.string/join \newline)
+       (apply str)))
+
+%>
+{:deps    {net.vivid-inc/art-cli {:mvn/version "<%= vivid-art-version %>"}}
 
  :aliases {:art            {:extra-paths ["src"]
                             :main-opts   ["-m" "vivid.art.clj-tool"]}
 
            ; See https://github.com/clj-kondo/clj-kondo
            :clj-kondo      {:extra-deps  {clj-kondo/clj-kondo {:mvn/version "RELEASE"}
-                                          org.clojure/clojure {:mvn/version "1.10.0"}}
+                                          org.clojure/clojure {:mvn/version "<%= (first clojure-versions) %>"}}
                             :main-opts   ["-m" "clj-kondo.main"
                                           "--config" "../.clj-kondo/config.edn"
                                           "--lint" "src/:test/"
                                           "--parallel"]}
 
-           :clojure-1.10.0 {:override-deps {org.clojure/clojure {:mvn/version "1.10.0"}}}
-           :clojure-1.10.1 {:override-deps {org.clojure/clojure {:mvn/version "1.10.1"}}}
-           :clojure-1.10.2 {:override-deps {org.clojure/clojure {:mvn/version "1.10.2"}}}
-           :clojure-1.10.3 {:override-deps {org.clojure/clojure {:mvn/version "1.10.3"}}}
-           :clojure-1.11.0 {:override-deps {org.clojure/clojure {:mvn/version "1.11.0"}}}
-           :clojure-1.11.1 {:override-deps {org.clojure/clojure {:mvn/version "1.11.1"}}}
+<%= (clojure-version-aliases :indent 11) %>
 
            ; See https://github.com/cloverage/cloverage
            :cloverage      {:extra-deps  {cloverage/cloverage {:mvn/version "RELEASE"}}
@@ -30,7 +43,7 @@
                             :main-opts   ["-m" "vivid.art.clj-tool"
                                           "--bindings" "../assets/vivid-art-facts.edn"
                                           "--delimiters" "erb"
-                                          "--dependencies" "[[net.vivid-inc/art-cli \"0.7.0\"]]"
+                                          "--dependencies" "[[net.vivid-inc/art-cli \"<%= vivid-art-version %>\"]]"
                                           "assets/README.md.art"]}
 
            ; See https://github.com/weavejester/eftest

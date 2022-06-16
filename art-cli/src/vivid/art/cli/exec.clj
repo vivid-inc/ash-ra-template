@@ -1,4 +1,4 @@
-; Copyright 2020 Vivid Inc.
+; Copyright 2022 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -13,27 +13,30 @@
 ; limitations under the License.
 
 (ns vivid.art.cli.exec
-  "Non-lazily drives the rendering of a batch."
-  (:require
+    "Non-lazily drives the rendering of batches."
+    (:require
     [clojure.java.io :as io]
     [clojure.pprint]
     [clojure.spec.alpha :as s]
     [clojure.string]
     [farolero.core :as farolero]
     [vivid.art :as art]
-    [vivid.art.cli.files]
+    [vivid.art.cli.files :as files]
     [vivid.art.cli.classpath :refer [with-custom-classloader]]
     [vivid.art.cli.log :as log]
-    [vivid.art.cli.specs])
-  (:import
-    (java.io File)))
+    [vivid.art.cli.messages :as messages]
+    [vivid.art.cli.specs]
+    [vivid.art.cli.watch])
+    (:import
+      (java.io File)
+      (java.nio.file Path)))
 
 (defn- render-file
   [{:keys [^File src-path ^File dest-rel-path] :as template-file} {:keys [^File output-dir] :as batch}]
   (try
-    (let [output-path (io/file output-dir dest-rel-path)
+    (let [output-path ^File (io/file output-dir dest-rel-path)
           to-phase (get batch :to-phase vivid.art/default-to-phase)]
-      (log/*info-fn* (format "Rendering ART %s" output-path))
+      (log/*info-fn* (format "Rendering ART %s" (.getCanonicalFile output-path)))
       (io/make-parents output-path)
       (as-> (slurp src-path) c
             (art/render c (select-keys batch [:bindings
@@ -55,21 +58,66 @@
 (defn assemble-classpath
       [batch]
       ; TODO Derive repositories from the calling project as well, provide a default set (Maven Central + Clojars)
-      ; TODO Documentation: Ensure you don't add differing versions of the same library.
+      ; TODO Documentation: Add differing versions of libraries that are already loaded at your own peril.
       (concat []
               (:classpath batch)
               (vivid.art.cli.classpath/dependencies->file-paths (:dependencies batch))))
 
 (defn render-batch
-  "Scans :templates for files and directories, renders all ART templates found
+  "Scans :templates for files and directory sub-trees, renders all ART templates found
   within according to the batch settings. Fails fast in event of an error."
-  [{:keys [templates] :as batch}]
-  (if (empty? templates)
-    (log/*warn-fn* "Warning: No ART templates to render.")
-    (let [classpath (assemble-classpath batch)]
-         (with-custom-classloader classpath
-                                  (doseq [template-file templates]
-                                         (render-file template-file batch))))))
+  [batch]
+  (let [templates (-> (:templates batch)
+                      files/paths->template-paths!)]
+       (if (empty? templates)
+         (log/*warn-fn* "Warning: No ART templates to render.")
+         (let [classpath (assemble-classpath batch)]
+              (with-custom-classloader classpath
+                                       (doseq [template-file templates]
+                                              (render-file template-file batch)))))))
 
 (s/fdef render-batch
         :args (s/cat :batch (s/? :vivid.art.cli/batch)))
+
+(defn render-batches-once [batches]
+      (doseq [b batches]
+             (render-batch b)))
+
+(defn render-from-watch-event [batch {:keys [path type] :as watch-event}]
+      (let [file (.toFile ^Path path)]
+           (when (vivid.art.cli.files/art-template-file? file)
+                 (cond
+                   (get #{:create :modify} type)
+                   ; Re-use (render-batch) but pass in only the affected template file.
+                   (let [batch* (assoc batch :templates [file])]
+                        (render-batch batch*))
+
+                   :else
+                   (log/*debug-fn* "Ignoring beholder event:" (pr-str watch-event))))))
+
+
+
+(defn dispatch-command [command batches]
+      (condp = command
+
+             "auto"
+             (do
+               (render-batches-once batches)
+               (vivid.art.cli.watch/watch-on-batches batches render-from-watch-event))
+
+             "config"
+             (clojure.pprint/pprint batches)
+
+             "help"
+             (farolero/signal :vivid.art.cli/error
+                              {:step        'parse-cli-args
+                               :exit-status 0
+                               :show-usage  true})
+
+             "render"
+             (render-batches-once batches)
+
+             (farolero/signal :vivid.art.cli/error
+                              {:step    'parse-cli-args
+                               :message (messages/pp-str-error (str "Unknown command: `" command "'"))})))
+

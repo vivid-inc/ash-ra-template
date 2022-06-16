@@ -13,7 +13,7 @@ set -o pipefail
 set -o xtrace
 
 export TZ=UTC
-for DIR in art art-cli boot-art clj-art lein-art
+for DIR in art art-cli clj-art lein-art
 do
   (cd $DIR && lein deploy clojars)
 done

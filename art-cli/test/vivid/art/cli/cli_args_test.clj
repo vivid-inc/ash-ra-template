@@ -1,4 +1,4 @@
-; Copyright 2020 Vivid Inc.
+; Copyright 2022 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 (ns vivid.art.cli.cli-args-test
   (:require
     [clojure.string]
-    [clojure.test :refer :all]
+    [clojure.test :refer [are deftest]]
     [farolero.core :as farolero]
     [vivid.art.specs]
     [vivid.art.cli.args]
@@ -39,14 +39,15 @@
 
     ["test-resources/empty.art"]
     {:output-dir (.getAbsoluteFile (File. ^String vivid.art.cli.usage/default-output-dir))
-     :templates  (list {:src-path (.getAbsoluteFile (File. "test-resources/empty.art"))
-                        :dest-rel-path (File. "empty")})}))
+     :templates  (list (.getAbsoluteFile (File. "test-resources/empty.art")))}))
 
 (deftest bad-template-args
   (are [filename]
     (= 'validate-templates
        (let [args [filename]]
-         (farolero/handler-case (vivid.art.cli.args/cli-args->batch args cli-options)
+         (farolero/handler-case
+           ; Coax farolero to signal the expected ::error by forcing evaluation
+           (doall (:templates (vivid.art.cli.args/cli-args->batch args cli-options)))
                                 (:vivid.art.cli/error [_ {:keys [step]}] step))))
     ""
     " "
