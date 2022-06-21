@@ -25,6 +25,8 @@
     [vivid.art.specs :refer [to-phase?]]
     [vivid.art.xlate :refer [translate]]))
 
+(def ^:dynamic *render-context* nil)
+
 (def ^:const default-delimiters-name "lispy")
 (def ^:const default-delimiters (var-get
                                   (ns-resolve 'vivid.art.delimiters
@@ -50,11 +52,14 @@
                         (to-phase? :translate to-phase) (translate)
                         (to-phase? :enscript  to-phase) (enscript bindings)
                         (to-phase? :evaluate  to-phase) (evaluate))]
-       (farolero/handler-case (render*)
+       (with-bindings {#'vivid.art/*render-context*
+                       {:ns (gensym 'vivid-art-user-)}}
+        (farolero/handler-case (render*)
                               (:vivid.art/parse-error [_ details]
-                                (make-failure :parse-error details template)))))))
+                                (make-failure :parse-error details template))))))))
 (s/fdef render
         :args (s/cat :t :vivid.art/template
                      :o (s/? (s/keys :opt-un [:vivid.art/bindings
                                               :vivid.art/delimiters
                                               :vivid.art/to-phase]))))
+; TODO Change (render) options parameter to accept an trailing list of keyword opts rather than a map.

@@ -49,10 +49,8 @@
     (catch Exception e
       (farolero/signal :vivid.art.cli/error
                        {:step      'render-file
-                        :message   (format "Exception while rendering ART template %s\n%s\n%s"
-                                           (.getCanonicalPath ^File (:src-path template-file))
-                                           (.toString e)
-                                           (clojure.string/join \newline (.getStackTrace e)))
+                        :message   (format "Exception while rendering ART template %s"
+                                           (.getCanonicalPath ^File (:src-path template-file)))
                         :exception e}))))
 
 (defn assemble-classpath

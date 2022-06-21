@@ -23,12 +23,12 @@
   [acc val & _]
   (let [escaped (clojure.string/escape val {\" "\\\""
                                             \\ "\\\\"})]
-    (update-in acc [:output] conj (str "(user/emit \"" escaped "\")"))))
+    (update-in acc [:output] conj (str "(emit \"" escaped "\")"))))
 
 (defn eval
   "Writes an (emit) to the compiled code that outputs the result of evaluating the forms."
   [acc expr & _]
-  (update-in acc [:output] conj (str "(user/emit " expr " )")))
+  (update-in acc [:output] conj (str "(emit " expr " )")))
 
 (defn forms
   "Echoes Clojure forms from the template to the compiled code."

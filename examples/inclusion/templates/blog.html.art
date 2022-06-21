@@ -1,0 +1,8 @@
+<( (emit (wrap-in (slurp "templates/layout.html.art") :with {
+  :head (block )>
+<link href="blog-theme.css" rel="stylesheet">
+<( )
+  :body (block )>
+<section class="blog-entry">
+</section>
+<( )})) )>

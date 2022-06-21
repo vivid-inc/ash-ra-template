@@ -28,7 +28,7 @@
 ; Bindings
 
 (s/def :vivid.art/bindings map?)
-
+; TODO Map of symbols to any ?   Or, convert all top-level keys to symbols ?
 
 ; Template delimiter definitions
 
@@ -63,8 +63,8 @@
 (s/def :vivid.art/render-phase (into #{} render-phases))
 
 (defn to-phase?
-      "Given an unrecognized current-phase, evaluates to false,
-      otherwise given an unrecognized to-phase, evaluates to true."
+      "Following the ordering of rendering phases, evaluates
+      to true when current-phase doesn't exceed to-phase."
       [current-phase to-phase]
       (let [plan (-> #{}
                      (into (take-while #(not= to-phase %) render-phases))

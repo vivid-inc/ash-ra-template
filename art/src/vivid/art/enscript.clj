@@ -16,12 +16,21 @@
   (:require
     [clojure.string]))
 
-(defn prelude [sb-identifier]
-  ["(ns user)"
-   (str "(def ^java.lang.StringBuilder " sb-identifier " (new java.lang.StringBuilder))")
-   (str "(defn emit ([]) ([& more] (doseq [m more] (.append user/" sb-identifier " m)) nil))")])
-(defn coda [sb-identifier]
-  [(str "(.toString user/" sb-identifier ")")])
+(defn prelude [ns-sym]
+  [(str "(ns " ns-sym ")")
+   "(def ^java.lang.StringBuilder __vivid__art__sb (new java.lang.StringBuilder))"
+   (str "(defn ^:dynamic emit ([]) ([& more] (doseq [m more] (.append " ns-sym "/__vivid__art__sb m)) nil))")
+
+   ; TODO Move the following to vivid.art source file?
+   "(require '[vivid.art])"
+   "(declare blocks)"
+   ; TODO Is (wrap-in) actually (vivid.art/render :blocks ...) ?
+   "(defn wrap-in [template & {:keys [with]}] (vivid.art/render template {:bindings {'blocks with}}))"
+   "(defn yield [k] (when (bound? #'blocks) (get blocks k)))"
+   "(defmacro block [& body] `(let [sb# (new java.lang.StringBuilder)] (binding [emit #(.append sb# %)] ~@body (.toString sb#))))"])
+
+(defn coda [ns-sym]
+  [(str "(.toString " ns-sym "/__vivid__art__sb)")])
 
 (defn def-bindings
   [bindings]
@@ -34,11 +43,11 @@
 
 (defn enscript
   [forms bindings]
-  (let [sb-identifier (gensym '__vivid__art__sb)]
-    (as-> [(prelude sb-identifier)
+  (let [ns-sym (get @(ns-resolve (find-ns 'vivid.art) '*render-context*) :ns)]
+    (as-> [(prelude ns-sym)
            (def-bindings bindings)
            forms
-           (coda sb-identifier)] s
+           (coda ns-sym)] s
           (remove empty? s)
           (interleave s (repeat ""))
           (flatten s)

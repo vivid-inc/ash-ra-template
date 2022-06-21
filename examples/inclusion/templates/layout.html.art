@@ -1,0 +1,10 @@
+<html>
+<head>
+    <link href="site.css" rel="stylesheet">
+    <(= (yield :head) )>
+</head>
+<body>
+    <(= (yield :body) )>
+    <script src="site.js"/>
+</body>
+</html>

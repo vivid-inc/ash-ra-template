@@ -56,15 +56,15 @@
       "" "<((emit))>"
       ; Simple clojure form
       "2.718281" "<((emit (str 2.718281)))>"
-      ; Unnecessarily qualified (emit) within the namespace.
-      "2.718281" "<((user/emit (str 2.718281)))>"))
+      ; Qualified (emit) within the namespace.
+      "2.718281" "<(((ns-resolve (find-ns (:ns vivid.art/*render-context*)) 'emit) (str 2.718281)))>"))
   (testing "Namespace qualification regarding (emit)"
     (are [expected template]
       (= expected (art/render template))
       ; Change to another ns, and use qualified (emit).
-      "Sesame" "<( (ns emit-test-4FA0BF32) (user/emit \"Sesame\") )>"
+      "Sesame" "<( (ns emit-test-4FA0BF32) ((ns-resolve (find-ns (:ns vivid.art/*render-context*)) 'emit) \"Sesame\") )>"
       ; Change to another ns and then back again, and use unqualified (emit).
-      "zigzag" "<( (ns flip-flop-71D1C341) (ns user) (emit 'zigzag) )>")
+      "zigzag" "<( (ns flip-flop-71D1C341) (in-ns (:ns vivid.art/*render-context*)) (emit 'zigzag) )>")
     (is (thrown? Throwable
                  ; Change to another ns and use unqualified and undefined (emit), expecting an error.
                  (art/render "<( (ns unq) (emit 'unqualified) )>")))))
@@ -108,8 +108,8 @@
   (testing "Initial namespace"
     (are [expected template]
       (= expected (art/render template))
-      "user" "<(=(str (ns-name *ns*)))>"
-      "not-the-initial-art-namespace-41C0AF0F" "<( (ns not-the-initial-art-namespace-41C0AF0F) (user/emit (str (ns-name *ns*))) )>"))
+      "true" "<(=(= (ns-name *ns*) (:ns vivid.art/*render-context*)))>"
+      "not-the-initial-art-namespace-41C0AF0F" "<( (ns not-the-initial-art-namespace-41C0AF0F) ((ns-resolve (find-ns (:ns vivid.art/*render-context*)) 'emit) (str (ns-name *ns*))) )>"))
   (testing "Well-formed ART template using additional namespace"
     (is (= "Fibonacci(60) = 1548008755920"
            (art/render
@@ -119,7 +119,7 @@
              (def phi (/ (+ 1 sqrt-5) 2))
              (defn fib [n] (long (Math/round (/ (Math/pow phi n) sqrt-5))))
              )><(
-             (ns user)
+             (in-ns (:ns vivid.art/*render-context*))
              (def n 60)
              )><(= (format \"Fibonacci(%d) = %s\" n (fibonacci-72B642F6/fib n)))>")))))
 

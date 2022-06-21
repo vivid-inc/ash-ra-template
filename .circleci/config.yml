@@ -68,17 +68,16 @@ clj-art: &clj-art-job
     - run:
         # Installing Clojure provides the `clojure` command
         # Referencing https://clojure.org/guides/getting_started#_installation_on_linux
-        name: Install Clojure
+        name: Install rlwrap
         command: |
+          sudo apt update
           sudo DEBIAN_FRONTEND=noninteractive apt install -yq rlwrap
-          curl -O https://download.clojure.org/install/linux-install-1.10.1.763.sh
-          chmod +x linux-install-1.10.1.763.sh
-          sudo ./linux-install-1.10.1.763.sh
     - run:
         command: |
-          for ver in "1.10.0" "1.10.1" "1.10.2" "1.10.3" "1.11.0"
+          for ver in "1.10.0" "1.10.1" "1.10.2" "1.10.3" "1.11.0" "1.11.1"
           do
-            clojure -A:clojure-${ver}:test
+            # TODO return value is non-zero, but build passes?
+            clojure -M:clojure-${ver}:test
           done
         working_directory: clj-art
     # TODO - store_test_results:
@@ -99,44 +98,44 @@ lein-art: &lein-art-job
     #    path: lein-art/.../junit.xml
 
 
-# Referencing https://hub.docker.com/r/circleci/clojure/tags
+# Referencing https://hub.docker.com/r/cimg/clojure/tags
 jobs:
   ash-ra-template-jdk-8-job:
     <<: *ash-ra-template-job
     docker:
-      - image: circleci/clojure:openjdk-8-lein-2.9.8-bullseye
+      - image: cimg/clojure:1.10-openjdk-8.0
   clj-art-jdk-8-job:
     <<: *clj-art-job
     docker:
-      - image: circleci/clojure:openjdk-8-lein-2.9.8-bullseye
+      - image: cimg/clojure:1.10-openjdk-8.0
   lein-art-jdk-8-job:
     <<: *lein-art-job
     docker:
-      - image: circleci/clojure:openjdk-8-lein-2.9.8-bullseye
+      - image: cimg/clojure:1.10-openjdk-8.0
   ash-ra-template-jdk-11-job:
     <<: *ash-ra-template-job
     docker:
-      - image: circleci/clojure:openjdk-11-lein-2.9.8-bullseye
+      - image: cimg/clojure:1.10-openjdk-11.0
   clj-art-jdk-11-job:
     <<: *clj-art-job
     docker:
-      - image: circleci/clojure:openjdk-11-lein-2.9.8-bullseye
+      - image: cimg/clojure:1.10-openjdk-11.0
   lein-art-jdk-11-job:
     <<: *lein-art-job
     docker:
-      - image: circleci/clojure:openjdk-11-lein-2.9.8-bullseye
+      - image: cimg/clojure:1.10-openjdk-11.0
   ash-ra-template-jdk-17-job:
     <<: *ash-ra-template-job
     docker:
-      - image: circleci/clojure:openjdk-17-lein-2.9.8-bullseye
+      - image: cimg/clojure:1.10-openjdk-17.0
   clj-art-jdk-17-job:
     <<: *clj-art-job
     docker:
-      - image: circleci/clojure:openjdk-17-lein-2.9.8-bullseye
+      - image: cimg/clojure:1.10-openjdk-17.0
   lein-art-jdk-17-job:
     <<: *lein-art-job
     docker:
-      - image: circleci/clojure:openjdk-17-lein-2.9.8-bullseye
+      - image: cimg/clojure:1.10-openjdk-17.0
 
 workflows:
   version: 2

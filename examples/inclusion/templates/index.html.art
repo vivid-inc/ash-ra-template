@@ -1,0 +1,3 @@
+<( (emit (wrap-in (slurp "templates/layout.html.art") :with {
+  :head (block )>... head ... <( )
+  :body (block )> ... body ... <( )})) )>
