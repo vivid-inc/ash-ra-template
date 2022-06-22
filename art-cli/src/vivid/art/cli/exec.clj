@@ -39,10 +39,11 @@
       (log/*info-fn* (format "Rendering ART %s" (.getCanonicalFile output-path)))
       (io/make-parents output-path)
       (as-> (slurp src-path) c
-            (art/render c (select-keys batch [:bindings
-                                              :delimiters
-                                              :dependencies
-                                              :to-phase]))
+            (apply art/render c (mapcat identity
+                                        (select-keys batch [:bindings
+                                                            :delimiters
+                                                            :dependencies
+                                                            :to-phase])))
             (if (to-phase #{:parse :translate})
               (clojure.pprint/pprint c (io/writer output-path)) ; Possibly more readable
               (spit output-path c))))

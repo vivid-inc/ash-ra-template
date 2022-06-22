@@ -31,7 +31,7 @@
             ; Renders the ART template to as the response body.
             ; #'nickname was parsed from the HTTP request by Ring;
             ; we pass it through to the template as a binding.
-            :body    (art/render greeting-template {:bindings {'nickname nickname}})}))
+            :body    (art/render greeting-template :bindings {'nickname nickname})}))
 
 (def app-handler
   (-> handler

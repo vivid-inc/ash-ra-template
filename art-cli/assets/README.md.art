@@ -17,7 +17,7 @@ _This API is in flux; please don't expect to be able to rely on a stable API unt
 <a name="rendering-and-options"></a>
 ## Rendering and options
 
-`art-cli` adds additional processing capability to `vivid.art/render` to handle render options.
+`art-cli` adds additional processing capability to `vivid.art/render` to handle rendering options in support of CLI tooling.
 
 <a name="dependencies"></a>
 ### External ``:dependencies``
@@ -44,11 +44,11 @@ Given a template that ``require``s namespaces from external dependencies in Cloj
 The template's external dependencies can be specified as a Clojure deps [lib map](https://clojure.org/reference/deps_and_cli) with `:dependencies` in the option map argument:
 ```clojure
 (vivid.art/render template
-                  {:dependencies {'hiccup {:mvn/version "1.0.5"}}})
+                  :dependencies {'hiccup {:mvn/version "1.0.5"}})
 ```
 Dependencies are resolved prior to template rendering using Clojure's ``org.clojure/tools.deps.alpha``.
 
 As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version <%= (first clojure-versions) %>, but this can be overridden using the same mechanism by supplying the `org.clojure/clojure` dependency with a different version:
 ```clojure
-                  {:dependencies {'org.clojure/clojure {:mvn/version "<%= (last clojure-versions) %>"}}}
+                  :dependencies {'org.clojure/clojure {:mvn/version "<%= (last clojure-versions) %>"}}
 ```

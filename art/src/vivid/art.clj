@@ -42,24 +42,22 @@
 (defn render
   "Renders an input string containing Ash Ra Template (ART) -formatted content
   to an output string."
-  ([^String template] (render template {}))
-  ([^String template
-    {:keys [bindings delimiters to-phase]
-     :or   {bindings {} delimiters default-delimiters to-phase default-to-phase}}]
-   (when template
-     (let [render* #(cond-> template
-                        (to-phase? :parse     to-phase) (parse delimiters)
-                        (to-phase? :translate to-phase) (translate)
-                        (to-phase? :enscript  to-phase) (enscript bindings)
-                        (to-phase? :evaluate  to-phase) (evaluate))]
-       (with-bindings {#'vivid.art/*render-context*
-                       {:ns (gensym 'vivid-art-user-)}}
+  [^String template
+   & {:keys [bindings delimiters to-phase]
+      :or   {bindings {} delimiters default-delimiters to-phase default-to-phase}}]
+  (when template
+    (let [render* #(cond-> template
+                           (to-phase? :parse     to-phase) (parse delimiters)
+                           (to-phase? :translate to-phase) (translate)
+                           (to-phase? :enscript  to-phase) (enscript bindings)
+                           (to-phase? :evaluate  to-phase) (evaluate))]
+      (with-bindings {#'vivid.art/*render-context*
+                      {:ns (gensym 'vivid-art-user-)}}
         (farolero/handler-case (render*)
-                              (:vivid.art/parse-error [_ details]
-                                (make-failure :parse-error details template))))))))
+                               (:vivid.art/parse-error [_ details]
+                                 (make-failure :parse-error details template)))))))
 (s/fdef render
         :args (s/cat :t :vivid.art/template
-                     :o (s/? (s/keys :opt-un [:vivid.art/bindings
-                                              :vivid.art/delimiters
-                                              :vivid.art/to-phase]))))
-; TODO Change (render) options parameter to accept an trailing list of keyword opts rather than a map.
+                     :kwargs (s/keys* :opt-un [:vivid.art/bindings
+                                               :vivid.art/delimiters
+                                               :vivid.art/to-phase])))

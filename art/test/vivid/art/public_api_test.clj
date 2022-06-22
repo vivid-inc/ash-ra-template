@@ -31,7 +31,7 @@
            (art/render "Quite <( (def acorn \"tasty\") )><(= acorn )>.")))
     (are [template delimiters]
       (= "Quite tasty." (art/render template
-                                    {:delimiters delimiters}))
+                                    :delimiters delimiters))
       "Quite <% (def acorn \"tasty\") %><%= acorn %>." vivid.art.delimiters/erb
       "Quite <? (def acorn \"tasty\") ?><?= acorn ?>." vivid.art.delimiters/php
       "Quite #( (def acorn \"tasty\") )##(= acorn )#." {:begin-forms "#("

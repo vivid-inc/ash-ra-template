@@ -25,7 +25,7 @@
    "(require '[vivid.art])"
    "(declare blocks)"
    ; TODO Is (wrap-in) actually (vivid.art/render :blocks ...) ?
-   "(defn wrap-in [template & {:keys [with]}] (vivid.art/render template {:bindings {'blocks with}}))"
+   "(defn wrap-in [template & {:keys [with]}] (vivid.art/render template :bindings {'blocks with}))"
    "(defn yield [k] (when (bound? #'blocks) (get blocks k)))"
    "(defmacro block [& body] `(let [sb# (new java.lang.StringBuilder)] (binding [emit #(.append sb# %)] ~@body (.toString sb#))))"])
 
