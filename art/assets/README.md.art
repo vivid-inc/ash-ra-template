@@ -218,3 +218,125 @@ The phases are, in order: <%= to-phase-values %>.
 (art/render template-str
             :to-phase :enscript)
 ```
+
+
+(vivid.art/render) provides vivid.art/*render-context* to environment.
+ {:template-stack [:vivid.art/unknown-from-string]
+  :bindings ...
+  :ns ...}
+
+
+
+
+
+
+
+<a name="template-vars"></a>
+## Vars and functions available to templates
+`vivid.art/*render-context*`: Template evaluation context as a map.
+
+`(vivid.art/render)`: Can be used to embed render portions of a template from other templates. Examples: Page layouts, headers, panels, footers, copyright messages, all common to a set of rendered pages.
+`(render)` fully renders the template to a string; this is what is embedded in the caller.
+```clojure
+<( (emit (art/render (slurp "layouts/main-layout.html.art")
+                     :bindings {:header "..."
+                                :footer "..."})) )>
+```
+
+`(block)`: Internally, this renders all `(emit)`s to a single string, suitable for passing as bindings to an embedded template.
+
+`(yield k)`: Yields a binding under the key `k` from the template bindings as stored in `vivid.art/*render-context*`. If `k` is not found, then the empty string is returned, thus preventing `(emit)` from printing `null`.
+
+
+
+<a name="cookbook"></a>
+## Cookbook
+<% ; ../examples/ contains sample projects that parallel these recipes, and are included in the automated test suite.
+   ; Each cookbook recipe should link to its corresponding ../examples/ directory.
+%>
+
+
+<a name="nesting"></a>
+### Nesting, structuring, composing templates
+
+Primary mechanism:
+
+```clojure
+<( (emit (vivid.art/render "path/to/template.art" :bindings {
+  :my-block (block )> some block content <( )})) )>
+```
+
+`(render)` is a recursive mechanism, providing the functionality of _include_ or _partial_ in other templating systems.
+`:bindings` are `(merge)`ed.
+No cycle detection is attempted; we rely on the host platform's call stack to overflow if cyclic recursion goes too far.
+
+Finer points:
+
+```clojure
+; Embed a file's contents into the current template
+<(= slurp "path/to/file.txt" )>
+
+; Embed the rendered content of another template into the current template
+<(= (vivid.art/render "path/to/template.art") )>
+
+; These are equivalent:
+<(= (get-in vivid.art/*render-context* [:bindings :body] "") )>
+<(= (yield :body) )>
+<(= (yield :body "") )>
+
+; These are equivalent:
+<(= (yield :body )> ... default content ... <( ) )>
+<( (if (yields? :body) )><(= (yield :body) )> ... default content ... <( ) )>
+
+; These are equivalent:
+<( (emit (vivid.art/render template-content
+           :bindings {:abc 123})) )>
+<( (emit (vivid.art/render template-content
+           :bindings (update-in (get vivid.art/*render-context* :bindings) assoc :abc 123))) )>
+```
+TODO Automated tests for these examples
+
+
+
+### Render a set of pages with a common layout
+Layout file `layouts/layout.html.art`:
+```clojure
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title><(= title )></title>
+    <(= (yield :head) )>
+</head>
+<body>
+    <(= (yield :body) )>
+    <script src="site.js"/>
+</body>
+</html>
+```
+
+Consuming file `templates/blog.html.art`:
+```clojure
+<( (emit (vivid.art/render (slurp "layouts/layout.html.art") :bindings {
+  :head (block )>
+<link href="blog-theme-dark.css" rel="stylesheet">
+<link href="blog-theme-light.css" rel="stylesheet">
+  <( )
+  :body (block )>
+<section class="blog-entry">...</section>
+  <( )
+})) )>
+```
+
+__Discussion:__
+Named portions are placed in the layout by way of passing rendered `(block)`s as `:bindings`.
+While the embedded layout is `(render)`ed, notice that its rendered output is not wrapped with `<(= )>` but instead `<( (emit ... ) )>`. Using the eval-emit form `<(=` would see it closed at the next occurrence of `)>` (start of the first block in this example) which would lead to a malformed template with syntax errors.
+
+__See also:__
+[Example](../examples/layout).
+
+
+
+## License
+
+© Copyright Vivid Inc.
+[Apache License 2.0](LICENSE.txt) licensed.

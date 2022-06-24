@@ -15,7 +15,7 @@ _This API is in flux; please don't expect to be able to rely on a stable API unt
 <a name="rendering-and-options"></a>
 ## Rendering and options
 
-`art-cli` adds additional processing capability to `vivid.art/render` to handle render options.
+`art-cli` adds additional processing capability to `vivid.art/render` to handle rendering options in support of CLI tooling.
 
 <a name="dependencies"></a>
 ### External ``:dependencies``

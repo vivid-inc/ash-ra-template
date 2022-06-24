@@ -1,3 +1,4 @@
-<( (emit (wrap-in (slurp "templates/layout.html.art") :with {
-  :head (block )>... head ... <( )
+<( (emit (vivid.art/render (slurp "layouts/layout.html.art") :bindings {
+  'title "title"
+  :head (block )> ... head ... <( )
   :body (block )> ... body ... <( )})) )>

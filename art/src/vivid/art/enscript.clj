@@ -18,16 +18,14 @@
 
 (defn prelude [ns-sym]
   [(str "(ns " ns-sym ")")
-   "(def ^java.lang.StringBuilder __vivid__art__sb (new java.lang.StringBuilder))"
-   (str "(defn ^:dynamic emit ([]) ([& more] (doseq [m more] (.append " ns-sym "/__vivid__art__sb m)) nil))")
+   ; Provide (render) to the template evaluation environment
+   "(require '[vivid.art :refer [render]])"
 
-   ; TODO Move the following to vivid.art source file?
-   "(require '[vivid.art])"
-   "(declare blocks)"
-   ; TODO Is (wrap-in) actually (vivid.art/render :blocks ...) ?
-   "(defn wrap-in [template & {:keys [with]}] (vivid.art/render template :bindings {'blocks with}))"
-   "(defn yield [k] (when (bound? #'blocks) (get blocks k)))"
-   "(defmacro block [& body] `(let [sb# (new java.lang.StringBuilder)] (binding [emit #(.append sb# %)] ~@body (.toString sb#))))"])
+   ; Generally sorted alphabetically
+   "(def ^java.lang.StringBuilder __vivid__art__sb (new java.lang.StringBuilder))"
+   "(defmacro block [& body] `(let [sb# (new java.lang.StringBuilder)] (binding [emit #(.append sb# %)] ~@body (.toString sb#))))"
+   (str "(defn ^:dynamic emit ([]) ([& more] (doseq [m more] (.append " ns-sym "/__vivid__art__sb m)) nil))")
+   "(defn yield [k] (let [rc vivid.art/*render-context*] (get-in rc [:bindings k] \"\")))"])
 
 (defn coda [ns-sym]
   [(str "(.toString " ns-sym "/__vivid__art__sb)")])
@@ -37,7 +35,8 @@
   (vec (for [[k v] bindings]
          (let [quote-value? (get (meta v) :quote-value?)]
            (format "(def %s %s%s)"
-                   (pr-str k)
+                   ; Non-symbols may lead to an invalid (def)
+                   (pr-str (symbol k))
                    (if quote-value? "'" "")
                    (pr-str v))))))
 

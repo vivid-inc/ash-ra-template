@@ -12,6 +12,7 @@ _Unreleased_
   - `config`: Dump the effective ART configuration to stdout.
   - `help`:   Display tool help.
   - `render`: ART's default behavior of rendering templates.
+- Parallel rendering test suite `vivid.art.parallel-test`. Demonstrates parallelistic use of `(render)` using `(pmap)` as well as core.async `(go)` and `(thread)`.
 ### Changed
 - Template `(emit)` function accepts any number of args, emitting each in order of appearance to the output.
 - `:dependencies` now expects a Leiningen-style dependencies map.

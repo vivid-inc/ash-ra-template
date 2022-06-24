@@ -46,13 +46,16 @@
    & {:keys [bindings delimiters to-phase]
       :or   {bindings {} delimiters default-delimiters to-phase default-to-phase}}]
   (when template
-    (let [render* #(cond-> template
+    (let [bindings (merge (get vivid.art/*render-context* :bindings) bindings)
+          render* #(cond-> template
                            (to-phase? :parse     to-phase) (parse delimiters)
                            (to-phase? :translate to-phase) (translate)
                            (to-phase? :enscript  to-phase) (enscript bindings)
                            (to-phase? :evaluate  to-phase) (evaluate))]
       (with-bindings {#'vivid.art/*render-context*
-                      {:ns (gensym 'vivid-art-user-)}}
+                      ; TODO Document: Bindings are available in 2 places: in *rc* as-is, but are pr'ed in the document, which messes up functions and other such unprintable values.
+                      {:bindings bindings
+                       :ns       (gensym 'vivid-art-user-)}}
         (farolero/handler-case (render*)
                                (:vivid.art/parse-error [_ details]
                                  (make-failure :parse-error details template)))))))

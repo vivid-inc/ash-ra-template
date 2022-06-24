@@ -143,12 +143,12 @@ The `(emit)` variant can mingle with more Clojure forms, while `<(= ... )>` succ
 <a name="rendering-and-options"></a>
 ## Rendering and options
 ART provides the ``(vivid.art/render)`` function which renders an input string containing Ash Ra Template (ART) -formatted content to an output string.
-`(render)` takes several options:
+`(render)` takes a template string followed by a variety of optional keyword arguments:
 
 ```clojure
-(art/render template {:bindings     bindings
-                      :delimiters   delimiters
-                      :to-phase     phase})
+(art/render template :bindings     bindings
+                     :delimiters   delimiters
+                     :to-phase     phase)
 ```
 
 <a name="bindings"></a>
@@ -161,7 +161,7 @@ Simple:
 (def my-bindings {'month "April"
                   'day   5})
 (art/render "<(= month )> <(= day )> was a most pleasant, memorable day."
-            {:bindings my-bindings})
+            :bindings my-bindings)
 ```
 
 More complex:
@@ -169,7 +169,7 @@ More complex:
 (def labor-tallies [7 24 13 11])
 (art/render "<( (def total (apply + periods)) )>
              LEED certification expended a total of <(= total )> human months."
-            {:bindings {'periods labor-tallies}})
+            :bindings {'periods labor-tallies})
 ```
 
 <a name="delimiters"></a>
@@ -187,9 +187,9 @@ The natural number e is approximately {|= e |}
 can be specified with `:delimiters` in the optional map argument:
 ```clojure
 (art/render template-str
-            {:delimiters {:begin-forms "{|"
-                          :end-forms   "|}"
-                          :begin-eval  "{|="}})
+            :delimiters {:begin-forms "{|"
+                         :end-forms   "|}"
+                         :begin-eval  "{|="})
 ```
 There is no particular restriction on what can and cannot be used as delimiters, but beware choosing delimiters whose character strings also occur in your document and in Clojure code.
 There are several predefined sets in `vivid.art.delimiters` such as `erb`, ``jinja`, `mustache`, and `php` that can be used directly or serve as a starting point for creating your own delimiter sets.
@@ -206,5 +206,5 @@ The phases are, in order: `:parse`, `:translate`, `:enscript`, `:evaluate`.
 ```clojure
 ; Output raw Clojure code that, if evaluated, produces the final rendered output.
 (art/render template-str
-            {:to-phase :enscript})
+            :to-phase :enscript)
 ```

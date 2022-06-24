@@ -26,7 +26,7 @@
                          "--lint" "src/:test/"
                          "--parallel"]
             "nvd"      ["nvd" "check"]
-            "test"     ["with-profile" "+clojure-1.10.0:+clojure-1.10.1:+clojure-1.10.2:+clojure-1.10.3:+clojure-1.11.0:+clojure-1.11.1" "build"]}
+            "test"     ["with-profile" "test" "with-profile" "+clojure-1.10.0:+clojure-1.10.1:+clojure-1.10.2:+clojure-1.10.3:+clojure-1.11.0:+clojure-1.11.1" "build"]}
 
   :cloverage {:codecov? true
               :html?    true
@@ -99,6 +99,8 @@
 
                          :resource-paths ["test-resources" "../examples"]
 
-                         :test-refresh   {:quiet true}}}
+                         :test-refresh   {:quiet true}}
+
+             :test {:dependencies [[org.clojure/core.async "1.5.648"]]}}
 
   :repositories [["clojars" {:sign-releases false}]])

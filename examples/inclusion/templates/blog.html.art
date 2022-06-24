@@ -1,8 +1,20 @@
-<( (emit (wrap-in (slurp "templates/layout.html.art") :with {
+<( (emit (vivid.art/render (slurp "layouts/layout.html.art") :bindings {
+  'title "Deep Inn-sight"
+
   :head (block )>
-<link href="blog-theme.css" rel="stylesheet">
-<( )
+<link href="blog-theme-dark.css" rel="stylesheet">
+<link href="blog-theme-light.css" rel="stylesheet">
+  <( )
+
   :body (block )>
+<div class="header">
+  <h2>Deep Inn-sight: A Hotelier's Blog</h2>
+</div>
 <section class="blog-entry">
+  <dev class="card">
+    ...
+  </dev>
 </section>
-<( )})) )>
+  <( )
+
+})) )>

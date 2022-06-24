@@ -16,9 +16,7 @@ $ bin/deploy.sh
 # Along the path to ART version 1.0 and beyond
 
 ### Next:
-- `(include)` and `(yield)` -like content inclusion/nesting mechanisms. Exemplars of various inclusion & nesting mechanisms.
 - Heavy testing of quote nesting and escaping, delimiter escaping, Clojure reader forms, comments.
-- Explicit support for parallel execution.
 
 ### Considerations, further out:
 - Declare version 1.0.0 once the community deems the ART feature-complete, reliable, and properly documented.
