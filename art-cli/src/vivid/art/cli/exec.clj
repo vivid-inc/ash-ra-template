@@ -82,19 +82,30 @@
       (doseq [b batches]
              (render-batch b)))
 
+(defn parent? [^File parent ^File file]
+  (when (.startsWith (.toPath file) (.toPath parent))
+    parent))
+
+(defn first-matching-parent [parents ^File file]
+  (some #(parent? % file) parents))
+
 (defn render-from-watch-event [batch {:keys [path type] :as watch-event}]
-      (let [file (.toFile ^Path path)]
-           (when (vivid.art.cli.files/art-template-file? file)
-                 (cond
-                   (get #{:create :modify} type)
-                   ; Re-use (render-batch) but pass in only the affected template file.
-                   (let [batch* (assoc batch :templates [file])]
-                        (render-batch batch*))
+  ; TODO De-bounce / coalesce writes, on each input file.
+  ; https://stackoverflow.com/questions/35663415/throttle-functions-with-core-async
+  (let [file (.toFile ^Path path)]
+    (when (vivid.art.cli.files/art-template-file? file)
+      (cond
+        (get #{:create :modify} type)
+        ; Re-use (render-batch) but pass in only paths of the affected template file.
+        (let [base-path (first-matching-parent (:templates batch) file)
+              tp        (files/->template-path base-path file)
+              of        (File. ^File (:output-dir batch)
+                               ^String (.getParent (:dest-rel-path tp)))
+              batch*    (assoc batch :templates [file] :output-dir of)]
+          (render-batch batch*))
 
-                   :else
-                   (log/*debug-fn* "Ignoring beholder event:" (pr-str watch-event))))))
-
-
+        :else
+        (log/*debug-fn* "Ignoring beholder event:" (pr-str watch-event))))))
 
 (defn dispatch-command [command batches]
       (condp = command
