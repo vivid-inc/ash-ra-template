@@ -36,7 +36,8 @@
   "File's path components as a seq."
   [^File path]
   (some->> path
-           (.getCanonicalFile)
+           ; Honor symlinks. By definition, File.getCanonicalFile does not.
+           (.getAbsoluteFile)
            (.toPath)
            (.iterator)
            (iterator-seq)

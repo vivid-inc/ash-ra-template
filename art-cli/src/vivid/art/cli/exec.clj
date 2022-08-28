@@ -36,7 +36,7 @@
   (try
     (let [output-path ^File (io/file output-dir dest-rel-path)
           to-phase (get batch :to-phase vivid.art/default-to-phase)]
-      (log/*info-fn* (format "Rendering ART %s" (.getCanonicalFile output-path)))
+      (log/*info-fn* (format "Rendering ART %s" (.getAbsoluteFile output-path)))
       (io/make-parents output-path)
       (as-> (slurp src-path) c
             (apply art/render c (mapcat identity
@@ -51,7 +51,7 @@
       (farolero/signal :vivid.art.cli/error
                        {:step      'render-file
                         :message   (format "Exception while rendering ART template %s"
-                                           (.getCanonicalPath ^File (:src-path template-file)))
+                                           (.getAbsoluteFile ^File (:src-path template-file)))
                         :exception e}))))
 
 (defn assemble-classpath

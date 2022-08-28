@@ -9,6 +9,7 @@ codecov.json
 .nrepl-port
 pom.xml
 target
+.tool-versions
 
 # Auto-generated project files
 /boot-art/project.clj

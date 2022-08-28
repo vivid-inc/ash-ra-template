@@ -17,6 +17,7 @@ _Unreleased_
 - Template `(emit)` function accepts any number of args, emitting each in order of appearance to the output.
 - `:dependencies` now expects a Leiningen-style dependencies map.
 - `(vivid.art/render)` function signature now accepts options as keyword arguments. In practice, you only need to replace the map with its contents (delete the curly braces surrounding the map contents).
+- `art-cli` honors symlinks.
 ### Removed
 - ShimDandy -based `:dependencies` behavior.
 - `boot-art`.
