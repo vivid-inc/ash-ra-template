@@ -102,7 +102,7 @@ The authors so far don't know how to specify a Var that is defined within `src/`
 For the sake of completeness, its value is copy & pasted into the example below in place of the var.
 ```clojure
 ; Render all .art template files in the content/ directory to out/cdn/
-(defproject example-custom-options "0"
+(defproject art-example-custom-options "0"
 
   :plugins [[net.vivid-inc/lein-art "<%= vivid-art-version %>"]]
 
@@ -132,7 +132,7 @@ For the sake of completeness, its value is copy & pasted into the example below 
 
         :dependencies {hiccup {:mvn/version "1.0.5"}
                        ; Give templates use of project code.
-                       example-custom-options {:mvn/version "LATEST"
+                       art-example-custom-options {:mvn/version "LATEST"
                                                :local/root "."}}
 
         :output-dir   "out/cdn"})

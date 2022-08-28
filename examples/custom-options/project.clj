@@ -5,7 +5,7 @@
 ;;   Rendering ART catalog/index.html
 ;;   $ diff -r expected/ out/cdn/
 
-(defproject example-custom-options "0"
+(defproject art-example-custom-options "0"
 
   :plugins [[net.vivid-inc/lein-art "0.7.0"]]
 

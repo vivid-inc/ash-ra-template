@@ -89,9 +89,21 @@
 (defn first-matching-parent [parents ^File file]
   (some #(parent? % file) parents))
 
+; TODO De-bounce / coalesce writes, on each input file.
+; https://stackoverflow.com/questions/35663415/throttle-functions-with-core-async
+; https://ericnormand.me/guide/clojure-concurrency
+#_(defn debounce [file]
+  (let [out (chan)]
+    (go-loop [last-val nil]
+             (let [val (if (nil? last-val) (<! in) last-val)
+                   timer (timeout 50)
+                   [new-val ch] (alts! [in timer])]
+               (condp = ch
+                 timer (do (>! out val) (recur nil))
+                 in    (recur new-val))))
+    out))
+
 (defn render-from-watch-event [batch {:keys [path type] :as watch-event}]
-  ; TODO De-bounce / coalesce writes, on each input file.
-  ; https://stackoverflow.com/questions/35663415/throttle-functions-with-core-async
   (let [file (.toFile ^Path path)]
     (when (vivid.art.cli.files/art-template-file? file)
       (cond

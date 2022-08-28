@@ -59,7 +59,7 @@
   (invocation-pattern "../examples/all-options"
                       "clj" "-M:art"))
 
-; TODO Test example-custom-options
+; TODO Test art-example-custom-options
 
 (t/deftest clj-tool-example-multi-batch
   (let [target-a "expected-src-resources"

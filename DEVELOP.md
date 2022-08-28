@@ -16,6 +16,7 @@ $ bin/deploy.sh
 # Along the path to ART version 1.0 and beyond
 
 ### Next:
+- Consider how to watch for changes in dependent templates, CLJ source files, anything else.
 - Heavy testing of quote nesting and escaping, delimiter escaping, Clojure reader forms, comments.
 
 ### Considerations, further out:
@@ -35,6 +36,8 @@ $ bin/deploy.sh
 - Maven plugin for rendering ART templates.
 - Template registry + Cache à la https://github.com/davidsantiago/stencil , https://github.com/Flamefork/fleet
 - AOT compilation.
+- Rewrite (render) as a macro that compiles the input template.
+- Accomodate cljdoc.
 
 
 

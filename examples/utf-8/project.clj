@@ -1,4 +1,4 @@
-(defproject art-sample--utf-8 "0"
+(defproject art-example--utf-8 "0"
 
   ; Add the lein-art Leiningen plugin:
   :plugins [[net.vivid-inc/lein-art "0.7.0"]]

@@ -94,7 +94,7 @@
                            {:bindings "../examples/utf-8/greek.edn"
                             :delimiters 'jinja}))
 
-(t/deftest lein-plugin-example-custom-options
+(t/deftest lein-plugin-art-example-custom-options
   (let [res (clojure.java.shell/sh "./test.sh" "lein" "do" "clean," "install," "art" "render"
                                    :dir "../examples/custom-options")]
     (t/is (= 0 (res :exit))
