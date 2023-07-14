@@ -48,12 +48,11 @@
                          ["cloverage"]
                          ["jar"]
                          ["install"]]
-            "clj-kondo" ["with-profile" "clj-kondo" "run" "-m" "clj-kondo.main" "--"
-                         "--config" "../.clj-kondo/config.edn"
-                         "--lint" "src/:test/"
+            "clj-kondo" ["with-profile" "clojure-<%= (last clojure-versions) %>,clj-kondo" "run" "-m" "clj-kondo.main" "--"
+                         "--lint" "src:test"
                          "--parallel"]
-            "nvd"      ["nvd" "check"]
-            "test"     ["with-profile" "<%= clojure-test-profiles-str %>" "build"]}
+            "nvd"       ["nvd" "check"]
+            "test"      ["with-profile" "test" "with-profile" "<%= clojure-test-profiles-str %>" "build"]}
 
   :cloverage {:codecov? true
               :html?    true
@@ -93,8 +92,7 @@
                                                             org.slf4j/jcl-over-slf4j
                                                             org.slf4j/slf4j-api]]]
 
-  :profiles {:clj-kondo {:dependencies [[clj-kondo "RELEASE"]
-                                        [org.clojure/clojure "<%= (first clojure-versions) %>"]]}
+  :profiles {:clj-kondo {:dependencies [[clj-kondo "RELEASE"]]}
 
 <%= (clojure-version-profiles :indent 13) %>
 
@@ -121,6 +119,8 @@
 
                          :resource-paths ["test-resources" "../examples"]
 
-                         :test-refresh   {:quiet true}}}
+                         :test-refresh   {:quiet true}}
+
+             :test {:dependencies [[org.clojure/core.async "1.5.648"]]}}
 
   :repositories [["clojars" {:sign-releases false}]])

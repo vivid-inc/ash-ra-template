@@ -21,12 +21,11 @@
                          ["cloverage"]
                          ["jar"]
                          ["install"]]
-            "clj-kondo" ["with-profile" "clj-kondo" "run" "-m" "clj-kondo.main" "--"
-                         "--config" "../.clj-kondo/config.edn"
-                         "--lint" "src/:test/"
+            "clj-kondo" ["with-profile" "clojure-1.11.1,clj-kondo" "run" "-m" "clj-kondo.main" "--"
+                         "--lint" "src:test"
                          "--parallel"]
-            "nvd"      ["nvd" "check"]
-            "test"     ["with-profile" "test" "with-profile" "+clojure-1.10.0:+clojure-1.10.1:+clojure-1.10.2:+clojure-1.10.3:+clojure-1.11.0:+clojure-1.11.1" "build"]}
+            "nvd"       ["nvd" "check"]
+            "test"      ["with-profile" "test" "with-profile" "+clojure-1.10.0:+clojure-1.10.1:+clojure-1.10.2:+clojure-1.10.3:+clojure-1.11.0:+clojure-1.11.1" "build"]}
 
   :cloverage {:codecov? true
               :html?    true
@@ -66,8 +65,7 @@
                                                             org.slf4j/jcl-over-slf4j
                                                             org.slf4j/slf4j-api]]]
 
-  :profiles {:clj-kondo {:dependencies [[clj-kondo "RELEASE"]
-                                        [org.clojure/clojure "1.10.0"]]}
+  :profiles {:clj-kondo {:dependencies [[clj-kondo "RELEASE"]]}
 
              :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]}
              :clojure-1.10.1 {:dependencies [[org.clojure/clojure "1.10.1"]]}

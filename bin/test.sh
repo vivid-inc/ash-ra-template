@@ -21,7 +21,7 @@ echo Running all tests
 export TZ=UTC
 
 # Aim for a clean build
-find . -depth -name .cpcache -or -name out -or -name target | xargs rm -r || true
+find . -depth -name .cpcache -or -name out -or -name target -type d | xargs rm -r || true
 
 # Run all tests, create the deliverables
 (cd art && lein test)

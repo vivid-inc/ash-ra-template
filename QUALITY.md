@@ -4,11 +4,12 @@ _Referencing [How SQLite Is Tested](https://www.sqlite.org/testing.html)_
 
 Reliability of ART is achieved in part by thorough and careful automated testing.
 The range of testing covers each ART component, it's public API, code samples in the documentation, and assumed common execution environments (JDK and Clojure versions).
+ART is tested on each release of Clojure starting from the minimum supported version, and on the latest release of each Java LTS major version starting from the minimum supported Java version.
 
 ## Regression testing
 
 Defects reported against ART cannot be considered as resolved until automated tests express the defect and prove remediation.
-These regression tests ensure that prior defects do not re-emerge in future.
+These regression tests ensure that prior defects do not re-emerge in the future.
 
 
 

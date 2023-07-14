@@ -18,14 +18,22 @@ $ bin/deploy.sh
 ### Next:
 - Consider how to watch for changes in dependent templates, CLJ source files, anything else.
 - Heavy testing of quote nesting and escaping, delimiter escaping, Clojure reader forms, comments.
+- clj-art :exec-fn. See https://practical.li/blog-staging/posts/clojure-cli-tools-understanding-aliases/
+- Change from DCO to a Contributor's License Agreement.
+- Investigate OpenSSF Best Practices reporting, such as: https://bestpractices.coreinfrastructure.org/en/projects/2095
+- Container image to run ART from your present CLI.
 
 ### Considerations, further out:
+- Make `clj-art` and `lein-art` friendly for diagnosing configuration problems, like figwheel.
 - Declare version 1.0.0 once the community deems the ART feature-complete, reliable, and properly documented.
 - Sufficient error reporting.
-- Provide access to execution context from within the evaluation environment: (render) args. The evaluation stack starting from the page through to the current (yield). `user/*art-render-context*`
+- Provide access to more of the execution context from within the evaluation environment: (render) args. The evaluation stack starting from the page through to the current (yield).
 - Infer sensible defaults that can be customized via overrides.
 - ClojureScript.
-- How to achieve fast runtime performance, fast development & testing feedback loop.
+  - `art` module only.
+  - `(render)` function `:bindings` option applicability is Clojure only, the remainder make sense in both CLJ and CLJS worlds.
+  - Replace `reduce-fsm` with [metosin/tilakone.core](https://github.com/metosin/tilakone/network) with improvements.
+- How to achieve fast runtime performance, fast development & testing feedback loop. Benchmarks with hyperfine.
 - Build: Sign releases.
 - CLI: Option to re-render templates only when newer than their output files.
 - CLI: Ability to list rendered file paths without writing à la `--dry-run`
