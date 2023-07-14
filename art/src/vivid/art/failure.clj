@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.failure
+(ns ^:internal-api vivid.art.failure
   (:require
    [clojure.spec.alpha :as s]
    [vivid.art.specs]))

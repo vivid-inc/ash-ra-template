@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.specs
+(ns ^:internal-api vivid.art.specs
   "Clojure Spec definitions for Ash Ra Temple data structures.
   All definitions exposed through ART's API plus all key
   definitions are namespaced."

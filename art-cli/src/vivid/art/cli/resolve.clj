@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.cli.resolve
+(ns ^:internal-api vivid.art.cli.resolve
   "Resolvers of CLI option arguments.
 
   If an argument doesn't appear to be resolvable according to the nature of

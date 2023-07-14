@@ -33,3 +33,4 @@ function clj-art {
 $@
 diff -r expected-src-resources/ src/resources/
 diff -r expected-target-generated-sources-java/ target/generated-sources/java/
+diff -r expected-www/ www/

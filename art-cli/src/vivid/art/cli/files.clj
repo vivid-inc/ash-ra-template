@@ -12,15 +12,17 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.cli.files
+(ns ^:internal-api vivid.art.cli.files
   "File and path handling common to this ART CLI library in general."
   (:require
    [clojure.java.io :as io]
    [clojure.string]
-   [farolero.core :as farolero]
-   [vivid.art.cli])
+   [farolero.core :as farolero])
   (:import
    (java.io File)))
+
+(def ^:const art-filename-suffix ".art")
+(def ^:const art-filename-suffix-regex #"\.art$")
 
 (def ^:const prohibited-template-output-filenames
   "Attempting to (over-)write or delete these filenames might have
@@ -30,7 +32,7 @@
 (defn art-template-file?
   [^File f]
   (and (.isFile f)
-       (.endsWith (.getName f) vivid.art.cli/art-filename-suffix)))
+       (.endsWith (.getName f) art-filename-suffix)))
 
 (defn- path-seq
   "File's path components as a seq."
@@ -64,7 +66,7 @@
 
 (defn strip-art-filename-suffix
   [path]
-  (let [out (clojure.string/replace path vivid.art.cli/art-filename-suffix-regex "")
+  (let [out (clojure.string/replace path art-filename-suffix-regex "")
         filename (.getName (File. ^String out))]
     (when (get prohibited-template-output-filenames filename)
       (farolero/signal :vivid.art.cli/error

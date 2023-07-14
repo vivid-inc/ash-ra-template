@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.cli.validate
+(ns ^:internal-api vivid.art.cli.validate
   "Validation of individual options available in public API & CLI"
   (:require
    [clojure.spec.alpha :as s]

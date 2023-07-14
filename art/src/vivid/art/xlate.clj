@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.xlate
+(ns ^:internal-api vivid.art.xlate
   (:refer-clojure :exclude [eval])
   (:require
    [clojure.string]

@@ -1,22 +1,24 @@
 # Ash Ra Template Changelog
 
 ## [0.7.0]
-_Unreleased_
+Released 2023-07-14.
 ### Added
-- CLI tools `clj-art` and `lein-art` provide their classpaths to the ART template evaluation environment,
-  as well as a reworked `:dependencies` mechanism that uses pomegranate to add further dependencies.
+- CLI tools `clj-art` and `lein-art` provide their classpaths to the ART template evaluation environment, as well as a 
+  reworked `:dependencies` mechanism that uses pomegranate to add further dependencies.
   This deprecates the prior ShimDandy.
 - Support for Clojure versions 1.11.0, 1.11.1.
-- ART commands:
-  - `auto`:   Watches the template files and directories, re-rending on changes.
+- CLI tools offer these ART commands:
+  - `auto`:   Watches template files and directories, re-rendering on changes.
   - `config`: Dump the effective ART configuration to stdout.
   - `help`:   Display tool help.
   - `render`: ART's default behavior of rendering templates.
-- Parallel rendering test suite `vivid.art.parallel-test`. Demonstrates parallelistic use of `(render)` using `(pmap)` as well as core.async `(go)` and `(thread)`.
+- Parallel rendering test suite `vivid.art.parallel-test`. Demonstrates use of `(render)` using `(pmap)` as well as 
+  `(core.async/go)` and `(core.async/thread)`.
 ### Changed
 - Template `(emit)` function accepts any number of args, emitting each in order of appearance to the output.
 - `:dependencies` now expects a Leiningen-style dependencies map.
-- `(vivid.art/render)` function signature now accepts options as keyword arguments. In practice, you only need to replace the map with its contents (delete the curly braces surrounding the map contents).
+- `(vivid.art/render)` function signature now accepts options as keyword arguments. In practice, you only need to 
+  replace the map with its contents (delete the curly braces surrounding the map contents).
 - `art-cli` honors symlinks.
 ### Removed
 - ShimDandy -based `:dependencies` behavior.

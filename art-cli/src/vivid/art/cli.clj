@@ -12,10 +12,42 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns ^:internal-api vivid.art.cli
+(ns vivid.art.cli
+  "art-cli public API."
   (:require
-   [vivid.art]
+   [clojure.spec.alpha :as s]
+   [vivid.art.cli.classpath :refer [with-custom-classloader]]
+   [vivid.art.cli.exec]
+   [vivid.art.cli.files]
+   [vivid.art.cli.log :as log]
    [vivid.art.cli.specs]))
 
-(def ^:const art-filename-suffix ".art")
-(def ^:const art-filename-suffix-regex #"\.art$")
+(def ^:const art-filename-suffix
+  "Ash Ra Template .art filename suffix."
+  vivid.art.cli.files/art-filename-suffix)
+(def ^:const art-filename-suffix-regex
+  "Ash Ra Template .art filename suffix as a regular expression, suitable for matching filenames."
+  vivid.art.cli.files/art-filename-suffix-regex)
+
+(defn render-batch
+  "Scans :templates for files and directory sub-trees, renders all ART templates found
+  within according to the batch settings. Fails fast in event of an error."
+  [batch]
+  (let [templates (-> (:templates batch)
+                      vivid.art.cli.files/paths->template-paths!)]
+    (if (empty? templates)
+      (log/*warn-fn* "Warning: No ART templates to render.")
+      (let [classpath (vivid.art.cli.classpath/assemble-classpath batch)]
+        (with-custom-classloader classpath
+                                 (doseq [template-file templates]
+                                   (vivid.art.cli.exec/render-file template-file batch)))))))
+(s/fdef render-batch
+        :args (s/cat :batch (s/? :vivid.art.cli/batch)))
+
+(defn render-batches
+  "Render a collection of batches."
+  [batch-coll]
+  (doseq [b batch-coll]
+    (render-batch b)))
+(s/fdef render-batches
+  :args (s/coll-of :vivid.art.cli/batch))

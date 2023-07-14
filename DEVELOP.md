@@ -28,6 +28,7 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
 - Change from DCO to a Contributor's License Agreement.
 - Investigate OpenSSF Best Practices reporting, such as: https://bestpractices.coreinfrastructure.org/en/projects/2095
 - Container image to run ART from your present CLI.
+- Implement `(vivid.art/render)` `:classpath` and `:repositories` options.
 
 ### Considerations, further out:
 - Make `clj-art` and `lein-art` friendly for diagnosing configuration problems, like figwheel.
@@ -64,7 +65,6 @@ Note: All supported versions (resulting from these facts) are recorded in [asset
 
 Clojure:
 - Lower-bound of Clojure 1.9.0 for [spec](https://clojure.org/guides/spec)
-- Lower-bound of Clojure 1.9.0 because it is compatible with a ``clojure.alpha.tools.deps`` version that has reasonable Maven-style dependency resolution capability.
 - Lower-bound of Clojure 1.10.0, farolero's minimum supported version.
 
 Java:

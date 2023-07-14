@@ -36,6 +36,11 @@
      :output-dir   "src/resources"}
 
     ; Another, different batch
-    {:templates  ["src/templates/java"]
-     :bindings   {version "1.2.3"}
-     :output-dir "target/generated-sources/java"}])
+    {:templates    ["src/templates/java"]
+     :bindings     {version "1.2.3"}
+     :output-dir   "target/generated-sources/java"}
+
+    ; One more batch
+    {:templates    "src/templates/html"
+     :dependencies [[hiccup/hiccup "1.0.5"]]
+     :output-dir   "www"}])

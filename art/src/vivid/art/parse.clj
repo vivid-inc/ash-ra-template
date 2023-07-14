@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.parse
+(ns ^:internal-api vivid.art.parse
   (:require
    [clojure.spec.alpha :as s]
    [clojure.string :as str]

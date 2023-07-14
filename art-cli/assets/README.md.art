@@ -1,9 +1,5 @@
 # art-cli Ash Ra Template CLI Library
 
-<%
-(def clojure-versions  (get vivid-art-facts 'clojure-versions))
-%>
-
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/net.vivid-inc/art-cli.svg?color=blue&style=flat-square)](https://clojars.org/net.vivid-inc/art-cli)
 
@@ -17,21 +13,22 @@ _This API is in flux; please don't expect to be able to rely on a stable API unt
 <a name="rendering-and-options"></a>
 ## Rendering and options
 
-`art-cli` adds additional processing capability to `vivid.art/render` to handle rendering options in support of CLI tooling.
+`art-cli` offers additional rendering options and processing capability in support of CLI tooling.
 
 <a name="dependencies"></a>
 ### External ``:dependencies``
-`art-cli` provides the `vivid.art/render` rendering option `:dependencies`.
+`art-cli` provides the rendering option `:dependencies`.
 In addition to the dependencies configured in the runtime, this option allows you to specify your own set of dependencies for the template evaluation environment.
 
-Given a template that ``require``s namespaces from external dependencies in Clojure, such as:
+For example, this is template file that uses Hiccup to output an HTMl document.
+It ``require``s namespaces from the `hiccup/hiccup` dependency:
 ```clojure
 <(
 (require '[hiccup.core])
 
-(def ^:const toc-headings [{:id 739 :text "Move wing assembly into place"}
+(def ^:const toc-headings [{:id 738 :text "Move wing assembly into place"}
                            {:id 740 :text "Connect fuel lines and hydraulics"}
-                           {:id 741 :text "Attach wing assembly to fuselage"}])
+                           {:id 746 :text "Attach wing assembly to fuselage"}])
 
 (defn toc-entry [heading]
   (hiccup.core/html [:li
@@ -41,16 +38,24 @@ Given a template that ``require``s namespaces from external dependencies in Cloj
 )>
 <(= (apply str (map toc-entry toc-headings)) )>
 ```
-The template's external dependencies can be specified as a Clojure deps [lib map](https://clojure.org/reference/deps_and_cli) with `:dependencies` in the option map argument:
+The template's external dependencies are specified in Leiningen-style notation with `:dependencies`:
 ```clojure
-(vivid.art/render template
-                  :dependencies {'hiccup/hiccup {:mvn/version "1.0.5"}})
-```
-Dependencies are resolved prior to template rendering using Clojure's ``org.clojure/tools.deps.alpha``.
+(require '[vivid.art.cli])
 
-As an implicit dependency, the template execution environment provides ART's minimum supported version of Clojure, version <%= (first clojure-versions) %>, but this can be overridden using the same mechanism by supplying the `org.clojure/clojure` dependency with a different version:
-```clojure
-                  :dependencies {'org.clojure/clojure {:mvn/version "<%= (last clojure-versions) %>"}}
-```
+(def batch {:templates    "src/templates/html"
+            :dependencies '[[hiccup/hiccup "1.0.5"]]
+            :output-dir   "www"})
 
-The list of Maven repositories against which dependencies are resolved are `clojars` and `maven-central`.
+(vivid.art.cli/render-batch batch)
+
+;; Or, use a convenience function to render multiple batches:
+(vivid.art.cli/render-batches [batch
+                               ...])
+```
+Prior to template rendering, dependencies are resolved and added to the classpath using [pomegranate](https://github.com/clj-commons/pomegranate).
+After rendering, the classpath is restored to what it was at the call site.
+`art-cli` is configured to resolve dependencies using the `clojars` and `maven-central` Maven repositories.
+
+Caveat emptor:
+- Add differing versions of dependencies that are already loaded into the classpath at your own peril.
+- The process of restoring the classpath might not be perfect.

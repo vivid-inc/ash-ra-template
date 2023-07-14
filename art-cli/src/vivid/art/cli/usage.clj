@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.cli.usage
+(ns ^:internal-api vivid.art.cli.usage
   (:require
    [clojure.string]
    [vivid.art]

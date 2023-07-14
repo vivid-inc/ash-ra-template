@@ -12,9 +12,9 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.cli.log
+(ns ^:internal-api vivid.art.cli.log
   "Logging facility used by this library. Consumers of this library may bind
-  the logging fn vars to their own functions.")
+  the logging fn vars to their extant logging functions.")
 
 (def mutex (Object.))
 

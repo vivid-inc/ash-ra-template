@@ -12,12 +12,26 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.cli.watch
+(ns ^:internal-api vivid.art.cli.watch
   (:require
    [nextjournal.beholder :as beholder]
    [vivid.art.cli.log :as log])
   (:import
    (java.io File)))
+
+; TODO De-bounce / coalesce writes, on each input file.
+; https://stackoverflow.com/questions/35663415/throttle-functions-with-core-async
+; https://ericnormand.me/guide/clojure-concurrency
+#_(defn debounce [file]
+    (let [out (chan)]
+      (go-loop [last-val nil]
+               (let [val (if (nil? last-val) (<! in) last-val)
+                     timer (timeout 50)
+                     [new-val ch] (alts! [in timer])]
+                 (condp = ch
+                   timer (do (>! out val) (recur nil))
+                   in    (recur new-val))))
+      out))
 
 (defn watch-on-batches
   "Watches template paths in all of the supplied batches.

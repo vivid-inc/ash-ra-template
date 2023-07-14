@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.delimiters
+(ns ^:internal-api vivid.art.delimiters
   "Definitions of template delimiter tags in the style of Ruby ERB
   and various other templating systems.")
 

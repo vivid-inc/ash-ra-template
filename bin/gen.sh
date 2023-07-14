@@ -29,8 +29,8 @@ function bootstrap_art {
 
 (require '[clojure.edn :as edn]
          '[clojure.java.io :as io]
-         '[vivid.art.cli.args]
-         '[vivid.art.cli.exec])
+         '[vivid.art.cli :as art-cli]
+         '[vivid.art.cli.args])
 (import '(java.io PushbackReader))
 
 (def ^:const component-dirs [
@@ -55,7 +55,7 @@ function bootstrap_art {
 
 (farolero.core/handler-case
   (doseq [b raw-batches]
-    (vivid.art.cli.exec/render-batches-once
+    (art-cli/render-batches
       [(vivid.art.cli.args/direct->batch (:templates b) b)]))
   (:vivid.art.cli/error [_ details] (do (prn details)
                                         (System/exit 1))))

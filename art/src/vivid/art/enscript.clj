@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.enscript
+(ns ^:internal-api vivid.art.enscript
   (:require
    [clojure.string]))
 

@@ -15,11 +15,10 @@
 (ns vivid.art.cli.examples-test
   "Confirms that ART works as promised in the README file."
   (:require
-   [clojure.java.io :as io]
    [clojure.test :refer :all]
-   [vivid.art :as art]))
+   [vivid.art.cli :as art-cli]))
 
-; TODO Read from a file instead. The API has changed...
+; TODO art-cli API is in flux
 #_(deftest usage
     (testing "All code samples in the README file"
       (is (= "\n\n<li><a href=\"#739\" id=\"link\">Moving wing assembly into place</a></li><li><a href=\"#740\" id=\"link\">Connecting fuel lines and hydraulics</a></li><li><a href=\"#741\" id=\"link\">Attaching wing assembly to fuselage</a></li>\n"
@@ -27,9 +26,9 @@
 <(
 (require '[hiccup.core])
 
-(def ^:const toc-headings [{:id 739 :text \"Moving wing assembly into place\"}
-                           {:id 740 :text \"Connecting fuel lines and hydraulics\"}
-                           {:id 741 :text \"Attaching wing assembly to fuselage\"}])
+(def ^:const toc-headings [{:id 739 :text \"Move wing assembly into place\"}
+                           {:id 740 :text \"Connect fuel lines and hydraulics\"}
+                           {:id 741 :text \"Attach wing assembly to fuselage\"}])
 
 (defn toc-entry [heading]
   (hiccup.core/html [:li
@@ -39,4 +38,4 @@
 )>
 <(= (apply str (map toc-entry toc-headings)) )>
 "
-                         {:dependencies {'hiccup/hiccup {:mvn/version "1.0.5"}}})))))
+                         {:dependencies '[[hiccup/hiccup "1.0.5"]]})))))

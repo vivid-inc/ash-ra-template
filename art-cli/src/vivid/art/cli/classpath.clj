@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.cli.classpath
+(ns ^:internal-api vivid.art.cli.classpath
   (:require
    [cemerick.pomegranate :as pomegranate]
    [cemerick.pomegranate.aether :as aether]
@@ -23,10 +23,19 @@
    (java.io File)
    (java.net URI)))
 
+(declare dependencies->file-paths)
+
+(defn assemble-classpath
+  [batch]
+  ; TODO Derive repositories from the calling project as well, provide a default set (Maven Central + Clojars)
+  (concat []
+          (:classpath batch)
+          (dependencies->file-paths (:dependencies batch))))
+
 (defn dependencies->file-paths
   "Resolves a Lein-style list of dependencies, returning their file paths."
   [dependencies]
-  (->> (aether/resolve-dependencies :coordinates dependencies
+  (->> (aether/resolve-dependencies :coordinates  dependencies
                                     :repositories (merge aether/maven-central
                                                          {"clojars" "https://clojars.org/repo"}))
        (aether/dependency-files)

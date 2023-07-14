@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.cli.messages
+(ns ^:internal-api vivid.art.cli.messages
   "Uniform ART messages throughout CLI tooling."
   (:require
    [clojure.pprint]))

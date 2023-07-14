@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns leiningen.art
+(ns ^:internal-api leiningen.art
   (:require
    [clojure.string]
    [clojure.tools.cli]
@@ -20,7 +20,7 @@
    [leiningen.core.classpath]
    [leiningen.core.main :as main-lein]
    [vivid.art.cli.args]
-   [vivid.art.cli.exec]
+   [vivid.art.cli.command]
    [vivid.art.cli.log :as log]
    [vivid.art.cli.messages :as messages]
    [vivid.art.cli.usage]))
@@ -56,7 +56,7 @@
     (let [batches (if (coll? args)
                     [(batch-from-cli-args args)]
                     (batches-from-project project))]
-      (vivid.art.cli.exec/dispatch-command command batches))))
+      (vivid.art.cli.command/dispatch-command command batches))))
 
 (defn- usage []
   (let [options-summary (:summary (clojure.tools.cli/parse-opts [] vivid.art.cli.usage/cli-options))]

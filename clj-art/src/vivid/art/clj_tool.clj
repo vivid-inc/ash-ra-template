@@ -12,28 +12,31 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.clj-tool
+(ns ^:internal-api vivid.art.clj-tool
   (:require
    [clojure.string]
    [clojure.tools.cli]
    [farolero.core :as farolero]
+   [vivid.art.cli :as art-cli]
    [vivid.art.cli.args]
-   [vivid.art.cli.exec]
    [vivid.art.cli.log :as log]
    [vivid.art.cli.messages :as messages]
    [vivid.art.cli.usage :refer [cli-options]]))
+
+; TODO Offer the full command set of vivid.art.cli.command/dispatch-command
 
 (def ^:const default-options {:output-dir "."})
 
 (defn- exit [exit-status message]
   (println message)
   ; TODO Clojure doesn't exit right away. https://clojureverse.org/t/why-doesnt-my-program-exit/3754
+  (shutdown-agents)
   (System/exit exit-status))
 
 (defn- from-cli-args [args]
   (->> (vivid.art.cli.args/cli-args->batch args cli-options)
        (merge default-options)
-       (vivid.art.cli.exec/render-batch)))
+       (art-cli/render-batch)))
 
 (defn- process [args]
   (binding [log/*info-fn* println
