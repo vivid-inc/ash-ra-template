@@ -39,4 +39,4 @@
 )>
 <(= (apply str (map toc-entry toc-headings)) )>
 "
-                         {:dependencies {'hiccup {:mvn/version "1.0.5"}}})))))
+                         {:dependencies {'hiccup/hiccup {:mvn/version "1.0.5"}}})))))

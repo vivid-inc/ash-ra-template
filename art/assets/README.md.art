@@ -152,7 +152,7 @@ The `(emit)` variant can mingle with more Clojure forms, while `<(= ... )>` succ
 
 <a name="rendering-and-options"></a>
 ## Rendering and options
-ART provides the ``(vivid.art/render)`` function which renders an input string containing Ash Ra Template (ART) -formatted content to an output string.
+ART provides the thread-safe ``(vivid.art/render)`` function which renders an input string containing Ash Ra Template (ART) -formatted content to an output string.
 `(render)` takes a template string followed by a variety of optional keyword arguments:
 
 ```clojure

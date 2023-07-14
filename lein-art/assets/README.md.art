@@ -130,7 +130,7 @@ For the sake of completeness, its value is copy & pasted into the example below 
 
         :delimiters   "jinja"                                  ; Resolves to #'vivid.art.delimiters/jinja
 
-        :dependencies {hiccup {:mvn/version "1.0.5"}
+        :dependencies {hiccup/hiccup {:mvn/version "1.0.5"}
                        ; Give templates use of project code.
                        art-example-custom-options {:mvn/version "LATEST"
                                                :local/root "."}}
@@ -192,7 +192,7 @@ __See also:__
   :art [
     ; An ART render batch configuration
     {:templates    "src/templates/css"
-     :dependencies {garden {:mvn/version "1.3.10"}}
+     :dependencies {garden/garden {:mvn/version "1.3.10"}}
      :output-dir   "src/resources"}
 
     ; Another, different batch

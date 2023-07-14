@@ -42,7 +42,7 @@ Given a template that ``require``s namespaces from external dependencies in Cloj
 The template's external dependencies can be specified as a Clojure deps [lib map](https://clojure.org/reference/deps_and_cli) with `:dependencies` in the option map argument:
 ```clojure
 (vivid.art/render template
-                  :dependencies {'hiccup {:mvn/version "1.0.5"}})
+                  :dependencies {'hiccup/hiccup {:mvn/version "1.0.5"}})
 ```
 Dependencies are resolved prior to template rendering using Clojure's ``org.clojure/tools.deps.alpha``.
 
