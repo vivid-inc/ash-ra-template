@@ -82,6 +82,7 @@ clj-art: &clj-art-job
           sudo DEBIAN_FRONTEND=noninteractive apt install -yq rlwrap
     - run:
         command: |
+          lein install
           for ver in <%= clojure-versions-str %>
           do
             # TODO return value is non-zero, but build passes?
@@ -100,7 +101,9 @@ lein-art: &lein-art-job
     - attach_workspace:
         at: ~/.m2
     - run:
-        command: lein test
+        command: |
+          lein install
+          lein test
         working_directory: lein-art
     # TODO - store_test_results:
     #    path: lein-art/.../junit.xml
