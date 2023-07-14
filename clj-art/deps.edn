@@ -1,4 +1,4 @@
-; Copyright 2022 Vivid Inc.
+; Copyright 2023 Vivid Inc. and/or its affiliates.
 
 {:deps    {net.vivid-inc/art-cli {:mvn/version "0.7.0"}}
 

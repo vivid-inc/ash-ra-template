@@ -1,4 +1,4 @@
-; Copyright 2021 Vivid Inc.
+; Copyright <%= (.getValue (java.time.Year/now)) %> Vivid Inc. and/or its affiliates.
 <%
 (def clojure-versions  (get vivid-art-facts 'clojure-versions))
 (def lein-version      (get vivid-art-facts 'lein-version))

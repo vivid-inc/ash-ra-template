@@ -1,4 +1,4 @@
-; Copyright 2021 Vivid Inc.
+; Copyright <%= (.getValue (java.time.Year/now)) %> Vivid Inc. and/or its affiliates.
 
 ; Interesting commands:
 ;
