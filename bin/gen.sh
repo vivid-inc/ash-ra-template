@@ -21,7 +21,8 @@ function bootstrap_art {
          '[vivid.art.cli.exec])
 (import '(java.io PushbackReader))
 
-(def ^:const asset-dirs [
+(def ^:const component-dirs [
+  ".circleci"
   "art"
   "art-cli"
   "clj-art"
@@ -38,7 +39,7 @@ function bootstrap_art {
      :delimiters "erb"}))
 
 (def ^:const raw-batches
-  (map ->b asset-dirs))
+  (map ->b component-dirs))
 
 (farolero.core/handler-case
   (doseq [b raw-batches]

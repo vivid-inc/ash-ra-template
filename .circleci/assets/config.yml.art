@@ -3,7 +3,15 @@
 # Referencing https://circleci.com/docs/2.0/language-clojure/
 
 version: 2.1
+<%
+(def clojure-versions (get vivid-art-facts 'clojure-versions))
+(def java-versions    (get vivid-art-facts 'java-versions))
 
+(def clojure-versions-str
+  (->> (map #(str "\"" % "\"") clojure-versions)
+       (clojure.string/join " ")))
+
+%>
 #
 # Individual job definitions
 #
@@ -74,7 +82,7 @@ clj-art: &clj-art-job
           sudo DEBIAN_FRONTEND=noninteractive apt install -yq rlwrap
     - run:
         command: |
-          for ver in "1.10.0" "1.10.1" "1.10.2" "1.10.3" "1.11.0" "1.11.1"
+          for ver in <%= clojure-versions-str %>
           do
             # TODO return value is non-zero, but build passes?
             clojure -M:clojure-${ver}:test
@@ -99,66 +107,29 @@ lein-art: &lein-art-job
 
 
 # Referencing https://hub.docker.com/r/cimg/clojure/tags
-jobs:
-  ash-ra-template-jdk-8-job:
+jobs:<% (doseq [v java-versions]
+     (let [cimg (format "cimg/clojure:%s-openjdk-%s.0" (last clojure-versions) v)] %>
+  ash-ra-template-jdk-<%= v %>-job:
     <<: *ash-ra-template-job
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-8.0
-  clj-art-jdk-8-job:
+      - image: <%= cimg %>
+  clj-art-jdk-<%= v %>-job:
     <<: *clj-art-job
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-8.0
-  lein-art-jdk-8-job:
+      - image: <%= cimg %>
+  lein-art-jdk-<%= v %>-job:
     <<: *lein-art-job
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-8.0
-  ash-ra-template-jdk-11-job:
-    <<: *ash-ra-template-job
-    docker:
-      - image: cimg/clojure:1.11.1-openjdk-11.0
-  clj-art-jdk-11-job:
-    <<: *clj-art-job
-    docker:
-      - image: cimg/clojure:1.11.1-openjdk-11.0
-  lein-art-jdk-11-job:
-    <<: *lein-art-job
-    docker:
-      - image: cimg/clojure:1.11.1-openjdk-11.0
-  ash-ra-template-jdk-17-job:
-    <<: *ash-ra-template-job
-    docker:
-      - image: cimg/clojure:1.11.1-openjdk-17.0
-  clj-art-jdk-17-job:
-    <<: *clj-art-job
-    docker:
-      - image: cimg/clojure:1.11.1-openjdk-17.0
-  lein-art-jdk-17-job:
-    <<: *lein-art-job
-    docker:
-      - image: cimg/clojure:1.11.1-openjdk-17.0
+      - image: <%= cimg %><% ))%>
 
 workflows:
   version: 2
   assess-quality:
-    jobs:
-      - ash-ra-template-jdk-8-job
-      - clj-art-jdk-8-job:
+    jobs:<% (doseq [v java-versions] %>
+      - ash-ra-template-jdk-<%= v %>-job
+      - clj-art-jdk-<%= v %>-job:
           requires:
-            - ash-ra-template-jdk-8-job
-      - lein-art-jdk-8-job:
+            - ash-ra-template-jdk-<%= v %>-job
+      - lein-art-jdk-<%= v %>-job:
           requires:
-            - ash-ra-template-jdk-8-job
-      - ash-ra-template-jdk-11-job
-      - clj-art-jdk-11-job:
-          requires:
-            - ash-ra-template-jdk-11-job
-      - lein-art-jdk-11-job:
-          requires:
-            - ash-ra-template-jdk-11-job
-      - ash-ra-template-jdk-17-job
-      - clj-art-jdk-17-job:
-          requires:
-            - ash-ra-template-jdk-17-job
-      - lein-art-jdk-17-job:
-          requires:
-            - ash-ra-template-jdk-17-job
+            - ash-ra-template-jdk-<%= v %>-job<% ) %>
