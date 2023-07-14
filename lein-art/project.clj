@@ -25,16 +25,18 @@
                          ["version"]
                          ["clean"]
                          ["eftest"]
-                         ;["cloverage"]
-                         ;["clj-kondo"]
+                         ; TODO Fails, due perhaps in relation to :eval-in-leiningen ["cloverage"]
                          ["jar"]
                          ["install"]]
-            "clj-kondo" ["with-profile" "clj-kondo" "run" "-m" "clj-kondo.main" "--"
-                         "--config" "../.clj-kondo/config.edn"
-                         "--lint" "src/:test/"
+            "clj-kondo" ["with-profile" "clojure-1.11.1,clj-kondo" "run" "-m" "clj-kondo.main" "--"
+                         "--lint" "src:test"
                          "--parallel"]
             "gen"       ["art" "render"]
-            "nvd"       ["nvd" "check"]
+            "lint"      ["do"
+                         ["cljfmt" "check"]
+                         ["clj-kondo"]
+                         ["antq"]
+                         ["nvd" "check"]]
             "test"      ["with-profile" "+clojure-1.10.0:+clojure-1.10.1:+clojure-1.10.2:+clojure-1.10.3:+clojure-1.11.0:+clojure-1.11.1" "build"]}
 
   :art {:templates  "assets"
@@ -43,14 +45,16 @@
         :delimiters erb
         :output-dir "."}
 
-  :cloverage {:codecov? true
-              :html?    true
-              :junit?   true
-              :output   "cloverage"                  ; "lein jar" destroys target/cloverage
-              }
+  ;:cloverage {:codecov? true
+  ;            :html?    true
+  ;            :junit?   true
+  ;            :output   "cloverage"                  ; "lein jar" destroys target/cloverage
+  ;            }
 
   :dependencies [[net.vivid-inc/art-cli   "0.7.0"]
                  [org.clojure/tools.cli   "1.0.219"]]
+
+  :eftest {:capture-output? true}
 
   :eval-in-leiningen true
 
@@ -58,7 +62,7 @@
 
   :global-vars {*warn-on-reflection* true}
 
-  :javac-options ["-target" "1.8"]
+  :javac-options ["-target" "null"]
 
   :manifest {"Built-By" "vivid"}
 
@@ -80,8 +84,7 @@
                                                  org.slf4j/jcl-over-slf4j
                                                  org.slf4j/slf4j-api]]]
 
-  :profiles {:clj-kondo {:dependencies [[clj-kondo "RELEASE"]
-                                        [org.clojure/clojure "1.10.0"]]}
+  :profiles {:clj-kondo {:dependencies [[clj-kondo "RELEASE"]]}
 
              :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]}
              :clojure-1.10.1 {:dependencies [[org.clojure/clojure "1.10.1"]]}
@@ -89,6 +92,9 @@
              :clojure-1.10.3 {:dependencies [[org.clojure/clojure "1.10.3"]]}
              :clojure-1.11.0 {:dependencies [[org.clojure/clojure "1.11.0"]]}
              :clojure-1.11.1 {:dependencies [[org.clojure/clojure "1.11.1"]]}
+
+             ;:cloverage      {:dependencies [[leiningen "2.9.8"]
+             ;                                [org.clojure/tools.namespace "1.0.0"]]}
 
              :dev {:dependencies   [[org.clojure/clojure "1.10.0"]
                                     ;; Diffs equality assertions in test failure output

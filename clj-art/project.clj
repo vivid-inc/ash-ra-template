@@ -28,11 +28,14 @@
                          ["cloverage"]
                          ["jar"]
                          ["install"]]
-            "clj-kondo" ["with-profile" "clj-kondo" "run" "-m" "clj-kondo.main" "--"
-                         "--config" "../.clj-kondo/config.edn"
-                         "--lint" "src/:test/"
+            "clj-kondo" ["with-profile" "clojure-1.11.1,clj-kondo" "run" "-m" "clj-kondo.main" "--"
+                         "--lint" "src:test"
                          "--parallel"]
-            "nvd"       ["nvd" "check"]
+            "lint"      ["do"
+                         ["cljfmt" "check"]
+                         ["clj-kondo"]
+                         ["antq"]
+                         ["nvd" "check"]]
             "test-all"  ["build"]}
 
   :cloverage {:codecov? true
@@ -43,11 +46,13 @@
 
   :dependencies [[net.vivid-inc/art-cli "0.7.0"]]
 
+  :eftest {:capture-output? true}
+
   :exclusions [org.clojure/clojure]
 
   :global-vars {*warn-on-reflection* true}
 
-  :javac-options ["-target" "1.8"]
+  :javac-options ["-target" "null"]
 
   :manifest {"Built-By" "vivid"}
 
@@ -68,8 +73,7 @@
                                                           org.slf4j/jcl-over-slf4j
                                                           org.slf4j/slf4j-api]]]
 
-  :profiles {:clj-kondo {:dependencies [[clj-kondo "RELEASE"]
-                                        [org.clojure/clojure "1.10.0"]]}
+  :profiles {:clj-kondo {:dependencies [[clj-kondo "RELEASE"]]}
 
              :dev       {:dependencies [[org.clojure/clojure "1.10.0"]]}}
 

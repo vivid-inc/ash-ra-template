@@ -12,8 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(defproject
-  net.vivid-inc/art-cli "0.7.0"
+(defproject net.vivid-inc/art-cli "0.7.0"
 
   :note "THIS FILE IS GENERATED AUTOMATICALLY BY bin/gen.sh"
   :description "art-cli aggregates code common to the translation and processing of Ash Ra Template command line parameters into parameters for ART's Clojure API."
@@ -29,11 +28,14 @@
                          ["cloverage"]
                          ["jar"]
                          ["install"]]
-            "clj-kondo" ["with-profile" "clj-kondo" "run" "-m" "clj-kondo.main" "--"
-                         "--config" "../.clj-kondo/config.edn"
-                         "--lint" "src/:test/"
+            "clj-kondo" ["with-profile" "clojure-1.11.1,clj-kondo" "run" "-m" "clj-kondo.main" "--"
+                         "--lint" "src:test"
                          "--parallel"]
-            "nvd"      ["nvd" "check"]
+            "lint"      ["do"
+                         ["cljfmt" "check"]
+                         ["clj-kondo"]
+                         ["antq"]
+                         ["nvd" "check"]]
             "test"     ["with-profile" "+clojure-1.10.0:+clojure-1.10.1:+clojure-1.10.2:+clojure-1.10.3:+clojure-1.11.0:+clojure-1.11.1" "build"]}
 
   :cloverage {:codecov? true
@@ -54,7 +56,7 @@
 
   :global-vars {*warn-on-reflection* true}
 
-  :javac-options ["-target" "1.8"]
+  :javac-options ["-target" "null"]
 
   :manifest {"Built-By" "vivid"}
 
@@ -78,8 +80,7 @@
                                                             org.slf4j/jcl-over-slf4j
                                                             org.slf4j/slf4j-api]]]
 
-  :profiles {:clj-kondo {:dependencies [[org.clojure/clojure "1.10.0"]
-                                        [clj-kondo "RELEASE"]]}
+  :profiles {:clj-kondo {:dependencies [[clj-kondo "RELEASE"]]}
 
              :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]}
              :clojure-1.10.1 {:dependencies [[org.clojure/clojure "1.10.1"]]}

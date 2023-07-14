@@ -1,4 +1,4 @@
-# Commands of interest
+# Interesting CLI commands
 
 ```bash
 # Generate project build files, documentation
@@ -9,6 +9,12 @@ $ bin/test.sh
 
 # After the release criteria (see QUALITY.md) are satisfied, deploy a new release
 $ bin/deploy.sh
+
+# Examine the full list of transitive dependencies
+$ cd $MODULE && lein with-profile '' deps :tree
+
+# Update dependency's clj-kondo configurations:
+$ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein classpath)"
 ```
 
 

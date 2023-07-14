@@ -13,6 +13,7 @@
 ; limitations under the License.
 <%
 (def clojure-versions  (get vivid-art-facts 'clojure-versions))
+(def javac-min-version (get vivid-art-facts 'javac-min-version'))
 (def lein-version      (get vivid-art-facts 'lein-version))
 (def vivid-art-version (get vivid-art-facts 'vivid-art-version))
 
@@ -52,16 +53,18 @@
                          ["version"]
                          ["clean"]
                          ["eftest"]
-                         ;["cloverage"]
-                         ;["clj-kondo"]
+                         ; TODO Fails, due perhaps in relation to :eval-in-leiningen ["cloverage"]
                          ["jar"]
                          ["install"]]
-            "clj-kondo" ["with-profile" "clj-kondo" "run" "-m" "clj-kondo.main" "--"
-                         "--config" "../.clj-kondo/config.edn"
-                         "--lint" "src/:test/"
+            "clj-kondo" ["with-profile" "clojure-<%= (last clojure-versions) %>,clj-kondo" "run" "-m" "clj-kondo.main" "--"
+                         "--lint" "src:test"
                          "--parallel"]
             "gen"       ["art" "render"]
-            "nvd"       ["nvd" "check"]
+            "lint"      ["do"
+                         ["cljfmt" "check"]
+                         ["clj-kondo"]
+                         ["antq"]
+                         ["nvd" "check"]]
             "test"      ["with-profile" "<%= clojure-test-profiles-str %>" "build"]}
 
   :art {:templates  "assets"
@@ -70,14 +73,16 @@
         :delimiters erb
         :output-dir "."}
 
-  :cloverage {:codecov? true
-              :html?    true
-              :junit?   true
-              :output   "cloverage"                  ; "lein jar" destroys target/cloverage
-              }
+  ;:cloverage {:codecov? true
+  ;            :html?    true
+  ;            :junit?   true
+  ;            :output   "cloverage"                  ; "lein jar" destroys target/cloverage
+  ;            }
 
   :dependencies [[net.vivid-inc/art-cli   "0.7.0"]
                  [org.clojure/tools.cli   "1.0.219"]]
+
+  :eftest {:capture-output? true}
 
   :eval-in-leiningen true
 
@@ -85,7 +90,7 @@
 
   :global-vars {*warn-on-reflection* true}
 
-  :javac-options ["-target" "1.8"]
+  :javac-options ["-target" "<%= javac-min-version %>"]
 
   :manifest {"Built-By" "vivid"}
 
@@ -107,10 +112,12 @@
                                                  org.slf4j/jcl-over-slf4j
                                                  org.slf4j/slf4j-api]]]
 
-  :profiles {:clj-kondo {:dependencies [[clj-kondo "RELEASE"]
-                                        [org.clojure/clojure "<%= (first clojure-versions) %>"]]}
+  :profiles {:clj-kondo {:dependencies [[clj-kondo "RELEASE"]]}
 
 <%= (clojure-version-profiles :indent 13) %>
+
+             ;:cloverage      {:dependencies [[leiningen "2.9.8"]
+             ;                                [org.clojure/tools.namespace "1.0.0"]]}
 
              :dev {:dependencies   [[org.clojure/clojure "<%= (first clojure-versions) %>"]
                                     ;; Diffs equality assertions in test failure output

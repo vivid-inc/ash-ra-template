@@ -13,6 +13,7 @@
 ; limitations under the License.
 <%
 (def clojure-versions  (get vivid-art-facts 'clojure-versions))
+(def javac-min-version (get vivid-art-facts 'javac-min-version'))
 (def lein-version      (get vivid-art-facts 'lein-version))
 (def vivid-art-version (get vivid-art-facts 'vivid-art-version))
 
@@ -39,8 +40,7 @@
        (apply str)))
 
 %>
-(defproject
-  net.vivid-inc/art-cli "<%= vivid-art-version %>"
+(defproject net.vivid-inc/art-cli "<%= vivid-art-version %>"
 
   :note "THIS FILE IS GENERATED AUTOMATICALLY BY bin/gen.sh"
   :description "art-cli aggregates code common to the translation and processing of Ash Ra Template command line parameters into parameters for ART's Clojure API."
@@ -56,11 +56,14 @@
                          ["cloverage"]
                          ["jar"]
                          ["install"]]
-            "clj-kondo" ["with-profile" "clj-kondo" "run" "-m" "clj-kondo.main" "--"
-                         "--config" "../.clj-kondo/config.edn"
-                         "--lint" "src/:test/"
+            "clj-kondo" ["with-profile" "clojure-<%= (last clojure-versions) %>,clj-kondo" "run" "-m" "clj-kondo.main" "--"
+                         "--lint" "src:test"
                          "--parallel"]
-            "nvd"      ["nvd" "check"]
+            "lint"      ["do"
+                         ["cljfmt" "check"]
+                         ["clj-kondo"]
+                         ["antq"]
+                         ["nvd" "check"]]
             "test"     ["with-profile" "<%= clojure-test-profiles-str %>" "build"]}
 
   :cloverage {:codecov? true
@@ -81,7 +84,7 @@
 
   :global-vars {*warn-on-reflection* true}
 
-  :javac-options ["-target" "1.8"]
+  :javac-options ["-target" "<%= javac-min-version %>"]
 
   :manifest {"Built-By" "vivid"}
 
@@ -105,8 +108,7 @@
                                                             org.slf4j/jcl-over-slf4j
                                                             org.slf4j/slf4j-api]]]
 
-  :profiles {:clj-kondo {:dependencies [[org.clojure/clojure "1.10.0"]
-                                        [clj-kondo "RELEASE"]]}
+  :profiles {:clj-kondo {:dependencies [[clj-kondo "RELEASE"]]}
 
 <%= (clojure-version-profiles :indent 13) %>
 

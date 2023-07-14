@@ -12,14 +12,6 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-; Interesting commands:
-;
-; Examine the full list of transitive dependencies
-;     $ lein with-profile '' deps :tree
-;
-; Update .clj-kondo:
-;     $ lein clj-kondo --copy-configs --dependencies --lint "$(lein classpath)"
-
 (defproject net.vivid-inc/art "0.7.0"
 
   :note "THIS FILE IS GENERATED AUTOMATICALLY BY bin/gen.sh"
@@ -36,6 +28,10 @@
                          ["cloverage"]
                          ["jar"]
                          ["install"]]
+            ; TODO clj-kondo doesn't gather dependency configurations, counter to my expectations:
+            ; $ lein clj-kondo --copy-configs --dependencies --lint "$(lein classpath)"
+            ; Reflection warning, /tmp/form-init8980745735929261178.clj:1:3390 - call to static method invokeStaticMethod on clojure.lang.Reflector can't be resolved (argument types: unknown, java.lang.String, unknown).
+            ; No configs copied.
             "clj-kondo" ["with-profile" "clojure-1.11.1,clj-kondo" "run" "-m" "clj-kondo.main" "--"
                          "--lint" "src:test"
                          "--parallel"]
@@ -56,11 +52,13 @@
                  [reduce-fsm/reduce-fsm "0.1.4"]
                  [org.suskalo/farolero "1.5.0"]]
 
+  :eftest {:capture-output? true}
+
   :exclusions [org.clojure/clojure]
 
   :global-vars {*warn-on-reflection* true}
 
-  :javac-options ["-target" "1.8"]
+  :javac-options ["-target" "null"]
 
   :manifest {"Built-By" "vivid"}
 

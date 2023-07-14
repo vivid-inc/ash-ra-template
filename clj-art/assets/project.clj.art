@@ -13,6 +13,7 @@
 ; limitations under the License.
 <%
 (def clojure-versions  (get vivid-art-facts 'clojure-versions))
+(def javac-min-version (get vivid-art-facts 'javac-min-version'))
 (def lein-version      (get vivid-art-facts 'lein-version))
 (def vivid-art-version (get vivid-art-facts 'vivid-art-version))
 %>
@@ -32,11 +33,14 @@
                          ["cloverage"]
                          ["jar"]
                          ["install"]]
-            "clj-kondo" ["with-profile" "clj-kondo" "run" "-m" "clj-kondo.main" "--"
-                         "--config" "../.clj-kondo/config.edn"
-                         "--lint" "src/:test/"
+            "clj-kondo" ["with-profile" "clojure-<%= (last clojure-versions) %>,clj-kondo" "run" "-m" "clj-kondo.main" "--"
+                         "--lint" "src:test"
                          "--parallel"]
-            "nvd"       ["nvd" "check"]
+            "lint"      ["do"
+                         ["cljfmt" "check"]
+                         ["clj-kondo"]
+                         ["antq"]
+                         ["nvd" "check"]]
             "test-all"  ["build"]}
 
   :cloverage {:codecov? true
@@ -47,11 +51,13 @@
 
   :dependencies [[net.vivid-inc/art-cli "<%= vivid-art-version %>"]]
 
+  :eftest {:capture-output? true}
+
   :exclusions [org.clojure/clojure]
 
   :global-vars {*warn-on-reflection* true}
 
-  :javac-options ["-target" "1.8"]
+  :javac-options ["-target" "<%= javac-min-version %>"]
 
   :manifest {"Built-By" "vivid"}
 
@@ -72,8 +78,7 @@
                                                           org.slf4j/jcl-over-slf4j
                                                           org.slf4j/slf4j-api]]]
 
-  :profiles {:clj-kondo {:dependencies [[clj-kondo "RELEASE"]
-                                        [org.clojure/clojure "<%= (first clojure-versions) %>"]]}
+  :profiles {:clj-kondo {:dependencies [[clj-kondo "RELEASE"]]}
 
              :dev       {:dependencies [[org.clojure/clojure "<%= (first clojure-versions) %>"]]}}
 
