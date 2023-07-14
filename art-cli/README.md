@@ -50,3 +50,5 @@ As an implicit dependency, the template execution environment provides ART's min
 ```clojure
                   :dependencies {'org.clojure/clojure {:mvn/version "1.11.1"}}
 ```
+
+The list of Maven repositories against which dependencies are resolved are `clojars` and `maven-central`.

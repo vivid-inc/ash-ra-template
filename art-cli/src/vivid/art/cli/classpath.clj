@@ -26,7 +26,9 @@
 (defn dependencies->file-paths
   "Resolves a Lein-style list of dependencies, returning their file paths."
   [dependencies]
-  (->> (aether/resolve-dependencies :coordinates dependencies)
+  (->> (aether/resolve-dependencies :coordinates dependencies
+                                    :repositories (merge aether/maven-central
+                                                         {"clojars" "https://clojars.org/repo"}))
        (aether/dependency-files)
        (map #(.getAbsolutePath ^File %))))
 

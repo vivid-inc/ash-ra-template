@@ -2,6 +2,7 @@
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/net.vivid-inc/art.svg?color=blue&style=flat-square)](https://clojars.org/net.vivid-inc/art)
+[![cljdoc](https://cljdoc.org/badge/net.vivid-inc/art)](https://cljdoc.org/d/net.vivid-inc/art)
 [![CircleCI](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/art-0.7.0.svg?style=svg)](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/art-0.7.0)
 [![Codecov](https://codecov.io/gh/vivid-inc/ash-ra-template/branch/art-0.7.0/graph/badge.svg)](https://codecov.io/gh/vivid-inc/ash-ra-template)
 

@@ -36,9 +36,8 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
 - Provide access to more of the execution context from within the evaluation environment: (render) args. The evaluation stack starting from the page through to the current (yield).
 - Infer sensible defaults that can be customized via overrides.
 - ClojureScript.
-  - `art` module only.
-  - `(render)` function `:bindings` option applicability is Clojure only, the remainder make sense in both CLJ and CLJS worlds.
-  - Replace `reduce-fsm` with [metosin/tilakone.core](https://github.com/metosin/tilakone/network) with improvements.
+  - `art` module only
+  - Replace `reduce-fsm` with ClojureScript-compatible [metosin/tilakone.core](https://github.com/metosin/tilakone/network)
 - How to achieve fast runtime performance, fast development & testing feedback loop. Benchmarks with hyperfine.
 - Build: Sign releases.
 - CLI: Option to re-render templates only when newer than their output files.
@@ -51,7 +50,7 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
 - Template registry + Cache à la https://github.com/davidsantiago/stencil , https://github.com/Flamefork/fleet
 - AOT compilation.
 - Rewrite (render) as a macro that compiles the input template.
-- Accomodate cljdoc.
+- Tend to the quality of documentation at cljdoc.
 
 
 
