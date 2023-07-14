@@ -14,19 +14,18 @@
 
 (ns vivid.art.cli.delimiters-test
   (:require
-    [clojure.test :refer [are deftest is]]
-    [farolero.core :as farolero]
-    [vivid.art.cli.args]
-    [vivid.art.cli.usage :refer [cli-options]]
-    [vivid.art.cli.validate :as validate]
-    [vivid.art.delimiters]))
+   [clojure.test :refer [are deftest is]]
+   [farolero.core :as farolero]
+   [vivid.art.cli.args]
+   [vivid.art.cli.usage :refer [cli-options]]
+   [vivid.art.cli.validate :as validate]
+   [vivid.art.delimiters]))
 
 (def ^:const custom-delimiters
   {:begin-forms "{%"
    :end-forms   "%}"
    :begin-eval  "{{"
    :end-eval    "}}"})
-
 
 ;
 ; CLI args
@@ -44,9 +43,9 @@
 
 (deftest cli-literal-delims-spec
   (are [expected delims]
-    (let [args ["--delimiters" delims "test-resources/empty.art"]
-          {:keys [delimiters]} (vivid.art.cli.args/cli-args->batch args cli-options)]
-      (= expected delimiters))
+       (let [args ["--delimiters" delims "test-resources/empty.art"]
+             {:keys [delimiters]} (vivid.art.cli.args/cli-args->batch args cli-options)]
+         (= expected delimiters))
     ; The string literal and stringified forms of the pre-packaged delimiter sets
     vivid.art.delimiters/erb "{:begin-forms \"<%\" :end-forms \"%>\" :begin-eval \"<%=\"}"
     vivid.art.delimiters/erb (pr-str vivid.art.delimiters/erb)
@@ -69,15 +68,14 @@
 
 (deftest cli-bad-literal-delim-spec
   (are [delims]
-    (= 'validate-delimiters
-       (let [args ["--delimiters" delims "test-resources/empty.art"]]
-         (farolero/handler-case (vivid.art.cli.args/cli-args->batch args cli-options)
-                                (:vivid.art.cli/error [_ {:keys [step]}] step))))
+       (= 'validate-delimiters
+          (let [args ["--delimiters" delims "test-resources/empty.art"]]
+            (farolero/handler-case (vivid.art.cli.args/cli-args->batch args cli-options)
+                                   (:vivid.art.cli/error [_ {:keys [step]}] step))))
     ; Malformed
     ""
     " "
     "nonsense"))
-
 
 ;
 ; Internal API
@@ -85,8 +83,8 @@
 
 (deftest unqualified-vars-as-strings
   (are [expected s]
-    (= expected
-       (validate/validate-delimiters s))
+       (= expected
+          (validate/validate-delimiters s))
     vivid.art.delimiters/erb      "erb"
     vivid.art.delimiters/jinja    "jinja"
     vivid.art.delimiters/lispy    "lispy"
@@ -95,8 +93,8 @@
 
 (deftest qualified-vars-as-strings
   (are [expected s]
-    (= expected
-       (validate/validate-delimiters s))
+       (= expected
+          (validate/validate-delimiters s))
     vivid.art.delimiters/erb      "vivid.art.delimiters/erb"
     vivid.art.delimiters/jinja    "vivid.art.delimiters/jinja"
     vivid.art.delimiters/lispy    "vivid.art.delimiters/lispy"
@@ -105,8 +103,8 @@
 
 (deftest unqualified-vars-as-symbols
   (are [expected s]
-    (= expected
-       (validate/validate-delimiters s))
+       (= expected
+          (validate/validate-delimiters s))
     vivid.art.delimiters/erb      'erb
     vivid.art.delimiters/jinja    'jinja
     vivid.art.delimiters/lispy    'lispy
@@ -116,8 +114,8 @@
 
 (deftest qualified-vars-as-symbols
   (are [expected s]
-    (= expected
-       (validate/validate-delimiters s))
+       (= expected
+          (validate/validate-delimiters s))
     vivid.art.delimiters/erb      #'vivid.art.delimiters/erb
     vivid.art.delimiters/jinja    #'vivid.art.delimiters/jinja
     vivid.art.delimiters/lispy    #'vivid.art.delimiters/lispy
@@ -127,8 +125,8 @@
 
 (deftest clojure-maps
   (are [expected s]
-    (= expected
-       (validate/validate-delimiters s))
+       (= expected
+          (validate/validate-delimiters s))
     vivid.art.delimiters/erb      vivid.art.delimiters/erb
     vivid.art.delimiters/jinja    vivid.art.delimiters/jinja
     vivid.art.delimiters/lispy    vivid.art.delimiters/lispy
@@ -138,8 +136,8 @@
 
 (deftest edn-literals
   (are [expected s]
-    (= expected
-       (validate/validate-delimiters s))
+       (= expected
+          (validate/validate-delimiters s))
     vivid.art.delimiters/erb      (pr-str vivid.art.delimiters/erb)
     vivid.art.delimiters/jinja    (pr-str vivid.art.delimiters/jinja)
     vivid.art.delimiters/lispy    (pr-str vivid.art.delimiters/lispy)
@@ -149,9 +147,9 @@
 
 (deftest bad-values
   (are [s]
-    (= 'validate-delimiters
-       (farolero/handler-case (validate/validate-delimiters s)
-                              (:vivid.art.cli/error [_ {:keys [step]}] step)))
+       (= 'validate-delimiters
+          (farolero/handler-case (validate/validate-delimiters s)
+                                 (:vivid.art.cli/error [_ {:keys [step]}] step)))
     nil
     ""
     " "

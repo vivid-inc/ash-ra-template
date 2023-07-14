@@ -14,14 +14,14 @@
 
 (ns vivid.art.clj-tool
   (:require
-    [clojure.string]
-    [clojure.tools.cli]
-    [farolero.core :as farolero]
-    [vivid.art.cli.args]
-    [vivid.art.cli.exec]
-    [vivid.art.cli.log :as log]
-    [vivid.art.cli.messages :as messages]
-    [vivid.art.cli.usage :refer [cli-options]]))
+   [clojure.string]
+   [clojure.tools.cli]
+   [farolero.core :as farolero]
+   [vivid.art.cli.args]
+   [vivid.art.cli.exec]
+   [vivid.art.cli.log :as log]
+   [vivid.art.cli.messages :as messages]
+   [vivid.art.cli.usage :refer [cli-options]]))
 
 (def ^:const default-options {:output-dir "."})
 

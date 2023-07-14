@@ -13,17 +13,17 @@
 ; limitations under the License.
 
 (ns vivid.art.cli.examples-test
-    "Confirms that ART works as promised in the README file."
-    (:require
-      [clojure.java.io :as io]
-      [clojure.test :refer :all]
-      [vivid.art :as art]))
+  "Confirms that ART works as promised in the README file."
+  (:require
+   [clojure.java.io :as io]
+   [clojure.test :refer :all]
+   [vivid.art :as art]))
 
 ; TODO Read from a file instead. The API has changed...
 #_(deftest usage
-         (testing "All code samples in the README file"
-                  (is (= "\n\n<li><a href=\"#739\" id=\"link\">Moving wing assembly into place</a></li><li><a href=\"#740\" id=\"link\">Connecting fuel lines and hydraulics</a></li><li><a href=\"#741\" id=\"link\">Attaching wing assembly to fuselage</a></li>\n"
-                         (art/render "
+    (testing "All code samples in the README file"
+      (is (= "\n\n<li><a href=\"#739\" id=\"link\">Moving wing assembly into place</a></li><li><a href=\"#740\" id=\"link\">Connecting fuel lines and hydraulics</a></li><li><a href=\"#741\" id=\"link\">Attaching wing assembly to fuselage</a></li>\n"
+             (art/render "
 <(
 (require '[hiccup.core])
 
@@ -39,4 +39,4 @@
 )>
 <(= (apply str (map toc-entry toc-headings)) )>
 "
-                                     {:dependencies {'hiccup {:mvn/version "1.0.5"}}})))))
+                         {:dependencies {'hiccup {:mvn/version "1.0.5"}}})))))

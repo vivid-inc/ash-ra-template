@@ -14,14 +14,14 @@
 
 (ns vivid.art.clj-tool-test
   (:require
-    [clojure.java.io :as io]
-    [clojure.java.shell]
-    [clojure.string]
-    [clojure.test :as t]
-    [vivid.art.cli]
-    [vivid.art.clj-tool :as clj-tool])
+   [clojure.java.io :as io]
+   [clojure.java.shell]
+   [clojure.string]
+   [clojure.test :as t]
+   [vivid.art.cli]
+   [vivid.art.clj-tool :as clj-tool])
   (:import
-    (java.io File)))
+   (java.io File)))
 
 (defn delete-file-tree
   [path & [silently]]

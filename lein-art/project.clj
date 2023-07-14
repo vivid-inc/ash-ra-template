@@ -34,6 +34,7 @@
                          "--lint" "src/:test/"
                          "--parallel"]
             "gen"       ["art" "render"]
+            "nvd"       ["nvd" "check"]
             "test"      ["with-profile" "+clojure-1.10.0:+clojure-1.10.1:+clojure-1.10.2:+clojure-1.10.3:+clojure-1.11.0:+clojure-1.11.1" "build"]}
 
   :art {:templates  "assets"

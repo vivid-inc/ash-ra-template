@@ -14,15 +14,14 @@
 
 (ns vivid.art.cli.cli-bindings-test
   (:require
-    [clojure.test :refer [are deftest is]]
-    [farolero.core :as farolero]
-    [vivid.art.cli.args]
-    [vivid.art.cli.usage :refer [cli-options]]
-    [vivid.art.cli.validate :as validate]))
+   [clojure.test :refer [are deftest is]]
+   [farolero.core :as farolero]
+   [vivid.art.cli.args]
+   [vivid.art.cli.usage :refer [cli-options]]
+   [vivid.art.cli.validate :as validate]))
 
 (def ^:const custom-bindings
   {:b 2})
-
 
 ;
 ; CLI args
@@ -30,23 +29,23 @@
 
 (deftest cli-edn-file-bindings
   (are [expected x]
-    (let [args ["--bindings" x "test-resources/empty.art"]
-          {:keys [bindings]} (vivid.art.cli.args/cli-args->batch args cli-options)]
-      (= expected bindings))
+       (let [args ["--bindings" x "test-resources/empty.art"]
+             {:keys [bindings]} (vivid.art.cli.args/cli-args->batch args cli-options)]
+         (= expected bindings))
     {'simple-bindings {:a 1}} "test-resources/simple-bindings.edn"))
 
 (deftest cli-edn-literal-bindings
   (are [expected x]
-    (let [args ["--bindings" x "test-resources/empty.art"]
-          {:keys [bindings]} (vivid.art.cli.args/cli-args->batch args cli-options)]
-      (= expected bindings))
+       (let [args ["--bindings" x "test-resources/empty.art"]
+             {:keys [bindings]} (vivid.art.cli.args/cli-args->batch args cli-options)]
+         (= expected bindings))
     {:a 1 :b 2} "{:a 1 :b 2}"))
 
 (deftest cli-malformed-bindings
   (are [expected x]
-    (= expected
-       (farolero/handler-case (validate/validate-bindings x)
-                              (:vivid.art.cli/error [_ {:keys [step]}] step)))
+       (= expected
+          (farolero/handler-case (validate/validate-bindings x)
+                                 (:vivid.art.cli/error [_ {:keys [step]}] step)))
     'validate-bindings ""
     'validate-bindings " "
     'validate-bindings "nonsense"
@@ -55,15 +54,14 @@
     'resolve-as-edn-file "test-resources/malformed.edn"
     'resolve-as-json-file "test-resources/malformed.json"))
 
-
 ;
 ; Internal API
 ;
 
 (deftest variants
   (are [expected x]
-    (= expected
-       (validate/validate-bindings x))
+       (= expected
+          (validate/validate-bindings x))
 
     ; As Clojure map:
     ; Empty
@@ -97,8 +95,8 @@
 
 (deftest mixed-bindings
   (are [expected x]
-    (= expected
-       (validate/validate-bindings x))
+       (= expected
+          (validate/validate-bindings x))
     {'simple-bindings {:a 1} :b 2 :c 3 :d 4} ["test-resources/simple-bindings.edn"
                                               'vivid.art.cli.cli-bindings-test/custom-bindings
                                               {:c 3}
@@ -106,9 +104,9 @@
 
 (deftest malformed-bindings
   (are [expected x]
-    (= expected
-       (farolero/handler-case (validate/validate-bindings x)
-                              (:vivid.art.cli/error [_ {:keys [step]}] step)))
+       (= expected
+          (farolero/handler-case (validate/validate-bindings x)
+                                 (:vivid.art.cli/error [_ {:keys [step]}] step)))
     'validate-bindings nil
     'validate-bindings ""
     'validate-bindings " "

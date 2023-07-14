@@ -14,23 +14,23 @@
 
 (ns vivid.art.parse
   (:require
-    [clojure.spec.alpha :as s]
-    [clojure.string :as str]
-    [farolero.core :as farolero]
-    [instaparse.core :as insta]
-    [vivid.art.specs])
+   [clojure.spec.alpha :as s]
+   [clojure.string :as str]
+   [farolero.core :as farolero]
+   [instaparse.core :as insta]
+   [vivid.art.specs])
   (:import
-    (java.util.regex Pattern)))
+   (java.util.regex Pattern)))
 
 (defn make-grammar                                          ; TODO Enforce delimiter rules.
   [delimiters]
   (let [q #(Pattern/quote %)
         alts (str/join " | " (map name (keys delimiters)))
         terminals (str/join
-                    (interleave (map (fn [[k v]] (format "%s = '%s'"
-                                                         (name k) v))
-                                     delimiters)
-                                (repeat "\n")))
+                   (interleave (map (fn [[k v]] (format "%s = '%s'"
+                                                        (name k) v))
+                                    delimiters)
+                               (repeat "\n")))
         non-terms (str/join "|"
                             (map q (vals delimiters)))]
     (str "s = (" alts " | content)*\n"
@@ -71,6 +71,6 @@
          (confirm-parse-output)
          (insta/transform tree-transformation))))
 (s/fdef parse
-        :args (s/cat :template-str string?
-                     :delimiters :vivid.art/delimiters)
-        :ret seq?)
+  :args (s/cat :template-str string?
+               :delimiters :vivid.art/delimiters)
+  :ret seq?)

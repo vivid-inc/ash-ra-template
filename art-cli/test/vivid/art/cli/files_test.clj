@@ -14,24 +14,24 @@
 
 (ns vivid.art.cli.files-test
   (:require
-    [clojure.test :refer [are deftest]]
-    [farolero.core :as farolero]
-    [vivid.art.specs]
-    [vivid.art.cli.files])
+   [clojure.test :refer [are deftest]]
+   [farolero.core :as farolero]
+   [vivid.art.specs]
+   [vivid.art.cli.files])
   (:import
-    (java.io File)))
+   (java.io File)))
 
 (deftest relative-paths
   (are [^String a ^String b res]
-    (= res
-       (vivid.art.cli.files/relative-path (File. a) (File. b)))
+       (= res
+          (vivid.art.cli.files/relative-path (File. a) (File. b)))
     "" "" ()
     "a/b/c" "a/b/c/y/z" '("y" "z")))
 
 (deftest strip-art-filename-suffixes
   (are [in out]
-    (= out
-       (vivid.art.cli.files/strip-art-filename-suffix in))
+       (= out
+          (vivid.art.cli.files/strip-art-filename-suffix in))
     "" ""
     ".art" ""
     " .art" " "
@@ -40,16 +40,16 @@
 
 (deftest strip-art-filename-suffixes-prohibited
   (are [filename]
-    (= 'strip-art-filename-suffix
-       (farolero/handler-case (vivid.art.cli.files/strip-art-filename-suffix filename)
-                              (:vivid.art.cli/error [_ {:keys [step]}] step)))
+       (= 'strip-art-filename-suffix
+          (farolero/handler-case (vivid.art.cli.files/strip-art-filename-suffix filename)
+                                 (:vivid.art.cli/error [_ {:keys [step]}] step)))
     "..art"                                                 ; Stripped to "."
     "...art"                                                ; Stripped to ".."
     ))
 
 (deftest template-file-seqs
   (are [^String path res]
-    (= res
-       (vivid.art.cli.files/template-file-seq (File. path)))
+       (= res
+          (vivid.art.cli.files/template-file-seq (File. path)))
     "../examples/all-options/templates"
     [(File. "../examples/all-options/templates/header.html.art")]))

@@ -16,6 +16,6 @@
 
 (defn evaluate
   [code]
-      (locking *out*
+  (locking *out*
                ; TODO https://github.com/clojure/clojure/blob/master/src/jvm/clojure/lang/Compiler.java#L7618
-               (load-string code)))
+    (load-string code)))

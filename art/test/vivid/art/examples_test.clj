@@ -13,30 +13,30 @@
 ; limitations under the License.
 
 (ns vivid.art.examples-test
-    "Confirms that ART works as promised in the README file."
-    (:require
-      [clojure.java.io :as io]
-      [clojure.test :refer [are deftest is testing]]
-      [vivid.art :as art]))
+  "Confirms that ART works as promised in the README file."
+  (:require
+   [clojure.java.io :as io]
+   [clojure.test :refer [are deftest is testing]]
+   [vivid.art :as art]))
 
 (deftest usage
-         (testing "All code samples in the README file"
-                  (are [expected template]
-                       (= expected (art/render template))
-                       "There were 3 swallows, dancing in the sky."
-                       "There were <(= (+ 1 2) )> swallows, dancing in the sky."
+  (testing "All code samples in the README file"
+    (are [expected template]
+         (= expected (art/render template))
+      "There were 3 swallows, dancing in the sky."
+      "There were <(= (+ 1 2) )> swallows, dancing in the sky."
 
-                       "There were 3 swallows, dancing in the sky."
-                       (slurp (io/resource "prelude.html.art"))
+      "There were 3 swallows, dancing in the sky."
+      (slurp (io/resource "prelude.html.art"))
 
-                       "We are but stowaways aboard a drifting ship, forsaken to the caprices of the wind and currents."
-                       "We are but stowaways aboard a drifting ship, forsaken to the caprices of the wind and currents."
+      "We are but stowaways aboard a drifting ship, forsaken to the caprices of the wind and currents."
+      "We are but stowaways aboard a drifting ship, forsaken to the caprices of the wind and currents."
 
-                       ""
-                       "<( (def button-classes [:primary :secondary :disabled]) )>"
+      ""
+      "<( (def button-classes [:primary :secondary :disabled]) )>"
 
-                       "\n\n"
-                       "
+      "\n\n"
+      "
 <(
 (defn updated-statement
   [date version]
@@ -45,12 +45,12 @@
 )>
 ")
 
-                  (is (= "
+    (is (= "
 <p>
 Chondrichthyes research published in 1987, 1989, 1992.
 </p>
 "
-                         (art/render "<(
+           (art/render "<(
 (require '[clojure.string])
 (def publication-dates [1987 1989 1992])
 (defn cite-dates [xs] (clojure.string/join \", \" xs))
@@ -60,35 +60,32 @@ Chondrichthyes research published in <(= (cite-dates publication-dates) )>.
 </p>
 ")))
 
+    (are [expected template]
+         (= expected (art/render template))
+      "Splash!"
+      "<( (emit \"Splash!\") )>"
 
+      "Splash!"
+      "<(= \"Splash!\" )>"
 
-                  (are [expected template]
-                       (= expected (art/render template))
-                       "Splash!"
-                       "<( (emit \"Splash!\") )>"
+      "Splash!"
+      "<(= (str \"Splash!\") )>")
 
-                       "Splash!"
-                       "<(= \"Splash!\" )>"
+    (is (=
+         "April 5 was a most pleasant, memorable day."
+         (art/render "<(= month )> <(= day )> was a most pleasant, memorable day."
+                     :bindings {'month "April"
+                                'day   5})))
 
-                       "Splash!"
-                       "<(= (str \"Splash!\") )>")
-
-
-                  (is (=
-                        "April 5 was a most pleasant, memorable day."
-                        (art/render "<(= month )> <(= day )> was a most pleasant, memorable day."
-                                    :bindings {'month "April"
-                                               'day   5})))
-
-                  (is (= "
+    (is (= "
 The natural number e is approximately 2.7182"
-                         (art/render "<( (def e 2.7182) )>
+           (art/render "<( (def e 2.7182) )>
 The natural number e is approximately <(= e )>")))
 
-                  (is (= "
+    (is (= "
 The natural number e is approximately 2.7182"
-                         (art/render "{| (def e 2.7182) |}
+           (art/render "{| (def e 2.7182) |}
 The natural number e is approximately {|= e |}"
-                                     :delimiters {:begin-forms "{|"
-                                                  :end-forms   "|}"
-                                                  :begin-eval  "{|="})))))
+                       :delimiters {:begin-forms "{|"
+                                    :end-forms   "|}"
+                                    :begin-eval  "{|="})))))

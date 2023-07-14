@@ -14,7 +14,7 @@
 
 (ns vivid.art.enscript
   (:require
-    [clojure.string]))
+   [clojure.string]))
 
 (defn prelude [ns-sym]
   [(str "(ns " ns-sym ")")
@@ -47,7 +47,7 @@
            (def-bindings bindings)
            forms
            (coda ns-sym)] s
-          (remove empty? s)
-          (interleave s (repeat ""))
-          (flatten s)
-          (clojure.string/join "\n" s))))
+      (remove empty? s)
+      (interleave s (repeat ""))
+      (flatten s)
+      (clojure.string/join "\n" s))))

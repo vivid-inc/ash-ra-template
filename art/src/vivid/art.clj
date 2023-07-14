@@ -15,22 +15,22 @@
 (ns vivid.art
   "Ash Ra Template public API."
   (:require
-    [clojure.spec.alpha :as s]
-    [farolero.core :as farolero]
-    [vivid.art.delimiters]
-    [vivid.art.enscript :refer [enscript]]
-    [vivid.art.evaluate :refer [evaluate]]
-    [vivid.art.failure :refer [make-failure]]
-    [vivid.art.parse :refer [parse]]
-    [vivid.art.specs :refer [to-phase?]]
-    [vivid.art.xlate :refer [translate]]))
+   [clojure.spec.alpha :as s]
+   [farolero.core :as farolero]
+   [vivid.art.delimiters]
+   [vivid.art.enscript :refer [enscript]]
+   [vivid.art.evaluate :refer [evaluate]]
+   [vivid.art.failure :refer [make-failure]]
+   [vivid.art.parse :refer [parse]]
+   [vivid.art.specs :refer [to-phase?]]
+   [vivid.art.xlate :refer [translate]]))
 
 (def ^:dynamic *render-context* nil)
 
 (def ^:const default-delimiters-name "lispy")
 (def ^:const default-delimiters (var-get
-                                  (ns-resolve 'vivid.art.delimiters
-                                              (symbol default-delimiters-name))))
+                                 (ns-resolve 'vivid.art.delimiters
+                                             (symbol default-delimiters-name))))
 
 (def ^:const failure? vivid.art.failure/failure?)
 
@@ -48,19 +48,19 @@
   (when template
     (let [bindings (merge (get vivid.art/*render-context* :bindings) bindings)
           render* #(cond-> template
-                           (to-phase? :parse     to-phase) (parse delimiters)
-                           (to-phase? :translate to-phase) (translate)
-                           (to-phase? :enscript  to-phase) (enscript bindings)
-                           (to-phase? :evaluate  to-phase) (evaluate))]
+                     (to-phase? :parse     to-phase) (parse delimiters)
+                     (to-phase? :translate to-phase) (translate)
+                     (to-phase? :enscript  to-phase) (enscript bindings)
+                     (to-phase? :evaluate  to-phase) (evaluate))]
       (with-bindings {#'vivid.art/*render-context*
                       ; TODO Document: Bindings are available in 2 places: in *rc* as-is, but are pr'ed in the document, which messes up functions and other such unprintable values.
                       {:bindings bindings
                        :ns       (gensym 'vivid-art-user-)}}
         (farolero/handler-case (render*)
                                (:vivid.art/parse-error [_ details]
-                                 (make-failure :parse-error details template)))))))
+                                                       (make-failure :parse-error details template)))))))
 (s/fdef render
-        :args (s/cat :t :vivid.art/template
-                     :kwargs (s/keys* :opt-un [:vivid.art/bindings
-                                               :vivid.art/delimiters
-                                               :vivid.art/to-phase])))
+  :args (s/cat :t :vivid.art/template
+               :kwargs (s/keys* :opt-un [:vivid.art/bindings
+                                         :vivid.art/delimiters
+                                         :vivid.art/to-phase])))

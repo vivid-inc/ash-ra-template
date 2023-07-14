@@ -15,12 +15,12 @@
 (ns vivid.art.cli.files
   "File and path handling common to this ART CLI library in general."
   (:require
-    [clojure.java.io :as io]
-    [clojure.string]
-    [farolero.core :as farolero]
-    [vivid.art.cli])
+   [clojure.java.io :as io]
+   [clojure.string]
+   [farolero.core :as farolero]
+   [vivid.art.cli])
   (:import
-    (java.io File)))
+   (java.io File)))
 
 (def ^:const prohibited-template-output-filenames
   "Attempting to (over-)write or delete these filenames might have
@@ -78,24 +78,24 @@
   (filter art-template-file? (file-seq path)))
 
 (defn ->template-path
-      "Takes a base path and a path to a template-file (ostensibly within the
+  "Takes a base path and a path to a template-file (ostensibly within the
       base path) and returns a map indicating the providence :src-path and the
       intended output path of the template file :dest-rel-path relative to the
       batch's :output-dir."
-      [^File base-path ^File template-file]
-      (let [rel-path-parent (relative-path base-path (.getParentFile template-file))
-            dest-name (strip-art-filename-suffix (.getName template-file))
-            dest-rel-path (apply io/file (concat rel-path-parent
-                                                 [dest-name]))]
-           {:src-path      template-file
-            :dest-rel-path dest-rel-path}))
+  [^File base-path ^File template-file]
+  (let [rel-path-parent (relative-path base-path (.getParentFile template-file))
+        dest-name (strip-art-filename-suffix (.getName template-file))
+        dest-rel-path (apply io/file (concat rel-path-parent
+                                             [dest-name]))]
+    {:src-path      template-file
+     :dest-rel-path dest-rel-path}))
 
 (defn paths->template-paths!
-      "Finds all ART templates either at the given paths (as template files) or
+  "Finds all ART templates either at the given paths (as template files) or
       within their sub-trees (as a directory). This function is impure, as it
       directly scans the filesystem subtree of each of the paths."
-      [paths]
-      (letfn [(->template-paths [base-path]
-                                (let [template-files (template-file-seq base-path)]
-                                     (map #(->template-path base-path %) template-files)))]
-             (mapcat ->template-paths paths)))
+  [paths]
+  (letfn [(->template-paths [base-path]
+            (let [template-files (template-file-seq base-path)]
+              (map #(->template-path base-path %) template-files)))]
+    (mapcat ->template-paths paths)))

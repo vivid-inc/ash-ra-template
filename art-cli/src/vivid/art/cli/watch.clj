@@ -14,23 +14,23 @@
 
 (ns vivid.art.cli.watch
   (:require
-    [nextjournal.beholder :as beholder]
-    [vivid.art.cli.log :as log])
+   [nextjournal.beholder :as beholder]
+   [vivid.art.cli.log :as log])
   (:import
-    (java.io File)))
+   (java.io File)))
 
 (defn watch-on-batches
-      "Watches template paths in all of the supplied batches.
+  "Watches template paths in all of the supplied batches.
       Whenever a file system event occurs, calls event-fn
       with batch and event."
-      [batches event-fn]
+  [batches event-fn]
       ; TODO Configurable, default 50ms cool-down + event coalescing.
       ; TODO Document ^c to exit.
-      (doseq [b batches]
-             (doseq [^File f (:templates b)]
-                    (let [t (.toString f)]
-                         (log/*info-fn* "Watching" t)
-                         (beholder/watch (partial event-fn b) t))))
+  (doseq [b batches]
+    (doseq [^File f (:templates b)]
+      (let [t (.toString f)]
+        (log/*info-fn* "Watching" t)
+        (beholder/watch (partial event-fn b) t))))
       ; TODO For testing: (<!! wait-for-exit) (put! wait-for-exit :exit)
-      (while true
-             (Thread/sleep Long/MAX_VALUE)))
+  (while true
+    (Thread/sleep Long/MAX_VALUE)))

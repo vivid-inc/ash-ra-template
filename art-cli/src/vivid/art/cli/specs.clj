@@ -14,9 +14,9 @@
 
 (ns vivid.art.cli.specs
   (:require
-    [clojure.spec.alpha :as s])
+   [clojure.spec.alpha :as s])
   (:import
-    (java.io File)))
+   (java.io File)))
 
 ; Additional classpath, configured for the template rendering environment.
 (s/def ::classpath (s/coll-of string? :min-count 1))

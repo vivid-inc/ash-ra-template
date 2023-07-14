@@ -14,13 +14,13 @@
 
 (ns vivid.art.cli.to-phase-test
   (:require
-    [clojure.string]
-    [clojure.test :refer [are deftest is]]
-    [farolero.core :as farolero]
-    [vivid.art.cli.args]
-    [vivid.art.cli.usage]
-    [vivid.art.cli.validate :as validate]
-    [vivid.art.specs]))
+   [clojure.string]
+   [clojure.test :refer [are deftest is]]
+   [farolero.core :as farolero]
+   [vivid.art.cli.args]
+   [vivid.art.cli.usage]
+   [vivid.art.cli.validate :as validate]
+   [vivid.art.specs]))
 
 ;
 ; CLI args
@@ -43,7 +43,6 @@
       (is (and (= 'validate-to-phase step)
                (clojure.string/includes? message (str "'" phase "'")))))))
 
-
 ;
 ; Validators
 ;
@@ -60,9 +59,9 @@
 
 (deftest unknown-phases
   (are [phase]
-    (= 'validate-to-phase
-       (farolero/handler-case (validate/validate-to-phase phase)
-                              (:vivid.art.cli/error [_ {:keys [step]}] step)))
+       (= 'validate-to-phase
+          (farolero/handler-case (validate/validate-to-phase phase)
+                                 (:vivid.art.cli/error [_ {:keys [step]}] step)))
     nil
     5
     ""

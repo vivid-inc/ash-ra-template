@@ -15,7 +15,7 @@
 (ns vivid.art.cli.messages
   "Uniform ART messages throughout CLI tooling."
   (:require
-    [clojure.pprint]))
+   [clojure.pprint]))
 
 (defn pp-str-error [details]
   (str "ART error: "

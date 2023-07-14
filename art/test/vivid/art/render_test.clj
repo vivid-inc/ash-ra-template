@@ -14,19 +14,19 @@
 
 (ns vivid.art.render-test
   (:require
-    [clojure.test :refer [are deftest is testing]]
-    [vivid.art :as art]))
+   [clojure.test :refer [are deftest is testing]]
+   [vivid.art :as art]))
 
 (deftest plain-echo
   (testing "Plain echo pass-through"
     (are [expected template]
-      (= expected (art/render template))
+         (= expected (art/render template))
       "" ""
       "Pyramids of Mars" "Pyramids of Mars"
       "色雫の洗練さ źródła বিপাক أيض" "色雫の洗練さ źródła বিপাক أيض"))
   (testing "Plain echo pass-through preserves whitespace"
     (are [expected template]
-      (= expected (art/render template))
+         (= expected (art/render template))
       "   " "   "
       " flanked    " " flanked    "
       "\t \n \t" "\t \n \t"
@@ -52,7 +52,7 @@ Sally <(= (appnd \"For\") )>")))
 (deftest whitespace-preservation
   (testing "Whitespace is preserved"
     (are [expected template]
-      (= expected (art/render template))
+         (= expected (art/render template))
       " " " "
       "\t" "\t"
       "\n" "\n"

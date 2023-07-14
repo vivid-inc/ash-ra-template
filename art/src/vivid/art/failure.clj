@@ -14,8 +14,8 @@
 
 (ns vivid.art.failure
   (:require
-    [clojure.spec.alpha :as s]
-    [vivid.art.specs]))
+   [clojure.spec.alpha :as s]
+   [vivid.art.specs]))
 
 (defn failure?
   "When ART fails to render a template, instead of the template output,
@@ -33,4 +33,4 @@
    :cause        cause
    :template     template})
 (s/fdef make-failure
-        :ret :vivid.art/failure)
+  :ret :vivid.art/failure)

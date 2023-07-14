@@ -15,8 +15,8 @@
 (ns vivid.art.xlate
   (:refer-clojure :exclude [eval])
   (:require
-    [clojure.string]
-    [reduce-fsm :as fsm]))
+   [clojure.string]
+   [reduce-fsm :as fsm]))
 
 (defn echo
   "Writes an (emit) to the compiled code that echoes the plain string but with escaping."
@@ -37,21 +37,21 @@
 
 ; TODO Explicitly test all combinations (DFA state transitions), in part to clarify the rules.
 (fsm/defsm lenient-fsm
-           [[:echo
-             :vivid.art/begin-eval -> :eval
-             :vivid.art/begin-forms -> :forms
-             :vivid.art/end-eval -> :echo
-             :vivid.art/end-forms -> :echo
-             _ -> {:action echo} :echo]
-            [:eval
-             :vivid.art/end-eval -> :echo
-             :vivid.art/end-forms -> :echo
-             _ -> {:action eval} :eval]
-            [:forms
-             :vivid.art/end-eval -> :echo
-             :vivid.art/end-forms -> :echo
-             _ -> {:action forms} :forms]]
-           :default-acc {:output []})
+  [[:echo
+    :vivid.art/begin-eval -> :eval
+    :vivid.art/begin-forms -> :forms
+    :vivid.art/end-eval -> :echo
+    :vivid.art/end-forms -> :echo
+    _ -> {:action echo} :echo]
+   [:eval
+    :vivid.art/end-eval -> :echo
+    :vivid.art/end-forms -> :echo
+    _ -> {:action eval} :eval]
+   [:forms
+    :vivid.art/end-eval -> :echo
+    :vivid.art/end-forms -> :echo
+    _ -> {:action forms} :forms]]
+  :default-acc {:output []})
 
 (defn translate
   "Translates a sequence of tokens into Clojure code that,

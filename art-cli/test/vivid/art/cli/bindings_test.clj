@@ -15,25 +15,25 @@
 (ns vivid.art.cli.bindings-test
   "Guarantee certain types can be transported across the shimdandy bridge unspoiled."
   (:require
-    [clojure.test :refer [are deftest testing]]
-    [vivid.art :as art]))
+   [clojure.test :refer [are deftest testing]]
+   [vivid.art :as art]))
 
 (deftest bindings-styles
   (testing "Quote the entire bindings map"
     (are [expected template opts]
-      (= expected (apply art/render template opts))
+         (= expected (apply art/render template opts))
 
       "" "" [:bindings '{}]))
   (testing "Quote individual bindings map keys and/or values"
     (are [expected template opts]
-      (= expected (apply art/render template opts))
+         (= expected (apply art/render template opts))
 
       "" "" [:bindings '{}])))
 
 (deftest data-types
   (testing "Unspoiled transport of a subset of Clojure data types through pr"
     (are [expected template opts]
-      (= expected (apply art/render template opts))
+         (= expected (apply art/render template opts))
 
       ; Empty bindings
       "empty" "<(= 'empty )>" []

@@ -14,15 +14,14 @@
 
 (ns vivid.art.cli.dependencies-test
   (:require
-    [clojure.test :refer [are deftest]]
-    [farolero.core :as farolero]
-    [vivid.art.cli.args]
-    [vivid.art.cli.usage :refer [cli-options]]
-    [vivid.art.cli.validate :as validate]))
+   [clojure.test :refer [are deftest]]
+   [farolero.core :as farolero]
+   [vivid.art.cli.args]
+   [vivid.art.cli.usage :refer [cli-options]]
+   [vivid.art.cli.validate :as validate]))
 
 (def ^:const custom-deps
   '[[compojure/compojure "1.6.2"]])
-
 
 ;
 ; CLI args
@@ -30,23 +29,23 @@
 
 (deftest cli-edn-file-dependencies
   (are [expected x]
-    (let [args ["--dependencies" x "test-resources/empty.art"]
-          {:keys [dependencies]} (vivid.art.cli.args/cli-args->batch args cli-options)]
-      (= expected dependencies))
+       (let [args ["--dependencies" x "test-resources/empty.art"]
+             {:keys [dependencies]} (vivid.art.cli.args/cli-args->batch args cli-options)]
+         (= expected dependencies))
     '[[hiccup/hiccup "1.0.5"]] "test-resources/simple-dependencies.edn"))
 
 (deftest cli-edn-literal-dependencies
   (are [expected x]
-    (let [args ["--dependencies" x "test-resources/empty.art"]
-          {:keys [dependencies]} (vivid.art.cli.args/cli-args->batch args cli-options)]
-      (= expected dependencies))
-       '[[org.suskalo/farolero "1.4.3"]] "[[org.suskalo/farolero \"1.4.3\"]]"))
+       (let [args ["--dependencies" x "test-resources/empty.art"]
+             {:keys [dependencies]} (vivid.art.cli.args/cli-args->batch args cli-options)]
+         (= expected dependencies))
+    '[[org.suskalo/farolero "1.4.3"]] "[[org.suskalo/farolero \"1.4.3\"]]"))
 
 (deftest cli-malformed-dependencies
   (are [expected x]
-    (= expected
-       (farolero/handler-case (validate/validate-dependencies x)
-                              (:vivid.art.cli/error [_ {:keys [step]}] step)))
+       (= expected
+          (farolero/handler-case (validate/validate-dependencies x)
+                                 (:vivid.art.cli/error [_ {:keys [step]}] step)))
     'validate-dependencies ""
     'validate-dependencies " "
     'validate-dependencies "nonsense"
@@ -54,15 +53,14 @@
     'validate-dependencies "sense}"
     'resolve-as-edn-file "test-resources/malformed.edn"))
 
-
 ;
 ; Internal API
 ;
 
 (deftest variants
   (are [expected x]
-    (= expected
-       (validate/validate-dependencies x))
+       (= expected
+          (validate/validate-dependencies x))
 
     ; As a Leiningen dependency list:
     [] []
@@ -82,9 +80,9 @@
 
 (deftest malformed-dependencies
   (are [expected x]
-    (= expected
-       (farolero/handler-case (validate/validate-dependencies x)
-                              (:vivid.art.cli/error [_ {:keys [step]}] step)))
+       (= expected
+          (farolero/handler-case (validate/validate-dependencies x)
+                                 (:vivid.art.cli/error [_ {:keys [step]}] step)))
     'validate-dependencies nil
     'validate-dependencies ""
     'validate-dependencies " "

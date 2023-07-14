@@ -14,9 +14,9 @@
 
 (ns vivid.art.cli.usage
   (:require
-    [clojure.string]
-    [vivid.art]
-    [vivid.art.specs]))
+   [clojure.string]
+   [vivid.art]
+   [vivid.art.specs]))
 
 (def ^:const default-output-dir ".")
 
@@ -37,11 +37,11 @@
     :description "Render all template batches once"}])
 
 (defn cli-command? [s]
-      (some #{s} (map :command cli-commands)))
+  (some #{s} (map :command cli-commands)))
 
 (defn command-summary []
-      (->> (map #(format "  %-6s  %s" (:command %) (:description %)) cli-commands)
-           (clojure.string/join "\n")))
+  (->> (map #(format "  %-6s  %s" (:command %) (:description %)) cli-commands)
+       (clojure.string/join "\n")))
 
 ; CLI options are specified according to clojure.tools.cli.
 ; Entries are sorted alphabetically by long option.

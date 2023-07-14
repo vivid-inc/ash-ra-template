@@ -14,15 +14,15 @@
 
 (ns vivid.art.cli.bind-log-fns-test
   (:require
-    [clojure.test :refer [are deftest]]
-    [vivid.art.cli.log]))
+   [clojure.test :refer [are deftest]]
+   [vivid.art.cli.log]))
 
 (deftest bound
   (binding [vivid.art.cli.log/*info-fn* identity
             vivid.art.cli.log/*warn-fn* identity]
     (are [log-fn message]
-    (= message
-       (log-fn message))
-    vivid.art.cli.log/*info-fn* "Amiga"
-    vivid.art.cli.log/*warn-fn* "Amigo")))
+         (= message
+            (log-fn message))
+      vivid.art.cli.log/*info-fn* "Amiga"
+      vivid.art.cli.log/*warn-fn* "Amigo")))
 

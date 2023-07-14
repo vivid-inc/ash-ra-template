@@ -26,13 +26,13 @@
   if the file does exist, then any errors associated with attempting to read
   the file's contents is signalled."
   (:require
-    [clojure.edn :as edn]
-    [clojure.java.io :as io]
-    [clojure.data.json :as json]
-    [clojure.string]
-    [farolero.core :as farolero])
+   [clojure.edn :as edn]
+   [clojure.java.io :as io]
+   [clojure.data.json :as json]
+   [clojure.string]
+   [farolero.core :as farolero])
   (:import
-    (java.io File IOException PushbackReader Reader)))
+   (java.io File IOException PushbackReader Reader)))
 
 (defn resolve-as-edn-file
   "Attempt to interpret a value as a path to an EDN file.
@@ -130,10 +130,10 @@
                              :normally nil)))))))
 
 (defn resolve-as-list-like
-      "Attempt to interpret a value as a Clojure list or vector."
-      [x]
-      (when (or (list? x) (vector? x))
-            x))
+  "Attempt to interpret a value as a Clojure list or vector."
+  [x]
+  (when (or (list? x) (vector? x))
+    x))
 
 (defn resolve-as-map
   "Attempt to interpret a value as a Clojure map."
@@ -147,13 +147,13 @@
   a symbol, or a var."
   [x & [default-ns]]
   (as-> x s
-        (if (and (string? s) (seq s))
-          (symbol s) s)
-        (if (symbol? s)
-          (if default-ns
-            (ns-resolve default-ns s)
-            (resolve s))
-          s)
-        (if (var? s)
-          (var-get s)
-          nil)))
+    (if (and (string? s) (seq s))
+      (symbol s) s)
+    (if (symbol? s)
+      (if default-ns
+        (ns-resolve default-ns s)
+        (resolve s))
+      s)
+    (if (var? s)
+      (var-get s)
+      nil)))

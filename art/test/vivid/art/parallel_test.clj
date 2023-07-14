@@ -14,9 +14,9 @@
 
 (ns vivid.art.parallel-test
   (:require
-    [clojure.core.async :as async]
-    [clojure.test :refer [is deftest testing]]
-    [vivid.art :as art]))
+   [clojure.core.async :as async]
+   [clojure.test :refer [is deftest testing]]
+   [vivid.art :as art]))
 
 ; Referencing https://github.com/clojure/core.async/blob/master/examples/walkthrough.clj
 
@@ -34,8 +34,8 @@
 
   (testing "(render) is re-entrant with clojure.core (pmap)"
     (doall
-      (pmap #(is (= (actual %) (expected %)))
-            (range +iterations+))))
+     (pmap #(is (= (actual %) (expected %)))
+           (range +iterations+))))
 
   (testing "(render) is re-entrant with clojure.core.async (go) and a single channel"
     (let [ch (async/chan)]

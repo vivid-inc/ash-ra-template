@@ -14,8 +14,8 @@
 
 (ns ^:internal-api vivid.art.cli
   (:require
-    [vivid.art]
-    [vivid.art.cli.specs]))
+   [vivid.art]
+   [vivid.art.cli.specs]))
 
 (def ^:const art-filename-suffix ".art")
 (def ^:const art-filename-suffix-regex #"\.art$")

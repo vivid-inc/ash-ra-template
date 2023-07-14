@@ -17,13 +17,11 @@
   All definitions exposed through ART's API plus all key
   definitions are namespaced."
   (:require
-    [clojure.spec.alpha :as s]))
-
+   [clojure.spec.alpha :as s]))
 
 ; ART templates
 
 (s/def :vivid.art/template (s/nilable string?))
-
 
 ; Bindings
 
@@ -43,8 +41,6 @@
   (s/keys :opt-un [::begin-forms ::end-forms
                    ::begin-eval ::end-eval]))
 
-
-
 ; Failure descriptors
 
 (s/def ::failure-type keyword?)
@@ -52,7 +48,6 @@
 
 (s/def :vivid.art/failure
   (s/keys :req-un [::failure-type ::cause ::template]))
-
 
 ; To which phase in the (render) dataflow will it proceed to?
 ; Useful for diagnostics and operational insight.
@@ -63,14 +58,14 @@
 (s/def :vivid.art/render-phase (into #{} render-phases))
 
 (defn to-phase?
-      "Following the ordering of rendering phases, evaluates
+  "Following the ordering of rendering phases, evaluates
       to true when current-phase doesn't exceed to-phase."
-      [current-phase to-phase]
-      (let [plan (-> #{}
-                     (into (take-while #(not= to-phase %) render-phases))
-                     (conj to-phase))]
-           (contains? plan current-phase)))
+  [current-phase to-phase]
+  (let [plan (-> #{}
+                 (into (take-while #(not= to-phase %) render-phases))
+                 (conj to-phase))]
+    (contains? plan current-phase)))
 (s/fdef to-phase?
-        :args (s/cat :current-phase :vivid.art/render-phase
-                     :to-phase :vivid.art/render-phase)
-        :ret (s/nilable boolean?))
+  :args (s/cat :current-phase :vivid.art/render-phase
+               :to-phase :vivid.art/render-phase)
+  :ret (s/nilable boolean?))

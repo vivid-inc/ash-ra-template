@@ -10,5 +10,5 @@
 <nav>
   {%= (hiccup/html
         (for [[title href] (partition 2 main-items)]
-          [:ul.main-item {:href href} title])) %}
+          [:ul.main-item [:a {:href href} title]])) %}
 </nav>

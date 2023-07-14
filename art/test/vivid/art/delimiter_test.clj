@@ -14,23 +14,23 @@
 
 (ns vivid.art.delimiter-test
   (:require
-    [clojure.test :refer [are deftest testing]]
-    [vivid.art :as art]
-    [vivid.art.delimiters]))
+   [clojure.test :refer [are deftest testing]]
+   [vivid.art :as art]
+   [vivid.art.delimiters]))
 
 (deftest api-contract
   (testing "Default lispy delimiters"
     (are [expected template]
-      (= expected (art/render template))
+         (= expected (art/render template))
       "plain text" "plain text"
       "juniper" "juni<()>per"
       "START 1234 END" "START <((def cnt 4)(doseq [i (range 1 (inc cnt))])><(=i)><())> END"))
   (testing "Manually specify lispy delimiters"
     (are [expected template]
-      (= expected (art/render template
-                              :delimiters {:begin-forms "<("
-                                           :begin-eval  "<(="
-                                           :end-forms   ")>"}))
+         (= expected (art/render template
+                                 :delimiters {:begin-forms "<("
+                                              :begin-eval  "<(="
+                                              :end-forms   ")>"}))
       "plain text" "plain text"
       "juniper" "juni<()>per"
       "START 1234 END" "START <((def cnt 4)(doseq [i (range 1 (inc cnt))])><(=i)><())> END")))
@@ -38,30 +38,30 @@
 (deftest bundled-delimiter-definitions
   (testing "ART-provided delimiter library: ERB"
     (are [expected template]
-      (= expected (art/render template
-                              :delimiters vivid.art.delimiters/erb))
+         (= expected (art/render template
+                                 :delimiters vivid.art.delimiters/erb))
       "plain text" "plain text"
       "juniper" "juni<%%>per"
       "START 1234 END" "START <%(def cnt 4)(doseq [i (range 1 (inc cnt))]%><%=i%><%)%> END"))
   (testing "ART-provided delimiter library: Jinja"
     (are [expected template]
-      (= expected (art/render template
-                              :delimiters vivid.art.delimiters/jinja))
+         (= expected (art/render template
+                                 :delimiters vivid.art.delimiters/jinja))
       "plain text" "plain text"
       "juniper" "juni{%%}per"
       "START 1234 END" "START {%(def cnt 4)(doseq [i (range 1 (inc cnt))]%}{{i}}{%)%} END"))
   (testing "ART-provided delimiter library: Mustache"
     (are [expected template bindings]
-      (= expected (art/render template
-                              :delimiters vivid.art.delimiters/mustache
-                              :bindings   bindings))
+         (= expected (art/render template
+                                 :delimiters vivid.art.delimiters/mustache
+                                 :bindings   bindings))
       "plain text" "plain text" {}
       "juniper" "juni{{}}per" {}
       "START 1234 END" "START {{numbers}} END" '{numbers 1234}))
   (testing "ART-provided delimiter library: PHP"
     (are [expected template]
-      (= expected (art/render template
-                              :delimiters vivid.art.delimiters/php))
+         (= expected (art/render template
+                                 :delimiters vivid.art.delimiters/php))
       "plain text" "plain text"
       "juniper" "juni<??>per"
       "START 1234 END" "START <?(def cnt 4)(doseq [i (range 1 (inc cnt))]?><?=i?><?)?> END")))
@@ -69,18 +69,18 @@
 (deftest delimiter-syntax
   (testing "Unbalanced delimiters"
     (are [expected template]
-      (= expected (art/render template))
+         (= expected (art/render template))
       "Unbalanced does switchstream processing mode" "Unbalanced <( (emit (str \"does switch\" \"stream processing mode\"))"
       "Unbalanced  doesn't switch stream processing mode" "Unbalanced )> doesn't switch stream processing mode"))
   (testing "Each delimiter one-by-one"
     (are [expected template]
-      (= expected (art/render template))
+         (= expected (art/render template))
       "" "<("
       "" "<(="
       "" ")>"))
   (testing "Tricky syntax"
     (are [expected template]
-      (= expected (art/render template))
+         (= expected (art/render template))
       "<" "<"
       "abc<" "abc<<("
       ; The middle '<' evaluates to the '<' Clojure function, resulting in no template output.
@@ -89,5 +89,5 @@
 (deftest pathological
   (testing "Failed at some point during development"
     (are [expected template]
-      (= expected (art/render template))
+         (= expected (art/render template))
       "\n" "\n")))
