@@ -64,7 +64,7 @@
               }
 
   :dependencies [[net.vivid-inc/art-cli   "0.7.0"]
-                 [org.clojure/tools.cli   "1.0.206"]]
+                 [org.clojure/tools.cli   "1.0.219"]]
 
   :eval-in-leiningen true
 
@@ -83,16 +83,16 @@
   ;:pedantic? :abort
 
   :plugins [[com.github.liquidz/antq "RELEASE"]
-            [lein-cljfmt "0.7.0" :exclusions [com.fasterxml.jackson.core/jackson-core
+            [lein-cljfmt    "0.9.2" :exclusions [com.fasterxml.jackson.core/jackson-core
                                               org.clojure/clojure]]
-            [lein-cloverage "1.2.2"]
-            [lein-eftest "0.5.9"]
-            [lein-nvd "1.4.1" :exclusions [com.fasterxml.jackson.core/jackson-annotations
-                                           commons-io
-                                           org.apache.commons/commons-lang3
-                                           org.clojure/clojure
-                                           org.slf4j/jcl-over-slf4j
-                                           org.slf4j/slf4j-api]]]
+            [lein-cloverage "1.2.4"]
+            [lein-eftest    "0.6.0"]
+            [lein-nvd       "1.4.1" :exclusions [com.fasterxml.jackson.core/jackson-annotations
+                                                 commons-io
+                                                 org.apache.commons/commons-lang3
+                                                 org.clojure/clojure
+                                                 org.slf4j/jcl-over-slf4j
+                                                 org.slf4j/slf4j-api]]]
 
   :profiles {:clj-kondo {:dependencies [[clj-kondo "RELEASE"]
                                         [org.clojure/clojure "<%= (first clojure-versions) %>"]]}

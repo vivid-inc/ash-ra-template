@@ -21,7 +21,7 @@
            :clojure-1.11.1 {:override-deps {org.clojure/clojure {:mvn/version "1.11.1"}}}
 
            ; See https://github.com/cloverage/cloverage
-           :cloverage      {:extra-deps  {cloverage/cloverage {:mvn/version "RELEASE"}}
+           :cloverage      {:extra-deps  {cloverage/cloverage {:mvn/version "1.2.4"}}
                             :extra-paths ["test"]
                             :main-opts   ["-m" "cloverage.coverage"
                                           "--codecov" "--html" "--junit" "--src-ns-path" "src" "--test-ns-path" "test"]}
@@ -34,6 +34,6 @@
                                           "assets/README.md.art"]}
 
            ; See https://github.com/weavejester/eftest
-           :test           {:extra-deps  {eftest/eftest {:mvn/version "0.5.9"}}
+           :test           {:extra-deps  {eftest/eftest {:mvn/version "0.6.0"}}
                             :extra-paths ["test"]
                             :main-opts   ["-e" "(require '[eftest.runner :refer [find-tests run-tests]]) (run-tests (find-tests \"test\"))"]}}}

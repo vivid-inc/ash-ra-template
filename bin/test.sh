@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright 2022 Vivid Inc.
+# Copyright 2023 Vivid Inc.
 
 # This tool is meant to be used from the project root, as so:
 #     $ bin/test.sh

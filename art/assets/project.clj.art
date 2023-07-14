@@ -3,7 +3,10 @@
 ; Interesting commands:
 ;
 ; Examine the full list of transitive dependencies
-; $ lein with-profile '' deps :tree
+;     $ lein with-profile '' deps :tree
+;
+; Update .clj-kondo:
+;     $ lein clj-kondo --copy-configs --dependencies --lint "$(lein classpath)"
 <%
 (def clojure-versions  (get vivid-art-facts 'clojure-versions))
 (def lein-version      (get vivid-art-facts 'lein-version))
@@ -60,9 +63,9 @@
               :output   "cloverage"                  ; "lein jar" destroys target/cloverage
               }
 
-  :dependencies [[instaparse/instaparse "1.4.10" :exclusions [org.clojure/spec.alpha]]
+  :dependencies [[instaparse/instaparse "1.4.12" :exclusions [org.clojure/spec.alpha]]
                  [reduce-fsm/reduce-fsm "0.1.4"]
-                 [org.suskalo/farolero "1.4.3"]]
+                 [org.suskalo/farolero "1.5.0"]]
 
   :exclusions [org.clojure/clojure]
 
@@ -82,9 +85,9 @@
                                                             org.apache.httpcomponents/httpclient
                                                             org.codehaus.plexus/plexus-utils
                                                             org.slf4j/slf4j-api]]
-            [lein-cljfmt             "0.8.0"   :exclusions [com.fasterxml.jackson.core/jackson-core]]
-            [lein-cloverage          "1.2.3"]
-            [lein-eftest             "0.5.9"]
+            [lein-cljfmt             "0.9.2"   :exclusions [com.fasterxml.jackson.core/jackson-core]]
+            [lein-cloverage          "1.2.4"]
+            [lein-eftest             "0.6.0"]
             [lein-nvd                "1.4.1"   :exclusions [com.fasterxml.jackson.core/jackson-annotations
                                                             commons-io
                                                             org.apache.commons/commons-lang3
@@ -121,6 +124,6 @@
 
                          :test-refresh   {:quiet true}}
 
-             :test {:dependencies [[org.clojure/core.async "1.5.648"]]}}
+             :test {:dependencies [[org.clojure/core.async "1.6.673"]]}}
 
   :repositories [["clojars" {:sign-releases false}]])

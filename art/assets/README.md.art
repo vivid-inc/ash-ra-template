@@ -220,16 +220,6 @@ The phases are, in order: <%= to-phase-values %>.
 ```
 
 
-(vivid.art/render) provides vivid.art/*render-context* to environment.
- {:template-stack [:vivid.art/unknown-from-string]
-  :bindings ...
-  :ns ...}
-
-
-
-
-
-
 
 <a name="template-vars"></a>
 ## Vars and functions available to templates

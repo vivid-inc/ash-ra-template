@@ -51,7 +51,12 @@ $ bin/deploy.sh
 
 # Bookkeeping
 
+## Technology choices
+Leiningen is the primary build tool.
+
 ## Minimum supported versions
+Note: All supported versions (resulting from these facts) are recorded in [assets/vivid-art-facts.edn](assets/vivid-art-facts.edn); a file that controls testing.
+
 Clojure:
 - Lower-bound of Clojure 1.9.0 for [spec](https://clojure.org/guides/spec)
 - Lower-bound of Clojure 1.9.0 because it is compatible with a ``clojure.alpha.tools.deps`` version that has reasonable Maven-style dependency resolution capability.

@@ -46,9 +46,9 @@
   ;:pedantic? :abort
 
   :plugins [[com.github.liquidz/antq "RELEASE"]
-            [lein-cljfmt             "0.7.0"]
-            [lein-cloverage          "1.2.2"]
-            [lein-eftest             "0.5.9"]
+            [lein-cljfmt             "0.9.2"]
+            [lein-cloverage          "1.2.4"]
+            [lein-eftest             "0.6.0"]
             [lein-nvd                "1.4.1" :exclusions [com.fasterxml.jackson.core/jackson-annotations
                                                           commons-io
                                                           org.apache.commons/commons-lang3
