@@ -47,7 +47,7 @@ A VCS commit is considered releasable provided that all of its components satisf
 
 ### Immediately after release
 - Smoke test each downloadable deliverable.
-- In the GitHub project, change the [default branch](https://github.com/vivid-inc/ash-ra-template/settings/branches) to this new release.
+- In the GitHub project, change the [default branch](https://github.com/vivid-inc/ash-ra-template/settings) to this new release.
 - Confirm correctness of:
   - All project URLs.
   - Default branch in GitHub.

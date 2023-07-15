@@ -4,6 +4,7 @@
 
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE.txt)
 [![Current version](https://img.shields.io/clojars/v/net.vivid-inc/lein-art.svg?color=blue&style=flat-square)](https://clojars.org/net.vivid-inc/lein-art)
+[![cljdoc](https://cljdoc.org/badge/net.vivid-inc/lein-art)](https://cljdoc.org/d/net.vivid-inc/lein-art)
 
 `lein-art` is a Leiningen plugin for rendering [Ash Ra Template](https://github.com/vivid-inc/ash-ra-template) `.art` templates.
 

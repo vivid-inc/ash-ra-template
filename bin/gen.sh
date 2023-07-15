@@ -68,7 +68,7 @@ echo Generating resources in all projects
 # Generate art/ project files, then install the ART .jar into the local Maven
 # repository, making it available to subsequent build steps that depend on it.
 bootstrap_art
-(cd art && lein install)
-(cd art-cli && lein install)
-(cd clj-art  && clojure -M:gen)
-(cd lein-art && lein gen)
+(cd art && lein do pom, install)
+(cd art-cli && lein do pom, install)
+(cd clj-art && lein pom && clojure -M:gen)
+(cd lein-art && lein do pom, gen)
