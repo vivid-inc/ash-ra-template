@@ -7,7 +7,6 @@ codecov.json
 .lein-*
 .nrepl-history
 .nrepl-port
-pom.xml
 target
 .tool-versions
 

@@ -16,15 +16,41 @@
 (def javac-min-version (get vivid-art-facts 'javac-min-version'))
 (def lein-version      (get vivid-art-facts 'lein-version))
 (def vivid-art-version (get vivid-art-facts 'vivid-art-version))
+
+(defn lein-profile-name-for-clojure-version
+  [clojure-version]
+  (format "clojure-%s" clojure-version))
+
+(def ^:const clojure-test-profiles-str
+  (clojure.string/join ":"
+                       (map #(str "+" (lein-profile-name-for-clojure-version %)) clojure-versions)))
+
+(defn test-dependency-block [clojure-version]
+  (format ":clojure-%s {:dependencies [[org.clojure/clojure \"%s\"]]}"
+          clojure-version clojure-version))
+
+(defn indent-str [qty s]
+  (let [indent (repeat qty " ")]
+    (apply str (concat indent [s]))))
+
+(defn clojure-version-profiles [& {:keys [indent]}]
+  (->> (for [v clojure-versions]
+            (indent-str indent (test-dependency-block v)))
+       (clojure.string/join \newline)
+       (apply str)))
 %>
 (defproject net.vivid-inc/clj-art "<%= vivid-art-version %>"
 
   :note "THIS FILE IS GENERATED AUTOMATICALLY BY bin/gen.sh"
   :description "Clojure tool for rendering Ash Ra .art templates"
-  :url "https://github.com/vivid-inc/ash-ra-template"
   :license {:distribution :repo
             :name         "Apache License 2.0"
             :url          "https://www.apache.org/licenses/LICENSE-2.0"}
+  :scm {:dir  ".."
+        :name "git"
+        :tag  "<%= vivid-art-version %>"
+        :url  "https://github.com/vivid-inc/ash-ra-template"}
+  :url "https://github.com/vivid-inc/ash-ra-template"
 
   :aliases {"build"     ["do"
                          ["version"]
@@ -79,6 +105,8 @@
                                                           org.slf4j/slf4j-api]]]
 
   :profiles {:clj-kondo {:dependencies [[clj-kondo "RELEASE"]]}
+
+<%= (clojure-version-profiles :indent 13) %>
 
              :dev       {:dependencies [[org.clojure/clojure "<%= (first clojure-versions) %>"]]}}
 

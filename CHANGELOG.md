@@ -1,18 +1,20 @@
 # Ash Ra Template Changelog
 
 ## [0.7.0]
-Released 2023-07-14.
+Released 2023-07-15.
 ### Added
 - CLI tools `clj-art` and `lein-art` provide their classpaths to the ART template evaluation environment, as well as a 
   reworked `:dependencies` mechanism that uses pomegranate to add further dependencies.
   This deprecates the prior ShimDandy.
 - Support for Clojure versions 1.11.0, 1.11.1.
-- CLI tools offer these ART commands:
+- CLI tools offer these ART commands (not yet implemented for `clj-art`):
   - `auto`:   Watches template files and directories, re-rendering on changes.
   - `config`: Dump the effective ART configuration to stdout.
   - `help`:   Display tool help.
   - `render`: ART's default behavior of rendering templates.
-- Parallel rendering test suite `vivid.art.parallel-test`. Demonstrates use of `(render)` using `(pmap)` as well as 
+- Template authors can express _blocks_ or _partials_ -like structuring of a collection of templates through recursive
+  use of `(vivid.art/render :bindings ...)`, a new `*render-context*`, and `(yield)`ing from those bindings.
+- Parallel rendering test suite `vivid.art.parallelism-test`. Demonstrates use of `(render)` using `(pmap)` as well as 
   `(core.async/go)` and `(core.async/thread)`.
 ### Changed
 - Template `(emit)` function accepts any number of args, emitting each in order of appearance to the output.
@@ -21,8 +23,7 @@ Released 2023-07-14.
   replace the map with its contents (delete the curly braces surrounding the map contents).
 - `art-cli` honors symlinks.
 ### Removed
-- ShimDandy -based `:dependencies` behavior.
-- `boot-art`.
+- ShimDandy -based `:dependencies` behavior along with `boot-art`.
 
 ## [0.6.1]
 Released 2022-02-25.

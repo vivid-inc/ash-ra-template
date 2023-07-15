@@ -38,16 +38,19 @@
             (indent-str indent (test-dependency-block v)))
        (clojure.string/join \newline)
        (apply str)))
-
 %>
 (defproject net.vivid-inc/art-cli "<%= vivid-art-version %>"
 
   :note "THIS FILE IS GENERATED AUTOMATICALLY BY bin/gen.sh"
   :description "art-cli aggregates code common to the translation and processing of Ash Ra Template command line parameters into parameters for ART's Clojure API."
-  :url "https://github.com/vivid-inc/ash-ra-template"
   :license {:distribution :repo
             :name         "Apache License 2.0"
             :url          "https://www.apache.org/licenses/LICENSE-2.0"}
+  :scm {:dir  ".."
+        :name "git"
+        :tag  "<%= vivid-art-version %>"
+        :url  "https://github.com/vivid-inc/ash-ra-template"}
+  :url "https://github.com/vivid-inc/ash-ra-template"
 
   :aliases {"build"     ["do"
                          ["version"]

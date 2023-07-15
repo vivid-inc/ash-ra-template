@@ -16,10 +16,14 @@
 
   :note "THIS FILE IS GENERATED AUTOMATICALLY BY bin/gen.sh"
   :description "Clojure tool for rendering Ash Ra .art templates"
-  :url "https://github.com/vivid-inc/ash-ra-template"
   :license {:distribution :repo
             :name         "Apache License 2.0"
             :url          "https://www.apache.org/licenses/LICENSE-2.0"}
+  :scm {:dir  ".."
+        :name "git"
+        :tag  "0.7.0"
+        :url  "https://github.com/vivid-inc/ash-ra-template"}
+  :url "https://github.com/vivid-inc/ash-ra-template"
 
   :aliases {"build"     ["do"
                          ["version"]
@@ -74,6 +78,13 @@
                                                           org.slf4j/slf4j-api]]]
 
   :profiles {:clj-kondo {:dependencies [[clj-kondo "RELEASE"]]}
+
+             :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]}
+             :clojure-1.10.1 {:dependencies [[org.clojure/clojure "1.10.1"]]}
+             :clojure-1.10.2 {:dependencies [[org.clojure/clojure "1.10.2"]]}
+             :clojure-1.10.3 {:dependencies [[org.clojure/clojure "1.10.3"]]}
+             :clojure-1.11.0 {:dependencies [[org.clojure/clojure "1.11.0"]]}
+             :clojure-1.11.1 {:dependencies [[org.clojure/clojure "1.11.1"]]}
 
              :dev       {:dependencies [[org.clojure/clojure "1.10.0"]]}}
 

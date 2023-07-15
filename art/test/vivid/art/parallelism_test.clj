@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns vivid.art.parallel-test
+(ns vivid.art.parallelism-test
   (:require
    [clojure.core.async :as async]
    [clojure.test :refer [is deftest testing]]
@@ -30,14 +30,14 @@
 (defn expected [ctr]
   (format "template-%d nested-%d" ctr ctr))
 
-(deftest re-entrant-property
+(deftest thread-safety
 
-  (testing "(render) is re-entrant with clojure.core (pmap)"
+  (testing "(render) is thread-safe with clojure.core (pmap)"
     (doall
      (pmap #(is (= (actual %) (expected %)))
            (range +iterations+))))
 
-  (testing "(render) is re-entrant with clojure.core.async (go) and a single channel"
+  (testing "(render) is thread-safe with clojure.core.async (go) and a single channel"
     (let [ch (async/chan)]
       (dotimes [ctr +iterations+]
         (async/go (async/>! ch {:ctr      ctr
@@ -47,7 +47,7 @@
         (async/<!! (async/go (let [result (async/<! ch)]
                                (is (= (:actual result) (:expected result)))))))))
 
-  (testing "(render) is re-entrant with clojure.core.async (thread) and a single channel"
+  (testing "(render) is thread-safe with clojure.core.async (thread) and a single channel"
     (let [ch (async/chan)]
       (dotimes [ctr +iterations+]
         (async/thread (async/>!! ch {:ctr      ctr

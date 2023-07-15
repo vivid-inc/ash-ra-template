@@ -16,10 +16,14 @@
 
   :note "THIS FILE IS GENERATED AUTOMATICALLY BY bin/gen.sh"
   :description "art-cli aggregates code common to the translation and processing of Ash Ra Template command line parameters into parameters for ART's Clojure API."
-  :url "https://github.com/vivid-inc/ash-ra-template"
   :license {:distribution :repo
             :name         "Apache License 2.0"
             :url          "https://www.apache.org/licenses/LICENSE-2.0"}
+  :scm {:dir  ".."
+        :name "git"
+        :tag  "0.7.0"
+        :url  "https://github.com/vivid-inc/ash-ra-template"}
+  :url "https://github.com/vivid-inc/ash-ra-template"
 
   :aliases {"build"     ["do"
                          ["version"]
