@@ -16,7 +16,8 @@
     </license>
   </licenses>
   <scm>
-    <tag>24bde0839590fc8eb52041634482345c9ed73499</tag>
+    <url>https://github.com/vivid-inc/ash-ra-template</url>
+    <tag>0.7.0</tag>
   </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>
