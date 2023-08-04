@@ -86,9 +86,8 @@
       batch's :output-dir."
   [^File base-path ^File template-file]
   (let [rel-path-parent (relative-path base-path (.getParentFile template-file))
-        dest-name (strip-art-filename-suffix (.getName template-file))
-        dest-rel-path (apply io/file (concat rel-path-parent
-                                             [dest-name]))]
+        dest-name       (strip-art-filename-suffix (.getName template-file))
+        dest-rel-path   (apply io/file (concat rel-path-parent [dest-name]))]
     {:src-path      template-file
      :dest-rel-path dest-rel-path}))
 

@@ -6,7 +6,13 @@
 [![CircleCI](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/art-0.7.0.svg?style=svg)](https://circleci.com/gh/vivid-inc/ash-ra-template/tree/art-0.7.0)
 [![Codecov](https://codecov.io/gh/vivid-inc/ash-ra-template/branch/art-0.7.0/graph/badge.svg)](https://codecov.io/gh/vivid-inc/ash-ra-template)
 
-Expressive & customizable template system featuring Clojure language processing
+Expressive & customizable template system featuring Clojure language processing.
+The essence of ART (at 1.0) is:
+- *Clojure processing*: A template processor that passes files through with Clojure processing of code blocks.
+- *Composable*: Near-frictionless integration with it's public APIs and CLI.
+- *Customizable*: Like Git, ART exposes 2 layers, plumbing (libraries of public APIs you can leverage to build your solutions) and porcelain (finished templating system that you can use in your code as well as a full CLI-based templating solution).
+- *Expressive*: Unconstrained limit on expressing yourself. With no limited library to restrict your freedom.  There is no library of functions like Selmer and other templating systems; you bring your own.
+- *High quality*: Sufficient test coverage, near bullet-proof, satisfying ergonomics.
 
 Tested with Clojure 1.10.0 and newer, and with Java 8 and newer LTS releases.
 
@@ -29,8 +35,11 @@ Tested with Clojure 1.10.0 and newer, and with Java 8 and newer LTS releases.
 
 Include this library from Clojars by adding the latest version of ``net.vivid-inc/art`` to your project dependencies:
 ```clojure
-{:deps {net.vivid-inc/art {:mvn/version "0.7.0"}}}         ; Clojure tools deps.edn
-:dependencies [[net.vivid-inc/art "0.7.0"]]                ; Leiningen project.clj
+; Clojure tools deps.edn
+{:deps {net.vivid-inc/art {:mvn/version "0.7.0"}}}
+
+; Leiningen project.clj
+:dependencies [[net.vivid-inc/art "0.7.0"]]
 ```
 
 Render a template string:
@@ -57,7 +66,7 @@ Or, to render from a file:
 
 **Pull Requests** are welcome!
 We work with people offering PRs to revise and iterate leading to solutions in accord with project goals and [release criteria](QUALITY.md).
-Development topics and product roadmap are maininted in [DEVELOP.md](DEVELOP.md). 
+Development topics and product roadmap are maintained in [DEVELOP.md](DEVELOP.md). 
 Commits must include Signed-off-by indicating acceptance of the [Developer's Certificate of Origin](DCO.txt).
 Unproductive behavior such as unkindness towards others and derailment is not tolerated.
 
@@ -70,7 +79,7 @@ Unproductive behavior such as unkindness towards others and derailment is not to
 
 ![](assets/workshop.png)
 
-Of the Clojure templating libraries we identified, none seemed to assist in porting a non-trivial amount of ERB-templated content to a Clojure-based static site generation tool.
+Of the Clojure templating libraries we examined, none seemed to assist in porting a non-trivial amount of ERB-templated content to a Clojure-based static site generation tool.
 We find the ability to in-line arbitrary Clojure code is intoxicatingly pragmatic (also expressed as: Enough rope to hang oneself).
 Seeking to wield such expressive power in a general-purpose templating system, we wrote Ash Ra Template, or **ART**.
 

@@ -23,16 +23,27 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
 
 ### Next:
 - Consider how to watch for changes in dependent templates, CLJ source files, anything else.
+  Also, when rendering out files, use comparisons to indicate when contents haven't changed, and atomic moves so that other tooling will detect file changes and respond properly.
 - Heavy testing of quote nesting and escaping, delimiter escaping, Clojure reader forms, comments.
-- clj-art :exec-fn. See https://practical.li/blog-staging/posts/clojure-cli-tools-understanding-aliases/
-- Change from DCO to a Contributor's License Agreement.
+- Move away from `(slurp)` in the libraries. Test to demonstrate how `slurp` can trip up the user. See https://clojuredocs.org/clojure.java.io/resource
+- Set the default command for `(dispatch-command)` to `render`, same for all CLI tooling.
+- Round out CLI tooling
+  - clj-art :exec-fn, fully support `(dispatch-command)`. See https://practical.li/blog-staging/posts/clojure-cli-tools-understanding-aliases/
 - Investigate OpenSSF Best Practices reporting, such as: https://bestpractices.coreinfrastructure.org/en/projects/2095
 - Implement `(vivid.art/render)` `:classpath` and `:repositories` options.
+- `(defmethod)` mechanism for adding options to `(vivid.art/render)`.
+- Clarify ^:public-api and ^:internal-api + docstrings. Is there cljdoc precedent?
 
 ### Considerations, further out:
 - Make `clj-art` and `lein-art` friendly for diagnosing configuration problems, like figwheel.
 - Sufficient error reporting.
-- Tend to the quality of documentation as rendered at cljdoc. https://github.com/cljdoc/cljdoc/blob/master/doc/userguide/for-library-authors.adoc#git-sources
+- Rework documentation to better accommodate developers browsing github and cljdoc.
+  - Project overviews.
+  - API documentation.
+  - CLI tool usage.
+  - Task-specific articles.
+  - See https://github.com/cljdoc/cljdoc/blob/master/doc/userguide/for-library-authors.adoc#git-sources
+  - See https://github.com/cljdoc/cljdoc-analyzer
 - Infer sensible defaults that can be customized via overrides.
 - Provide access to more of the execution context from within the evaluation environment: (render) args. The evaluation stack starting from the page through to the current (yield).
 - ClojureScript.
@@ -47,10 +58,12 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
 - Java policies, to give a feasible margin of safety for executing untrusted / unknown code within templates.
 - Parsing option mode magic within template content. Example from Jinja: `#jinja2:variable_start_string:'[%', variable_end_string:'%]', trim_blocks: False`
 - IDE support for .art files: Eclipse, Emacs, IntelliJ, Vim, VS Code
+  - Example IntelliJ plugin project [clj-extras-plugin](https://github.com/brcosta/clj-extras-plugin)
 - Maven plugin for rendering ART templates.
 - Template registry + Cache à la https://github.com/davidsantiago/stencil , https://github.com/Flamefork/fleet
 - AOT compilation.
-- Rewrite (render) as a macro that compiles the input template.
+- Provide ability to compile the input template, perhaps re-writing `(render)` as a macro, or adding a `:compile` render option.
+  - Benefits: Useful when the same template is run many times, such as a webserver rendering responses based on a template.
 - Container image to run ART from your present CLI.
 
 

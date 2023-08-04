@@ -41,7 +41,7 @@
         (let [base-path (first-matching-parent (:templates batch) file)
               tp        (files/->template-path base-path file)
               of        (File. ^File (:output-dir batch)
-                               ^String (.getParent (:dest-rel-path tp)))
+                               ^String (.getParent ^File (:dest-rel-path tp)))
               batch*    (assoc batch :templates [file] :output-dir of)]
           (art-cli/render-batch batch*))
 
