@@ -69,19 +69,17 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
 
 
 # Bookkeeping
+This section records platform-related technological decisions.
 
-## Technology choices
-Leiningen is the primary build tool.
-
-## Minimum supported versions
-Note: All supported versions (resulting from these facts) are recorded in [assets/vivid-art-facts.edn](assets/vivid-art-facts.edn); a file that controls testing.
-
-Clojure:
-- Lower-bound of Clojure 1.9.0 for [spec](https://clojure.org/guides/spec)
+**Clojure**:
+- Lower-bound of Clojure 1.9.0 for [spec](https://clojure.org/guides/spec).
 - Lower-bound of Clojure 1.10.0, farolero's minimum supported version.
 
-Java:
+**Java**:
 - Lower-bound of Java 8, because it strikes a good balance between wide adoption and long-term stability.
+- Java LTS releases, as these represent a somewhat stable target with wide adoption.
 
-Leiningen:
+**Leiningen** is the primary build tool.
 - Lower-bound of Leiningen 2.9.8. This is the most recent version of Leiningen provided by CircleCI at the time of this writing.
+
+_Note_: All supported versions (resulting from these facts) are recorded in [assets/vivid-art-facts.edn](assets/vivid-art-facts.edn), used to generate project files, control testing, etc.

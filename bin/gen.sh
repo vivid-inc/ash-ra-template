@@ -34,6 +34,7 @@ function bootstrap_art {
 (import '(java.io PushbackReader))
 
 (def ^:const component-dirs [
+  "."
   ".circleci"
   "art"
   "art-cli"
