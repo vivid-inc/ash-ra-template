@@ -14,7 +14,7 @@
 
 (defproject net.vivid-inc/art-cli "0.7.0"
 
-  :note "THIS FILE IS GENERATED AUTOMATICALLY BY bin/gen.sh"
+  :note "THIS FILE IS GENERATED AUTOMATICALLY FROM AN ART TEMPLATE BY bin/gen.sh"
   :description "art-cli aggregates code common to the translation and processing of Ash Ra Template command line parameters into parameters for ART's Clojure API."
   :license {:distribution :repo
             :name         "Apache License 2.0"

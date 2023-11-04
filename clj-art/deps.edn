@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-; Note: THIS FILE IS GENERATED AUTOMATICALLY BY bin/gen.sh
+; Note: THIS FILE IS GENERATED AUTOMATICALLY FROM AN ART TEMPLATE BY bin/gen.sh
 
 
 {:deps    {net.vivid-inc/art-cli {:mvn/version "0.7.0"}}

@@ -23,7 +23,7 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
 
 ### Next:
 - Consider how to watch for changes in dependent templates, CLJ source files, anything else.
-  Also, when rendering out files, use comparisons to indicate when contents haven't changed, and atomic moves so that other tooling will detect file changes and respond properly.
+  Also, when rendering out files, use comparisons to indicate when contents haven't changed, and atomic moves to give other tooling a chance to correctly detect changes and respond properly.
 - Heavy testing of quote nesting and escaping, delimiter escaping, Clojure reader forms, comments.
 - Move away from `(slurp)` in the libraries. Test to demonstrate how `slurp` can trip up the user. See https://clojuredocs.org/clojure.java.io/resource
 - Set the default command for `(dispatch-command)` to `render`, same for all CLI tooling.
@@ -37,6 +37,8 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
 ### Considerations, further out:
 - Make `clj-art` and `lein-art` friendly for diagnosing configuration problems, like figwheel.
 - Sufficient error reporting.
+  Investigate employing an editor backend like Sjacket to track input metadata like line:char positions.
+  https://github.com/cgrand/sjacket
 - Rework documentation to better accommodate developers browsing github and cljdoc.
   - Project overviews.
   - API documentation.
@@ -65,6 +67,7 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
 - Provide ability to compile the input template, perhaps re-writing `(render)` as a macro, or adding a `:compile` render option.
   - Benefits: Useful when the same template is run many times, such as a webserver rendering responses based on a template.
 - Container image to run ART from your present CLI.
+- The purpose of ART is multi-fold: An ideal substrate for building a custom templating solution such as the constrained Jinja or something more flexible, and as a fully-featured templating system in its own right.
 
 
 

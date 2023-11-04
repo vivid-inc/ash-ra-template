@@ -77,6 +77,7 @@
   [x]
   (when (string? x)
     (try
+      ; TODO Bind read-eval to false before using read-string ? https://stackoverflow.com/questions/16000306/how-to-safely-read-untrusted-clojure-code-not-just-some-serialized-data
       (edn/read-string x)
       (catch RuntimeException _
         nil))))

@@ -14,7 +14,7 @@
 
 (defproject net.vivid-inc/clj-art "0.7.0"
 
-  :note "THIS FILE IS GENERATED AUTOMATICALLY BY bin/gen.sh"
+  :note "THIS FILE IS GENERATED AUTOMATICALLY FROM AN ART TEMPLATE BY bin/gen.sh"
   :description "Clojure tool for rendering Ash Ra .art templates"
   :license {:distribution :repo
             :name         "Apache License 2.0"

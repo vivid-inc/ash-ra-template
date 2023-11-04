@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-; Note: THIS FILE IS GENERATED AUTOMATICALLY BY bin/gen.sh
+; Note: THIS FILE IS GENERATED AUTOMATICALLY FROM AN ART TEMPLATE BY bin/gen.sh
 
 <%
 (def clojure-versions  (get vivid-art-facts 'clojure-versions))
