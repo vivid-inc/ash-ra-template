@@ -1,0 +1,25 @@
+#kaocha/v1
+        {:plugins [:print-invocations :hooks]
+         :reporter kaocha.report/documentation
+
+         ;; Make sure no information gets hidden, since this kind of setup can take a
+         ;; bit of debugging to get it right
+         :capture-output? false
+         :bindings {kaocha.stacktrace/*stacktrace-filters* []}
+
+         :tests [{:id                         :browser
+                  :type                       :kaocha.type/cljs2
+                  :test-paths                 ["test"]
+
+                  ;; This is used in our own hooks to select the right shadow build to compile
+                  :shadow/build               :test
+
+                  ;; Hooks to ensure funnel is running, ensure the shadow-server is
+                  ;; started, and to run the compilation
+                  :kaocha.hooks/pre-load-test io.github.plexus.cljs-test-example.kaocha-hooks/pre-load
+
+                  ;; The client hook is responsible for finding JS environments (via
+                  ;; funnel) that we can talk to. In our case it checks if any valid
+                  ;; clients are already connected to funnel, if not it opens a browser.
+                  ;; This way we can reuse the browser tab
+                  :kaocha.cljs2/clients-hook  io.github.plexus.cljs-test-example.kaocha-hooks/launch-browser-and-wait}]}

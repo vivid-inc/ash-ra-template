@@ -5,8 +5,11 @@ codecov.json
 *.iml
 .idea
 .lein-*
+node_modules
 .nrepl-history
 .nrepl-port
+.shadow-cljs
+.store
 target
 .tool-versions
 

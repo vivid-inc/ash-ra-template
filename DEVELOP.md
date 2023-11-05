@@ -7,6 +7,9 @@ $ bin/gen.sh
 # Run all tests on the current JVM provided by the environment
 $ bin/test.sh
 
+# Run all ClojureScript tests
+$ (cd art && clojure -M:test-cljs)
+
 # After the release criteria (see QUALITY.md) are satisfied, deploy a new release
 $ bin/deploy.sh
 
@@ -48,9 +51,6 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
   - See https://github.com/cljdoc/cljdoc-analyzer
 - Infer sensible defaults that can be customized via overrides.
 - Provide access to more of the execution context from within the evaluation environment: (render) args. The evaluation stack starting from the page through to the current (yield).
-- ClojureScript.
-  - `art` module only
-  - Replace `reduce-fsm` with ClojureScript-compatible [metosin/tilakone.core](https://github.com/metosin/tilakone/network)
 - Declare version 1.0.0 once the community deems the ART feature-complete, reliable, and properly documented.
 - How to achieve fast runtime performance, fast development & testing feedback loop. Benchmarks with hyperfine.
 - Build: Sign releases.

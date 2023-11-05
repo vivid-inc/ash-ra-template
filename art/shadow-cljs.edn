@@ -1,0 +1,21 @@
+{:deps {:aliases [:test]}
+
+ :dev-http {8000 "target/test-cljs"}
+
+ :builds {:test
+          {:target    :browser-test
+           :test-dir  "target/test-cljs"
+
+           ;; We want Shadow to use a cljs test runner ns that invokes Chui, it needs to
+           ;; at least call `lambdaisland.chui.test-data/capture-test-data!`, so that
+           ;; when we ask Chui-remote which tests there are, it has some data to work
+           ;; with
+           :runner-ns io.github.plexus.cljs-test-example.shadow-runner
+           #_kaocha.cljs2.shadow-runner                     ;; More or less the same, but without a UI, can also be used for Node
+           #_lambdaisland.chui.shadow.browser-runner        ;; Basically the same as the shadow-runner we have inside the project
+
+           ;; Prepend Chui-remote to the build, this will try to connect to Funnel so
+           ;; are able to communicate with the browser tab/node process and ask it for a
+           ;; test plan, kick off tests, get assertions, etc, all "remotely" from
+           ;; Kaocha (JVM).
+           :devtools  {:preloads [lambdaisland.chui.remote]}}}}

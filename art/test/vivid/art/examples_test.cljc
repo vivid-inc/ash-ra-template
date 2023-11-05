@@ -15,7 +15,7 @@
 (ns vivid.art.examples-test
   "Confirms that ART works as promised in the README file."
   (:require
-   [clojure.java.io :as io]
+   #?(:clj [clojure.java.io :as io])
    [clojure.test :refer [are deftest is testing]]
    [vivid.art :as art]))
 
@@ -26,8 +26,8 @@
       "There were 3 swallows, dancing in the sky."
       "There were <(= (+ 1 2) )> swallows, dancing in the sky."
 
-      "There were 3 swallows, dancing in the sky."
-      (slurp (io/resource "prelude.html.art"))
+      #?(:clj "There were 3 swallows, dancing in the sky.")
+      #?(:clj (slurp (io/resource "prelude.html.art")))
 
       "We are but stowaways aboard a drifting ship, forsaken to the caprices of the wind and currents."
       "We are but stowaways aboard a drifting ship, forsaken to the caprices of the wind and currents."

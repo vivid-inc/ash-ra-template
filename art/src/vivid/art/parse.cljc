@@ -19,8 +19,8 @@
    [farolero.core :as farolero]
    [instaparse.core :as insta]
    [vivid.art.specs])
-  (:import
-   (java.util.regex Pattern)))
+  #?(:clj (:import
+           (java.util.regex Pattern))))
 
 (defn make-grammar                                          ; TODO Enforce delimiter rules.
   [delimiters]
@@ -32,7 +32,8 @@
                                     delimiters)
                                (repeat "\n")))
         non-terms (str/join "|"
-                            (map q (vals delimiters)))]
+                            #?(:clj (map q (vals delimiters))
+                               :cljs (vals delimiters)))]
     (str "s = (" alts " | content)*\n"
          terminals
          "content = #'(?s)(?:(?!" non-terms ").)*'")))

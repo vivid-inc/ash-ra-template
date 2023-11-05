@@ -18,8 +18,8 @@
    [vivid.art :as art]
    [vivid.art.delimiters]
    [vivid.art.failure])
-  (:import
-   (clojure.lang ArityException)))
+  #?(:clj (:import
+           (clojure.lang ArityException))))
 
 (deftest blank-input
   (is (= nil (art/render nil)) "ART produces nil output in response to nil input")
@@ -96,13 +96,17 @@
 (deftest function-arity
   (testing "(failure?) invalid arity"
     (are [args]
-         (thrown? ArityException (apply art/failure? args))
+         (thrown? #?(:clj  ArityException
+                     :cljs js/Error)
+                  (apply art/failure? args))
       []
       [0 1]
       [0 1 2]
       [0 1 2 3]))
   (testing "(render) invalid arity"
-    (is (thrown? Throwable (apply art/render [])))))
+    (is (thrown? #?(:clj  ArityException
+                    :cljs js/Error)
+                 (apply art/render [])))))
 
 (deftest namespace-rules
   (testing "Initial namespace"
