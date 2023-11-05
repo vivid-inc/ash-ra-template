@@ -8,6 +8,7 @@ codecov.json
 node_modules
 .nrepl-history
 .nrepl-port
+package-lock.json
 .shadow-cljs
 .store
 target

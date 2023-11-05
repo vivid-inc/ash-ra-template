@@ -6,7 +6,7 @@
 [![Current version](https://img.shields.io/clojars/v/net.vivid-inc/art.svg?color=blue&style=flat-square)](https://clojars.org/net.vivid-inc/art)
 [![cljdoc](https://cljdoc.org/badge/net.vivid-inc/art)](https://cljdoc.org/d/net.vivid-inc/art)
 
-ART is an expressive & customizable template system for Clojure.
+The core ART library is an expressive & customizable template system for Clojure and ClojureScript.
 It's **design goals** are:
 - Symbolic computation, as contrasted to declarative, non-Turing complete languages. You choose what features you do or don't employ.
 - Reasonable minimum [requirements](#requirements).
@@ -32,6 +32,7 @@ _Note_ that until ART achieves version 1.0 status, details may be subject to cha
 ART is tested on:
 
 - Clojure 1.10.0 and newer
+- ClojureScript 1.11 and newer
 - Java LTS releases 8, 11, 17
 
 <a name="quickstart"></a>
@@ -108,10 +109,13 @@ Chondrichthyes research published in 1987, 1989, 1992.
 ```
 
 ### ART templates in detail
+
 **File extension**: All ART components that interpret files, cheerily treat files with the ``.art`` filename extension as ART template files.
 
+**Host environment**: Clojure code blocks are evaluated within their host environment. For example, a template meant to be evaluated in both Clojure and ClojureScript may require use of reader conditionals in order to produce identical template rendering output. 
+
 **No advanced tag processing**: ART doesn't feature any advanced tag processing, such as conditionals or HTML escaping.
-Instead, equivalent processing can be delegated to occur within Clojure code blocks.
+Instead, equivalent processing is delegated to Clojure code blocks.
 
 **Initial namespace**: The initial namespace within the template evaluation environment is `user`.
 

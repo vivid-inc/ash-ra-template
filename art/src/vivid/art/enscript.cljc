@@ -34,11 +34,13 @@
   [bindings]
   (vec (for [[k v] bindings]
          (let [quote-value? (get (meta v) :quote-value?)]
-           (format "(def %s %s%s)"
-                   ; Non-symbols may lead to an invalid (def)
-                   (pr-str (symbol k))
-                   (if quote-value? "'" "")
-                   (pr-str v))))))
+           (str "(def "
+                ; Non-symbols may lead to an invalid (def)
+                (pr-str (symbol k))
+                " "
+                (if quote-value? "'" "")
+                (pr-str v)
+                ")")))))
 
 (defn enscript
   [forms bindings]

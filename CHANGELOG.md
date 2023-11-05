@@ -1,5 +1,10 @@
 # Ash Ra Template Changelog
 
+## [0.8.0]
+Release YYYY-MM-DD.
+### Added
+- `art` supports ClojureScript version 1.11.
+
 ## [0.7.0]
 Released 2023-07-15.
 ### Added
@@ -104,6 +109,7 @@ Released 2017-11-20.
 ### Added
 - Use `eval-soup` to render templates featuring Clojure language processing with ERB 2.0-esque syntax.
 
+[0.8.0]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.7.0...ash-ra-template-0.8.0
 [0.7.0]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.6.1...ash-ra-template-0.7.0
 [0.6.1]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.6.0...ash-ra-template-0.6.1
 [0.6.0]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.5.0...ash-ra-template-0.6.0

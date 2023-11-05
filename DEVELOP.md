@@ -25,6 +25,7 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
 # Along the path to ART version 1.0 and beyond
 
 ### Next:
+- Java 21 support.
 - Consider how to watch for changes in dependent templates, CLJ source files, anything else.
   Also, when rendering out files, use comparisons to indicate when contents haven't changed, and atomic moves to give other tooling a chance to correctly detect changes and respond properly.
 - Heavy testing of quote nesting and escaping, delimiter escaping, Clojure reader forms, comments.
@@ -71,12 +72,24 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
 
 
 
+# Jumbled notes on the ClojureScript implementation
+Eval env is different that JVM-based host. Regexes are different.
+https://github.com/clojure/tools.reader
+https://blog.fikesfarm.com/posts/2016-01-22-clojurescript-eval.html
+https://clojurescript.org/guides/reader
+https://cljs.github.io/api/cljs.analyzer.api/ns-resolve
+
+
+
 # Bookkeeping
 This section records platform-related technological decisions.
 
 **Clojure**:
 - Lower-bound of Clojure 1.9.0 for [spec](https://clojure.org/guides/spec).
 - Lower-bound of Clojure 1.10.0, farolero's minimum supported version.
+
+**ClojureScript**:
+- Lower-bound of ClojureScript 1.11.60 for `eval`.
 
 **Java**:
 - Lower-bound of Java 8, because it strikes a good balance between wide adoption and long-term stability.
