@@ -32,7 +32,7 @@ _Note_ that until ART achieves version 1.0 status, details may be subject to cha
 ART is tested on:
 
 - Clojure 1.10.0 and newer
-- Java LTS releases 8, 11, 17
+- Java LTS releases 8, 11, 17, 21
 
 <a name="quickstart"></a>
 ## Quick Start

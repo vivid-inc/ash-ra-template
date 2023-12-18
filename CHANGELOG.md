@@ -1,5 +1,13 @@
 # Ash Ra Template Changelog
 
+## [0.7.1]
+__Unreleased__
+### Added
+- Java 21, an LTS release, to the set of Java versions that ART is tested with.
+### Changed
+- Replaced `reduce-fsm` with `tilakone`. With this change, ART is free of Clojure-specific dependencies, paving the way
+  for ClojureScript and more.
+
 ## [0.7.0]
 Released 2023-07-15.
 ### Added
@@ -104,6 +112,7 @@ Released 2017-11-20.
 ### Added
 - Use `eval-soup` to render templates featuring Clojure language processing with ERB 2.0-esque syntax.
 
+[0.7.1]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.7.0...ash-ra-template-0.7.1
 [0.7.0]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.6.1...ash-ra-template-0.7.0
 [0.6.1]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.6.0...ash-ra-template-0.6.1
 [0.6.0]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.5.0...ash-ra-template-0.6.0

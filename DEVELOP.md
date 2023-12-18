@@ -22,17 +22,16 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
 # Along the path to ART version 1.0 and beyond
 
 ### Next:
-- Consider how to watch for changes in dependent templates, CLJ source files, anything else.
-  Also, when rendering out files, use comparisons to indicate when contents haven't changed, and atomic moves to give other tooling a chance to correctly detect changes and respond properly.
 - Heavy testing of quote nesting and escaping, delimiter escaping, Clojure reader forms, comments.
 - Move away from `(slurp)` in the libraries. Test to demonstrate how `slurp` can trip up the user. See https://clojuredocs.org/clojure.java.io/resource
 - Set the default command for `(dispatch-command)` to `render`, same for all CLI tooling.
-- Round out CLI tooling
-  - clj-art :exec-fn, fully support `(dispatch-command)`. See https://practical.li/blog-staging/posts/clojure-cli-tools-understanding-aliases/
+- clj-art :exec-fn, fully support `(dispatch-command)`. See https://practical.li/blog-staging/posts/clojure-cli-tools-understanding-aliases/
 - Investigate OpenSSF Best Practices reporting, such as: https://bestpractices.coreinfrastructure.org/en/projects/2095
-- Implement `(vivid.art/render)` `:classpath` and `:repositories` options.
-- `(defmethod)` mechanism for adding options to `(vivid.art/render)`.
+- Explore a `(defmethod)` mechanism for adding options to `(vivid.art/render)`, and try it with `:classpath` and `:repositories` options.
 - Clarify ^:public-api and ^:internal-api + docstrings. Is there cljdoc precedent?
+- Consider how to watch for changes in dependent templates, CLJ source files, anything else.
+  Also, when rendering out files, use comparisons to indicate when contents haven't changed, and atomic moves to give other tooling a chance to correctly detect changes and respond properly.
+- CLI: Ability to list rendered file paths without writing à la `--dry-run`
 
 ### Considerations, further out:
 - Make `clj-art` and `lein-art` friendly for diagnosing configuration problems, like figwheel.
@@ -53,7 +52,6 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
 - How to achieve fast runtime performance, fast development & testing feedback loop. Benchmarks with hyperfine.
 - Build: Sign releases.
 - CLI: Option to re-render templates only when newer than their output files.
-- CLI: Ability to list rendered file paths without writing à la `--dry-run`
 - Explain the value of ART. Compare and contrast with other templating systems. Emphasize symbolic computation, and the importance of providing native idioms at each point along the value chain, for example a web-based production workflow where professionals handle HTML and CSS.
 - Java policies, to give a feasible margin of safety for executing untrusted / unknown code within templates.
 - Parsing option mode magic within template content. Example from Jinja: `#jinja2:variable_start_string:'[%', variable_end_string:'%]', trim_blocks: False`

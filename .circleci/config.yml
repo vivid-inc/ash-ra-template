@@ -139,6 +139,18 @@ jobs:
     <<: *lein-art-job
     docker:
       - image: cimg/clojure:1.11.1-openjdk-17.0
+  ash-ra-template-jdk-21-job:
+    <<: *ash-ra-template-job
+    docker:
+      - image: cimg/clojure:1.11.1-openjdk-21.0
+  clj-art-jdk-21-job:
+    <<: *clj-art-job
+    docker:
+      - image: cimg/clojure:1.11.1-openjdk-21.0
+  lein-art-jdk-21-job:
+    <<: *lein-art-job
+    docker:
+      - image: cimg/clojure:1.11.1-openjdk-21.0
 
 workflows:
   version: 2
@@ -165,3 +177,10 @@ workflows:
       - lein-art-jdk-17-job:
           requires:
             - ash-ra-template-jdk-17-job
+      - ash-ra-template-jdk-21-job
+      - clj-art-jdk-21-job:
+          requires:
+            - ash-ra-template-jdk-21-job
+      - lein-art-jdk-21-job:
+          requires:
+            - ash-ra-template-jdk-21-job
