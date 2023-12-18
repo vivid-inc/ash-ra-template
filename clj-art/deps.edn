@@ -15,7 +15,7 @@
 ; Note: THIS FILE IS GENERATED AUTOMATICALLY FROM AN ART TEMPLATE BY bin/gen.sh
 
 
-{:deps    {net.vivid-inc/art-cli {:mvn/version "0.7.0"}}
+{:deps    {net.vivid-inc/art-cli {:mvn/version "0.7.1"}}
 
  :aliases {:art            {:extra-paths ["src"]
                             :main-opts   ["-m" "vivid.art.clj-tool"]}
@@ -45,7 +45,7 @@
                             :main-opts   ["-m" "vivid.art.clj-tool"
                                           "--bindings" "../assets/vivid-art-facts.edn"
                                           "--delimiters" "erb"
-                                          "--dependencies" "[[net.vivid-inc/art-cli \"0.7.0\"]]"
+                                          "--dependencies" "[[net.vivid-inc/art-cli \"0.7.1\"]]"
                                           "assets/README.md.art"]}
 
            ; See https://github.com/weavejester/eftest

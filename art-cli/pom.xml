@@ -4,7 +4,7 @@
   <groupId>net.vivid-inc</groupId>
   <artifactId>art-cli</artifactId>
   <packaging>jar</packaging>
-  <version>0.7.0</version>
+  <version>0.7.1</version>
   <name>art-cli</name>
   <description>art-cli aggregates code common to the translation and processing of Ash Ra Template command line parameters into parameters for ART's Clojure API.</description>
   <url>https://github.com/vivid-inc/ash-ra-template</url>
@@ -17,7 +17,7 @@
   </licenses>
   <scm>
     <url>https://github.com/vivid-inc/ash-ra-template</url>
-    <tag>0.7.0</tag>
+    <tag>0.7.1</tag>
   </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -126,7 +126,7 @@
     <dependency>
       <groupId>leiningen</groupId>
       <artifactId>leiningen</artifactId>
-      <version>2.9.8</version>
+      <version>2.10.0</version>
       <exclusions>
         <exclusion>
           <artifactId>clojure</artifactId>

@@ -4,7 +4,7 @@
   <groupId>net.vivid-inc</groupId>
   <artifactId>art</artifactId>
   <packaging>jar</packaging>
-  <version>0.7.0</version>
+  <version>0.7.1</version>
   <name>art</name>
   <description>Ash Ra Template: Expressive and customizable template system featuring Clojure language processing.</description>
   <url>https://github.com/vivid-inc/ash-ra-template</url>
@@ -17,7 +17,7 @@
   </licenses>
   <scm>
     <url>https://github.com/vivid-inc/ash-ra-template</url>
-    <tag>0.7.0</tag>
+    <tag>0.7.1</tag>
   </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>

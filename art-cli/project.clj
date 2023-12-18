@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(defproject net.vivid-inc/art-cli "0.7.0"
+(defproject net.vivid-inc/art-cli "0.7.1"
 
   :note "THIS FILE IS GENERATED AUTOMATICALLY FROM AN ART TEMPLATE BY bin/gen.sh"
   :description "art-cli aggregates code common to the translation and processing of Ash Ra Template command line parameters into parameters for ART's Clojure API."
@@ -21,7 +21,7 @@
             :url          "https://www.apache.org/licenses/LICENSE-2.0"}
   :scm {:dir  ".."
         :name "git"
-        :tag  "0.7.0"
+        :tag  "0.7.1"
         :url  "https://github.com/vivid-inc/ash-ra-template"}
   :url "https://github.com/vivid-inc/ash-ra-template"
 
@@ -64,7 +64,7 @@
 
   :manifest {"Built-By" "vivid"}
 
-  :min-lein-version "2.9.8"
+  :min-lein-version "2.10.0"
 
   ; Enable this to assist with determining :excludes whenever dependencies and
   ; plugins change, then re-disable it.
@@ -118,6 +118,6 @@
 
                          :test-refresh   {:quiet true}}
 
-            :provided {:dependencies [[leiningen "2.9.8"]]}}
+            :provided {:dependencies [[leiningen "2.10.0"]]}}
 
   :repositories [["clojars" {:sign-releases false}]])

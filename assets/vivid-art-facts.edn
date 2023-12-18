@@ -2,5 +2,5 @@
  clojure-versions  ["1.10.0" "1.10.1" "1.10.2" "1.10.3" "1.11.0", "1.11.1"]
  java-versions     [8, 11, 17]
  javac-min-version "1.8"
- lein-version      "2.9.8"
- vivid-art-version "0.7.0"}
+ lein-version      "2.10.0"
+ vivid-art-version "0.7.1"}
