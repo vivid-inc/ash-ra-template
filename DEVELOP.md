@@ -48,9 +48,7 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
   - See https://github.com/cljdoc/cljdoc-analyzer
 - Infer sensible defaults that can be customized via overrides.
 - Provide access to more of the execution context from within the evaluation environment: (render) args. The evaluation stack starting from the page through to the current (yield).
-- ClojureScript.
-  - `art` module only
-  - Replace `reduce-fsm` with ClojureScript-compatible [metosin/tilakone.core](https://github.com/metosin/tilakone/network)
+- ClojureScript. `art` module only.
 - Declare version 1.0.0 once the community deems the ART feature-complete, reliable, and properly documented.
 - How to achieve fast runtime performance, fast development & testing feedback loop. Benchmarks with hyperfine.
 - Build: Sign releases.
@@ -83,6 +81,6 @@ This section records platform-related technological decisions.
 - Java LTS releases, as these represent a somewhat stable target with wide adoption.
 
 **Leiningen** is the primary build tool.
-- Lower-bound of Leiningen 2.9.8. This is the most recent version of Leiningen provided by CircleCI at the time of this writing.
+- Lower-bound of Leiningen 2.10.0. This is the most recent version of Leiningen provided by CircleCI at the time of this writing.
 
 _Note_: All supported versions (resulting from these facts) are recorded in [assets/vivid-art-facts.edn](assets/vivid-art-facts.edn), used to generate project files, control testing, etc.

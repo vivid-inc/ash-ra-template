@@ -84,9 +84,9 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>reduce-fsm</groupId>
-      <artifactId>reduce-fsm</artifactId>
-      <version>0.1.4</version>
+      <groupId>metosin</groupId>
+      <artifactId>tilakone.core</artifactId>
+      <version>0.0.4</version>
       <exclusions>
         <exclusion>
           <artifactId>clojure</artifactId>
