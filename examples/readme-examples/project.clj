@@ -15,7 +15,7 @@
 (defproject art-example--readme-examples "0"
 
   ; Add the lein-art Leiningen plugin:
-  :plugins [[net.vivid-inc/lein-art "0.7.0"]]
+  :plugins [[net.vivid-inc/lein-art "0.7.1"]]
 
   ; Render .art templates
   :art {:bindings   {mysterious-primes [7 191]}

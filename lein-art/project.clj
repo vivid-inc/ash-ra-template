@@ -55,7 +55,7 @@
   ;            :output   "cloverage"                  ; "lein jar" destroys target/cloverage
   ;            }
 
-  :dependencies [[net.vivid-inc/art-cli   "0.7.0"]
+  :dependencies [[net.vivid-inc/art-cli   "0.7.1"]
                  [org.clojure/tools.cli   "1.0.219"]]
 
   :eftest {:capture-output? true}
