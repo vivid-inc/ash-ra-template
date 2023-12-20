@@ -1,4 +1,6 @@
-# Interesting CLI commands
+# Developing Ash Ra Template
+
+## Interesting CLI commands
 
 ```bash
 # Generate project build files, documentation
@@ -19,16 +21,13 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
 
 
 
-# Along the path to ART version 1.0 and beyond
+## Along the path to ART version 1.0 and beyond
 
 ### Next:
 - Heavy testing of quote nesting and escaping, delimiter escaping, Clojure reader forms, comments.
-- Move away from `(slurp)` in the libraries. Test to demonstrate how `slurp` can trip up the user. See https://clojuredocs.org/clojure.java.io/resource
-- Set the default command for `(dispatch-command)` to `render`, same for all CLI tooling.
 - clj-art :exec-fn, fully support `(dispatch-command)`. See https://practical.li/blog-staging/posts/clojure-cli-tools-understanding-aliases/
 - Investigate OpenSSF Best Practices reporting, such as: https://bestpractices.coreinfrastructure.org/en/projects/2095
 - Explore a `(defmethod)` mechanism for adding options to `(vivid.art/render)`, and try it with `:classpath` and `:repositories` options.
-- Clarify ^:public-api and ^:internal-api + docstrings. Is there cljdoc precedent?
 - Consider how to watch for changes in dependent templates, CLJ source files, anything else.
   Also, when rendering out files, use comparisons to indicate when contents haven't changed, and atomic moves to give other tooling a chance to correctly detect changes and respond properly.
 - CLI: Ability to list rendered file paths without writing à la `--dry-run`
@@ -43,6 +42,7 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
   - API documentation.
   - CLI tool usage.
   - Task-specific articles.
+  - Clarify ^:public-api and ^:internal-api + docstrings. Is there cljdoc precedent?
   - See https://github.com/cljdoc/cljdoc/blob/master/doc/userguide/for-library-authors.adoc#git-sources
   - See https://github.com/cljdoc/cljdoc-analyzer
 - Infer sensible defaults that can be customized via overrides.
@@ -59,15 +59,18 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
   - Example IntelliJ plugin project [clj-extras-plugin](https://github.com/brcosta/clj-extras-plugin)
 - Maven plugin for rendering ART templates.
 - Template registry + Cache à la https://github.com/davidsantiago/stencil , https://github.com/Flamefork/fleet
+- `(slurp)` defaults to decoding input files as UTF-8; this might trip up template authors.
 - AOT compilation.
 - Provide ability to compile the input template, perhaps re-writing `(render)` as a macro, or adding a `:compile` render option.
-  - Benefits: Useful when the same template is run many times, such as a webserver rendering responses based on a template.
+  - Useful when the same template is run many times, such as a webserver rendering responses based on a template.
+  - Produces a plain function. `(def page (vivid.art/renderc (slurp "index.html.art"))) (page p)`
 - Container image to run ART from your present CLI.
 - The purpose of ART is multi-fold: An ideal substrate for building a custom templating solution such as the constrained Jinja or something more flexible, and as a fully-featured templating system in its own right.
 
 
 
-# Bookkeeping
+## Bookkeeping
+
 This section records platform-related technological decisions.
 
 **Clojure**:

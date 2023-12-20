@@ -22,6 +22,7 @@
    [vivid.art.evaluate :refer [evaluate]]
    [vivid.art.failure :refer [make-failure]]
    [vivid.art.parse :refer [parse]]
+   [vivid.art.render-context :refer [assemble-render-context]]
    [vivid.art.specs :refer [to-phase?]]
    [vivid.art.xlate :refer [translate]]))
 
@@ -52,10 +53,11 @@
                      (to-phase? :translate to-phase) (translate)
                      (to-phase? :enscript  to-phase) (enscript bindings)
                      (to-phase? :evaluate  to-phase) (evaluate))]
+      ; TODO Document: Bindings are available in 2 places: In *render-context* as-is, but are also (pr-str)'ed in the document, which messes up functions and other such unprintable values.
       (with-bindings {#'vivid.art/*render-context*
-                      ; TODO Document: Bindings are available in 2 places: in *rc* as-is, but are pr'ed in the document, which messes up functions and other such unprintable values.
-                      {:bindings bindings
-                       :ns       (gensym 'vivid-art-user-)}}
+                      (assemble-render-context vivid.art/*render-context*
+                                               {:bindings bindings
+                                                :ns       (gensym 'vivid-art-user-)})}
         (farolero/handler-case (render*)
                                (:vivid.art/parse-error [_ details]
                                                        (make-failure :parse-error details template)))))))
