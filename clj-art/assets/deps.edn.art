@@ -64,4 +64,4 @@
            ; See https://github.com/weavejester/eftest
            :test           {:extra-deps  {eftest/eftest {:mvn/version "0.6.0"}}
                             :extra-paths ["test"]
-                            :main-opts   ["-e" "(require '[eftest.runner :refer [find-tests run-tests]]) (require '[eftest.report.junit :as ju]) (run-tests (find-tests \"test\") {:report (eftest.report/report-to-file ju/report \"target/junit.xml\")})"]}}}
+                            :main-opts   ["-e" "(require '[eftest.runner :refer [find-tests run-tests]]) (require '[eftest.report.junit :as ju]) (run-tests (find-tests \"test\") {:report (eftest.report/report-to-file ju/report \"target/junit.xml\")}) (shutdown-agents)"]}}}

@@ -44,23 +44,26 @@
   "Renders an input string containing Ash Ra Template (ART) -formatted content
   to an output string."
   [^String template
-   & {:keys [bindings delimiters to-phase]
+   & {:as   options
+      :keys [bindings delimiters to-phase]
       :or   {bindings {} delimiters default-delimiters to-phase default-to-phase}}]
   (when template
-    (let [bindings (merge (get vivid.art/*render-context* :bindings) bindings)
-          render* #(cond-> template
-                     (to-phase? :parse     to-phase) (parse delimiters)
-                     (to-phase? :translate to-phase) (translate)
-                     (to-phase? :enscript  to-phase) (enscript bindings)
-                     (to-phase? :evaluate  to-phase) (evaluate))]
+    (let [bindings    (merge (get vivid.art/*render-context* :bindings) bindings)
+          new-context (merge options
+                             {:bindings bindings
+                              :ns       (gensym 'vivid-art-user-)})
+          render*     #(cond-> template
+                         (to-phase? :parse     to-phase) (parse delimiters)
+                         (to-phase? :translate to-phase) (translate)
+                         (to-phase? :enscript  to-phase) (enscript bindings)
+                         (to-phase? :evaluate  to-phase) (evaluate))]
       ; TODO Document: Bindings are available in 2 places: In *render-context* as-is, but are also (pr-str)'ed in the document, which messes up functions and other such unprintable values.
       (with-bindings {#'vivid.art/*render-context*
                       (assemble-render-context vivid.art/*render-context*
-                                               {:bindings bindings
-                                                :ns       (gensym 'vivid-art-user-)})}
+                                               new-context)}
         (farolero/handler-case (render*)
                                (:vivid.art/parse-error [_ details]
-                                                       (make-failure :parse-error details template)))))))
+                                (make-failure :parse-error details template)))))))
 (s/fdef render
   :args (s/cat :t :vivid.art/template
                :kwargs (s/keys* :opt-un [:vivid.art/bindings

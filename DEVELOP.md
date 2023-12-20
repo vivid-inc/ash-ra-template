@@ -46,7 +46,6 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
   - See https://github.com/cljdoc/cljdoc/blob/master/doc/userguide/for-library-authors.adoc#git-sources
   - See https://github.com/cljdoc/cljdoc-analyzer
 - Infer sensible defaults that can be customized via overrides.
-- Provide access to more of the execution context from within the evaluation environment: (render) args. The evaluation stack starting from the page through to the current (yield).
 - ClojureScript. `art` module only.
 - Declare version 1.0.0 once the community deems the ART feature-complete, reliable, and properly documented.
 - How to achieve fast runtime performance, fast development & testing feedback loop. Benchmarks with hyperfine.

@@ -315,6 +315,25 @@ __See also:__
 
 
 
+<a name="render-context"></a>
+### Examine `*render-context*`
+
+`vivid.art/*render-context*` provides access to the execution context from within the template evaluation environment.
+You can obtain `(vivid.art/render)` args, such as the full list of `:bindings`.
+The template evaluation `:stack` maintains the full history of eval contexts starting from the page through to the current `(yield)`.
+It follows Clojure's conventional stack operations: Internally, ART uses `(conj)` when adding the next stack element, and you can use `(peek)` to see the current element.
+
+Render an ART template that emits the value of the rendering context:
+```clojure
+; The entire rendering context:
+<(= (with-out-str (clojure.pprint/pprint vivid.art/*render-context*)) )>
+
+; Just the rendering context of the first / top-level / initiating template:
+<(= (with-out-str (clojure.pprint/pprint (first (:stack vivid.art/*render-context*)))) )>
+```
+
+
+
 ## License
 
 © Copyright Vivid Inc.

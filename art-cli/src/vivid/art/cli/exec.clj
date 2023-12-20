@@ -32,12 +32,17 @@
       (io/make-parents output-path)
       (as-> (slurp src-path) c
         (apply art/render c (mapcat identity
-                                    (select-keys batch [:bindings
-                                                        :delimiters
-                                                        :dependencies
-                                                        :to-phase])))
-        (if (to-phase #{:parse :translate})
-          (clojure.pprint/pprint c (io/writer output-path)) ; Possibly more readable
+                                    (merge
+                                     (select-keys batch [:bindings
+                                                         :delimiters
+                                                         :dependencies
+                                                         :to-phase])
+                                     {:batch batch
+                                      :paths {:dest-rel-path dest-rel-path
+                                              :output-path   output-path
+                                              :src-path      src-path}})))
+            (if (to-phase #{:parse :translate})
+              (clojure.pprint/pprint c (io/writer output-path)) ; Improve probability of human-readable output
           (spit output-path c))))
     (catch Exception e
       (farolero/signal :vivid.art.cli/error
