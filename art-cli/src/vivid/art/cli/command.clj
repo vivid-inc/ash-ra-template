@@ -53,6 +53,7 @@
 
     "auto"
     (do
+      (log/*info-fn* "Press CTRL-C to interrupt watch")
       (art-cli/render-batches batches)
       (vivid.art.cli.watch/watch-on-batches batches render-from-watch-event))
 

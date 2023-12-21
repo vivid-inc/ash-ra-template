@@ -38,8 +38,6 @@
       Whenever a file system event occurs, calls event-fn
       with batch and event."
   [batches event-fn]
-      ; TODO Configurable, default 50ms cool-down + event coalescing.
-      ; TODO Document ^c to exit.
   (doseq [b batches]
     (doseq [^File f (:templates b)]
       (let [t (.toString f)]
