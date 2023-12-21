@@ -5,6 +5,8 @@ __Unreleased__
 ### Added
 - Java 21, an LTS release, to the set of Java versions that ART is tested with.
 ### Changed
+- BREAKING CHANGE: Renamed CLI command `auto` to `watch`, truer to its purpose.
+- Adding `:stack` to `vivid.art/*render-context*`.
 - Replaced `reduce-fsm` with `tilakone`. With this change, ART is free of Clojure-specific dependencies, paving the way
   for ClojureScript and more.
 

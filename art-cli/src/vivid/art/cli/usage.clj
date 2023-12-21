@@ -27,14 +27,14 @@
 " what-i-am " renders the ART templates to the output dir, preserving relative sub-paths."))
 
 (def ^:const cli-commands
-  [{:command     "auto"
-    :description "Watch templates, re-rendering on changes"}
-   {:command     "config"
+  [{:command     "config"
     :description "Dump the effective configuration and exit"}
    {:command     "help"
     :description "Display this lovely help and exit"}
    {:command     "render"
-    :description "Render all template batches once"}])
+    :description "Render all template batches once"}
+   {:command     "watch"
+    :description "Watch templates in all batches, re-rendering on changes"}])
 
 (defn cli-command? [s]
   (some #{s} (map :command cli-commands)))

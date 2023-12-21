@@ -51,12 +51,6 @@
 (defn dispatch-command [command batches]
   (condp = command
 
-    "auto"
-    (do
-      (log/*info-fn* "Press CTRL-C to interrupt watch")
-      (art-cli/render-batches batches)
-      (vivid.art.cli.watch/watch-on-batches batches render-from-watch-event))
-
     "config"
     (clojure.pprint/pprint batches)
 
@@ -68,6 +62,12 @@
 
     "render"
     (art-cli/render-batches batches)
+
+    "watch"
+    (do
+      (log/*info-fn* "Press CTRL-C to interrupt watch")
+      (art-cli/render-batches batches)
+      (vivid.art.cli.watch/watch-on-batches batches render-from-watch-event))
 
     (farolero/signal :vivid.art.cli/error
                      {:step    'parse-cli-args

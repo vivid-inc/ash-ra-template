@@ -20,6 +20,7 @@
    (java.io File)))
 
 ; TODO De-bounce / coalesce writes, on each input file.
+; TODO Watch all elements in directories.
 ; https://stackoverflow.com/questions/35663415/throttle-functions-with-core-async
 ; https://ericnormand.me/guide/clojure-concurrency
 #_(defn debounce [file]
@@ -34,7 +35,7 @@
       out))
 
 (defn watch-on-batches
-  "Watches template paths in all of the supplied batches.
+  "Watches template paths in all supplied batches.
       Whenever a file system event occurs, calls event-fn
       with batch and event."
   [batches event-fn]
