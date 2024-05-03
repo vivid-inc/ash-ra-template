@@ -3,12 +3,26 @@
 ## [0.7.1]
 __Unreleased__
 ### Added
+- Clojure version 1.11.3 to the set of Clojure versions that ART is tested with.
 - Java 21, an LTS release, to the set of Java versions that ART is tested with.
+- `watch` debounces re-render requests with a timeout expressed in milliseconds specified with the CLI option
+  `--watch-timeout-ms` and the ART rendering batch option `:watch-timeout-ms`.
 ### Changed
 - BREAKING CHANGE: Renamed CLI command `auto` to `watch`, truer to its purpose.
-- Adding `:stack` to `vivid.art/*render-context*`.
-- Replaced `reduce-fsm` with `tilakone`. With this change, ART is free of Clojure-specific dependencies, paving the way
-  for ClojureScript and more.
+- Approach to automated testing with Clojure
+  Instead of testing on every possible supported version of Clojure: 
+  - Test only on the earliest supported version of Clojure (1.10.0 at this time) to guarantee API compatibility
+    with the minimum stated supported version of Clojure, and
+  - Test the most recent release of each minor version of Clojure (1.10 and 1.11 at this time).
+  This change reduces complication in the build system as well as time to test results. 
+  The interpretation is: A given version of ART and its associated, fully-passing test suite is meant to be run on
+  the most recent Clojure patch release.
+- Add `:stack` to `vivid.art/*render-context*`.
+- Update clojars repository URL to `https://repo.clojars.org/`.
+- Replace `reduce-fsm` with `tilakone`. With this change, `net.vivid-inc/art` is free of Clojure-specific 
+  dependencies, removing an obstacle to expanding this library's support for to other platforms like ClojureScript.
+- Removed dependency on the thin wrapper `nextjournal/beholder`, replacing it with a direct dependency on
+  `io.methvin/directory-watcher`.
 
 ## [0.7.0]
 Released 2023-07-15.

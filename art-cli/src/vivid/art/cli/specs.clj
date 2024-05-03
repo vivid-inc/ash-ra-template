@@ -1,4 +1,4 @@
-; Copyright 2023 Vivid Inc. and/or its affiliates.
+; Copyright 2024 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License")
 ; you may not use this file except in compliance with the License.
@@ -30,11 +30,15 @@
 (s/def :vivid.art.cli/template-file (s/keys :req-un [::src-path
                                                      ::dest-rel-path]))
 
+; art-cli watch timeout in milliseconds.
+(s/def ::watch-timeout-ms int?)
+
 ; Specification of a rendering batch.
 (s/def :vivid.art.cli/classpath ::classpath)
 (s/def :vivid.art.cli/dependencies ::lein-dependencies)
 (s/def :vivid.art.cli/output-dir ::file)
 (s/def :vivid.art.cli/templates (s/coll-of ::file :min-count 1))
+(s/def :vivid.art.cli/watch-timeout-ms ::watch-timeout-ms)
 
 ; A render batch, describing the input & output files and all
 ; (vivid.art/render) options.
@@ -42,6 +46,7 @@
                                              :vivid.art.cli/templates]
                                     :opt-un [:vivid.art.cli/classpath
                                              :vivid.art.cli/dependencies
+                                             :vivid.art.cli/watch-timeout-ms
                                              :vivid.art/bindings
                                              :vivid.art/delimiters
                                              :vivid.art/to-phase]))

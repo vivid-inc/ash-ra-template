@@ -1,4 +1,4 @@
-; Copyright 2023 Vivid Inc. and/or its affiliates.
+; Copyright 2024 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License")
 ; you may not use this file except in compliance with the License.
@@ -60,7 +60,9 @@
    (when-let [dependencies (:dependencies options)]
      {:dependencies (validate/validate-dependencies dependencies)})
    (when-let [to-phase (:to-phase options)]
-     {:to-phase (validate/validate-to-phase to-phase)})))
+     {:to-phase (validate/validate-to-phase to-phase)})
+   (when-let [watch-timeout-ms (:watch-timeout-ms options)]
+     {:watch-timeout-ms (validate/validate-watch-timeout-ms watch-timeout-ms)})))
 
 (defn direct->batch
   [templates options]

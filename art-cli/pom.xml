@@ -80,9 +80,9 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>com.nextjournal</groupId>
-      <artifactId>beholder</artifactId>
-      <version>1.0.2</version>
+      <groupId>io.methvin</groupId>
+      <artifactId>directory-watcher</artifactId>
+      <version>0.18.0</version>
       <exclusions>
         <exclusion>
           <artifactId>clojure</artifactId>
@@ -94,6 +94,17 @@
       <groupId>net.vivid-inc</groupId>
       <artifactId>art</artifactId>
       <version>0.7.1</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>clojure</artifactId>
+          <groupId>org.clojure</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.clojure</groupId>
+      <artifactId>core.async</artifactId>
+      <version>1.6.681</version>
       <exclusions>
         <exclusion>
           <artifactId>clojure</artifactId>

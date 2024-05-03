@@ -200,5 +200,5 @@ __See also:__
 
 ## License
 
-© Copyright Vivid Inc.
+© Copyright 2024 Vivid Inc. and/or its affiliates.
 [Apache License 2.0](LICENSE.txt) licensed.

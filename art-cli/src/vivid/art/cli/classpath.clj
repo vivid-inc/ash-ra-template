@@ -1,4 +1,4 @@
-; Copyright 2023 Vivid Inc. and/or its affiliates.
+; Copyright 2024 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License")
 ; you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@
   [dependencies]
   (->> (aether/resolve-dependencies :coordinates  dependencies
                                     :repositories (merge aether/maven-central
-                                                         {"clojars" "https://clojars.org/repo"}))
+                                                         {"clojars" "https://repo.clojars.org/"}))
        (aether/dependency-files)
        (map #(.getAbsolutePath ^File %))))
 

@@ -1,4 +1,4 @@
-; Copyright 2023 Vivid Inc. and/or its affiliates.
+; Copyright 2024 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License")
 ; you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@
                          ["cloverage"]
                          ["jar"]
                          ["install"]]
-            "clj-kondo" ["with-profile" "clojure-1.11.1,clj-kondo" "run" "-m" "clj-kondo.main" "--"
+            "clj-kondo" ["with-profile" "clojure-1.11.3,clj-kondo" "run" "-m" "clj-kondo.main" "--"
                          "--lint" "src:test"
                          "--parallel"]
             "lint"      ["do"
@@ -40,7 +40,7 @@
                          ["clj-kondo"]
                          ["antq"]
                          ["nvd" "check"]]
-            "test"     ["with-profile" "+clojure-1.10.0:+clojure-1.10.1:+clojure-1.10.2:+clojure-1.10.3:+clojure-1.11.0:+clojure-1.11.1" "build"]}
+            "test"     ["with-profile" "+clojure-1.10.0:+clojure-1.10.3:+clojure-1.11.3" "build"]}
 
   :cloverage {:codecov? true
               :html?    true
@@ -48,11 +48,12 @@
               :output   "cloverage"                  ; "lein jar" destroys target/cloverage
               }
 
-  :dependencies [[clj-commons/pomegranate  "1.2.23"]
-                 [com.nextjournal/beholder "1.0.2"]
-                 [net.vivid-inc/art        "0.7.1"]
-                 [org.clojure/data.json    "2.4.0"]
-                 [org.clojure/tools.cli    "1.0.219"]]
+  :dependencies [[clj-commons/pomegranate       "1.2.23"]
+                 [io.methvin/directory-watcher  "0.18.0"]
+                 [net.vivid-inc/art             "0.7.1"]
+                 [org.clojure/core.async        "1.6.681"]
+                 [org.clojure/data.json         "2.4.0"]
+                 [org.clojure/tools.cli         "1.0.219"]]
 
   :eftest {:capture-output? true}
 
@@ -87,11 +88,8 @@
   :profiles {:clj-kondo {:dependencies [[clj-kondo "RELEASE"]]}
 
              :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]}
-             :clojure-1.10.1 {:dependencies [[org.clojure/clojure "1.10.1"]]}
-             :clojure-1.10.2 {:dependencies [[org.clojure/clojure "1.10.2"]]}
              :clojure-1.10.3 {:dependencies [[org.clojure/clojure "1.10.3"]]}
-             :clojure-1.11.0 {:dependencies [[org.clojure/clojure "1.11.0"]]}
-             :clojure-1.11.1 {:dependencies [[org.clojure/clojure "1.11.1"]]}
+             :clojure-1.11.3 {:dependencies [[org.clojure/clojure "1.11.3"]]}
 
              :dev       {:dependencies   [[org.clojure/clojure "1.10.0"]
                                           ;; Diffs equality assertions in test failure output

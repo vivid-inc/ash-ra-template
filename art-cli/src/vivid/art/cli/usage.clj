@@ -1,4 +1,4 @@
-; Copyright 2023 Vivid Inc. and/or its affiliates.
+; Copyright 2024 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License")
 ; you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
   (:require
    [clojure.string]
    [vivid.art]
+   [vivid.art.cli.watch]
    [vivid.art.specs]))
 
 (def ^:const default-output-dir ".")
@@ -71,6 +72,12 @@
 
    [;; --to-phase is passed through to vivid.art/render
     nil "--to-phase VAL"
-    "Stop the render dataflow on each template at an earlier phase"]])
+    "Stop the render dataflow on each template at an earlier phase"]
+
+   [;; vivid.art.cli/watch-timeout-ms debounces with this timeout value
+    nil "--watch-timeout-ms VAL"
+    (format "Trigger re-render once this timeout in milliseconds elapses, coalescing flurries of change to watched batches (default: `%s')"
+            vivid.art.cli.watch/default-debounce-timeout-ms)
+    :parse-fn #(Integer/parseInt %)]])
 
 (def ^:const for-more-info "For more info, see\n  https://github.com/vivid-inc/ash-ra-template")

@@ -1,4 +1,4 @@
-; Copyright 2023 Vivid Inc. and/or its affiliates.
+; Copyright 2024 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License")
 ; you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@
                          ; TODO Fails, due perhaps in relation to :eval-in-leiningen ["cloverage"]
                          ["jar"]
                          ["install"]]
-            "clj-kondo" ["with-profile" "clojure-1.11.1,clj-kondo" "run" "-m" "clj-kondo.main" "--"
+            "clj-kondo" ["with-profile" "clojure-1.11.3,clj-kondo" "run" "-m" "clj-kondo.main" "--"
                          "--lint" "src:test"
                          "--parallel"]
             "gen"       ["art" "render"]
@@ -41,7 +41,7 @@
                          ["clj-kondo"]
                          ["antq"]
                          ["nvd" "check"]]
-            "test"      ["with-profile" "+clojure-1.10.0:+clojure-1.10.1:+clojure-1.10.2:+clojure-1.10.3:+clojure-1.11.0:+clojure-1.11.1" "build"]}
+            "test"      ["with-profile" "+clojure-1.10.0:+clojure-1.10.3:+clojure-1.11.3" "build"]}
 
   :art {:templates  "assets"
         :bindings   "../assets/vivid-art-facts.edn"
@@ -91,11 +91,8 @@
   :profiles {:clj-kondo {:dependencies [[clj-kondo "RELEASE"]]}
 
              :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]}
-             :clojure-1.10.1 {:dependencies [[org.clojure/clojure "1.10.1"]]}
-             :clojure-1.10.2 {:dependencies [[org.clojure/clojure "1.10.2"]]}
              :clojure-1.10.3 {:dependencies [[org.clojure/clojure "1.10.3"]]}
-             :clojure-1.11.0 {:dependencies [[org.clojure/clojure "1.11.0"]]}
-             :clojure-1.11.1 {:dependencies [[org.clojure/clojure "1.11.1"]]}
+             :clojure-1.11.3 {:dependencies [[org.clojure/clojure "1.11.3"]]}
 
              ;:cloverage      {:dependencies [[leiningen "2.9.8"]
              ;                                [org.clojure/tools.namespace "1.0.0"]]}

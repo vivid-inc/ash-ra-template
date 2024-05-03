@@ -75,7 +75,7 @@ clj-art: &clj-art-job
     - run:
         command: |
           lein install
-          for ver in "1.10.0" "1.10.1" "1.10.2" "1.10.3" "1.11.0" "1.11.1"
+          for ver in "1.10.0" "1.10.3" "1.11.3"
           do
             # TODO return value is non-zero, but build passes?
             clojure -M:clojure-${ver}:test
@@ -106,51 +106,51 @@ jobs:
   ash-ra-template-jdk-8-job:
     <<: *ash-ra-template-job
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-8.0
+      - image: cimg/clojure:1.11.3-openjdk-8.0
   clj-art-jdk-8-job:
     <<: *clj-art-job
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-8.0
+      - image: cimg/clojure:1.11.3-openjdk-8.0
   lein-art-jdk-8-job:
     <<: *lein-art-job
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-8.0
+      - image: cimg/clojure:1.11.3-openjdk-8.0
   ash-ra-template-jdk-11-job:
     <<: *ash-ra-template-job
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-11.0
+      - image: cimg/clojure:1.11.3-openjdk-11.0
   clj-art-jdk-11-job:
     <<: *clj-art-job
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-11.0
+      - image: cimg/clojure:1.11.3-openjdk-11.0
   lein-art-jdk-11-job:
     <<: *lein-art-job
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-11.0
+      - image: cimg/clojure:1.11.3-openjdk-11.0
   ash-ra-template-jdk-17-job:
     <<: *ash-ra-template-job
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-17.0
+      - image: cimg/clojure:1.11.3-openjdk-17.0
   clj-art-jdk-17-job:
     <<: *clj-art-job
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-17.0
+      - image: cimg/clojure:1.11.3-openjdk-17.0
   lein-art-jdk-17-job:
     <<: *lein-art-job
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-17.0
+      - image: cimg/clojure:1.11.3-openjdk-17.0
   ash-ra-template-jdk-21-job:
     <<: *ash-ra-template-job
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-21.0
+      - image: cimg/clojure:1.11.3-openjdk-21.0
   clj-art-jdk-21-job:
     <<: *clj-art-job
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-21.0
+      - image: cimg/clojure:1.11.3-openjdk-21.0
   lein-art-jdk-21-job:
     <<: *lein-art-job
     docker:
-      - image: cimg/clojure:1.11.1-openjdk-21.0
+      - image: cimg/clojure:1.11.3-openjdk-21.0
 
 workflows:
   version: 2

@@ -1,4 +1,4 @@
-; Copyright 2023 Vivid Inc. and/or its affiliates.
+; Copyright 2024 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License")
 ; you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@
    [clojure.string]
    [farolero.core :as farolero]
    [vivid.art]
+   [vivid.art.cli.debounce]
+   [vivid.art.cli.log :as log]
    [vivid.art.cli.resolve :as resolve]
    [vivid.art.specs])
   (:import
@@ -118,3 +120,20 @@
                         :message (format "to-phase '%s' is unknown; must be one of:  %s"
                                          x
                                          (clojure.string/join "  " (map name vivid.art/render-phases)))}))))
+
+(defn validate-watch-timeout-ms
+  "Returns the requested value clamped on the lower bound to a minimum,
+  implementation-dependent value."
+  [x]
+  (try
+    (let [i   (if (not (int? x)) (Integer/parseInt x) x)
+          val (max i vivid.art.cli.debounce/core-async-timeout-resolution)]
+      (when (not= i val)
+        (log/*warn-fn* "Forcing watch-timeout-ms to implementation-dependent minimum value of" val "ms"))
+      val)
+    (catch Exception e
+      (farolero/signal :vivid.art.cli/error
+                       {:step       'validate-watch-timeout-ms
+                        :message    (format "Could not interpret watch-timeout-ms as an integer: `%s'" x)
+                        :exception  e
+                        :raw-value  x}))))
