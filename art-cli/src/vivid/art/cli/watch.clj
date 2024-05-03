@@ -19,7 +19,7 @@
   (:import
    (io.methvin.watcher DirectoryChangeEvent DirectoryChangeListener DirectoryWatcher)
    (java.io File)
-   (java.nio.file Files Path)))
+   (java.nio.file Files NoSuchFileException Path)))
 
 ; Implementation notes:
 ;
@@ -51,6 +51,11 @@
 ; directory-watcher
 ;
 
+(def ^:const noise-exception-types
+  #{; IDEs may save file edits to a temporary peer file before swapping it
+    ; into place.
+    NoSuchFileException})
+
 (defn listener ^DirectoryChangeListener
   [listener-fn]
   (reify
@@ -59,7 +64,9 @@
       (listener-fn {:path (.path event)
                     :type (.name (.eventType event))}))
     (onException [_ e]
-     (log/*warn-fn* e))))
+     ; De-noise exception output
+      (when-not (noise-exception-types (type e))
+        (log/*warn-fn* e)))))
 
 (defn ^DirectoryWatcher build-directory-watcher
   [listener-fn path]

@@ -106,51 +106,46 @@ jobs:
   ash-ra-template-jdk-8-job:
     <<: *ash-ra-template-job
     docker:
-      - image: cimg/clojure:1.11.3-openjdk-8.0
+      - image: cimg/clojure:1.10.0-openjdk-8.0
+    resource_class: small
   clj-art-jdk-8-job:
     <<: *clj-art-job
     docker:
-      - image: cimg/clojure:1.11.3-openjdk-8.0
+      - image: cimg/clojure:1.10.0-openjdk-8.0
+    resource_class: small
   lein-art-jdk-8-job:
     <<: *lein-art-job
     docker:
-      - image: cimg/clojure:1.11.3-openjdk-8.0
+      - image: cimg/clojure:1.10.0-openjdk-8.0
   ash-ra-template-jdk-11-job:
     <<: *ash-ra-template-job
     docker:
-      - image: cimg/clojure:1.11.3-openjdk-11.0
+      - image: cimg/clojure:1.10.0-openjdk-11.0
+    resource_class: small
   clj-art-jdk-11-job:
     <<: *clj-art-job
     docker:
-      - image: cimg/clojure:1.11.3-openjdk-11.0
+      - image: cimg/clojure:1.10.0-openjdk-11.0
+    resource_class: small
   lein-art-jdk-11-job:
     <<: *lein-art-job
     docker:
-      - image: cimg/clojure:1.11.3-openjdk-11.0
+      - image: cimg/clojure:1.10.0-openjdk-11.0
   ash-ra-template-jdk-17-job:
     <<: *ash-ra-template-job
     docker:
-      - image: cimg/clojure:1.11.3-openjdk-17.0
+      - image: cimg/clojure:1.10.0-openjdk-17.0
+    resource_class: small
   clj-art-jdk-17-job:
     <<: *clj-art-job
     docker:
-      - image: cimg/clojure:1.11.3-openjdk-17.0
+      - image: cimg/clojure:1.10.0-openjdk-17.0
+    resource_class: small
   lein-art-jdk-17-job:
     <<: *lein-art-job
     docker:
-      - image: cimg/clojure:1.11.3-openjdk-17.0
-  ash-ra-template-jdk-21-job:
-    <<: *ash-ra-template-job
-    docker:
-      - image: cimg/clojure:1.11.3-openjdk-21.0
-  clj-art-jdk-21-job:
-    <<: *clj-art-job
-    docker:
-      - image: cimg/clojure:1.11.3-openjdk-21.0
-  lein-art-jdk-21-job:
-    <<: *lein-art-job
-    docker:
-      - image: cimg/clojure:1.11.3-openjdk-21.0
+      - image: cimg/clojure:1.10.0-openjdk-17.0
+    resource_class: small
 
 workflows:
   version: 2
@@ -177,10 +172,3 @@ workflows:
       - lein-art-jdk-17-job:
           requires:
             - ash-ra-template-jdk-17-job
-      - ash-ra-template-jdk-21-job
-      - clj-art-jdk-21-job:
-          requires:
-            - ash-ra-template-jdk-21-job
-      - lein-art-jdk-21-job:
-          requires:
-            - ash-ra-template-jdk-21-job

@@ -5,7 +5,9 @@
 version: 2.1
 <%
 (def clojure-versions (get vivid-art-facts 'clojure-versions))
-(def java-versions    (get vivid-art-facts 'java-versions))
+(def java-versions    (->> (get vivid-art-facts 'java-versions)
+                           ; CircleCI doesn't offer Java 21 at time of writing
+                           (filter #(not= % 21))))
 
 (def clojure-versions-str
   (->> (map #(str "\"" % "\"") clojure-versions)
@@ -111,19 +113,22 @@ lein-art: &lein-art-job
 
 # Referencing https://hub.docker.com/r/cimg/clojure/tags
 jobs:<% (doseq [v java-versions]
-     (let [cimg (format "cimg/clojure:%s-openjdk-%s.0" (last clojure-versions) v)] %>
+     (let [cimg (format "cimg/clojure:%s-openjdk-%s.0" (first clojure-versions) v)] %>
   ash-ra-template-jdk-<%= v %>-job:
     <<: *ash-ra-template-job
     docker:
       - image: <%= cimg %>
+    resource_class: small
   clj-art-jdk-<%= v %>-job:
     <<: *clj-art-job
     docker:
       - image: <%= cimg %>
+    resource_class: small
   lein-art-jdk-<%= v %>-job:
     <<: *lein-art-job
     docker:
       - image: <%= cimg %><% ))%>
+    resource_class: small
 
 workflows:
   version: 2
