@@ -68,6 +68,7 @@ filename extensions, overwriting any existing files with the same paths.
 | `:output-dir` | `--output-dir` | DIR | `.` | Write rendered files to DIR |
 | `:templates` | [FILES] | VAL | | Paths to ART template files |
 | `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `evaluate` | Stop the render dataflow on each template at an earlier phase |
+| `--watch-timeout-ms` | VAL | `500` | Trigger re-render once this timeout in milliseconds elapses, coalescing flurries of change to watched batches |
 
 Depending on what types of values a particular option accepts and whether `lein-art` was invoked as a Leiningen configuration or from the CLI,
 ART attempts to interpret arguments in this order of precedence:

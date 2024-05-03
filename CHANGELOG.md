@@ -1,7 +1,7 @@
 # Ash Ra Template Changelog
 
 ## [0.7.1]
-__Unreleased__
+Released 2024-05-03.
 ### Added
 - Clojure version 1.11.3 to the set of Clojure versions that ART is tested with.
 - Java 21, an LTS release, to the set of Java versions that ART is tested with.
