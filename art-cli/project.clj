@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(defproject net.vivid-inc/art-cli "0.7.1"
+(defproject net.vivid-inc/art-cli "0.7.2"
 
   :note "THIS FILE IS GENERATED AUTOMATICALLY FROM AN ART TEMPLATE BY bin/gen.sh"
   :description "art-cli aggregates code common to the translation and processing of Ash Ra Template command line parameters into parameters for ART's Clojure API."
@@ -21,7 +21,7 @@
             :url          "https://www.apache.org/licenses/LICENSE-2.0"}
   :scm {:dir  ".."
         :name "git"
-        :tag  "0.7.1"
+        :tag  "0.7.2"
         :url  "https://github.com/vivid-inc/ash-ra-template"}
   :url "https://github.com/vivid-inc/ash-ra-template"
 
@@ -50,7 +50,7 @@
 
   :dependencies [[clj-commons/pomegranate       "1.2.23"]
                  [io.methvin/directory-watcher  "0.18.0"]
-                 [net.vivid-inc/art             "0.7.1"]
+                 [net.vivid-inc/art             "0.7.2"]
                  [org.clojure/core.async        "1.6.681"]
                  [org.clojure/data.json         "2.4.0"]
                  [org.clojure/tools.cli         "1.0.219"]]
@@ -90,6 +90,8 @@
              :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]}
              :clojure-1.10.3 {:dependencies [[org.clojure/clojure "1.10.3"]]}
              :clojure-1.11.3 {:dependencies [[org.clojure/clojure "1.11.3"]]}
+
+             :deploy {:javac-options ["-target" "1.8" "-source" "1.8"]}
 
              :dev       {:dependencies   [[org.clojure/clojure "1.10.0"]
                                           ;; Diffs equality assertions in test failure output

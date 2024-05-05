@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(defproject net.vivid-inc/lein-art "0.7.1"
+(defproject net.vivid-inc/lein-art "0.7.2"
 
   :note "THIS FILE IS GENERATED AUTOMATICALLY FROM AN ART TEMPLATE BY bin/gen.sh"
   :description "Leiningen plugin for rendering Ash Ra .art templates"
@@ -21,7 +21,7 @@
             :url          "https://www.apache.org/licenses/LICENSE-2.0"}
   :scm {:dir  ".."
         :name "git"
-        :tag  "0.7.1"
+        :tag  "0.7.2"
         :url  "https://github.com/vivid-inc/ash-ra-template"}
   :url "https://github.com/vivid-inc/ash-ra-template"
 
@@ -55,7 +55,7 @@
   ;            :output   "cloverage"                  ; "lein jar" destroys target/cloverage
   ;            }
 
-  :dependencies [[net.vivid-inc/art-cli   "0.7.1"]
+  :dependencies [[net.vivid-inc/art-cli   "0.7.2"]
                  [org.clojure/tools.cli   "1.0.219"]]
 
   :eftest {:capture-output? true}
@@ -96,6 +96,8 @@
 
              ;:cloverage      {:dependencies [[leiningen "2.9.8"]
              ;                                [org.clojure/tools.namespace "1.0.0"]]}
+
+             :deploy {:javac-options ["-target" "1.8" "-source" "1.8"]}
 
              :dev {:dependencies   [[org.clojure/clojure "1.10.0"]
                                     ;; Diffs equality assertions in test failure output

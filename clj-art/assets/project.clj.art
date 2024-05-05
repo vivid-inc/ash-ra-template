@@ -108,6 +108,8 @@
 
 <%= (clojure-version-profiles :indent 13) %>
 
+             :deploy {:javac-options ["-target" "1.8" "-source" "1.8"]}
+
              :dev       {:dependencies [[org.clojure/clojure "<%= (first clojure-versions) %>"]]}}
 
   :repositories [["clojars" {:sign-releases false}]])

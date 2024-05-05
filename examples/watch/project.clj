@@ -34,4 +34,4 @@
   :art {:templates    "resources"
         :output-dir   "target"}
 
-  :plugins [[net.vivid-inc/lein-art "0.7.1"]])  ; Render ART templates with lein-art
+  :plugins [[net.vivid-inc/lein-art "0.7.2"]])  ; Render ART templates with lein-art

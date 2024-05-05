@@ -24,12 +24,13 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
 ## Along the path to ART version 1.0 and beyond
 
 ### Next:
+- `(slurp)` defaults to decoding input files as UTF-8; this might trip up template authors.
 - Heavy testing of quote nesting and escaping, delimiter escaping, Clojure reader forms, comments.
 - clj-art :exec-fn, fully support `(dispatch-command)`. See https://practical.li/blog-staging/posts/clojure-cli-tools-understanding-aliases/
 - Investigate OpenSSF Best Practices reporting, such as: https://bestpractices.coreinfrastructure.org/en/projects/2095
 - Explore a `(defmethod)` mechanism for adding options to `(vivid.art/render)`, and try it with `:classpath` and `:repositories` options.
-- Consider how to watch for changes in dependent templates, CLJ source files, anything else.
-  Also, when rendering out files, use comparisons to indicate when contents haven't changed, and atomic moves to give other tooling a chance to correctly detect changes and respond properly.
+- Watch: Document how watches trigger re-renders: All sub-paths under the watched dir.
+- Watch: When rendering out files, use comparisons to indicate when contents haven't changed, and atomic moves to give other tooling a chance to correctly detect changes and respond properly.
 - CLI: Ability to list rendered file paths without writing à la `--dry-run`
 
 ### Considerations, further out:
@@ -50,7 +51,6 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
 - Declare version 1.0.0 once the community deems the ART feature-complete, reliable, and properly documented.
 - How to achieve fast runtime performance, fast development & testing feedback loop. Benchmarks with hyperfine.
 - Build: Sign releases.
-- CLI: Option to re-render templates only when newer than their output files.
 - Explain the value of ART. Compare and contrast with other templating systems. Emphasize symbolic computation, and the importance of providing native idioms at each point along the value chain, for example a web-based production workflow where professionals handle HTML and CSS.
 - Java policies, to give a feasible margin of safety for executing untrusted / unknown code within templates.
 - Parsing option mode magic within template content. Example from Jinja: `#jinja2:variable_start_string:'[%', variable_end_string:'%]', trim_blocks: False`
@@ -58,7 +58,6 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
   - Example IntelliJ plugin project [clj-extras-plugin](https://github.com/brcosta/clj-extras-plugin)
 - Maven plugin for rendering ART templates.
 - Template registry + Cache à la https://github.com/davidsantiago/stencil , https://github.com/Flamefork/fleet
-- `(slurp)` defaults to decoding input files as UTF-8; this might trip up template authors.
 - AOT compilation.
 - Provide ability to compile the input template, perhaps re-writing `(render)` as a macro, or adding a `:compile` render option.
   - Useful when the same template is run many times, such as a webserver rendering responses based on a template.
@@ -81,6 +80,6 @@ This section records platform-related technological decisions.
 - Java LTS releases, as these represent a somewhat stable target with wide adoption.
 
 **Leiningen** is the primary build tool.
-- Lower-bound of Leiningen 2.10.0. This is the most recent version of Leiningen provided by CircleCI at the time of this writing.
+- Lower-bound of Leiningen 2.10.0. This is a reasonably recent version of Leiningen provided by CircleCI at the time of this writing.
 
 _Note_: All supported versions (resulting from these facts) are recorded in [assets/vivid-art-facts.edn](assets/vivid-art-facts.edn), used to generate project files, control testing, etc.

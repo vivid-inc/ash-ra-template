@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(defproject net.vivid-inc/art "0.7.1"
+(defproject net.vivid-inc/art "0.7.2"
 
   :note "THIS FILE IS GENERATED AUTOMATICALLY FROM AN ART TEMPLATE BY bin/gen.sh"
   :description "Ash Ra Template: Expressive and customizable template system featuring Clojure language processing."
@@ -21,7 +21,7 @@
             :url          "https://www.apache.org/licenses/LICENSE-2.0"}
   :scm {:dir  ".."
         :name "git"
-        :tag  "0.7.1"
+        :tag  "0.7.2"
         :url  "https://github.com/vivid-inc/ash-ra-template"}
   :url "https://github.com/vivid-inc/ash-ra-template"
 
@@ -91,6 +91,8 @@
              :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]}
              :clojure-1.10.3 {:dependencies [[org.clojure/clojure "1.10.3"]]}
              :clojure-1.11.3 {:dependencies [[org.clojure/clojure "1.11.3"]]}
+
+             :deploy {:javac-options ["-target" "1.8" "-source" "1.8"]}
 
              :dev       {:dependencies   [[org.clojure/clojure "1.10.0"]
                                           ;; Diffs equality assertions in test failure output

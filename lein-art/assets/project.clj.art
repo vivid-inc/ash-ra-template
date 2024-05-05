@@ -82,7 +82,7 @@
   ;            :output   "cloverage"                  ; "lein jar" destroys target/cloverage
   ;            }
 
-  :dependencies [[net.vivid-inc/art-cli   "0.7.1"]
+  :dependencies [[net.vivid-inc/art-cli   "0.7.2"]
                  [org.clojure/tools.cli   "1.0.219"]]
 
   :eftest {:capture-output? true}
@@ -121,6 +121,8 @@
 
              ;:cloverage      {:dependencies [[leiningen "2.9.8"]
              ;                                [org.clojure/tools.namespace "1.0.0"]]}
+
+             :deploy {:javac-options ["-target" "1.8" "-source" "1.8"]}
 
              :dev {:dependencies   [[org.clojure/clojure "<%= (first clojure-versions) %>"]
                                     ;; Diffs equality assertions in test failure output
