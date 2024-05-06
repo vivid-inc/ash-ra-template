@@ -56,7 +56,7 @@
   ;            }
 
   :dependencies [[net.vivid-inc/art-cli   "0.7.2"]
-                 [org.clojure/tools.cli   "1.0.219"]]
+                 [org.clojure/tools.cli   "1.1.230"]]
 
   :eftest {:capture-output? true}
 

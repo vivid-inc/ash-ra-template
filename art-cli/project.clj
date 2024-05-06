@@ -52,8 +52,8 @@
                  [io.methvin/directory-watcher  "0.18.0"]
                  [net.vivid-inc/art             "0.7.2"]
                  [org.clojure/core.async        "1.6.681"]
-                 [org.clojure/data.json         "2.4.0"]
-                 [org.clojure/tools.cli         "1.0.219"]]
+                 [org.clojure/data.json         "2.5.0"]
+                 [org.clojure/tools.cli         "1.1.230"]]
 
   :eftest {:capture-output? true}
 

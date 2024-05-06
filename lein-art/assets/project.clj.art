@@ -41,7 +41,7 @@
 %>
 (defproject net.vivid-inc/lein-art "<%= vivid-art-version %>"
 
-  :note "THIS FILE IS GENERATED AUTOMATICALLY FROM AN ART TEMPLATE BY bin/gen.sh"
+  :note "THIS FILE IS GENERATED AUTOMATICALLY FROM AN ART TEMPLATE WITH bin/gen.sh"
   :description "Leiningen plugin for rendering Ash Ra .art templates"
   :license {:distribution :repo
             :name         "Apache License 2.0"
@@ -83,7 +83,7 @@
   ;            }
 
   :dependencies [[net.vivid-inc/art-cli   "0.7.2"]
-                 [org.clojure/tools.cli   "1.0.219"]]
+                 [org.clojure/tools.cli   "1.1.230"]]
 
   :eftest {:capture-output? true}
 

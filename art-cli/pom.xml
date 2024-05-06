@@ -115,7 +115,7 @@
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>data.json</artifactId>
-      <version>2.4.0</version>
+      <version>2.5.0</version>
       <exclusions>
         <exclusion>
           <artifactId>clojure</artifactId>
@@ -126,7 +126,7 @@
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>tools.cli</artifactId>
-      <version>1.0.219</version>
+      <version>1.1.230</version>
       <exclusions>
         <exclusion>
           <artifactId>clojure</artifactId>
