@@ -81,5 +81,6 @@ This section records platform-related technological decisions.
 
 **Leiningen** is the primary build tool.
 - Lower-bound of Leiningen 2.10.0. This is a reasonably recent version of Leiningen provided by CircleCI at the time of this writing.
+- Use [`lein-sub`](https://github.com/kumarshantanu/lein-sub) to structure individual sub-projects.
 
 _Note_: All supported versions (resulting from these facts) are recorded in [assets/vivid-art-facts.edn](assets/vivid-art-facts.edn), used to generate project files, control testing, etc.

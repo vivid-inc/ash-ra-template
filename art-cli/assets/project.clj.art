@@ -75,7 +75,7 @@
               :output   "cloverage"                  ; "lein jar" destroys target/cloverage
               }
 
-  :dependencies [[clj-commons/pomegranate       "1.2.23"]
+  :dependencies [[clj-commons/pomegranate       "1.2.24"]
                  [io.methvin/directory-watcher  "0.18.0"]
                  [net.vivid-inc/art             "0.7.2"]
                  [org.clojure/core.async        "1.6.681"]

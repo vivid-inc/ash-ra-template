@@ -81,13 +81,12 @@
 (defn validate-output-dir
   "A string path of the output directory."
   [output-dir]
-  (let [f (some-> ^File (resolve/resolve-as-file output-dir)
-                  (.getAbsoluteFile))]
-    (if f
-      f
-      (farolero/signal :vivid.art.cli/error
-                       {:step    'validate-output-dir
-                        :message (format "output-dir '%s' must name a directory path" output-dir)}))))
+  (if-let [f (some-> ^File (resolve/resolve-as-file output-dir)
+                     (.getAbsoluteFile))]
+    f
+    (farolero/signal :vivid.art.cli/error
+                     {:step    'validate-output-dir
+                      :message (format "output-dir '%s' must name a directory path" output-dir)})))
 
 (defn validate-templates
   "Returns a collection of java.io.File's representing each of the named

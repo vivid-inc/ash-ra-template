@@ -23,7 +23,7 @@
    [vivid.art.cli.command]
    [vivid.art.cli.log :as log]
    [vivid.art.cli.messages :as messages]
-   [vivid.art.cli.usage]))
+   [vivid.art.cli.usage :as usage]))
 
 (def ^:const default-options {:output-dir "."})
 
@@ -32,7 +32,7 @@
   (main-lein/exit exit-status))
 
 (defn- batch-from-cli-args [args]
-  (let [batch* (vivid.art.cli.args/cli-args->batch args vivid.art.cli.usage/cli-options)
+  (let [batch* (vivid.art.cli.args/cli-args->batch args usage/cli-options)
         batch (merge default-options batch*)]
     batch))
 
@@ -52,20 +52,19 @@
   (binding [log/*debug-fn* main-lein/debug
             log/*info-fn*  main-lein/info
             log/*warn-fn*  main-lein/warn]
-    ; TODO Documentation: Clarify that specifying options will cause ART to ignore project settings.
     (let [batches (if (coll? args)
                     [(batch-from-cli-args args)]
                     (batches-from-project project))]
       (vivid.art.cli.command/dispatch-command command batches))))
 
-(defn- usage []
-  (let [options-summary (:summary (clojure.tools.cli/parse-opts [] vivid.art.cli.usage/cli-options))]
-    (->> [vivid.art.cli.usage/one-line-desc
-          (vivid.art.cli.usage/summary "Leiningen plugin")
-          "Usage: lein art command [options...] [template-files...]"
-          (str "Commands:\n" (vivid.art.cli.usage/command-summary))
+(defn usage []
+  (let [options-summary (:summary (clojure.tools.cli/parse-opts [] usage/cli-options))]
+    (->> [usage/one-line-desc
+          (usage/summary "Leiningen plugin")
+          "Usage: lein art COMMAND [OPTION]... [TEMPLATE-FILE]..."
+          (str "Commands:\n" (usage/command-summary))
           (str "Options:\n" options-summary)
-          vivid.art.cli.usage/for-more-info]
+          usage/for-more-info]
          (clojure.string/join "\n\n"))))
 
 ;

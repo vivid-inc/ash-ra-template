@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-;; This Leiningen project demonstrate defining multiple ART
+;; This Leiningen project demonstrates definition of multiple ART
 ;; render batch configurations.
 ;;
 ;; Run with:
@@ -28,7 +28,7 @@
   ; Add the lein-art Leiningen plugin:
   :plugins [[net.vivid-inc/lein-art "0.7.2"]]
 
-  ; Two ART render batches are defined here:
+  ; Several ART render batches are defined here:
   :art [
     ; An ART render batch configuration
     {:templates    "src/templates/css"

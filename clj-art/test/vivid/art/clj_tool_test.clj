@@ -12,6 +12,8 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
+; TODO Equalize with vivid.art.leiningen-plugin-test
+
 (ns vivid.art.clj-tool-test
   (:require
    [clojure.java.io :as io]
@@ -32,19 +34,27 @@
      (io/delete-file file silently))
    (io/file path)))
 
+(def common-project-stanza-invocation-pattern
+  {:command                   ["clj" "-M:art" "render"]
+   :target-and-expected-dirs  [["target" "expected"]]})
+
 (defn invocation-pattern
-  [path & command]
-  (let [expected-dir (str path "/expected")
-        target-dir (str path "/target")]
-    (delete-file-tree target-dir :silently)
-    (let [clj-res (apply clojure.java.shell/sh (concat command [:dir path]))
-          diff-res (clojure.java.shell/sh "/usr/bin/diff" "--recursive"
-                                          target-dir
-                                          expected-dir)
-          test-failure-message (pr-str {:clj-res  clj-res
-                                        :diff-res diff-res})]
-      (t/is (= 0 (clj-res :exit)) test-failure-message)
-      (t/is (= 0 (diff-res :exit)) test-failure-message))))
+  [p]
+  (let [{:keys [dir command target-and-expected-dirs]}
+        (merge common-project-stanza-invocation-pattern
+               p)]
+    (doseq [target-dir (map first target-and-expected-dirs)]
+      (delete-file-tree (str dir "/" target-dir) :silently))
+    (let [exec-result (apply clojure.java.shell/sh (concat command [:dir dir]))]
+      (doseq [[target-dir' expected-dir'] target-and-expected-dirs]
+        (let [target-dir            (str dir "/" target-dir')
+              expected-dir          (str dir "/" expected-dir')
+              diff-result           (clojure.java.shell/sh "/usr/bin/diff" "--recursive"
+                                                           target-dir expected-dir)
+              test-failure-message  (pr-str {:exec-res exec-result
+                                             :diff-res diff-result})]
+          (t/is (= 0 (exec-result :exit)) test-failure-message)
+          (t/is (= 0 (diff-result :exit)) test-failure-message))))))
 
 (t/deftest usage
   (let [usage (clj-tool/usage)]
@@ -56,29 +66,31 @@
       (t/is (clojure.string/includes? usage vivid.art.cli/art-filename-suffix)))))
 
 (t/deftest clj-tool-example-all-options
-  (invocation-pattern "../examples/all-options"
-                      "clj" "-M:art"))
+  (invocation-pattern
+   {:dir "../examples/all-options"}))
 
-; TODO Test art-example-custom-options
+(t/deftest clj-tool-example-custom-options
+  (invocation-pattern
+   {:dir                      "../examples/custom-options"
+    :target-and-expected-dirs [["out/cdn" "expected"]]}))
 
 (t/deftest clj-tool-example-multi-batch
-  (let [target-a "expected-src-resources"
-        target-b "expected-target-generated-sources-java"]
-    (doseq [dir [target-a target-b]]
-      (delete-file-tree dir :silently)))
-  (let [res (clojure.java.shell/sh "./test.sh" "clj-art"
-                                   :dir "../examples/multi-batch")]
-    (t/is (= 0 (res :exit))
-          (pr-str {:res res}))))
+  (invocation-pattern
+   {:dir                      "../examples/multi-batch"
+    :target-and-expected-dirs [["src/resources"                  "expected-src-resources"]
+                               ["target/generated-sources/java"  "expected-target-generated-sources-java"]
+                               ["www"                            "expected-www"]]}))
 
 (t/deftest clj-tool-example-readme-examples
-  (invocation-pattern "../examples/readme-examples"
-                      "clj" "-M:art"))
+  (invocation-pattern
+   {:dir "../examples/readme-examples"}))
 
 (t/deftest clj-tool-example-simple
-  (invocation-pattern "../examples/simple"
-                      "clj" "-M:art"))
+  (invocation-pattern
+   {:dir "../examples/simple"}))
 
 (t/deftest clj-tool-example-utf-8
-  (invocation-pattern "../examples/utf-8"
-                      "clj" "-M:art"))
+  (invocation-pattern
+   {:dir "../examples/utf-8"}))
+
+; TODO clj-tool-example-watch

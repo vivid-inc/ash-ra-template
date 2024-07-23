@@ -2,6 +2,16 @@
 
 ## [0.7.2]
 _Unreleased_
+### Changed
+- `clj-art` and `lein-art` are at parity in terms of CLI argument processing and definition of rendering batches in
+  their project files `deps.edn` and `project.clj`.
+  Their respective idiosyncrasies are noted in the automated tests and documentation.
+- TODO Abstracting code common to each of `clj-art` and `lein-art`, consolidating it in `art-cli` as public API.
+- TODO Formalizing the expression of Leiningen subproject hierarchy with 
+  [`lein-sub`](https://github.com/kumarshantanu/lein-sub).
+- TODO Formalize independence of `art` sources from Java by renaming source files from `.clj` to `.cljc`, if possible.
+### Fixed
+- TODO `vivid.art.cli.resolve/resolve-as-var` and `*-example-custom-options`
 
 ## [0.7.1]
 Released 2024-05-03.
@@ -22,7 +32,7 @@ Released 2024-05-03.
   the most recent Clojure patch release.
 - Add `:stack` to `vivid.art/*render-context*`.
 - Update clojars repository URL to `https://repo.clojars.org/`.
-- Replace `reduce-fsm` with `tilakone`. With this change, `net.vivid-inc/art` is free of Clojure-specific 
+- Replace `reduce-fsm` with `tilakone`. With this change, `net.vivid-inc/art` is free of Java-specific 
   dependencies, removing an obstacle to expanding this library's support for to other platforms like ClojureScript.
 - Removed dependency on the thin wrapper `nextjournal/beholder`, replacing it with a direct dependency on
   `io.methvin/directory-watcher`.
@@ -131,7 +141,7 @@ Released 2017-11-20.
 ### Added
 - Use `eval-soup` to render templates featuring Clojure language processing with ERB 2.0-esque syntax.
 
-[0.7.1]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.7.1...ash-ra-template-0.7.2
+[0.7.2]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.7.1...ash-ra-template-0.7.2
 [0.7.1]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.7.0...ash-ra-template-0.7.1
 [0.7.0]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.6.1...ash-ra-template-0.7.0
 [0.6.1]: https://github.com/vivid-inc/ash-ra-template/compare/ash-ra-template-0.6.0...ash-ra-template-0.6.1

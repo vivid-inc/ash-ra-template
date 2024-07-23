@@ -14,7 +14,7 @@
 
 (defproject net.vivid-inc/lein-art "0.7.2"
 
-  :note "THIS FILE IS GENERATED AUTOMATICALLY FROM AN ART TEMPLATE BY bin/gen.sh"
+  :note "THIS FILE IS GENERATED AUTOMATICALLY FROM AN ART TEMPLATE WITH bin/gen.sh"
   :description "Leiningen plugin for rendering Ash Ra .art templates"
   :license {:distribution :repo
             :name         "Apache License 2.0"
@@ -109,7 +109,7 @@
 
                    :plugins        [;; Reloads & re-runs tests on file changes
                                     ;; https://github.com/jakemcc/lein-test-refresh
-                                    [com.jakemccrary/lein-test-refresh "0.24.1"]]
+                                    [com.jakemccrary/lein-test-refresh "0.25.0"]]
 
                    :test-refresh   {:quiet true}}
 

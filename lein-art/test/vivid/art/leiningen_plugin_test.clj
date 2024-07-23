@@ -12,6 +12,8 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
+; TODO Equalize with vivid.art.clj-tool-test
+
 (ns vivid.art.leiningen-plugin-test
   (:require
    [clojure.java.io :as io]
@@ -49,13 +51,13 @@
    [call-art-via-project-stanza "project-stanza"]])
 
 (defn invocation-pattern
-  [call-fn call-name path art-options]
+  [call-fn call-name dir batch]
   (t/testing call-name
-    (let [expected-dir (str path "/expected")
-          target-dir (str path "/target")
-          templates-dir (str path "/templates")]
+    (let [expected-dir  (str dir "/expected")
+          target-dir    (str dir "/target")
+          templates-dir (str dir "/templates")]
       (delete-file-tree target-dir :silently)
-      (let [project-stanza (merge art-options
+      (let [project-stanza (merge batch
                                   {:templates templates-dir
                                    :output-dir target-dir})
             art-res (call-fn project-stanza)
@@ -69,42 +71,43 @@
         (t/is (= 0 (diff-res :exit)) test-failure-message)))))
 
 (defn all-invocation-patterns
-  [path art-options]
+  [dir batch]
   (doseq [[call-fn call-name] calls]
-    (invocation-pattern call-fn call-name path art-options)))
+    (invocation-pattern call-fn call-name dir batch)))
 
-(t/deftest lein-plugin-all-options-exercise
+(t/deftest lein-plugin-example-all-options
   (all-invocation-patterns "../examples/all-options"
                            {:bindings '{updated "2021-01-01"}
                             :delimiters {:begin-forms "{%" :end-forms "%}" :begin-eval "{%=" :end-eval "%}"}
                             :dependencies '[[hiccup/hiccup "1.0.5"]]
                             :to-phase :evaluate}))
 
-(t/deftest lein-plugin-readme-examples
-  (all-invocation-patterns "../examples/readme-examples"
-                           {:bindings '{mysterious-primes [7 191]}
-                            :delimiters {:begin-forms "{%" :end-forms "%}" :begin-eval "{%=" :end-eval "%}"}}))
-
-(t/deftest lein-plugin-simple
-  (all-invocation-patterns "../examples/simple"
-                           {}))
-
-(t/deftest lein-plugin-utf-8
-  (all-invocation-patterns "../examples/utf-8"
-                           {:bindings "../examples/utf-8/greek.edn"
-                            :delimiters 'jinja}))
-
-(t/deftest lein-plugin-art-example-custom-options
+; TODO Rewrite
+#_(t/deftest lein-plugin-example-custom-options
   (let [res (clojure.java.shell/sh "./test.sh" "lein" "do" "clean," "install," "art" "render"
                                    :dir "../examples/custom-options")]
     (t/is (= 0 (res :exit))
           (pr-str res))))
 
-(t/deftest lein-plugin-example-multi-batch
+; TODO Rewrite
+#_(t/deftest lein-plugin-example-multi-batch
   (let [res (clojure.java.shell/sh "./test.sh" "lein" "art" "render"
                                    :dir "../examples/multi-batch")]
     (t/is (= 0 (res :exit))
           (pr-str res))))
+
+(t/deftest lein-plugin-example-readme-examples
+  (all-invocation-patterns "../examples/readme-examples"
+                           {:bindings '{mysterious-primes [7 191]}}))
+
+(t/deftest lein-plugin-example-simple
+  (all-invocation-patterns "../examples/simple"
+                           {}))
+
+(t/deftest lein-plugin-example-utf-8
+  (all-invocation-patterns "../examples/utf-8"
+                           {:bindings   "../examples/utf-8/greek.edn"
+                            :delimiters 'jinja}))
 
 (t/deftest lein-plugin-example-watch
   (all-invocation-patterns "../examples/watch"

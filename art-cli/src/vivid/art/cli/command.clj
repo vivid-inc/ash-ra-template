@@ -15,33 +15,38 @@
 (ns ^:internal-api vivid.art.cli.command
   "CLI command parsing and dispatch."
   (:require
+   [clojure.string]
    [farolero.core :as farolero]
    [vivid.art.cli :as art-cli]
    [vivid.art.cli.log :as log]
    [vivid.art.cli.messages :as messages]
    [vivid.art.cli.watch]))
 
-(defn dispatch-command [command batches]
-  (condp = command
+(defn dispatch-command [command' batches]
+  (let [command (-> (or command' "")
+                    (clojure.string/lower-case)
+                    (clojure.string/trim))]
+    (cond
 
-    "config"
-    (clojure.pprint/pprint batches)
+      (= command "config")
+      (clojure.pprint/pprint batches)
 
-    "help"
-    (farolero/signal :vivid.art.cli/error
-                     {:step        'parse-cli-args
-                      :exit-status 0
-                      :show-usage  true})
+      (get #{nil "" "help"} command)
+      (farolero/signal :vivid.art.cli/error
+                       {:step        'parse-cli-args
+                        :exit-status 0
+                        :show-usage  true})
 
-    "render"
-    (art-cli/render-batches batches)
-
-    "watch"
-    (do
-      (log/*info-fn* "Press CTRL-C to interrupt watch")
+      (= command "render")
       (art-cli/render-batches batches)
-      (vivid.art.cli.watch/watch-on-batches batches art-cli/render-batch))
 
-    (farolero/signal :vivid.art.cli/error
-                     {:step    'parse-cli-args
-                      :message (messages/pp-str-error (str "Unknown command: `" command "'"))})))
+      (= command "watch")
+      (do
+        (log/*info-fn* "Press CTRL-C to interrupt watch")
+        (art-cli/render-batches batches)
+        (vivid.art.cli.watch/watch-on-batches batches art-cli/render-batch))
+
+      :else
+      (farolero/signal :vivid.art.cli/error
+                       {:step    'parse-cli-args
+                        :message (messages/pp-str-error (str "Unknown command: `" command' "'"))}))))

@@ -38,5 +38,5 @@ find . -depth -name .cpcache -or -name out -or -name target -type d | xargs rm -
 # Run all tests, create the deliverables
 (cd art && lein test)
 (cd art-cli && lein test)
-(cd clj-art && lein install && for ver in "${CLOJURE_VERSIONS[@]}" ; do clojure -M:clojure-${ver}:test ; done)
+(cd clj-art && lein install && for ver in "${CLOJURE_VERSIONS[@]}" ; do clojure -M:clojure-${ver}:test ; done) # Test failures don't stop this script
 (cd lein-art && lein install && lein test)

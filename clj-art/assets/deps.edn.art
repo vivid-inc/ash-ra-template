@@ -55,7 +55,7 @@
                                           "--codecov" "--html" "--junit" "--src-ns-path" "src" "--test-ns-path" "test"]}
 
            :gen            {:extra-paths ["src"]
-                            :main-opts   ["-m" "vivid.art.clj-tool"
+                            :main-opts   ["-m" "vivid.art.clj-tool" "render"
                                           "--bindings" "../assets/vivid-art-facts.edn"
                                           "--delimiters" "erb"
                                           "--dependencies" "[[net.vivid-inc/art-cli \"<%= vivid-art-version %>\"]]"

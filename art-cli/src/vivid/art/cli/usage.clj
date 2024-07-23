@@ -21,10 +21,10 @@
 
 (def ^:const default-output-dir ".")
 
-(def ^:const one-line-desc "Render Ash Ra .art templates.")
+(def ^:const one-line-desc (str "Ash Ra Template version " vivid.art/ash-ra-template-version))
 
 (defn summary [what-i-am]
-  (str "Provided file or directory tree paths containing Ash Ra .art template files, this
+  (str "Provided with file or directory tree paths containing Ash Ra .art template files, this
 " what-i-am " renders the ART templates to the output dir, preserving relative sub-paths."))
 
 (def ^:const cli-commands

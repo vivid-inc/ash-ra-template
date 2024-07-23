@@ -29,7 +29,7 @@
         :bindings     [{manufacturer     "Acme Corporation"    ; Map literal
                         manufacture-year "2022"}
 
-                       ; TODO #'com.acme.data/widget                 ; Var, value is a map
+                       ; TODO #'com.acme.data/product-data                 ; Var, value is a map
                        ; Its value is copy & pasted here:
                        {products [{:name               "Bag of bird seed"
                                     :weight-kgs         1.0
@@ -43,7 +43,6 @@
                        "{current-year 2021}"                   ; EDN as a string
                        "data/sales-offices.edn"                ; EDN file; top-level form is a map
                        "data/partner-list.json"]               ; JSON file; file content is made available under the symbol 'partner-list
-
 
         :delimiters   "jinja"                                  ; Resolves to #'vivid.art.delimiters/jinja
 

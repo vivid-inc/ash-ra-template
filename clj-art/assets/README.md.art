@@ -37,7 +37,7 @@ $ cat deps.edn
   {:art {:extra-deps {net.vivid-inc/clj-art {:mvn/version "<%= vivid-art-version %>"}}
          :main-opts  ["-m" "vivid.art.clj-tool"]}}}
 
-$ clojure -A:art \
+$ clojure -M:art \
     --bindings "{mysterious-primes [7 191]}" \
     oracle.art
 ```
@@ -46,7 +46,7 @@ $ clojure -A:art \
 You can also add the above alias to your personal `~/.clojure/deps.edn`.
 You'll then be able to render ART templates using `clojure` at the CLI anywhere you desire.
 ```sh
-$ clojure -A:art --help
+$ clojure -M:art --help
 ```
 
 
@@ -178,7 +178,7 @@ in this example aliases `rndr-a` and `rndr-b`. As `deps.edn` is not a build tool
 but instead focuses on dependency resolution and the running of a single entry point,
 we are able to run any one batch:
 ```bash
-$ clojure -A:rndr-a
+$ clojure -M:rndr-a
 ```
 
 __See also:__

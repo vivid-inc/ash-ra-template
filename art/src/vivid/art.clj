@@ -26,6 +26,8 @@
    [vivid.art.specs :refer [to-phase?]]
    [vivid.art.xlate :refer [translate]]))
 
+(def ^:const ash-ra-template-version "0.7.2")
+
 (def ^:dynamic *render-context* nil)
 
 (def ^:const default-delimiters-name "lispy")

@@ -12,18 +12,22 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
+; See https://clojure.org/guides/deps_and_cli
+
 (ns ^:internal-api vivid.art.clj-tool
   (:require
+   [clojure.edn]
+   [clojure.java.io :as io]
    [clojure.string]
    [clojure.tools.cli]
    [farolero.core :as farolero]
-   [vivid.art.cli :as art-cli]
    [vivid.art.cli.args]
+   [vivid.art.cli.command]
    [vivid.art.cli.log :as log]
    [vivid.art.cli.messages :as messages]
-   [vivid.art.cli.usage :refer [cli-options]]))
-
-; TODO Offer the full command set of vivid.art.cli.command/dispatch-command
+   [vivid.art.cli.usage :as usage])
+  (:import
+   (java.io PushbackReader)))
 
 (def ^:const default-options {:output-dir "."})
 
@@ -33,30 +37,54 @@
   (shutdown-agents)
   (System/exit exit-status))
 
-(defn- from-cli-args [args]
-  (->> (vivid.art.cli.args/cli-args->batch args cli-options)
-       (merge default-options)
-       (art-cli/render-batch)))
+(defn- batch-from-cli-args [args]
+  (let [batch* (vivid.art.cli.args/cli-args->batch args usage/cli-options)
+        batch (merge default-options batch*)]
+    batch))
 
-(defn- process [args]
+(defn- batches-from-project
+       [project]
+       (let [stanza  (:art project)
+             ->batch #(->> (vivid.art.cli.args/direct->batch (:templates %) %)
+                           (merge default-options))]
+            (cond
+             (map? stanza)  [(->batch stanza)]
+             (coll? stanza) (map ->batch stanza)
+             :else (exit 1 "Error: Uninterpretable clj-art ART configuration"))))
+
+(defn- process [project command args]
   (binding [log/*info-fn* println
             log/*warn-fn* println]
-    (from-cli-args args)))
+    ; TODO Documentation: Clarify that specifying options will cause ART to ignore project settings.
+           (let [batches (if (coll? args)
+                           [(batch-from-cli-args args)]
+                           (batches-from-project project))]
+                (vivid.art.cli.command/dispatch-command command batches))))
 
 (defn usage []
-  (let [options-summary (:summary (clojure.tools.cli/parse-opts [] cli-options))]
-    (->> [vivid.art.cli.usage/one-line-desc
-          (vivid.art.cli.usage/summary "Clojure tool")
-          (str "Usage: clj -m " (namespace `usage) " [options...] template-files...")
+  (let [options-summary (:summary (clojure.tools.cli/parse-opts [] usage/cli-options))]
+    (->> [usage/one-line-desc
+          (usage/summary "Clojure tool")
+          (str "Usage: clj -m " (namespace `usage) " COMMAND [OPTION]... [TEMPLATE-FILE]...")
+          (str "Commands:\n" (usage/command-summary))
           (str "Options:\n" options-summary)
-          vivid.art.cli.usage/for-more-info]
+          usage/for-more-info]
          (clojure.string/join "\n\n"))))
+
+(defn read-edn-file
+  [path]
+  (with-open [stream (PushbackReader. (io/reader path))]
+    (clojure.edn/read stream)))
 
 (defn -main
   "Clojure tools entry point for clj-art."
+  ; Classpath is already set by Clojure deps tool.
   [& args]
-  ; TODO Include classpath and deps
-  (farolero/handler-case (process args)
-                         (:vivid.art.cli/error [_ details] (if (:show-usage details)
-                                                             (exit (or (:exit-status details) 1) (usage))
-                                                             (exit 1 (messages/pp-str-error details))))))
+  (let [project  (read-edn-file "deps.edn")
+        has-cmd? (not (.startsWith (or ^String (first args) "") "-"))
+        command  (when has-cmd? (first args))
+        args*    (if   has-cmd? (seq (rest args)) args)]
+    (farolero/handler-case (process project command args*)
+                           (:vivid.art.cli/error [_ details] (if (:show-usage details)
+                                                               (exit (or (:exit-status details) 1) (usage))
+                                                               (exit 1 (messages/pp-str-error details)))))))

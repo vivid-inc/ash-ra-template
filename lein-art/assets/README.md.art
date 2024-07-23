@@ -116,7 +116,7 @@ For the sake of completeness, its value is copy & pasted into the example below 
                         manufacture-year "2022"}
 
                        ; (See note above)
-                       ;#'com.acme.data/widget                 ; Var, value is a map
+                       ;#'com.acme.data/product-data                 ; Var, value is a map
                        {products [{:name               "Bag of bird seed"
                                     :weight-kgs         1.0
                                     :minimum-order-qty  50

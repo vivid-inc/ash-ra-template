@@ -1,31 +1,52 @@
+; Copyright 2024 Vivid Inc. and/or its affiliates.
+;
+; Licensed under the Apache License, Version 2.0 (the "License")
+; you may not use this file except in compliance with the License.
+; You may obtain a copy of the License at
+;
+;     https://www.apache.org/licenses/LICENSE-2.0
+;
+; Unless required by applicable law or agreed to in writing, software
+; distributed under the License is distributed on an "AS IS" BASIS,
+; WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+; See the License for the specific language governing permissions and
+; limitations under the License.
+
+;; Run with:
+;;
+;;   $ clj -M:art render
+;;   ...
+;;   Rendering ART catalog/index.html
+;;   $ diff -r expected/ out/cdn/
+
 {:aliases
  {:art {:extra-deps {net.vivid-inc/clj-art {:mvn/version "0.7.2"}
                      art-example-custom-options/art-example-custom-options {:mvn/version "0"}}
-        :main-opts  ["-m" "vivid.art.clj-tool"
+        :main-opts  ["-m" "vivid.art.clj-tool"]}}
 
-                     ; Render all .art templates in the content/ directory
-                     "content"
+ ; Render all .art template files in the content/ directory to out/cdn/
+ :art {:templates    "content"
 
-                     ; Map as a string
-                     "--bindings" "{manufacturer,\"Acme Corporation\",manufacture-year,\"2022\"}"
+       :bindings     [{manufacturer     "Acme Corporation"    ; Map literal
+                       manufacture-year "2022"}
 
-                     ; Var whose value is a map
-                     ; TODO Process the classpath, and then inside a (with-classpath ~@body) process the remainder of the args, a subset of which might be vars.
-                     ; TODO "--bindings" "com.acme.data/product-data"
-                     ; Its value is copy & pasted here:
-                     "--bindings" "{products [{:name \"Bag of bird seed\" :weight-kgs 1.0 :minimum-order-qty 50 :unit-price-dollars 0.39M}{:name \"Ironing board on rollerskates\" :weight-kgs 2.0 :minimum-order-qty 10 :unit-price-dollars 17.95M}]}"
+                      ; TODO #'com.acme.data/product-data                 ; Var, value is a map
+                      ; Its value is copy & pasted here:
+                      {products [{:name               "Bag of bird seed"
+                                  :weight-kgs         1.0
+                                  :minimum-order-qty  50
+                                  :unit-price-dollars 0.39M}
+                                 {:name               "Ironing board on rollerskates"
+                                  :weight-kgs         2.0
+                                  :minimum-order-qty  10
+                                  :unit-price-dollars 17.95M}]}
 
-                     ; EDN as a string
-                     "--bindings" "{current-year,2021}"
-                     ; EDN file; top-level form is a map, value available as var 'sales-offices
-                     "--bindings" "data/sales-offices.edn"
-                     ; JSON file; file content is made available under the var 'partner-list
-                     "--bindings" "data/partner-list.json"
+                      "{current-year 2021}"                   ; EDN as a string
+                      "data/sales-offices.edn"                ; EDN file; top-level form is a map
+                      "data/partner-list.json"]               ; JSON file; file content is made available under the symbol 'partner-list
 
-                     ; Unqualified, resolves to #'vivid.art.delimiters/jinja
-                     "--delimiters" "jinja"
+       :delimiters   "jinja"                                  ; Resolves to #'vivid.art.delimiters/jinja
 
-                     "--dependencies" "[[hiccup/hiccup \"1.0.5\" :exclusions [org.clojure/clojure]]]"
-                     ; Render to the our/cdn/ directory
-                     "--output-dir" "out/cdn"]}}
- :paths ["src"]}
+       :dependencies [[hiccup/hiccup "1.0.5" :exclusions [org.clojure/clojure]]]
+
+       :output-dir   "out/cdn"}}
