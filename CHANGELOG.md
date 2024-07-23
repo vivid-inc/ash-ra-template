@@ -7,8 +7,6 @@ _Unreleased_
   their project files `deps.edn` and `project.clj`.
   Their respective idiosyncrasies are noted in the automated tests and documentation.
 - TODO Abstracting code common to each of `clj-art` and `lein-art`, consolidating it in `art-cli` as public API.
-- TODO Formalizing the expression of Leiningen subproject hierarchy with 
-  [`lein-sub`](https://github.com/kumarshantanu/lein-sub).
 - TODO Formalize independence of `art` sources from Java by renaming source files from `.clj` to `.cljc`, if possible.
 ### Fixed
 - TODO `vivid.art.cli.resolve/resolve-as-var` and `*-example-custom-options`

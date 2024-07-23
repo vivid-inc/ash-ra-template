@@ -13,8 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Execute a leiningen command in each project sub-directory.
-# Exits with the first non-zero exit code encountered during iteration.
+# Execute a leiningen command in each project sub-directory, allowing non-zero
+# exit codes. This script exits with the first non-zero exit code encountered
+# during iteration. In contrast, `lein-sub` will exit after encountering the
+# first non-zero exit code.
 
 # This tool is meant to be used from the project root, for example:
 #     $ bin/lein-star.sh with-profile clojure-1.11.3 antq
