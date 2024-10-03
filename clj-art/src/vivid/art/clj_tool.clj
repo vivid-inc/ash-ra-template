@@ -34,6 +34,7 @@
 (defn- exit [exit-status message]
   (println message)
   ; TODO Clojure doesn't exit right away. https://clojureverse.org/t/why-doesnt-my-program-exit/3754
+  ; TODO The main point isn't to exit, but to return a quasi 'exit code' back to who/what -ever called us.
   (shutdown-agents)
   (System/exit exit-status))
 
