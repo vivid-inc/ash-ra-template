@@ -11,9 +11,17 @@
   <h2>Deep Inn-sight: Chronicles of an Itinerant Hotelier</h2>
 </div>
 <section class="blog-entry">
-  <dev class="card">
+  <div class="card">
     ...
-  </dev>
+    <p>Testing <code>(emit)</code></p>
+    <p>0 args: <( (emit) )></p>
+    <p>1 args: <( (emit 0) )></p>
+    <p>2 args: <( (emit 0 1) )></p>
+    <p>3 args: <( (emit 0 1 2) )></p>
+    <p>4 args: <( (emit 0 1 2 3) )></p>
+    <p>5 args: <( (emit 0 1 2 3 4) )></p>
+    ...
+  </div>
 </section>
   <( )
 

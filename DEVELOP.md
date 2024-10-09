@@ -49,7 +49,7 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
   - See https://github.com/cljdoc/cljdoc/blob/master/doc/userguide/for-library-authors.adoc#git-sources
   - See https://github.com/cljdoc/cljdoc-analyzer
 - Infer sensible defaults that can be customized via overrides.
-- ClojureScript. `art` module only.
+- ClojureScript. `art` module only. Perhaps start by formalizing independence of `art` sources from Java by renaming source files from `.clj` to `.cljc` where possible.
 - Declare version 1.0.0 once the community deems the ART feature-complete, reliable, and properly documented.
 - How to achieve fast runtime performance, fast development & testing feedback loop. Benchmarks with hyperfine.
 - Build: Sign releases.

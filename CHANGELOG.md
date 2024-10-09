@@ -2,15 +2,16 @@
 
 ## [0.7.2]
 _Unreleased_
+### Added
+- Clojure version 1.12.0 to the set of Clojure versions that ART is tested with.
 ### Changed
 - `clj-art` and `lein-art` are at parity in terms of CLI argument processing and definition of rendering batches in
   their project files `deps.edn` and `project.clj`.
   Their respective idiosyncrasies are noted in the automated tests and documentation.
 - TODO Abstracting code common to each of `clj-art` and `lein-art`, consolidating it in `art-cli` as public API.
-- TODO Formalize independence of `art` sources from Java by renaming source files from `.clj` to `.cljc`, if possible.
 ### Fixed
 - TODO `vivid.art.cli.resolve/resolve-as-var` and `*-example-custom-options`
-- `(emit)` function signature in `(yield)`ed blocks had a different function signature than that of the 
+- `(emit)` function signature in `(yield)`ed blocks; it's function signature differed from that of the 
   top-level `(emit)`.
 
 ## [0.7.1]

@@ -36,7 +36,7 @@
             ; $ lein clj-kondo --copy-configs --dependencies --lint "$(lein classpath)"
             ; Reflection warning, /tmp/form-init8980745735929261178.clj:1:3390 - call to static method invokeStaticMethod on clojure.lang.Reflector can't be resolved (argument types: unknown, java.lang.String, unknown).
             ; No configs copied.
-            "clj-kondo" ["with-profile" "clojure-1.11.3,clj-kondo" "run" "-m" "clj-kondo.main" "--"
+            "clj-kondo" ["with-profile" "clojure-1.12.0,clj-kondo" "run" "-m" "clj-kondo.main" "--"
                          "--lint" "src:test"
                          "--parallel"]
             "lint"      ["do"
@@ -44,7 +44,7 @@
                          ["clj-kondo"]
                          ["antq"]
                          ["nvd" "check"]]
-            "test"      ["with-profile" "test" "with-profile" "+clojure-1.10.0:+clojure-1.10.3:+clojure-1.11.3" "build"]}
+            "test"      ["with-profile" "test" "with-profile" "+clojure-1.10.0:+clojure-1.10.3:+clojure-1.11.3:+clojure-1.12.0" "build"]}
 
   :cloverage {:codecov? true
               :html?    true
@@ -91,6 +91,7 @@
              :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]}
              :clojure-1.10.3 {:dependencies [[org.clojure/clojure "1.10.3"]]}
              :clojure-1.11.3 {:dependencies [[org.clojure/clojure "1.11.3"]]}
+             :clojure-1.12.0 {:dependencies [[org.clojure/clojure "1.12.0"]]}
 
              :deploy {:javac-options ["-target" "1.8" "-source" "1.8"]}
 

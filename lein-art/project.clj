@@ -32,7 +32,7 @@
                          ; TODO Fails, due perhaps in relation to :eval-in-leiningen ["cloverage"]
                          ["jar"]
                          ["install"]]
-            "clj-kondo" ["with-profile" "clojure-1.11.3,clj-kondo" "run" "-m" "clj-kondo.main" "--"
+            "clj-kondo" ["with-profile" "clojure-1.12.0,clj-kondo" "run" "-m" "clj-kondo.main" "--"
                          "--lint" "src:test"
                          "--parallel"]
             "gen"       ["art" "render"]
@@ -41,7 +41,7 @@
                          ["clj-kondo"]
                          ["antq"]
                          ["nvd" "check"]]
-            "test"      ["with-profile" "+clojure-1.10.0:+clojure-1.10.3:+clojure-1.11.3" "build"]}
+            "test"      ["with-profile" "+clojure-1.10.0:+clojure-1.10.3:+clojure-1.11.3:+clojure-1.12.0" "build"]}
 
   :art {:templates  "assets"
         :bindings   "../assets/vivid-art-facts.edn"
@@ -93,6 +93,7 @@
              :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]}
              :clojure-1.10.3 {:dependencies [[org.clojure/clojure "1.10.3"]]}
              :clojure-1.11.3 {:dependencies [[org.clojure/clojure "1.11.3"]]}
+             :clojure-1.12.0 {:dependencies [[org.clojure/clojure "1.12.0"]]}
 
              ;:cloverage      {:dependencies [[leiningen "2.9.8"]
              ;                                [org.clojure/tools.namespace "1.0.0"]]}
