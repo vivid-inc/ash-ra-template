@@ -25,6 +25,7 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
 
 ### Next:
 - `(slurp)` defaults to decoding input files as UTF-8; this might trip up template authors.
+- Use globs to select template files. See https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-
 - Templates that generate clj functions larger than the 64KB limit fail, due to: https://github.com/clojure/clojure/blob/13a2f67b91ab81cd109ea3152fce1ae76d212453/src/jvm/clojure/asm/ByteVector.java#L242C21-L242C28
 - Heavy testing of quote nesting and escaping, delimiter escaping, Clojure reader forms, comments.
 - clj-art :exec-fn, fully support `(dispatch-command)`. See https://practical.li/blog-staging/posts/clojure-cli-tools-understanding-aliases/

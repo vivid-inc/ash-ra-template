@@ -10,6 +10,8 @@ _Unreleased_
 - TODO Formalize independence of `art` sources from Java by renaming source files from `.clj` to `.cljc`, if possible.
 ### Fixed
 - TODO `vivid.art.cli.resolve/resolve-as-var` and `*-example-custom-options`
+- `(emit)` function signature in `(yield)`ed blocks had a different function signature than that of the 
+  top-level `(emit)`.
 
 ## [0.7.1]
 Released 2024-05-03.

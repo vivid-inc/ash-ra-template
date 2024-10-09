@@ -23,7 +23,7 @@
 
    ; Generally sorted alphabetically
    "(def ^java.lang.StringBuilder __vivid__art__sb (new java.lang.StringBuilder))"
-   "(defmacro block [& body] `(let [sb# (new java.lang.StringBuilder)] (binding [emit #(.append sb# %)] ~@body (.toString sb#))))"
+   "(defmacro block [& body] `(let [sb# (new java.lang.StringBuilder)] (binding [emit (fn ([]) ([& more] (doseq [m more] (.append sb# m))))] ~@body (.toString sb#))))"
    (str "(defn ^:dynamic emit ([]) ([& more] (doseq [m more] (.append " ns-sym "/__vivid__art__sb m)) nil))")
    "(defn yield [k] (let [rc vivid.art/*render-context*] (get-in rc [:bindings k] \"\")))"])
 
