@@ -37,14 +37,17 @@
    {:command     "render"
     :description "Render all template batches once"}
    {:command     "watch"
-    :description "Watch templates in all batches, re-rendering on changes"}])
+    :description "Watch templates in all batches, re-rendering on changes"}
+   {:command     "version"
+    :description "Display the name and version of this tool"}])
 
 (defn cli-command? [s]
   (some #{s} (map :command cli-commands)))
 
 (defn command-summary []
-  (->> (map #(format "  %-6s  %s" (:command %) (:description %)) cli-commands)
-       (clojure.string/join "\n")))
+  (let [width (apply max (map (comp count :command) cli-commands))]
+    (->> (map #(format (str "  %-" width "s  %s") (:command %) (:description %)) cli-commands)
+         (clojure.string/join "\n"))))
 
 ; CLI options are specified according to clojure.tools.cli.
 ; Entries are sorted alphabetically by long option.

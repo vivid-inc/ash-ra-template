@@ -4,6 +4,7 @@
 _Unreleased_
 ### Added
 - Clojure version 1.12.0 to the set of Clojure versions that ART is tested with.
+- `version` CLI command that prints the name and version of the tool.
 ### Changed
 - `clj-art` and `lein-art` are at parity in terms of CLI argument processing and definition of rendering batches in
   their project files `deps.edn` and `project.clj`.

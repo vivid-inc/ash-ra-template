@@ -48,6 +48,9 @@
         (art-cli/render-batches batches)
         (vivid.art.cli.watch/watch-on-batches batches art-cli/render-batch))
 
+      (= command "version")
+      (log/*info-fn* vivid.art.cli.usage/one-line-desc)
+
       :else
       (farolero/signal :vivid.art.cli/error
                        {:step    'parse-cli-args
