@@ -18,6 +18,8 @@
    [clojure.test :refer [are deftest testing]]
    [vivid.art :as art]))
 
+(set! *warn-on-reflection* true)
+
 (deftest bindings-styles
   (testing "Quote the entire bindings map"
     (are [expected template opts]

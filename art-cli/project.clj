@@ -28,6 +28,7 @@
   :aliases {"build"     ["do"
                          ["version"]
                          ["clean"]
+                         ["check"]
                          ["eftest"]
                          ["cloverage"]
                          ["jar"]
@@ -58,8 +59,6 @@
   :eftest {:capture-output? true}
 
   :exclusions [org.clojure/clojure]
-
-  :global-vars {*warn-on-reflection* true}
 
   :javac-options ["-target" "null"]
 

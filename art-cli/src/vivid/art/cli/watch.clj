@@ -21,6 +21,8 @@
    (java.io File)
    (java.nio.file Files NoSuchFileException Path)))
 
+(set! *warn-on-reflection* true)
+
 ; Implementation notes:
 ;
 ; Employ io.methvin:directory-watcher to watch for file system changes. It is

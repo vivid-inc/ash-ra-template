@@ -22,6 +22,8 @@
    [vivid.art.cli.validate :as validate]
    [vivid.art.specs]))
 
+(set! *warn-on-reflection* true)
+
 ;
 ; CLI args
 ;

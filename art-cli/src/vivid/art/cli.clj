@@ -24,6 +24,8 @@
    [vivid.art.cli.specs]
    [vivid.art.cli.usage]))
 
+(set! *warn-on-reflection* true)
+
 (def ^:const art-filename-suffix
   "Ash Ra Template .art filename suffix."
   vivid.art.cli.files/art-filename-suffix)

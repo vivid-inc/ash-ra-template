@@ -21,6 +21,8 @@
   (:import
    (java.io File)))
 
+(set! *warn-on-reflection* true)
+
 (def ^:const art-filename-suffix ".art")
 (def ^:const art-filename-suffix-regex #"\.art$")
 

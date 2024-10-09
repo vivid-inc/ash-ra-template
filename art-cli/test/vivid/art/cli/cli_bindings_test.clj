@@ -20,6 +20,8 @@
    [vivid.art.cli.usage :refer [cli-options]]
    [vivid.art.cli.validate :as validate]))
 
+(set! *warn-on-reflection* true)
+
 (def ^:const custom-bindings
   {:b 2})
 

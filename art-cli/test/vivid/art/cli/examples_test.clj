@@ -18,6 +18,8 @@
    [clojure.test :refer :all]
    [vivid.art.cli :as art-cli]))
 
+(set! *warn-on-reflection* true)
+
 ; TODO art-cli API is in flux
 #_(deftest usage
     (testing "All code samples in the README file"

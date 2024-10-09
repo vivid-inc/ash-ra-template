@@ -18,6 +18,8 @@
   (:import
    (java.io File)))
 
+(set! *warn-on-reflection* true)
+
 ; Additional classpath, configured for the template rendering environment.
 (s/def ::classpath (s/coll-of string? :min-count 1))
 

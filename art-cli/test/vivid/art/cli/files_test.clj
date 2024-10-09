@@ -21,6 +21,8 @@
   (:import
    (java.io File)))
 
+(set! *warn-on-reflection* true)
+
 (deftest relative-paths
   (are [^String a ^String b res]
        (= res

@@ -3,8 +3,9 @@
 <%
 (require '[clojure.string]
          '[vivid.art]
-         '[vivid.art.clj-tool]
-         '[vivid.art.cli.watch])
+         '[vivid.art.cli]
+         '[vivid.art.cli.watch]
+         '[vivid.art.clj-tool])
 
 (def clojure-versions  (get vivid-art-facts 'clojure-versions))
 (def vivid-art-version (get vivid-art-facts 'vivid-art-version))
@@ -74,7 +75,7 @@ filename extensions, overwriting any existing files with the same paths.
 | `--delimiters` | VAL | `<%= vivid.art/default-delimiters-name %>` | Template delimiters |
 | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. |
 | `-h`, `--help` | | | Displays lovely help and then exits |
-| `--output-dir` | DIR | `<%= (:output-dir vivid.art.clj-tool/default-options) %>` | Write rendered files to DIR |
+| `--output-dir` | DIR | `<%= (:output-dir vivid.art.cli/default-options) %>` | Write rendered files to DIR |
 | `--to-phase` | One of: <%= to-phase-values %> | `<%= (name vivid.art/default-to-phase) %>` | Stop the render dataflow on each template at an earlier phase |
 | `--watch-timeout-ms` | VAL | `<%= vivid.art.cli.watch/default-debounce-timeout-ms %>` | Trigger re-render once this timeout in milliseconds elapses, coalescing flurries of change to watched batches |
 

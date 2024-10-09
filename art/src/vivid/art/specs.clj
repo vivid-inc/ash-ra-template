@@ -19,6 +19,8 @@
   (:require
    [clojure.spec.alpha :as s]))
 
+(set! *warn-on-reflection* true)
+
 ; ART templates
 
 (s/def :vivid.art/template (s/nilable string?))

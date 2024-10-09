@@ -23,6 +23,8 @@
   (:import
    (java.io File)))
 
+(set! *warn-on-reflection* true)
+
 (deftest command-help
   (are [args]
        (true?

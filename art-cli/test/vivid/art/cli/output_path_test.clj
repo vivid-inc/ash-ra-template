@@ -23,6 +23,8 @@
   (:import
    (java.io File)))
 
+(set! *warn-on-reflection* true)
+
 (deftest output-dir-cli-args
   (are [args ^String dir]
        (= (.getAbsoluteFile (File. dir))

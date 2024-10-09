@@ -18,6 +18,8 @@
    [clojure.string]
    [tilakone.core :as tk]))
 
+(set! *warn-on-reflection* true)
+
 (defn echo
   "Writes an (emit) to the compiled code that echoes the plain string but with escaping."
   [acc val]

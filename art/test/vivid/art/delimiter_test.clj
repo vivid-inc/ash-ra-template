@@ -18,6 +18,8 @@
    [vivid.art :as art]
    [vivid.art.delimiters]))
 
+(set! *warn-on-reflection* true)
+
 (deftest api-contract
   (testing "Default lispy delimiters"
     (are [expected template]

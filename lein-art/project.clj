@@ -28,6 +28,7 @@
   :aliases {"build"     ["do"
                          ["version"]
                          ["clean"]
+                         ["check"]
                          ["eftest"]
                          ; TODO Fails, due perhaps in relation to :eval-in-leiningen ["cloverage"]
                          ["jar"]
@@ -63,8 +64,6 @@
   :eval-in-leiningen true
 
   :exclusions [org.clojure/clojure]
-
-  :global-vars {*warn-on-reflection* true}
 
   :javac-options ["-target" "null"]
 

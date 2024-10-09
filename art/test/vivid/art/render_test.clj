@@ -17,6 +17,8 @@
    [clojure.test :refer [are deftest is testing]]
    [vivid.art :as art]))
 
+(set! *warn-on-reflection* true)
+
 (deftest plain-echo
   (testing "Plain echo pass-through"
     (are [expected template]

@@ -19,6 +19,8 @@
    [clojure.test :refer [are deftest is testing]]
    [vivid.art :as art]))
 
+(set! *warn-on-reflection* true)
+
 (deftest usage
   (testing "All code samples in the README file"
     (are [expected template]

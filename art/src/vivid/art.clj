@@ -26,6 +26,8 @@
    [vivid.art.specs :refer [to-phase?]]
    [vivid.art.xlate :refer [translate]]))
 
+(set! *warn-on-reflection* true)
+
 (def ^:const ash-ra-template-version "0.7.2")
 
 (def ^:dynamic *render-context* nil)
