@@ -19,22 +19,16 @@
    [farolero.core :as farolero]
    [leiningen.core.classpath]
    [leiningen.core.main :as main-lein]
+   [vivid.art.cli :refer [default-options]]
    [vivid.art.cli.args]
    [vivid.art.cli.command]
    [vivid.art.cli.log :as log]
    [vivid.art.cli.messages :as messages]
    [vivid.art.cli.usage :as usage]))
 
-(def ^:const default-options {:output-dir "."})
-
 (defn- exit [exit-status message]
   (main-lein/info message)
   (main-lein/exit exit-status))
-
-(defn- batch-from-cli-args [args]
-  (let [batch* (vivid.art.cli.args/cli-args->batch args usage/cli-options)
-        batch (merge default-options batch*)]
-    batch))
 
 (defn- batches-from-project
   [project]
@@ -53,7 +47,7 @@
             log/*info-fn*  main-lein/info
             log/*warn-fn*  main-lein/warn]
     (let [batches (if (coll? args)
-                    [(batch-from-cli-args args)]
+                    [(vivid.art.cli/batch-from-cli-args args)]
                     (batches-from-project project))]
       (vivid.art.cli.command/dispatch-command command batches))))
 

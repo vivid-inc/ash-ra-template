@@ -8,7 +8,7 @@ _Unreleased_
 - `clj-art` and `lein-art` are at parity in terms of CLI argument processing and definition of rendering batches in
   their project files `deps.edn` and `project.clj`.
   Their respective idiosyncrasies are noted in the automated tests and documentation.
-- TODO Abstracting code common to each of `clj-art` and `lein-art`, consolidating it in `art-cli` as public API.
+- Abstracting code common to each of `clj-art` and `lein-art`, consolidating it in `art-cli` as public API.
 ### Fixed
 - TODO `vivid.art.cli.resolve/resolve-as-var` and `*-example-custom-options`
 - `(emit)` function signature in `(yield)`ed blocks; it's function signature differed from that of the 

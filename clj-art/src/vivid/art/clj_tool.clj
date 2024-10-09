@@ -21,6 +21,7 @@
    [clojure.string]
    [clojure.tools.cli]
    [farolero.core :as farolero]
+   [vivid.art.cli :refer [default-options]]
    [vivid.art.cli.args]
    [vivid.art.cli.command]
    [vivid.art.cli.log :as log]
@@ -29,8 +30,6 @@
   (:import
    (java.io PushbackReader)))
 
-(def ^:const default-options {:output-dir "."})
-
 (defn- exit [exit-status message]
   (println message)
   ; TODO Clojure doesn't exit right away. https://clojureverse.org/t/why-doesnt-my-program-exit/3754
@@ -38,27 +37,22 @@
   (shutdown-agents)
   (System/exit exit-status))
 
-(defn- batch-from-cli-args [args]
-  (let [batch* (vivid.art.cli.args/cli-args->batch args usage/cli-options)
-        batch (merge default-options batch*)]
-    batch))
-
 (defn- batches-from-project
-       [project]
-       (let [stanza  (:art project)
-             ->batch #(->> (vivid.art.cli.args/direct->batch (:templates %) %)
-                           (merge default-options))]
-            (cond
-             (map? stanza)  [(->batch stanza)]
-             (coll? stanza) (map ->batch stanza)
-             :else (exit 1 "Error: Uninterpretable clj-art ART configuration"))))
+  [project]
+  (let [stanza  (:art project)
+        ->batch #(->> (vivid.art.cli.args/direct->batch (:templates %) %)
+                      (merge default-options))]
+    (cond
+      (map? stanza) [(->batch stanza)]
+      (coll? stanza) (map ->batch stanza)
+      :else (exit 1 "Error: Uninterpretable clj-art ART configuration"))))
 
 (defn- process [project command args]
   (binding [log/*info-fn* println
             log/*warn-fn* println]
     ; TODO Documentation: Clarify that specifying options will cause ART to ignore project settings.
            (let [batches (if (coll? args)
-                           [(batch-from-cli-args args)]
+                           [(vivid.art.cli/batch-from-cli-args args)]
                            (batches-from-project project))]
                 (vivid.art.cli.command/dispatch-command command batches))))
 
@@ -77,6 +71,10 @@
   (with-open [stream (PushbackReader. (io/reader path))]
     (clojure.edn/read stream)))
 
+;
+; Clojure tools entry point for clj-art
+;
+
 (defn -main
   "Clojure tools entry point for clj-art."
   ; Classpath is already set by Clojure deps tool.
@@ -84,8 +82,9 @@
   (let [project  (read-edn-file "deps.edn")
         has-cmd? (not (.startsWith (or ^String (first args) "") "-"))
         command  (when has-cmd? (first args))
-        args*    (if   has-cmd? (seq (rest args)) args)]
-    (farolero/handler-case (process project command args*)
-                           (:vivid.art.cli/error [_ details] (if (:show-usage details)
-                                                               (exit (or (:exit-status details) 1) (usage))
-                                                               (exit 1 (messages/pp-str-error details)))))))
+        args*    (if has-cmd? (seq (rest args)) args)]
+    (farolero/handler-case
+     (process project command args*)
+     (:vivid.art.cli/error [_ details] (if (:show-usage details)
+                                         (exit (or (:exit-status details) 1) (usage))
+                                         (exit 1 (messages/pp-str-error details)))))))

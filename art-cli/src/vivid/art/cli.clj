@@ -16,11 +16,13 @@
   "art-cli public API."
   (:require
    [clojure.spec.alpha :as s]
+   [vivid.art.cli.args]
    [vivid.art.cli.classpath :refer [with-custom-classloader]]
    [vivid.art.cli.exec]
    [vivid.art.cli.files]
    [vivid.art.cli.log :as log]
-   [vivid.art.cli.specs]))
+   [vivid.art.cli.specs]
+   [vivid.art.cli.usage]))
 
 (def ^:const art-filename-suffix
   "Ash Ra Template .art filename suffix."
@@ -28,6 +30,12 @@
 (def ^:const art-filename-suffix-regex
   "Ash Ra Template .art filename suffix as a regular expression, suitable for matching filenames."
   vivid.art.cli.files/art-filename-suffix-regex)
+
+(def ^:const default-options {:output-dir "."})
+
+;
+; Batch rendering
+;
 
 (defn render-batch
   "Scans :templates for files and directory sub-trees, renders all ART templates found
@@ -51,3 +59,15 @@
     (render-batch b)))
 (s/fdef render-batches
   :args (s/coll-of :vivid.art.cli/batch))
+
+;
+; CLI processing
+;
+
+(defn batch-from-cli-args
+  "Converts CLI arguments into an ART processing batch using
+  the CLI args specification provided by this library."
+  [args]
+  (let [batch* (vivid.art.cli.args/cli-args->batch args vivid.art.cli.usage/cli-options)
+        batch (merge default-options batch*)]
+    batch))
