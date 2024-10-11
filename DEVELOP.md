@@ -70,6 +70,12 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
 
 
 
+## Development philosophy
+
+The public API is designed around a functional approach, with as little magic as its authors can manage.
+
+
+
 ## Bookkeeping
 
 This section records platform-related technological decisions.
@@ -80,7 +86,7 @@ This section records platform-related technological decisions.
 
 **Java**:
 - Lower-bound of Java 8, because it strikes a good balance between wide adoption and long-term stability.
-- Java LTS releases, as these represent a somewhat stable target with wide adoption.
+- Restrict testing and support to Java LTS releases, as these represent a somewhat stable target with wide adoption.
 
 **Leiningen** is the primary build tool.
 - Lower-bound of Leiningen 2.10.0. This is a reasonably recent version of Leiningen provided by CircleCI at the time of this writing.
