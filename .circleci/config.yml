@@ -77,7 +77,6 @@ clj-art: &clj-art-job
           lein install
           for ver in "1.10.3" "1.11.1"
           do
-            # TODO return value is non-zero, but build passes?
             clojure -M:clojure-${ver}:test
           done
         working_directory: clj-art
@@ -97,8 +96,8 @@ lein-art: &lein-art-job
           lein install
           lein test
         working_directory: lein-art
-    # TODO - store_test_results:
-    #    path: lein-art/.../junit.xml
+    - store_test_results:
+        path: lein-art/target/junit.xml
 
 
 # Referencing https://hub.docker.com/r/cimg/clojure/tags

@@ -21,6 +21,8 @@ set -o nounset
 set -o pipefail
 set -o xtrace
 
+shopt -s globstar
+
 IFS=' ' read -a CLOJURE_VERSIONS <<< $(lein run -m clojure.main -e \
   '(print (as-> "assets/vivid-art-facts.edn" d
                 (with-open [r (clojure.java.io/reader d)]
@@ -32,11 +34,11 @@ echo Running all tests
 
 export TZ=UTC
 
-# Aim for a clean build
-find . -depth -name .cpcache -or -name out -or -name target -type d | xargs rm -r || true
+# Aim for a clean build.
+rm -rf **/{.cpcache,out,target}
 
 # Run all tests, create the deliverables
 (cd art && lein test)
 (cd art-cli && lein test)
-(cd clj-art && lein install && for ver in "${CLOJURE_VERSIONS[@]}" ; do clojure -M:clojure-${ver}:test ; done) # Test failures don't stop this script
+(cd clj-art && lein install && for ver in "${CLOJURE_VERSIONS[@]}" ; do rm -rf target ; clojure -M:clojure-${ver}:test ; done)
 (cd lein-art && lein install && lein test)

@@ -45,7 +45,7 @@
                          ["clj-kondo"]
                          ["antq"]
                          ["nvd" "check"]]
-            "test"      ["with-profile" "test" "with-profile" "+clojure-1.10.0:+clojure-1.10.3:+clojure-1.11.3:+clojure-1.12.0" "build"]}
+            "test"      ["with-profile" "test" "with-profile" "+clojure-1.10.0:+clojure-1.10.3:+clojure-1.11.4:+clojure-1.12.0" "build"]}
 
   :cloverage {:codecov? true
               :html?    true
@@ -89,7 +89,7 @@
 
              :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]}
              :clojure-1.10.3 {:dependencies [[org.clojure/clojure "1.10.3"]]}
-             :clojure-1.11.3 {:dependencies [[org.clojure/clojure "1.11.3"]]}
+             :clojure-1.11.4 {:dependencies [[org.clojure/clojure "1.11.4"]]}
              :clojure-1.12.0 {:dependencies [[org.clojure/clojure "1.12.0"]]}
 
              :deploy {:javac-options ["-target" "1.8" "-source" "1.8"]}

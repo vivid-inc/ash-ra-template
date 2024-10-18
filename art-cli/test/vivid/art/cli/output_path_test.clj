@@ -57,7 +57,7 @@
   (are [^String base-path ^String template-file dest-rel-path]
        (= {:src-path (File. ^String template-file)
            :dest-rel-path (File. ^String dest-rel-path)}
-          (vivid.art.cli.files/->template-path (File. base-path) (File. template-file)))
+          (vivid.art.cli.files/template-path-metadata (File. base-path) (File. template-file)))
     "a.csv.art" "a.csv.art" "a.csv"
     "/a.csv.art" "/a.csv.art" "a.csv"
 

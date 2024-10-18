@@ -13,7 +13,7 @@
 ; limitations under the License.
 
 (ns ^:internal-api vivid.art.cli.validate
-  "Validation of individual options available in public API & CLI"
+  "Validation of individual options available in public API & CLI."
   (:require
    [clojure.spec.alpha :as s]
    [clojure.string]
@@ -49,7 +49,7 @@
                           {:step    'validate-bindings
                            :message (format "Bad bindings: '%s'" x)}))))
    {}
-    ; Flattened, bindings will be fed to (reduce) as a collection if it wasn't one already.
+   ; Flattened, bindings will be fed to (reduce) as a collection if it wasn't one already.
    (with-meta (flatten [bindings]) (meta bindings))))
 
 (defn validate-delimiters
@@ -85,25 +85,23 @@
   [output-dir]
   (if-let [f (some-> ^File (resolve/resolve-as-file output-dir)
                      (.getAbsoluteFile))]
+    ; TODO Signal if file points to something that is not .isDirectory
     f
     (farolero/signal :vivid.art.cli/error
                      {:step    'validate-output-dir
                       :message (format "output-dir '%s' must name a directory path" output-dir)})))
 
 (defn validate-templates
-  "Returns a collection of java.io.File's representing each of the named
-  template file paths, being any mix of existing files and directories.
-  Any unresolvable named path is signaled as an error."
+  "Provided a collection of path specifications for any mix of globs,
+  directories, and files, finds paths of all files satisfying each path-spec
+  and returns them as a collection of template file path metadata.
+  Any uninterpretable path specification is signaled as an error."
   [x]
-  (letfn [(conv [path]
-            (let [f (some-> ^File (resolve/resolve-as-file path)
-                            (.getAbsoluteFile))]
-              (if (and f (.exists ^File f))
-                f
-                (farolero/signal :vivid.art.cli/error
-                                 {:step    'validate-templates
-                                  :message (format "Template path doesn't exist: '%s'" path)}))))]
-    (map conv (if (coll? x) x [x]))))
+  (mapcat #(or (resolve/resolve-as-template-path-spec %)
+               (farolero/signal :vivid.art.cli/error
+                                {:step    'validate-templates
+                                 :message (format "Template path specification didn't produce any files: '%s'" %)}))
+          (if (coll? x) x [x])))
 
 (defn validate-to-phase
   "The :to-phase option can either be a valid keyword or its string representation.
@@ -134,7 +132,7 @@
       val)
     (catch Exception e
       (farolero/signal :vivid.art.cli/error
-                       {:step       'validate-watch-timeout-ms
-                        :message    (format "Could not interpret watch-timeout-ms as an integer: `%s'" x)
-                        :exception  e
-                        :raw-value  x}))))
+                       {:step      'validate-watch-timeout-ms
+                        :message   (format "Could not interpret watch-timeout-ms as an integer: `%s'" x)
+                        :exception e
+                        :raw-value x}))))

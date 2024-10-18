@@ -30,7 +30,7 @@
 
            :clojure-1.10.0 {:override-deps {org.clojure/clojure {:mvn/version "1.10.0"}}}
            :clojure-1.10.3 {:override-deps {org.clojure/clojure {:mvn/version "1.10.3"}}}
-           :clojure-1.11.3 {:override-deps {org.clojure/clojure {:mvn/version "1.11.3"}}}
+           :clojure-1.11.4 {:override-deps {org.clojure/clojure {:mvn/version "1.11.4"}}}
            :clojure-1.12.0 {:override-deps {org.clojure/clojure {:mvn/version "1.12.0"}}}
 
            ; See https://github.com/cloverage/cloverage
@@ -49,5 +49,4 @@
            ; See https://github.com/weavejester/eftest
            :test           {:extra-deps  {eftest/eftest {:mvn/version "0.6.0"}}
                             :extra-paths ["test"]
-                            ; TODO This doesn't fail the build even when tests fail.
-                            :main-opts   ["-e" "(require '[eftest.runner :refer [find-tests run-tests]]) (require '[eftest.report.junit :as ju]) (try (run-tests (find-tests \"test\") {:report (eftest.report/report-to-file ju/report \"target/junit.xml\")}) (finally (shutdown-agents)))"]}}}
+                            :main-opts   ["-m" "vivid.art.test-runner"]}}}

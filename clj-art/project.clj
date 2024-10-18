@@ -80,7 +80,7 @@
 
              :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]}
              :clojure-1.10.3 {:dependencies [[org.clojure/clojure "1.10.3"]]}
-             :clojure-1.11.3 {:dependencies [[org.clojure/clojure "1.11.3"]]}
+             :clojure-1.11.4 {:dependencies [[org.clojure/clojure "1.11.4"]]}
              :clojure-1.12.0 {:dependencies [[org.clojure/clojure "1.12.0"]]}
 
              :deploy {:javac-options ["-target" "1.8" "-source" "1.8"]}

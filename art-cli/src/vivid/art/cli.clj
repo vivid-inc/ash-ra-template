@@ -43,8 +43,7 @@
   "Scans :templates for files and directory sub-trees, renders all ART templates found
   within according to the batch settings. Fails fast in event of an error."
   [batch]
-  (let [templates (-> (:templates batch)
-                      vivid.art.cli.files/paths->template-paths!)]
+  (let [templates (:templates batch)]
     (if (empty? templates)
       (log/*warn-fn* "Warning: No ART templates to render.")
       (let [classpath (vivid.art.cli.classpath/assemble-classpath batch)]

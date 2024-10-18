@@ -30,7 +30,7 @@
                          ["clean"]
                          ["check"]
                          ["eftest"]
-                         ; TODO Fails, due perhaps in relation to :eval-in-leiningen ["cloverage"]
+                         ; TODO Fails, due perhaps in relation to :eval-in-leiningen : ["cloverage"]
                          ["jar"]
                          ["install"]]
             "clj-kondo" ["with-profile" "clojure-1.12.0,clj-kondo" "run" "-m" "clj-kondo.main" "--"
@@ -42,7 +42,7 @@
                          ["clj-kondo"]
                          ["antq"]
                          ["nvd" "check"]]
-            "test"      ["with-profile" "+clojure-1.10.0:+clojure-1.10.3:+clojure-1.11.3:+clojure-1.12.0" "build"]}
+            "test"      ["with-profile" "+clojure-1.10.0:+clojure-1.10.3:+clojure-1.11.4:+clojure-1.12.0" "build"]}
 
   :art {:templates  "assets"
         :bindings   "../assets/vivid-art-facts.edn"
@@ -59,7 +59,8 @@
   :dependencies [[net.vivid-inc/art-cli   "0.7.2"]
                  [org.clojure/tools.cli   "1.1.230"]]
 
-  :eftest {:capture-output? true}
+  :eftest {:report eftest.report.junit/report
+           :report-to-file "target/junit.xml"}
 
   :eval-in-leiningen true
 
@@ -91,7 +92,7 @@
 
              :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]}
              :clojure-1.10.3 {:dependencies [[org.clojure/clojure "1.10.3"]]}
-             :clojure-1.11.3 {:dependencies [[org.clojure/clojure "1.11.3"]]}
+             :clojure-1.11.4 {:dependencies [[org.clojure/clojure "1.11.4"]]}
              :clojure-1.12.0 {:dependencies [[org.clojure/clojure "1.12.0"]]}
 
              ;:cloverage      {:dependencies [[leiningen "2.9.8"]

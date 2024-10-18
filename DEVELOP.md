@@ -24,9 +24,14 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
 ## Along the path to ART version 1.0 and beyond
 
 ### Next:
+- Possible defect: Are :dependencies leaked to subsequent ART render batches, without being expressly mentioned as being dependencies?
+- `watch` command: Tolerate failure on the first full pass. This might be accomplished by first entering watch mode, then queueing a full render.
+- CLI option to either fail command at first render error or attempt the entire batch then report exit code 
+  (default, consistent with `watch`) `--fail-fast`.
 - `vivid.art.cli.resolve/resolve-as-var` and `*-example-custom-options`
+- Ability to specify named batches, and run only those batches in a rendering run.
+- Accept a varname as a template path. Use either its return value (if IFn) or its value as a set of template path-specs.
 - `(slurp)` defaults to decoding input files as UTF-8; this might trip up template authors.
-- Use globs to select template files. See https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-
 - Templates that generate clj functions larger than the 64KB limit fail, due to: https://github.com/clojure/clojure/blob/13a2f67b91ab81cd109ea3152fce1ae76d212453/src/jvm/clojure/asm/ByteVector.java#L242C21-L242C28
 - Heavy testing of quote nesting and escaping, delimiter escaping, Clojure reader forms, comments.
 - clj-art :exec-fn, fully support `(dispatch-command)`. See https://practical.li/blog-staging/posts/clojure-cli-tools-understanding-aliases/
@@ -73,6 +78,9 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
 ## Development philosophy
 
 The public API is designed around a functional approach, with as little magic as its authors can manage.
+In the automated tests, some values may appear nonsensical or even absurd, but we need to account for all eventualities, including:
+- Programmatic manipulation of values, concatenation of strings, etc.
+- If it is possible, someone may eventually try it.
 
 
 
@@ -83,6 +91,7 @@ This section records platform-related technological decisions.
 **Clojure**:
 - Lower-bound of Clojure 1.9.0 for [spec](https://clojure.org/guides/spec).
 - Lower-bound of Clojure 1.10.0, farolero's minimum supported version.
+- Clojure 1.10's minimum Java version requirement is Java 8.
 
 **Java**:
 - Lower-bound of Java 8, because it strikes a good balance between wide adoption and long-term stability.

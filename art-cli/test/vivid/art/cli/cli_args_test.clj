@@ -27,38 +27,47 @@
 
 (deftest command-help
   (are [args]
-       (true?
-        (farolero/handler-case (vivid.art.cli.args/cli-args->batch args cli-options)
-                               (:vivid.art.cli/error [_ {:keys [show-usage]}] show-usage)))
+    (true?
+     (farolero/handler-case (vivid.art.cli.args/cli-args->batch args cli-options)
+                            (:vivid.art.cli/error [_ {:keys [show-usage]}] show-usage)))
     []
     ["-h"]
     ["--help"]))
 
 (deftest templates-args
   (are [args expected]
-       (= expected
-          (vivid.art.cli.args/cli-args->batch args cli-options))
+    (let [actual (-> (vivid.art.cli.args/cli-args->batch args cli-options)
+                     (update-in [:templates] (fn [xs] (into #{} (map #(select-keys % [:dest-rel-path :src-path]) xs)))))]
+      (= expected actual))
 
     ["test-resources/empty.art"]
     {:output-dir (.getAbsoluteFile (File. ^String vivid.art.cli.usage/default-output-dir))
-     :templates  (list (.getAbsoluteFile (File. "test-resources/empty.art")))}))
+     :templates  #{{:src-path      (File. "test-resources/empty.art")
+                    :dest-rel-path (File. "empty")}}}
+
+    ["test-resources/*.art"]
+    {:output-dir (.getAbsoluteFile (File. ^String vivid.art.cli.usage/default-output-dir))
+     :templates  #{{:dest-rel-path (File. "empty")
+                    :src-path      (File. "test-resources/empty.art")}
+                   {:dest-rel-path (File. "plain.txt")
+                    :src-path      (File. "test-resources/plain.txt.art")}}}))
 
 (deftest bad-template-args
   (are [filename]
-       (= 'validate-templates
-          (let [args [filename]]
-            (farolero/handler-case
-           ; Coax farolero to signal the expected ::error by forcing evaluation
-             (doall (:templates (vivid.art.cli.args/cli-args->batch args cli-options)))
-             (:vivid.art.cli/error [_ {:keys [step]}] step))))
+    (= 'validate-templates
+       (let [args [filename]]
+         (farolero/handler-case
+          ; Coax farolero to signal in the expected way by forcing evaluation
+          (doall (:templates (vivid.art.cli.args/cli-args->batch args cli-options)))
+          (:vivid.art.cli/error [_ {:keys [step]}] step))))
     ""
     " "
     "bogus-98cbb569-0a7b-4534-bffe-418944f97686.art"))
 
 (deftest unknown-args
   (are [args]
-       (let [{:keys [step message]} (farolero/handler-case (vivid.art.cli.args/cli-args->batch args cli-options)
-                                                           (:vivid.art.cli/error [_ details] details))]
-         (and (= 'parse-cli-args step)
-              (clojure.string/includes? message (first args))))
+    (let [{:keys [step message]} (farolero/handler-case (vivid.art.cli.args/cli-args->batch args cli-options)
+                                                        (:vivid.art.cli/error [_ details] details))]
+      (and (= 'parse-cli-args step)
+           (clojure.string/includes? message (first args))))
     ["--nonsense"]))

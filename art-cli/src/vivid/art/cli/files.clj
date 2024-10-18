@@ -19,7 +19,8 @@
    [clojure.string]
    [farolero.core :as farolero])
   (:import
-   (java.io File)))
+   (java.io File)
+   (java.nio.file Path Paths)))
 
 (set! *warn-on-reflection* true)
 
@@ -68,7 +69,7 @@
 
 (defn strip-art-filename-suffix
   [path]
-  (let [out (clojure.string/replace path art-filename-suffix-regex "")
+  (let [out      (clojure.string/replace path art-filename-suffix-regex "")
         filename (.getName (File. ^String out))]
     (when (get prohibited-template-output-filenames filename)
       (farolero/signal :vivid.art.cli/error
@@ -76,16 +77,11 @@
                         :message (format "Cowardly refusing to create output file named '%s' from path: '%s'" out path)}))
     out))
 
-(defn template-file-seq
-  "seq of all .art template files within the sub-dir hierarchy rooted in path."
-  [^File path]
-  (filter art-template-file? (file-seq path)))
-
-(defn ->template-path
+(defn template-path-metadata
   "Takes a base path and a path to a template-file (ostensibly within the
-      base path) and returns a map indicating the providence :src-path and the
-      intended output path of the template file :dest-rel-path relative to the
-      batch's :output-dir."
+  base path) and returns a map indicating the providence :src-path and the
+  intended output path of the template file :dest-rel-path relative to the
+  batch's :output-dir."
   [^File base-path ^File template-file]
   (let [rel-path-parent (relative-path base-path (.getParentFile template-file))
         dest-name       (strip-art-filename-suffix (.getName template-file))
@@ -93,12 +89,63 @@
     {:src-path      template-file
      :dest-rel-path dest-rel-path}))
 
-(defn paths->template-paths!
-  "Finds all ART templates either at the given paths (as template files) or
-      within their sub-trees (as a directory). This function is impure, as it
-      directly scans the filesystem subtree of each of the paths."
-  [paths]
-  (letfn [(->template-paths [base-path]
-            (let [template-files (template-file-seq base-path)]
-              (map #(->template-path base-path %) template-files)))]
-    (mapcat ->template-paths paths)))
+; Specify sets of ART templates on the filesystem using a path specification.
+; path-spec resolution is attempted in the following order:
+; - A glob, using Java's PathMatcher
+;   See https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-
+; - A directory that actually exists on the filesystem, relative to the current working directory.
+; - A path to a single file.
+
+(defn ^Path ->path [p & ps] (Paths/get p (into-array String ps)))
+(def ^:const glob-special-characters #"(?<!\\)[\*\?\{\[]")
+(defn globbed-path-element? [p] (re-find glob-special-characters (.toString (.getFileName ^Path p))))
+
+(defn orient-path-spec
+  "Determines, or orients, what a template path specification refers to on the file system. Returns:
+
+  :base-dir, the last directory element before either the first globby path element or just the template file.
+  :oriented-as, indicating what the template path spec was interpreted as: a :glob, a :directory, or a :file.
+  :pathmatcher-arg, the remainder of path-spec starting with the globby path element or just the template file,
+    as a string argument in PathMatcher syntax.
+
+  :base-dir (after conversion to a ^File) and :pathmatcher-arg are meant to be directly passed as arguments
+  to java.nio.file.FileSystems::getPathMatcher.
+  If the spec doesn't contain any special characters and the last path element is not a file (doesn't exist on the
+  filesystem as a file), a glob of art files assuming the default art file suffix will be implicitly added."
+  [^String path-spec]
+  (cond
+    ; Does path-spec use any globbing characters?
+    (re-find glob-special-characters path-spec)
+    ; Situate the base directory of the glob to just before where it starts.
+    (let [p (->path "." path-spec)]
+      ; Implementation note: Path::subpath is stubbornly idiosyncratic in its treatment of its index args.
+      ; The code contorts itself to provide values that elicit the desired response.
+      (loop [idx 0]
+        (cond
+          ; Is this path element a glob?
+          ; A glob cannot occur at idx 0, whose path element value is defined as "." above.
+          (globbed-path-element? (.getName p idx))
+          (let [base-dir (if (>= 1 idx) (->path ".")
+                                        (.subpath p 1 idx))]
+            {:base-dir        (.toFile base-dir)
+             :oriented-as     :glob
+             :path-spec       path-spec
+             :pathmatcher-arg (str "glob:" path-spec)})
+
+          :else
+          (recur (inc idx)))))
+
+    ; A directory, extant in the filesystem?
+    (.isDirectory (.toFile (->path path-spec)))
+    ; path-spec refers to an extant directory; implies all subordinate ART files.
+    {:base-dir        (File. path-spec)
+     :oriented-as     :directory
+     :path-spec       path-spec
+     :pathmatcher-arg (str "glob:" (->path path-spec (str "**" art-filename-suffix)))}
+
+    ; Not a glob and not an extant directory; the last option is to assume it's a file.
+    :else
+    {:base-dir        (File. ".")
+     :oriented-as     :file
+     :path-spec       path-spec
+     :pathmatcher-arg (str "glob:" path-spec)}))

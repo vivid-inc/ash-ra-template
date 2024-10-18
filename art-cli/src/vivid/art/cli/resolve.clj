@@ -30,9 +30,11 @@
    [clojure.java.io :as io]
    [clojure.data.json :as json]
    [clojure.string]
-   [farolero.core :as farolero])
+   [farolero.core :as farolero]
+   [vivid.art.cli.files])
   (:import
-   (java.io File IOException PushbackReader Reader)))
+   (java.io File IOException PushbackReader Reader)
+   (java.nio.file FileSystems)))
 
 (set! *warn-on-reflection* true)
 
@@ -88,9 +90,9 @@
   "Attempt to interpret a value as a java.io.File."
   [path]
   (cond
-    (instance? File path)                                 path
+    (instance? File path) path
     (and (string? path) (seq (clojure.string/trim path))) (File. ^String path)
-    :else                                                 nil))
+    :else nil))
 
 (defn resolve-as-json-file
   "Attempt to interpret a value as a string path to a JSON file.
@@ -98,7 +100,6 @@
   option wrap-in-map is true, a map containing a single entry:
   [the filename sans .json extension as a symbol, the JSON file's contents]."
   ; TODO This fn is nearly a copy & paste of resolve-as-edn-file
-  ; TODO glob -> select only .json files. (.getPathMatcher (java.nio.file.FileSystems/getDefault) "glob:**/*.json") https://clojuredocs.org/clojure.core/file-seq
   [x & options]
   (when (and (string? x)
              (clojure.string/ends-with? x ".json"))
@@ -143,6 +144,38 @@
   [x]
   (when (map? x)
     x))
+
+(defn resolve-as-template-path-spec
+  "Attempt to interpret a value as a path specification to template files.
+  Can resolve path-specs to java.nio.file.FileSystems::getPathMatcher
+  `glob:` syntax arguments, paths to directories, and paths to individual
+  files. Returns a coll of template file path metadata of matching files.
+  Hidden files are not given special treatment."
+  [^String path-spec]
+  (when (and (string? path-spec)
+             (pos? (count path-spec)))
+    (try
+      (let [{:keys [base-dir oriented-as pathmatcher-arg] :as orientation}
+            (vivid.art.cli.files/orient-path-spec path-spec)]
+        (if (= oriented-as :file)
+          (let [path-spec-file (File. path-spec)
+                parent-dir     (.getParentFile path-spec-file)]
+            (when (.exists path-spec-file)
+              [(merge orientation
+                      (vivid.art.cli.files/template-path-metadata parent-dir (File. path-spec)))]))
+          (let [path-matcher (.getPathMatcher (FileSystems/getDefault) pathmatcher-arg)]
+            (->> base-dir
+                 (file-seq)
+                 (filter #(.matches path-matcher (.toPath ^File %)))
+                 (sort)
+                 (map #(merge orientation
+                              (vivid.art.cli.files/template-path-metadata base-dir %)))))))
+      (catch RuntimeException e
+        (farolero/signal :vivid.art.cli/error
+                         {:step      'resolve-as-template-path-spec
+                          :pattern   path-spec
+                          :exception e}
+                         :normally nil)))))
 
 (defn resolve-as-var
   "Attempt to interpret a value as the name of a namespace-(un)qualified var,

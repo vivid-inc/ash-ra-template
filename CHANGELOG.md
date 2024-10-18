@@ -3,6 +3,8 @@
 ## [0.7.2]
 _Unreleased_
 ### Added
+- Ability to specify template file paths using globs with Java's `java.nio.file.FileSystem::getPathMatcher` and its
+  `glob:` syntax.
 - Clojure versions 1.11.4, 1.12.0 to the set of Clojure versions that ART is tested with.
 - `version` CLI command that prints the name and version of the tool.
 ### Changed
