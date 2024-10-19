@@ -1,4 +1,4 @@
-<( (emit (vivid.art/render (slurp "layouts/layout.html.art") :bindings {
+<( (emit (vivid.art/render (slurp "layouts/layout.html.art") {:bindings {
   'title "Deep Inn-sight"
 
   :head (block )>
@@ -25,4 +25,4 @@
 </section>
   <( )
 
-})) )>
+}})) )>

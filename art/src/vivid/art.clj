@@ -44,13 +44,15 @@
   vivid.art.specs/render-phases)
 (def ^:const default-to-phase (last render-phases))
 
-(defn render
+(defn render-template-string
   "Renders an input string containing Ash Ra Template (ART) -formatted content
   to an output string."
   [^String template
-   & {:as   options
-      :keys [bindings delimiters to-phase]
-      :or   {bindings {} delimiters default-delimiters to-phase default-to-phase}}]
+   {:as   options
+    :keys [bindings delimiters to-phase]
+    :or   {bindings   {}
+           delimiters default-delimiters
+           to-phase   default-to-phase}}]
   (when template
     (let [bindings    (merge (get vivid.art/*render-context* :bindings) bindings)
           new-context (merge options
@@ -68,8 +70,28 @@
         (farolero/handler-case (render*)
                                (:vivid.art/parse-error [_ details]
                                 (make-failure :parse-error details template)))))))
-(s/fdef render
-  :args (s/cat :t :vivid.art/template
-               :kwargs (s/keys* :opt-un [:vivid.art/bindings
-                                         :vivid.art/delimiters
-                                         :vivid.art/to-phase])))
+
+; TODO rg '[\(\\/]render ' -A 1 ; rg art/render
+; TODO Update docs
+(s/fdef render-template-string
+  :args (s/cat :template :vivid.art/template
+               :options (s/nilable
+                         (s/keys :opt-un [:vivid.art/bindings
+                                          :vivid.art/delimiters
+                                          :vivid.art/to-phase]))))
+
+; Implementer's note: (defprotocol) dispatches on the type of the first argument,
+; which needs to be an instance of a Java class.
+(defprotocol Render
+  (render [template] [template options]))
+
+(extend-protocol Render
+  nil
+  (render
+    ([_template] nil)
+    ([_template _options] nil))
+
+  String
+  (render
+    ([template] (render-template-string template nil))
+    ([template options] (render-template-string template options))))

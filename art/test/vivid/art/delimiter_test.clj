@@ -30,9 +30,9 @@
   (testing "Manually specify lispy delimiters"
     (are [expected template]
          (= expected (art/render template
-                                 :delimiters {:begin-forms "<("
+                                 {:delimiters {:begin-forms "<("
                                               :begin-eval  "<(="
-                                              :end-forms   ")>"}))
+                                              :end-forms   ")>"}}))
       "plain text" "plain text"
       "juniper" "juni<()>per"
       "START 1234 END" "START <((def cnt 4)(doseq [i (range 1 (inc cnt))])><(=i)><())> END")))
@@ -41,29 +41,29 @@
   (testing "ART-provided delimiter library: ERB"
     (are [expected template]
          (= expected (art/render template
-                                 :delimiters vivid.art.delimiters/erb))
+                                 {:delimiters vivid.art.delimiters/erb}))
       "plain text" "plain text"
       "juniper" "juni<%%>per"
       "START 1234 END" "START <%(def cnt 4)(doseq [i (range 1 (inc cnt))]%><%=i%><%)%> END"))
   (testing "ART-provided delimiter library: Jinja"
     (are [expected template]
          (= expected (art/render template
-                                 :delimiters vivid.art.delimiters/jinja))
+                                 {:delimiters vivid.art.delimiters/jinja}))
       "plain text" "plain text"
       "juniper" "juni{%%}per"
       "START 1234 END" "START {%(def cnt 4)(doseq [i (range 1 (inc cnt))]%}{{i}}{%)%} END"))
   (testing "ART-provided delimiter library: Mustache"
     (are [expected template bindings]
          (= expected (art/render template
-                                 :delimiters vivid.art.delimiters/mustache
-                                 :bindings   bindings))
+                                 {:delimiters vivid.art.delimiters/mustache
+                                 :bindings   bindings}))
       "plain text" "plain text" {}
       "juniper" "juni{{}}per" {}
       "START 1234 END" "START {{numbers}} END" '{numbers 1234}))
   (testing "ART-provided delimiter library: PHP"
     (are [expected template]
          (= expected (art/render template
-                                 :delimiters vivid.art.delimiters/php))
+                                 {:delimiters vivid.art.delimiters/php}))
       "plain text" "plain text"
       "juniper" "juni<??>per"
       "START 1234 END" "START <?(def cnt 4)(doseq [i (range 1 (inc cnt))]?><?=i?><?)?> END")))

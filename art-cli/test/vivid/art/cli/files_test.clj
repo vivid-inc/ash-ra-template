@@ -50,6 +50,8 @@
     "...art"                                                ; Stripped to ".."
     ))
 
+; TODO test bad globs
+
 (deftest orient-path-specs
          (let [ks [:base-dir :oriented-as :pathmatcher-arg]
                o (fn [oriented-as ^String base-dir-str glob]

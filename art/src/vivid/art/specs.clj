@@ -28,7 +28,6 @@
 ; Bindings
 
 (s/def :vivid.art/bindings map?)
-; TODO Map of symbols to any ?   Or, convert all top-level keys to symbols ?
 
 ; Template delimiter definitions
 

@@ -19,7 +19,8 @@
    [clojure.pprint]
    [farolero.core :as farolero]
    [vivid.art :as art]
-   [vivid.art.cli.log :as log])
+   [vivid.art.cli.log :as log]
+   [vivid.art.cli.render+])
   (:import
    (java.io File)))
 
@@ -29,23 +30,23 @@
   [{:keys [^File src-path ^File dest-rel-path] :as template-file} {:keys [^File output-dir] :as batch}]
   (try
     (let [output-path ^File (io/file output-dir dest-rel-path)
-          to-phase (get batch :to-phase vivid.art/default-to-phase)]
+          to-phase    (get batch :to-phase art/default-to-phase)]
       (log/*info-fn* (format "Rendering ART %s" (.getAbsoluteFile output-path)))
       (io/make-parents output-path)
-      (as-> (slurp src-path) c
-        (apply art/render c (mapcat identity
-                                    (merge
-                                     (select-keys batch [:bindings
-                                                         :delimiters
-                                                         :dependencies
-                                                         :to-phase])
-                                     {:batch batch
-                                      :paths {:dest-rel-path dest-rel-path
-                                              :output-path   output-path
-                                              :src-path      src-path}})))
-            (if (to-phase #{:parse :translate})
-              (clojure.pprint/pprint c (io/writer output-path)) ; Improve probability of human-readable output
-          (spit output-path c))))
+      (as-> src-path $
+        (art/render $ (mapcat identity
+                              (merge
+                               (select-keys batch [:bindings
+                                                   :delimiters
+                                                   :dependencies
+                                                   :to-phase])
+                               {:batch batch
+                                :paths {:dest-rel-path dest-rel-path
+                                        :output-path   output-path
+                                        :src-path      src-path}})))
+        (if (to-phase #{:parse :translate})
+          (clojure.pprint/pprint $ (io/writer output-path)) ; Improve probability of human-readable output
+          (spit output-path $))))
     (catch Exception e
       (farolero/signal :vivid.art.cli/error
                        {:step      'render-file

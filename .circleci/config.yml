@@ -77,7 +77,7 @@ clj-art: &clj-art-job
           lein install
           for ver in "1.10.3" "1.11.1"
           do
-            clojure -M:clojure-${ver}:test
+            clojure -M:clojure-${ver}:test --junit
           done
         working_directory: clj-art
     - store_test_results:

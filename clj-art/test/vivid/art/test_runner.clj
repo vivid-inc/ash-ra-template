@@ -14,18 +14,25 @@
 
 (ns vivid.art.test-runner
   (:require
+   [eftest.report]
    [eftest.report.junit]
-   [eftest.runner :refer [find-tests run-tests]]))
+   [eftest.runner]))
+
+(defn run-tests
+  [junit?]
+  (eftest.runner/run-tests
+   (eftest.runner/find-tests "test")
+   (when junit?
+     {:report (eftest.report/report-to-file eftest.report.junit/report
+                                            "target/junit.xml")})))
 
 (defn -main
   "Entry point for the Eftest test runner."
   ; Classpath is already set by Clojure deps tool.
-  [& _args]
+  [& args]
   (try
-    (let [{:keys [error fail]}
-          (run-tests (find-tests "test")
-                     {:report (eftest.report/report-to-file eftest.report.junit/report
-                                                            "target/junit.xml")})]
+    (let [junit? (= (first args) "--junit")                 ; TODO Find how to pass this CLI arg
+          {:keys [error fail]} (run-tests junit?)]
       (when (pos? (+ error fail))
         (System/exit 1)))
     (finally

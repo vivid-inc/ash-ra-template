@@ -21,6 +21,7 @@
    [vivid.art.cli.exec]
    [vivid.art.cli.files]
    [vivid.art.cli.log :as log]
+   [vivid.art.cli.render+]
    [vivid.art.cli.specs]
    [vivid.art.cli.usage]))
 

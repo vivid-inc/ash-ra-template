@@ -28,7 +28,7 @@
 
 (defn actual [ctr]
   (art/render template
-              :bindings {'ctr ctr}))
+              {:bindings {'ctr ctr}}))
 (defn expected [ctr]
   (format "template-%d nested-%d" ctr ctr))
 

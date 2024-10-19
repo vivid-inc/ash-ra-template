@@ -20,7 +20,7 @@
 
 (set! *warn-on-reflection* true)
 
-; TODO art-cli API is in flux
+; TODO Implement this
 #_(deftest usage
     (testing "All code samples in the README file"
       (is (= "\n\n<li><a href=\"#739\" id=\"link\">Moving wing assembly into place</a></li><li><a href=\"#740\" id=\"link\">Connecting fuel lines and hydraulics</a></li><li><a href=\"#741\" id=\"link\">Attaching wing assembly to fuselage</a></li>\n"

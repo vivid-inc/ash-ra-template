@@ -8,6 +8,13 @@ _Unreleased_
 - Clojure versions 1.11.4, 1.12.0 to the set of Clojure versions that ART is tested with.
 - `version` CLI command that prints the name and version of the tool.
 ### Changed
+- BREAKING CHANGE: Function `(vivid.art/render)` has been renamed to `render-template-string`, and in its place there is
+  now a protocol `vivid.art/Render` that defines two arities of `(render)`, one with a map of options and the other
+  without. This newer `(render)` loses its variadic function signature (as a consequence of Clojure's technical
+  constraint w.r.t. protocol definitions) and hence the convenient keyword arguments, while gaining the ability to
+  dispatch on the type of its first argument, the template. Namespace `vivid.art` provides straightforward
+  implementations for `nil` and `String` template arguments, while namespace `vivid.art.cli` adds the `java.io.File`
+  and `java.nio.file.Path` types from which file content can be rendered.
 - `clj-art` and `lein-art` are at parity in terms of CLI argument processing and definition of rendering batches in
   their project files `deps.edn` and `project.clj`.
   Their respective idiosyncrasies are noted in the automated tests and documentation.
@@ -15,14 +22,14 @@ _Unreleased_
 - Moved `*warn-on-reflection*` from Leiningen's `project.clj` into each source file; this way, warnings from
   dependencies are no longer reported.
 ### Fixed
-- `(emit)` function signature in `(yield)`ed blocks; it's function signature differed from that of the 
+- `(emit)` function signature in `(yield)`ed blocks; it's function signature differed from that of the
   top-level `(emit)`.
 
 ## [0.7.1]
 Released 2024-05-03.
 ### Added
 - Clojure version 1.11.3 to the set of Clojure versions that ART is tested with.
-- Java 21, an LTS release, to the set of Java versions that ART is tested with.
+- Java 21 LTS to the set of Java versions that ART is tested with.
 - `watch` debounces re-render requests with a timeout expressed in milliseconds specified with the CLI option
   `--watch-timeout-ms` and the ART rendering batch option `:watch-timeout-ms`.
 ### Changed
