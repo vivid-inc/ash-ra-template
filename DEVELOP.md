@@ -21,18 +21,35 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
 
 
 
+## Development philosophy
+
+The public API is designed around a functional approach, with as little magic as its authors can manage.
+In the automated tests, some values may appear nonsensical or even absurd, but we need to account for all eventualities, including:
+- Programmatic manipulation of values, concatenation of strings, etc.
+- If it is possible, someone may eventually try it.
+
+
+
+## Known defects and limitations
+- `:dependencies` in each ART batch linger in their parent classloader, accumulating and leaking with subsequent
+  batches. See [art-cli/src/vivid/art/cli/classpath.clj].
+- Templates that generate clj functions larger than the 64KB limit fail, due to:
+  https://github.com/clojure/clojure/blob/13a2f67b91ab81cd109ea3152fce1ae76d212453/src/jvm/clojure/asm/ByteVector.java#L242C21-L242C28
+- In nested rendering, passing a block whose contents when serialized contains Clojure forms will cause Clojure's
+  LispReader to attempt to evaluate those forms, potentially resulting in bizarre behavior or failure.
+
+
+
 ## Along the path to ART version 1.0 and beyond
 
 ### Next:
-- Possible defect: Are :dependencies leaked to subsequent ART render batches, without being expressly mentioned as being dependencies?
 - `watch` command: Tolerate failure on the first full pass. This might be accomplished by first entering watch mode, then queueing a full render.
-- CLI option to either fail command at first render error or attempt the entire batch then report exit code 
-  (default, consistent with `watch`) `--fail-fast`.
+- CLI option to either fail command by first attempting the entire batch then reporting exit code 
+  (default, consistent with `watch`), or at first render error `--fail-fast` (applicable only for `render`, not `watch`).
 - `vivid.art.cli.resolve/resolve-as-var` and `*-example-custom-options`
 - Ability to specify named batches, and run only those batches in a rendering run.
 - Accept a varname as a template path. Use either its return value (if IFn) or its value as a set of template path-specs.
 - `(slurp)` defaults to decoding input files as UTF-8; this might trip up template authors.
-- Templates that generate clj functions larger than the 64KB limit fail, due to: https://github.com/clojure/clojure/blob/13a2f67b91ab81cd109ea3152fce1ae76d212453/src/jvm/clojure/asm/ByteVector.java#L242C21-L242C28
 - Heavy testing of quote nesting and escaping, delimiter escaping, Clojure reader forms, comments.
 - clj-art :exec-fn, fully support `(dispatch-command)`. See https://practical.li/blog-staging/posts/clojure-cli-tools-understanding-aliases/
 - Investigate OpenSSF Best Practices reporting, such as: https://bestpractices.coreinfrastructure.org/en/projects/2095
@@ -72,15 +89,6 @@ $ cd $MODULE && lein clj-kondo --copy-configs --dependencies --lint "$(lein clas
   - Produces a plain function. `(def page (vivid.art/renderc (slurp "index.html.art"))) (page p)`
 - Container image to run ART from your present CLI.
 - The purpose of ART is multi-fold: An ideal substrate for building a custom templating solution such as the constrained Jinja or something more flexible, and as a fully-featured templating system in its own right.
-
-
-
-## Development philosophy
-
-The public API is designed around a functional approach, with as little magic as its authors can manage.
-In the automated tests, some values may appear nonsensical or even absurd, but we need to account for all eventualities, including:
-- Programmatic manipulation of values, concatenation of strings, etc.
-- If it is possible, someone may eventually try it.
 
 
 
