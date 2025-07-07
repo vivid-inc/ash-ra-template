@@ -24,8 +24,6 @@
   (:import
    (java.io File)))
 
-(set! *warn-on-reflection* true)
-
 (defn render-file
   [{:keys [^File src-path ^File dest-rel-path] :as template-file} {:keys [^File output-dir] :as batch}]
   (try

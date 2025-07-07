@@ -21,8 +21,6 @@
   (:import
    (clojure.lang ArityException)))
 
-(set! *warn-on-reflection* true)
-
 (deftest blank-input
   (is (= nil (art/render nil)) "ART produces nil output in response to nil input")
   (is (= "" (art/render "")) "ART produces empty string output in response to empty string input"))

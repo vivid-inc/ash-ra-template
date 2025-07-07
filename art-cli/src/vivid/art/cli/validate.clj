@@ -26,8 +26,6 @@
   (:import
    (java.io File)))
 
-(set! *warn-on-reflection* true)
-
 (defn validate-bindings
   "Is either a single or collection of binding maps. Each
   binding definition is a Clojure map, a Clojure var, a string path to an

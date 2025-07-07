@@ -19,8 +19,6 @@
    [vivid.art.cli.watch]
    [vivid.art.specs]))
 
-(set! *warn-on-reflection* true)
-
 (def ^:const default-output-dir ".")
 
 (def ^:const one-line-desc (str "Ash Ra Template version " vivid.art/ash-ra-template-version))

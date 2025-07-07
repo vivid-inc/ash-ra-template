@@ -14,8 +14,6 @@
 
 (ns ^:internal-api vivid.art.evaluate)
 
-(set! *warn-on-reflection* true)
-
 (defn evaluate
   [code]
   (locking *out*

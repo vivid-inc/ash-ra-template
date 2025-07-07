@@ -18,8 +18,6 @@
    [clojure.test :refer :all]
    [vivid.art.cli :as art-cli]))
 
-(set! *warn-on-reflection* true)
-
 ; TODO Implement this
 #_(deftest usage
     (testing "All code samples in the README file"

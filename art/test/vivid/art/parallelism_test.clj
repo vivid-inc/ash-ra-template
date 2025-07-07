@@ -18,8 +18,6 @@
    [clojure.test :refer [is deftest testing]]
    [vivid.art :as art]))
 
-(set! *warn-on-reflection* true)
-
 ; Referencing https://github.com/clojure/core.async/blob/master/examples/walkthrough.clj
 
 (def ^:const +iterations+ 192)

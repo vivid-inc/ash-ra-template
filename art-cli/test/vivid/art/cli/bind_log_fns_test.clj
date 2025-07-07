@@ -17,8 +17,6 @@
    [clojure.test :refer [are deftest]]
    [vivid.art.cli.log]))
 
-(set! *warn-on-reflection* true)
-
 (deftest bound
   (binding [vivid.art.cli.log/*info-fn* identity
             vivid.art.cli.log/*warn-fn* identity]

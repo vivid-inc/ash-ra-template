@@ -16,8 +16,6 @@
   "Logging facility used by this library. Consumers of this library may bind
   the logging fn vars to their extant logging functions.")
 
-(set! *warn-on-reflection* true)
-
 (def mutex (Object.))
 
 (defn- p [level args]

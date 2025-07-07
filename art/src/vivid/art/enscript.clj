@@ -16,8 +16,6 @@
   (:require
    [clojure.string]))
 
-(set! *warn-on-reflection* true)
-
 (defn prelude [ns-sym]
   [(str "(ns " ns-sym ")")
    ; Provide (render) to the template evaluation environment

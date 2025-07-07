@@ -16,8 +16,6 @@
   (:require
    [clojure.core.async :as a :refer [<! >!]]))
 
-(set! *warn-on-reflection* true)
-
 (def ^:const core-async-timeout-resolution
   "Sourced from
   core.async-1.6.681/src/main/clojure/clojure/core/async/impl/timers.clj

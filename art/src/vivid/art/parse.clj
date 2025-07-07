@@ -22,8 +22,6 @@
   (:import
    (java.util.regex Pattern)))
 
-(set! *warn-on-reflection* true)
-
 (defn make-grammar                                          ; TODO Enforce delimiter rules.
   [delimiters]
   (let [q #(Pattern/quote %)

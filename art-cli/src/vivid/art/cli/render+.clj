@@ -19,8 +19,6 @@
    (java.io File)
    (java.nio.file Files Path)))
 
-(set! *warn-on-reflection* true)
-
 ;
 ; Expand on art/Render protocol with types apropos to CLI-based operations
 ;

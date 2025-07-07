@@ -16,8 +16,6 @@
   "Definitions of template delimiter tags in the style of Ruby ERB
   and various other templating systems.")
 
-(set! *warn-on-reflection* true)
-
 (def ^:const erb
   "Syntactically resemblant systems:
   - Active Server Pages or ASP, https://en.wikipedia.org/wiki/Active_Server_Pages

@@ -22,8 +22,6 @@
    (java.io File)
    (java.nio.file Paths)))
 
-(set! *warn-on-reflection* true)
-
 (deftest relative-paths
   (are [^String a ^String b res]
        (= res

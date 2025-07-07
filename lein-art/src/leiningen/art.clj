@@ -26,8 +26,6 @@
    [vivid.art.cli.messages :as messages]
    [vivid.art.cli.usage :as usage]))
 
-(set! *warn-on-reflection* true)
-
 (defn- exit [exit-status message]
   (main-lein/info message)
   (main-lein/exit exit-status))

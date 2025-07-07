@@ -21,8 +21,6 @@
    [vivid.art.cli.validate :as validate]
    [vivid.art.delimiters]))
 
-(set! *warn-on-reflection* true)
-
 (def ^:const custom-delimiters
   {:begin-forms "{%"
    :end-forms   "%}"

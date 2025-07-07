@@ -30,8 +30,6 @@
   (:import
    (java.io PushbackReader)))
 
-(set! *warn-on-reflection* true)
-
 (defn- exit [exit-status message]
   (println message)
   ; TODO Clojure doesn't exit right away. https://clojureverse.org/t/why-doesnt-my-program-exit/3754

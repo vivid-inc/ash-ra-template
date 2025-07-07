@@ -19,8 +19,6 @@ _Unreleased_
   their project files `deps.edn` and `project.clj`.
   Their respective idiosyncrasies are noted in the automated tests and documentation.
 - Abstracting code common to each of `clj-art` and `lein-art`, consolidating it in `art-cli` as public API.
-- Moved `*warn-on-reflection*` from Leiningen's `project.clj` into each source file; this way, warnings from
-  dependencies are no longer reported.
 ### Fixed
 - `(emit)` function signature in `(yield)`ed blocks; it's function signature differed from that of the
   top-level `(emit)`.

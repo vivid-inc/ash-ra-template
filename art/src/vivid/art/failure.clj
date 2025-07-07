@@ -17,8 +17,6 @@
    [clojure.spec.alpha :as s]
    [vivid.art.specs]))
 
-(set! *warn-on-reflection* true)
-
 (defn failure?
   "When ART fails to render a template, instead of the template output,
   it produces a value that describes the failure. Use this function to

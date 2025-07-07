@@ -22,8 +22,6 @@
    [vivid.art.cli.messages :as messages]
    [vivid.art.cli.watch]))
 
-(set! *warn-on-reflection* true)
-
 (defn dispatch-command [command' batches]
   (let [command (-> (or command' "")
                     (clojure.string/lower-case)

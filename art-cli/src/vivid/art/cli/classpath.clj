@@ -23,8 +23,6 @@
    (java.io File)
    (java.net URI)))
 
-(set! *warn-on-reflection* true)
-
 (declare dependencies->file-paths)
 
 (defn assemble-classpath

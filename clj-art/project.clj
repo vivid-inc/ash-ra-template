@@ -55,6 +55,8 @@
 
   :exclusions [org.clojure/clojure]
 
+  :global-vars {*warn-on-reflection* true}
+
   :javac-options ["-target" "null"]
 
   :manifest {"Built-By" "vivid"}

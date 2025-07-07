@@ -14,8 +14,6 @@
 
 (ns ^:internal-api vivid.art.render-context)
 
-(set! *warn-on-reflection* true)
-
 (defn assemble-render-context
   [outer-context new-context]
   (let [stack (or (:stack outer-context) [])

@@ -20,8 +20,6 @@
    [vivid.art.cli.usage :refer [cli-options]]
    [vivid.art.cli.validate :as validate]))
 
-(set! *warn-on-reflection* true)
-
 (def ^:const custom-deps
   '[[compojure/compojure "1.6.2"]])
 

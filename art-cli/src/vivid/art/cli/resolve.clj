@@ -36,8 +36,6 @@
    (java.io File IOException PushbackReader Reader)
    (java.nio.file FileSystems)))
 
-(set! *warn-on-reflection* true)
-
 (defn resolve-as-edn-file
   "Attempt to interpret a value as a path to an EDN file.
   If successful, returns either the file content as a data structure, or when

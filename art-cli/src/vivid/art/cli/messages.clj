@@ -17,8 +17,6 @@
   (:require
    [clojure.pprint]))
 
-(set! *warn-on-reflection* true)
-
 (defn pp-str-error [details]
   (str "ART error: "
        (with-out-str (clojure.pprint/pprint details))))

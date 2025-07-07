@@ -22,8 +22,6 @@
   (:import
    (java.io File)))
 
-(set! *warn-on-reflection* true)
-
 (defn delete-file-tree
   [path & [silently]]
   ((fn del [^File file]

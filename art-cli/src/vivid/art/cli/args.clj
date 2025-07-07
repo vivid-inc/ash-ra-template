@@ -21,8 +21,6 @@
    [vivid.art.cli.specs]
    [vivid.art.cli.validate :as validate]))
 
-(set! *warn-on-reflection* true)
-
 (defn- parse-cli-args
   [args options-spec]
   (let [{:keys [options arguments errors]} (clojure.tools.cli/parse-opts args options-spec)]
