@@ -38,7 +38,7 @@ $ cat project.clj
         :templates  "oracle.art"
         :output-dir "."})
 
-$ lein art
+$ lein art render
 ```
 `lein-art` will render the output file `oracle` into the current directory.
 
@@ -66,6 +66,10 @@ Templates are rendered and written under `output-dir` stripped of their `.art`
 filename extensions, overwriting any existing files with the same paths.
 `output-dir` and sub-paths therein are created as necessary.
 
+Specifying options on the CLI will cause ART to form a rendering batch using
+those options, ignoring batch definitions in `project.clj`. If no options are
+supplied, ART will then expect to find rendering batches in `project.clj`.
+
 
 
 #### Options
@@ -89,19 +93,19 @@ ART attempts to interpret arguments in this order of precedence:
 1. As a path to a JSON file.
 1. As an EDN literal.
 
+**Limitations:** When running as a render batch defined by CLI arguments and not rendering batches in a project file, there is no project in the running context and therefore bindings cannot refer to values that depend on paths within the source code of the immediate project.
+
 
 
 ## Cookbook
-
 <% ; ../examples/ contains sample projects that parallel these recipes, and are included in the automated test suite.
    ; Each cookbook recipe should link to its corresponding ../examples/ directory.
 %>
 
 
-
 ### Custom bindings, delimiters, dependencies, and project code
-NOTE: THIS deps.edn EXAMPLE IS INCOMPLETE
-The authors so far don't know how to specify a Var that is defined within `src/`.
+NOTE: THIS deps.edn EXAMPLE IS INCOMPLETE.
+The authors so far don't know how to specify/notate within `project.clj` a Clojure Var that is defined in the project sources.
 For the sake of completeness, its value is copy & pasted into the example below in place of the var.
 ```clojure
 ; Render all .art template files in the content/ directory to out/cdn/
@@ -191,10 +195,14 @@ __See also:__
 
 ### Configure multi-batch rendering in project.clj
 ```clojure
-  ; Two ART render batches are defined here:
+  ; Add the lein-art Leiningen plugin:
+  :plugins [[net.vivid-inc/lein-art "<%= vivid-art-version %>"]]
+
+  ; ART render batches are defined here:
   :art [
     ; An ART render batch configuration
     {:templates    "src/templates/css"
+     ; :dependencies use Clojure deps notation and not Leiningen's
      :dependencies {garden/garden {:mvn/version "1.3.10"}}
      :output-dir   "src/resources"}
 
@@ -205,7 +213,13 @@ __See also:__
 ```
 
 __Discussion:__
-Several ART render batches can be specified as a section in `project.clj':
+ART render batches can be defined under the top-level key `:art` in `project.clj`,
+either as an individual batch or as a collection of any quantity.
+The batches will be found and used by `lein-art` when invoked from Leiningen:
+```sh
+$ lein art render
+```
+
 
 __See also:__
 [Example](../examples/multi-batch).

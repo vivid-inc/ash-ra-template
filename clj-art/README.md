@@ -21,11 +21,9 @@ Wait, I see it! Your destiny lies deep within the number <(= (mult mysterious-pr
 
 $ cat deps.edn
 
-{:aliases {:art {:extra-deps {net.vivid-inc/clj-art {:mvn/version "0.7.2"}}
-                 :main-opts  ["-m" "vivid.art.clj-tool"]}}
- :art {:bindings   "{mysterious-primes [7 191]}"
-       :templates  "oracle.art"
-       :output-dir "."}}
+{:aliases
+  {:art {:extra-deps {net.vivid-inc/clj-art {:mvn/version "0.7.2"}}
+         :main-opts  ["-m" "vivid.art.clj-tool"]}}}
 
 $ clojure -M:art render \
     --bindings "{mysterious-primes [7 191]}" \
