@@ -33,8 +33,11 @@
 
       errors
       (farolero/signal :vivid.art.cli/error
-                       {:step    'parse-cli-args
-                        :message (clojure.string/join \newline errors)})
+                       {:step         'parse-cli-args
+                        :message      (clojure.string/join \newline errors)
+                        :args         args
+                        :options-spec options-spec
+                        :errors       errors})
 
       (= 0 (count arguments))
       (farolero/signal :vivid.art.cli/error

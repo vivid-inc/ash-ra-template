@@ -65,6 +65,8 @@ In the automated tests, some values may appear nonsensical or even absurd, but w
 - CLI option to either fail command at first render error or attempt the entire batch then report exit code (default, consistent with `watch`).
 - `vivid.art.cli.resolve/resolve-as-var` and `*-example-custom-options`
 - Ability to specify named batches, and run only those batches in a rendering run.
+- Extend vivid.art/Render protocol to handle Java `Reader` or `InputStream` types. See https://clojuredocs.org/clojure.java.io/reader
+
 
 
 ### Considerations, further out:

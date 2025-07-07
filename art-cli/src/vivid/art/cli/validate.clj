@@ -45,7 +45,8 @@
          (merge acc b)
          (farolero/signal :vivid.art.cli/error
                           {:step    'validate-bindings
-                           :message (format "Bad bindings: '%s'" x)}))))
+                           :message (format "Bad bindings: '%s'" x)
+                           :arg     x}))))
    {}
    ; Flattened, bindings will be fed to (reduce) as a collection if it wasn't one already.
    (with-meta (flatten [bindings]) (meta bindings))))
@@ -63,7 +64,8 @@
       d
       (farolero/signal :vivid.art.cli/error
                        {:step    'validate-delimiters
-                        :message (format "Non-conformant delimiter specification: '%s'" x)}))))
+                        :message (format "Non-conformant delimiter specification: '%s'" x)
+                        :arg     x}))))
 
 (defn validate-dependencies
   [x]
@@ -76,7 +78,8 @@
       d
       (farolero/signal :vivid.art.cli/error
                        {:step    'validate-dependencies
-                        :message (format "Non-conformant dependencies list: '%s'" x)}))))
+                        :message (format "Non-conformant dependencies list: '%s'" x)
+                        :arg     x}))))
 
 (defn validate-output-dir
   "A string path of the output directory."
@@ -87,7 +90,8 @@
     f
     (farolero/signal :vivid.art.cli/error
                      {:step    'validate-output-dir
-                      :message (format "output-dir '%s' must name a directory path" output-dir)})))
+                      :message (format "output-dir '%s' must name a directory path" output-dir)
+                      :arg     output-dir})))
 
 (defn validate-templates
   "Provided a collection of path specifications for any mix of globs,
@@ -98,7 +102,8 @@
   (mapcat #(or (resolve/resolve-as-template-path-spec %)
                (farolero/signal :vivid.art.cli/error
                                 {:step    'validate-templates
-                                 :message (format "Template path specification didn't produce any files: '%s'" %)}))
+                                 :message (format "Template path specification didn't produce any files: '%s'" %)
+                                 :arg     x}))
           (if (coll? x) x [x])))
 
 (defn validate-to-phase
@@ -116,7 +121,8 @@
                        {:step    'validate-to-phase
                         :message (format "to-phase '%s' is unknown; must be one of:  %s"
                                          x
-                                         (clojure.string/join "  " (map name vivid.art/render-phases)))}))))
+                                         (clojure.string/join "  " (map name vivid.art/render-phases)))
+                        :arg     x}))))
 
 (defn validate-watch-timeout-ms
   "Returns the requested value clamped on the lower bound to a minimum,
@@ -133,4 +139,4 @@
                        {:step      'validate-watch-timeout-ms
                         :message   (format "Could not interpret watch-timeout-ms as an integer: `%s'" x)
                         :exception e
-                        :raw-value x}))))
+                        :arg       x}))))

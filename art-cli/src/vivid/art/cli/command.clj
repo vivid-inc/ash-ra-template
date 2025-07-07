@@ -52,4 +52,5 @@
       :else
       (farolero/signal :vivid.art.cli/error
                        {:step    'parse-cli-args
-                        :message (messages/pp-str-error (str "Unknown command: `" command' "'"))}))))
+                        :message (messages/pp-str-error (str "Unknown command: `" command' "'"))
+                        :command command'}))))

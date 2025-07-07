@@ -62,6 +62,7 @@
                                               (.getMessage e) \newline
                                               (.getStackTrace e))
                               :file      f
+                              :arg       x
                               :exception e}
                              :normally nil))
           (catch RuntimeException e
@@ -71,6 +72,7 @@
                                               (.getMessage e) \newline
                                               (.getStackTrace e))
                               :file      f
+                              :arg       x
                               :exception e}
                              :normally nil)))))))
 
@@ -119,6 +121,7 @@
                                               (.getMessage e) \newline
                                               (.getStackTrace e))
                               :file      f
+                              :arg       x
                               :exception e}
                              :normally nil))
           (catch RuntimeException e
@@ -128,6 +131,7 @@
                                               (.getMessage e) \newline
                                               (.getStackTrace e))
                               :file      f
+                              :arg       x
                               :exception e}
                              :normally nil)))))))
 
@@ -171,7 +175,7 @@
       (catch RuntimeException e
         (farolero/signal :vivid.art.cli/error
                          {:step      'resolve-as-template-path-spec
-                          :pattern   path-spec
+                          :arg       path-spec
                           :exception e}
                          :normally nil)))))
 

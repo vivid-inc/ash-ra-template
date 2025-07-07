@@ -71,8 +71,11 @@
         filename (.getName (File. ^String out))]
     (when (get prohibited-template-output-filenames filename)
       (farolero/signal :vivid.art.cli/error
-                       {:step    'strip-art-filename-suffix
-                        :message (format "Cowardly refusing to create output file named '%s' from path: '%s'" out path)}))
+                       {:step     'strip-art-filename-suffix
+                        :message  (format "Cowardly refusing to create output file named '%s' from path: '%s'" out path)
+                        :arg      path
+                        :out      out
+                        :filename filename}))
     out))
 
 (defn template-path-metadata

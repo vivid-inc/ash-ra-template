@@ -19,8 +19,7 @@
    [vivid.art.specs]
    [vivid.art.cli.files])
   (:import
-   (java.io File)
-   (java.nio.file Paths)))
+   (java.io File)))
 
 (deftest relative-paths
   (are [^String a ^String b res]
@@ -52,10 +51,10 @@
 
 (deftest orient-path-specs
          (let [ks [:base-dir :oriented-as :pathmatcher-arg]
-               o (fn [oriented-as ^String base-dir-str glob]
-                     {:base-dir        (File. base-dir-str)
-                      :oriented-as     oriented-as
-                      :pathmatcher-arg glob})]
+               o  (fn [oriented-as ^String base-dir-str glob]
+                      {:base-dir        (File. base-dir-str)
+                       :oriented-as     oriented-as
+                       :pathmatcher-arg glob})]
               (are [path-spec res]
                    (= (select-keys res ks)
                       (select-keys (vivid.art.cli.files/orient-path-spec path-spec) ks))

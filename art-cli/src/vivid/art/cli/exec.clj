@@ -50,4 +50,6 @@
                        {:step      'render-file
                         :message   (format "Exception while rendering ART template %s"
                                            (.getAbsoluteFile ^File (:src-path template-file)))
-                        :exception e}))))
+                        :exception e
+                        :batch         batch
+                        :template-file template-file}))))
