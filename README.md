@@ -68,7 +68,7 @@ Or, to render from a file:
 We work with people offering PRs to revise and iterate leading to solutions in accord with project goals and [release criteria](QUALITY.md).
 Development topics and product roadmap are maintained in [DEVELOP.md](DEVELOP.md). 
 Commits must include Signed-off-by indicating acceptance of the [Developer's Certificate of Origin](DCO.txt).
-Unproductive behavior such as unkindness towards others and derailment is not tolerated.
+Unproductive behavior such as unkindness or derailment is not tolerated.
 
 
 
@@ -86,5 +86,5 @@ Seeking to wield such expressive power in a general-purpose templating system, w
 
 ## License
 
-© Copyright 2024 Vivid Inc. and/or its affiliates.
+© Copyright 2025 Vivid Inc. and/or its affiliates.
 [Apache License 2.0](LICENSE.txt) licensed.

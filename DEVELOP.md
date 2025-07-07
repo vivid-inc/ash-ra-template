@@ -6,6 +6,9 @@
 # Generate project build files, documentation
 $ bin/gen.sh
 
+# Lint all projects
+$ bin/lein-star.sh lint
+
 # Run all tests on the current JVM provided by the environment
 $ bin/test.sh
 
@@ -57,8 +60,23 @@ In the automated tests, some values may appear nonsensical or even absurd, but w
 - Watch: Document how watches trigger re-renders: All sub-paths under the watched dir.
 - Watch: When rendering out files, use comparisons to indicate when contents haven't changed, and atomic moves to give other tooling a chance to correctly detect changes and respond properly.
 - CLI: Ability to list rendered file paths without writing à la `--dry-run`
+- Possible defect: Are :dependencies leaked to subsequent ART render batches, without being expressly mentioned as being dependencies?
+- `watch` command: Tolerate failure on the first full pass. This might be accomplished by first entering watch mode, then queueing a full render.
+- CLI option to either fail command at first render error or attempt the entire batch then report exit code (default, consistent with `watch`).
+- `vivid.art.cli.resolve/resolve-as-var` and `*-example-custom-options`
+- Ability to specify named batches, and run only those batches in a rendering run.
+
 
 ### Considerations, further out:
+- Delve into details of `(yield)`:
+```
+; These are equivalent:
+<(= (yield :body )> ... default content ... <( ) )>
+(defn yields? [symbol'] (when-let [x (resolve symbol')] (var-get x)))
+(defn yield-nil [symbol'] (when-let [x (resolve symbol')] (emit (var-get x))))
+<( (when (yields? :body) )><(= (yield :body) )> ... default content ... <( ) )>
+```
+- In `watch` mode, memorize which files are written. When the source file changes its name, keep the output better in sync by deleting the affected rendered output file.
 - Make `clj-art` and `lein-art` friendly for diagnosing configuration problems, like figwheel.
 - Sufficient error reporting.
   Investigate employing an editor backend like Sjacket to track input metadata like line:char positions.
@@ -89,6 +107,7 @@ In the automated tests, some values may appear nonsensical or even absurd, but w
   - Produces a plain function. `(def page (vivid.art/renderc (slurp "index.html.art"))) (page p)`
 - Container image to run ART from your present CLI.
 - The purpose of ART is multi-fold: An ideal substrate for building a custom templating solution such as the constrained Jinja or something more flexible, and as a fully-featured templating system in its own right.
+- babashka, jank-lang.
 
 
 
@@ -103,7 +122,7 @@ This section records platform-related technological decisions.
 
 **Java**:
 - Lower-bound of Java 8, because it strikes a good balance between wide adoption and long-term stability.
-- Restrict testing and support to Java LTS releases, as these represent a somewhat stable target with wide adoption.
+- Java LTS releases, as these represent a stable target with wide adoption.
 
 **Leiningen** is the primary build tool.
 - Lower-bound of Leiningen 2.10.0. This is a reasonably recent version of Leiningen provided by CircleCI at the time of this writing.

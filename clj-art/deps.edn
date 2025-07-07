@@ -1,4 +1,4 @@
-; Copyright 2024 Vivid Inc. and/or its affiliates.
+; Copyright 2025 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License")
 ; you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@
            :clojure-1.10.0 {:override-deps {org.clojure/clojure {:mvn/version "1.10.0"}}}
            :clojure-1.10.3 {:override-deps {org.clojure/clojure {:mvn/version "1.10.3"}}}
            :clojure-1.11.4 {:override-deps {org.clojure/clojure {:mvn/version "1.11.4"}}}
-           :clojure-1.12.0 {:override-deps {org.clojure/clojure {:mvn/version "1.12.0"}}}
+           :clojure-1.12.1 {:override-deps {org.clojure/clojure {:mvn/version "1.12.1"}}}
 
            ; See https://github.com/cloverage/cloverage
            :cloverage      {:extra-deps  {cloverage/cloverage {:mvn/version "1.2.4"}}
@@ -49,4 +49,5 @@
            ; See https://github.com/weavejester/eftest
            :test           {:extra-deps  {eftest/eftest {:mvn/version "0.6.0"}}
                             :extra-paths ["test"]
+                            ; TODO This doesn't fail the build even when tests fail.
                             :main-opts   ["-m" "vivid.art.test-runner"]}}}

@@ -1,4 +1,4 @@
-; Copyright 2024 Vivid Inc. and/or its affiliates.
+; Copyright 2025 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License")
 ; you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@
             ; $ lein clj-kondo --copy-configs --dependencies --lint "$(lein classpath)"
             ; Reflection warning, /tmp/form-init8980745735929261178.clj:1:3390 - call to static method invokeStaticMethod on clojure.lang.Reflector can't be resolved (argument types: unknown, java.lang.String, unknown).
             ; No configs copied.
-            "clj-kondo" ["with-profile" "clojure-1.12.0,clj-kondo" "run" "-m" "clj-kondo.main" "--"
+            "clj-kondo" ["with-profile" "clojure-1.12.1,clj-kondo" "run" "-m" "clj-kondo.main" "--"
                          "--lint" "src:test"
                          "--parallel"]
             "lint"      ["do"
@@ -45,7 +45,7 @@
                          ["clj-kondo"]
                          ["antq"]
                          ["nvd" "check"]]
-            "test"      ["with-profile" "test" "with-profile" "+clojure-1.10.0:+clojure-1.10.3:+clojure-1.11.4:+clojure-1.12.0" "build"]}
+            "test"      ["with-profile" "test" "with-profile" "+clojure-1.10.0:+clojure-1.10.3:+clojure-1.11.4:+clojure-1.12.1" "build"]}
 
   :cloverage {:codecov? true
               :html?    true
@@ -90,7 +90,7 @@
              :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]}
              :clojure-1.10.3 {:dependencies [[org.clojure/clojure "1.10.3"]]}
              :clojure-1.11.4 {:dependencies [[org.clojure/clojure "1.11.4"]]}
-             :clojure-1.12.0 {:dependencies [[org.clojure/clojure "1.12.0"]]}
+             :clojure-1.12.1 {:dependencies [[org.clojure/clojure "1.12.1"]]}
 
              :deploy {:javac-options ["-target" "1.8" "-source" "1.8"]}
 

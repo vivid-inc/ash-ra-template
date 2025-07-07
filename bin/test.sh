@@ -23,12 +23,12 @@ set -o xtrace
 
 shopt -s globstar
 
-IFS=' ' read -a CLOJURE_VERSIONS <<< $(lein run -m clojure.main -e \
+IFS=' ' read -a CLOJURE_VERSIONS <<< "$(lein run -m clojure.main -e \
   '(print (as-> "assets/vivid-art-facts.edn" d
                 (with-open [r (clojure.java.io/reader d)]
                   (clojure.edn/read (java.io.PushbackReader. r)))
                 (get d (symbol "clojure-versions"))
-                (clojure.string/join " " d)))')
+                (clojure.string/join " " d)))')"
 
 echo Running all tests
 
@@ -41,4 +41,4 @@ rm -rf **/{.cpcache,out,target}
 (cd art && lein test)
 (cd art-cli && lein test)
 (cd clj-art && lein install && for ver in "${CLOJURE_VERSIONS[@]}" ; do rm -rf target ; clojure -M:clojure-${ver}:test ; done)
-(cd lein-art && lein install && lein test)
+(cd lein-art && lein "do" "install," "test")

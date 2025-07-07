@@ -35,7 +35,7 @@
 (defn- exit [exit-status message]
   (println message)
   ; TODO Clojure doesn't exit right away. https://clojureverse.org/t/why-doesnt-my-program-exit/3754
-  ; TODO The main point isn't to exit, but to return a quasi 'exit code' back to who/what -ever called us.
+  ; TODO The main point isn't to exit, but to return a quasi 'exit code' back to our caller.
   (shutdown-agents)
   (System/exit exit-status))
 
@@ -56,7 +56,8 @@
            (let [batches (if (coll? args)
                            [(vivid.art.cli/batch-from-cli-args args)]
                            (batches-from-project project))]
-                (vivid.art.cli.command/dispatch-command command batches))))
+                (vivid.art.cli.command/dispatch-command command batches)
+                (shutdown-agents))))
 
 (defn usage []
   (let [options-summary (:summary (clojure.tools.cli/parse-opts [] usage/cli-options))]
