@@ -82,7 +82,7 @@
     <dependency>
       <groupId>io.methvin</groupId>
       <artifactId>directory-watcher</artifactId>
-      <version>0.18.0</version>
+      <version>0.19.1</version>
       <exclusions>
         <exclusion>
           <artifactId>clojure</artifactId>
@@ -104,7 +104,7 @@
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>core.async</artifactId>
-      <version>1.6.681</version>
+      <version>1.8.741</version>
       <exclusions>
         <exclusion>
           <artifactId>clojure</artifactId>
@@ -115,7 +115,7 @@
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>data.json</artifactId>
-      <version>2.5.0</version>
+      <version>2.5.1</version>
       <exclusions>
         <exclusion>
           <artifactId>clojure</artifactId>

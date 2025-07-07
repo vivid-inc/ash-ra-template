@@ -22,10 +22,10 @@
            :clojure-1.12.0 {:override-deps {org.clojure/clojure {:mvn/version "1.12.0"}}}}
 
  :deps    {clj-commons/pomegranate      {:mvn/version "1.2.24"}
-           io.methvin/directory-watcher {:mvn/version "0.18.0"}
+           io.methvin/directory-watcher {:mvn/version "0.19.1"}
            net.vivid-inc/art            {:mvn/version "0.7.2"}
-           org.clojure/core.async       {:mvn/version "1.6.681"}
-           org.clojure/data.json        {:mvn/version "2.5.0"}
+           org.clojure/core.async       {:mvn/version "1.8.741"}
+           org.clojure/data.json        {:mvn/version "2.5.1"}
            org.clojure/tools.cli        {:mvn/version "1.1.230"}}
 
  :paths   ["src" "resources"

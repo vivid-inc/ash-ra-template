@@ -50,10 +50,10 @@
               }
 
   :dependencies [[clj-commons/pomegranate       "1.2.24"]
-                 [io.methvin/directory-watcher  "0.18.0"]
+                 [io.methvin/directory-watcher  "0.19.1"]
                  [net.vivid-inc/art             "0.7.2"]
-                 [org.clojure/core.async        "1.6.681"]
-                 [org.clojure/data.json         "2.5.0"]
+                 [org.clojure/core.async        "1.8.741"]
+                 [org.clojure/data.json         "2.5.1"]
                  [org.clojure/tools.cli         "1.1.230"]]
 
   :eftest {:capture-output? true}
@@ -114,7 +114,7 @@
 
                          :plugins        [;; Reloads & re-runs tests on file changes
                                           ;; https://github.com/jakemcc/lein-test-refresh
-                                          [com.jakemccrary/lein-test-refresh "0.25.0"]]
+                                          [com.jakemccrary/lein-test-refresh "0.26.0"]]
 
                          :resource-paths ["test-resources" "../examples"]
 

@@ -123,10 +123,11 @@
   [acc batch']
   (let [batch (merge batch-defaults
                      batch')]
-    (reduce (fn [acc' ^File path]
-              (let [handler (cond
-                              (.isDirectory path) (directory-handler-fn batch path)
-                              (.isFile path) (file-handler-fn batch path)
+    (reduce (fn [acc' template-info]
+              (let [path (:src-path template-info)
+                    handler (cond
+                              (= (:oriented-as template-info) :directory) (directory-handler-fn batch path)
+                              (= (:oriented-as template-info) :file) (file-handler-fn batch path)
                               :else (not-exists-handler-fn batch path))]
                 (concat acc' [handler])))
             acc

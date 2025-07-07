@@ -79,6 +79,10 @@ In the automated tests, some values may appear nonsensical or even absurd, but w
 <( (when (yields? :body) )><(= (yield :body) )> ... default content ... <( ) )>
 ```
 - In `watch` mode, memorize which files are written. When the source file changes its name, keep the output better in sync by deleting the affected rendered output file.
+  This can be accomplished by conveniently viewing a rename operation as two coordinated operations:
+  - When template is deleted, delete its rendered output.
+  - When new template file is added and matches the glob, add it to the rendering set.
+  - When template matching glob is changed, offer choice of rendering that one file vs. rendering entire batch.
 - Make `clj-art` and `lein-art` friendly for diagnosing configuration problems, like figwheel.
 - Sufficient error reporting.
   Investigate employing an editor backend like Sjacket to track input metadata like line:char positions.
