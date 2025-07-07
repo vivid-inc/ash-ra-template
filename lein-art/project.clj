@@ -59,8 +59,7 @@
   :dependencies [[net.vivid-inc/art-cli   "0.7.2"]
                  [org.clojure/tools.cli   "1.1.230"]]
 
-  :eftest {:report eftest.report.junit/report
-           :report-to-file "target/junit.xml"}
+  :eftest {:capture-output? true}
 
   :eval-in-leiningen true
 

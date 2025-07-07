@@ -27,21 +27,23 @@ $ cat deps.edn
        :templates  "oracle.art"
        :output-dir "."}}
 
-$ clojure -M:art render
+$ clojure -M:art render \
+    --bindings "{mysterious-primes [7 191]}" \
+    oracle.art
 ```
 `clj-art` will render the output file `oracle` into the current directory.
 
 You can also add the above alias to your personal `~/.clojure/deps.edn`.
 You'll then be able to render ART templates using `clojure` at the CLI anywhere you desire.
 ```sh
-$ clojure -M:art help
+$ clojure -M:art --help
 ```
 
 
 
 ## Synopsis
 
-`clj-art` can be used with Clojure `deps.edn` and its CLI.
+`clj-art` is used with `deps.edn`.
 
 Templates are supplied as one or more paths to `.art` template files and/or
 directory trees thereof.
@@ -60,15 +62,15 @@ supplied, ART will then expect to find rendering batches in `deps.edn`.
 
 #### Options
 
-| `deps.edn`          | Argument             | Parameters | Default | Explanation                                                                                                    |
-|---------------------|----------------------| --- | --- |----------------------------------------------------------------------------------------------------------------|
-| `:bindings`          | `--bindings`         | VAL                                                   | | Bindings made available to templates for symbol resolution. Currently limited to a single usage in `clj-art`.  |
-| `:delimiters`       | `--delimiters`       | VAL                                                  | `lispy` | Template delimiters.                                                                                           |
-| `:dependencies`     | `--dependencies`     | VAL                                                  | | Clojure deps map providing libs within the template evaluation environment.                                    |
-|                     | `-h`, `--help`       |                                                      | | Displays lovely help and then exits.                                                                           |
-| `:output-dir`       | `--output-dir`       | DIR                                                  | `.` | Write rendered files to DIR.                                                                                   |
-| `:to-phase`         | `--to-phase`         | One of: `parse`, `translate`, `enscript`, `evaluate` | `evaluate` | Stop the render dataflow on each template at an earlier phase.                                                 |
-| `:watch-timeout-ms` | `--watch-timeout-ms` | VAL              | `500` | Trigger re-render once this timeout in milliseconds elapses, coalescing flurries of change to watched batches. |
+| Argument | Parameters | Default | Explanation |
+| --- | --- | --- | --- |
+| `--bindings` | VAL | | Bindings made available to templates for symbol resolution. Currently limited to a single usage in `clj-art`. |
+| `--delimiters` | VAL | `lispy` | Template delimiters |
+| `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. |
+| `-h`, `--help` | | | Displays lovely help and then exits |
+| `--output-dir` | DIR | `.` | Write rendered files to DIR |
+| `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `evaluate` | Stop the render dataflow on each template at an earlier phase |
+| `--watch-timeout-ms` | VAL | `500` | Trigger re-render once this timeout in milliseconds elapses, coalescing flurries of change to watched batches |
 
 Depending on what types of values a particular option accepts,
 ART attempts to interpret arguments in this order of precedence:
@@ -87,41 +89,32 @@ ART attempts to interpret arguments in this order of precedence:
 
 
 ### Custom bindings, delimiters, dependencies, and project code
-NOTE: THIS EXAMPLE IS INCOMPLETE. 
-At the time of this writing, the authors don't know how to specify a Clojure var from within `deps.edn` that is defined within `src/`.
-For the sake of completeness, its value is copy & pasted into the example below in place of the var.
 ```edn
 {:aliases
- {:art {:extra-deps {net.vivid-inc/clj-art {:mvn/version "0.7.2"}
-                     art-example-custom-options/art-example-custom-options {:mvn/version "0"}}
-        :main-opts  ["-m" "vivid.art.clj-tool"]}}
+ {:art {:extra-deps {net.vivid-inc/clj-art {:mvn/version "0.7.2"}}
+        :main-opts  ["-m" "vivid.art.clj-tool"
 
- ; Render all .art template files in the content/ directory to out/cdn/
- :art {:templates    "content"
+                     ; Render all .art templates in the content/ directory
+                     "content"
 
-       :bindings     [{manufacturer     "Acme Corporation"    ; Map literal
-                       manufacture-year "2022"}
+                     ; Map as a string
+                     "--bindings" "{manufacturer,\"Acme,Corporation\",manufacture-year,\"2022\"}"
+                     ; Var whose value is a map
+                     "--bindings" "com.acme.data/product-data"
+                     ; EDN as a string
+                     "--bindings" "{current-year,2021}"
+                     ; EDN file; top-level form is a map
+                     "--bindings" "data/sales-offices.edn"
+                     ; JSON file; file content is made available under the symbol 'partner-list
+                     "--bindings" "data/partner-list.json"
 
-                      ; (See note above)
-                      ;#'com.acme.data/product-data                 ; Var, value is a map
-                      {products [{:name               "Bag of bird seed"
-                                  :weight-kgs         1.0
-                                  :minimum-order-qty  50
-                                  :unit-price-dollars 0.39M}
-                                 {:name               "Ironing board on rollerskates"
-                                  :weight-kgs         2.0
-                                  :minimum-order-qty  10
-                                  :unit-price-dollars 17.95M}]}
+                     ; Unqualified, resolves to #'vivid.art.delimiters/jinja
+                     "--delimiters" "jinja"
 
-                      "{current-year 2021}"                   ; EDN as a string
-                      "data/sales-offices.edn"                ; EDN file; top-level form is a map
-                      "data/partner-list.json"]               ; JSON file; file content is made available under the symbol 'partner-list
-
-       :delimiters   "jinja"                                  ; Resolves to #'vivid.art.delimiters/jinja
-
-       :dependencies [[hiccup/hiccup "1.0.5" :exclusions [org.clojure/clojure]]]
-
-       :output-dir   "out/cdn"}}
+                     "--dependencies" "{hiccup/hiccup,{:mvn/version,\"1.0.5\"}}"
+                     "--to-phase" "enscript"
+                     ; Render to the our/cdn/ directory
+                     "--output-dir" "out/cdn"]}}}
 ```
 
 __Discussion:__
@@ -132,16 +125,6 @@ libraries, and code in the project.
 
 __See also:__
 [Example](../examples/custom-options).
-[Rendering and options](../art/README.md#rendering-and-options) in the ART documentation.
-
-
-
-### Rendering a batch using CLI options
-TODO
--A vs. -M
-
-__See also:__
-[Example](../examples/TODO).
 [Rendering and options](../art/README.md#rendering-and-options) in the ART documentation.
 
 
@@ -198,34 +181,24 @@ __See also:__
 
 ### Configure multi-batch rendering in deps.edn
 ```edn
-{:aliases {:art {:extra-deps {net.vivid-inc/clj-art {:mvn/version "0.7.2"}}
-                 :main-opts  ["-m" "vivid.art.clj-tool"]}}
-
- ; Several ART render batches are defined here:
- :art [
-   ; An ART render batch configuration
-   {:templates    "src/templates/css"
-    :dependencies [[garden/garden "1.3.10"]]
-    :output-dir   "src/resources"}
-
-   ; Another, different batch
-   {:templates    ["src/templates/java"]
-    :bindings     {version "1.2.3"}
-    :output-dir   "target/generated-sources/java"}
-
-   ; One more batch
-   {:templates    "src/templates/html"
-    :dependencies [[hiccup/hiccup "1.0.5"]]
-    :output-dir   "www"}]}
+{:aliases
+  {:rndr-a {:extra-deps {net.vivid-inc/clj-art {:mvn/version "0.7.2"}}
+            :main-opts  ["-m" "vivid.art.clj-tool" "src/templates/css"
+                         "--dependencies" "{garden/garden,{:mvn/version,\"1.3.10\"}}"
+                         "--output-dir" "src/resources"]}
+   :rndr-b {:extra-deps {net.vivid-inc/clj-art {:mvn/version "0.7.2"}}
+            :main-opts  ["-m" "vivid.art.clj-tool" "src/templates/java"
+                         "--bindings" "{version,\"1.2.3\"}"
+                         "--output-dir" "target/generated-sources/java"]}}}
 ```
 
 __Discussion:__
-ART render batches can be defined under the top-level key `:art` in `deps.edn`,
-either as an individual batch or as a collection of any quantity.
-The batches will be found and used by `clj-art` when it is run using the 
-`deps.edn` alias `art`.
-```sh
-$ clj -M:art render
+Each individual render batch is assigned its own unique key under `:aliases`,
+in this example aliases `rndr-a` and `rndr-b`. As `deps.edn` is not a build tool,
+but instead focuses on dependency resolution and the running of a single entry point,
+we are able to run any one batch:
+```bash
+$ clojure -M:rndr-a
 ```
 
 __See also:__

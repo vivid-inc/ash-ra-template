@@ -74,7 +74,7 @@ Or, to render from a file:
 We work with people offering PRs to revise and iterate leading to solutions in accord with project goals and [release criteria](QUALITY.md).
 Development topics and product roadmap are maintained in [DEVELOP.md](DEVELOP.md). 
 Commits must include Signed-off-by indicating acceptance of the [Developer's Certificate of Origin](DCO.txt).
-Unproductive behavior such as unkindness towards others and derailment is not tolerated.
+Unproductive behavior such as unkindness or derailment is not tolerated.
 
 
 

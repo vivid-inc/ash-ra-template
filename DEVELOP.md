@@ -51,8 +51,8 @@ In the automated tests, some values may appear nonsensical or even absurd, but w
   (default, consistent with `watch`), or at first render error `--fail-fast` (applicable only for `render`, not `watch`).
 - `vivid.art.cli.resolve/resolve-as-var` and `*-example-custom-options`
 - Ability to specify named batches, and run only those batches in a rendering run.
-- Accept a varname as a template path. Use either its return value (if IFn) or its value as a set of template path-specs.
-- `(slurp)` defaults to decoding input files as UTF-8; this might trip up template authors.
+- Accept a varname as a template path. Use either its return value (if IFn) or the value as a set of template path-specs / rendering batch.
+- `(slurp)` defaults to decoding input files as UTF-8; this might trip up template authors. Instead, document this stumbling block, support `java.io.reader` in the protocol, and eliminate use of `slurp` in this repo.
 - Heavy testing of quote nesting and escaping, delimiter escaping, Clojure reader forms, comments.
 - clj-art :exec-fn, fully support `(dispatch-command)`. See https://practical.li/blog-staging/posts/clojure-cli-tools-understanding-aliases/
 - Investigate OpenSSF Best Practices reporting, such as: https://bestpractices.coreinfrastructure.org/en/projects/2095

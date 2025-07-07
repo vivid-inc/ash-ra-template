@@ -44,7 +44,7 @@ $ lein art --help
 
 ## Synopsis
 
-`lein-art` can be used with Leiningen `project.clj` and its CLI.
+`lein-art` can be used with Leiningen `project.clj` and at the CLI.
 
 Templates are supplied as one or more paths to `.art` template files and/or
 directory trees thereof.
@@ -63,16 +63,16 @@ supplied, ART will then expect to find rendering batches in `project.clj`.
 
 #### Options
 
-| `project.clj`       | CLI argument         | Parameters | Default | Explanation                                                                                                    |
-|---------------------|----------------------| --- | --- |----------------------------------------------------------------------------------------------------------------|
-| `:bindings`         | `--bindings`         | VAL | | Bindings made available to templates for symbol resolution.                                                    |
-| `:delimiters`       | `--delimiters`       | VAL | `lispy` | Template delimiters.                                                                                           |
-| `:dependencies`     | `--dependencies`     | VAL | | Clojure deps map providing libs within the template evaluation environment.                                    |
-|                     | `-h`, `--help`       | | | Displays lovely help and then exits.                                                                           |
-| `:output-dir`       | `--output-dir`       | DIR | `.` | Write rendered files to DIR.                                                                                   |
-| `:templates`        | [FILES]              | VAL | | Paths to ART template files.                                                                                   |
-| `:to-phase`         | `--to-phase`         | One of: `parse`, `translate`, `enscript`, `evaluate` | `evaluate` | Stop the render dataflow on each template at an earlier phase.                                                 |
-| `:watch-timeout-ms` | `--watch-timeout-ms` | VAL | `500` | Trigger re-render once this timeout in milliseconds elapses, coalescing flurries of change to watched batches. |
+| `project.clj` | CLI argument | Parameters | Default | Explanation |
+| --- | --- | --- | --- | --- |
+| `:bindings` | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
+| `:delimiters` | `--delimiters` | VAL | `lispy` | Template delimiters |
+| `:dependencies` | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. |
+| | `-h`, `--help` | | | Displays lovely help and then exits |
+| `:output-dir` | `--output-dir` | DIR | `.` | Write rendered files to DIR |
+| `:templates` | [FILES] | VAL | | Paths to ART template files |
+| `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `evaluate` | Stop the render dataflow on each template at an earlier phase |
+| `--watch-timeout-ms` | VAL | `500` | Trigger re-render once this timeout in milliseconds elapses, coalescing flurries of change to watched batches |
 
 Depending on what types of values a particular option accepts and whether `lein-art` was invoked as a Leiningen configuration or from the CLI,
 ART attempts to interpret arguments in this order of precedence:
@@ -91,8 +91,8 @@ ART attempts to interpret arguments in this order of precedence:
 
 
 ### Custom bindings, delimiters, dependencies, and project code
-NOTE: THIS EXAMPLE IS INCOMPLETE.
-At the time of this writing, the authors don't know how to specify a Clojure var from within `project.clj` that is defined within `src/`.
+NOTE: THIS deps.edn EXAMPLE IS INCOMPLETE.
+The authors so far don't know how to specify/notate within `project.clj` a Clojure Var that is defined in the project sources.
 For the sake of completeness, its value is copy & pasted into the example below in place of the var.
 ```clojure
 ; Render all .art template files in the content/ directory to out/cdn/
@@ -152,15 +152,6 @@ __See also:__
 
 
 
-### Rendering a batch using CLI options
-TODO
-
-__See also:__
-[Example](../examples/TODO).
-[Rendering and options](../art/README.md#rendering-and-options) in the ART documentation.
-
-
-
 ### Re-render templates whenever they change in a Leiningen project
 ```
 $ cat project.clj
@@ -194,22 +185,18 @@ __See also:__
   ; Add the lein-art Leiningen plugin:
   :plugins [[net.vivid-inc/lein-art "0.7.2"]]
 
-  ; Several ART render batches are defined here:
+  ; ART render batches are defined here:
   :art [
     ; An ART render batch configuration
     {:templates    "src/templates/css"
-     :dependencies [[garden/garden "1.3.10"]]
+     ; :dependencies use Clojure deps notation and not Leiningen's
+     :dependencies {garden/garden {:mvn/version "1.3.10"}}
      :output-dir   "src/resources"}
 
     ; Another, different batch
-    {:templates    ["src/templates/java"]
-     :bindings     {version "1.2.3"}
-     :output-dir   "target/generated-sources/java"}
-
-    ; One more batch
-    {:templates    "src/templates/html"
-     :dependencies [[hiccup/hiccup "1.0.5"]]
-     :output-dir   "www"}]
+    {:templates  ["src/templates/java"]
+     :bindings   {version "1.2.3"}
+     :output-dir "target/generated-sources/java"}]
 ```
 
 __Discussion:__
@@ -228,5 +215,5 @@ __See also:__
 
 ## License
 
-© Copyright 2024 Vivid Inc. and/or its affiliates.
+© Copyright 2025 Vivid Inc. and/or its affiliates.
 [Apache License 2.0](LICENSE.txt) licensed.
