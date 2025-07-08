@@ -60,18 +60,12 @@
                          ["cloverage"]
                          ["jar"]
                          ["install"]]
-            "clj-kondo-configs" ["with-profile" "clojure-<%= (last clojure-versions) %>,clj-kondo" "run" "-m" "clj-kondo.main" "--"
-                         "--lint" "src:test"
-                         "--dependencies"
-                         "--copy-configs"
-                         "--skip-lint"]
-            "clj-kondo" ["with-profile" "clojure-<%= (last clojure-versions) %>,clj-kondo" "run" "-m" "clj-kondo.main" "--"
-                         "--lint" "src:test"
-                         "--parallel"]
+            "clj-kondo" ["with-profile" "clojure-<%= (last clojure-versions) %>,clj-kondo" "run" "-m" "clj-kondo.main" "--"]
             "lint"      ["do"
                          ["cljfmt" "check"]
-                         ["clj-kondo-configs"]
-                         ["clj-kondo"]
+                         ;["clj-kondo" "--lint" "src:test"   ; ~#(clojure.string/join ":" (leiningen.core.classpath/get-classpath %))
+                         ; "--dependencies" "--copy-configs" "--skip-lint"]
+                         ["clj-kondo" "--lint" "src:test" "--parallel"]
                          ["antq"]
                          ["nvd" "check"]]
             "test"     ["with-profile" "<%= clojure-test-profiles-str %>" "build"]}

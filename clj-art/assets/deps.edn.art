@@ -38,14 +38,6 @@
  :aliases {:art            {:extra-paths ["src"]
                             :main-opts   ["-m" "vivid.art.clj-tool"]}
 
-           ; See https://github.com/clj-kondo/clj-kondo
-           :clj-kondo      {:extra-deps  {clj-kondo/clj-kondo {:mvn/version "RELEASE"}
-                                          org.clojure/clojure {:mvn/version "<%= (first clojure-versions) %>"}}
-                            :main-opts   ["-m" "clj-kondo.main"
-                                          "--config" "../.clj-kondo/config.edn"
-                                          "--lint" "src/:test/"
-                                          "--parallel"]}
-
 <%= (clojure-version-aliases :indent 11) %>
 
            ; See https://github.com/cloverage/cloverage

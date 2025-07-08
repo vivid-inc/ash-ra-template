@@ -15,8 +15,8 @@
 (ns vivid.art.cli.examples-test
   "Confirms that ART works as promised in the README file."
   #_(:require
-   [clojure.test :as t]
-   [vivid.art.cli :as art-cli]))
+     [clojure.test :as t]
+     [vivid.art.cli :as art-cli]))
 
 ; TODO Implement this
 #_(deftest usage

@@ -20,14 +20,6 @@
  :aliases {:art            {:extra-paths ["src"]
                             :main-opts   ["-m" "vivid.art.clj-tool"]}
 
-           ; See https://github.com/clj-kondo/clj-kondo
-           :clj-kondo      {:extra-deps  {clj-kondo/clj-kondo {:mvn/version "RELEASE"}
-                                          org.clojure/clojure {:mvn/version "1.10.0"}}
-                            :main-opts   ["-m" "clj-kondo.main"
-                                          "--config" "../.clj-kondo/config.edn"
-                                          "--lint" "src/:test/"
-                                          "--parallel"]}
-
            :clojure-1.10.0 {:override-deps {org.clojure/clojure {:mvn/version "1.10.0"}}}
            :clojure-1.10.3 {:override-deps {org.clojure/clojure {:mvn/version "1.10.3"}}}
            :clojure-1.11.4 {:override-deps {org.clojure/clojure {:mvn/version "1.11.4"}}}
