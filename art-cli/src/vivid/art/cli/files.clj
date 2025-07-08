@@ -127,7 +127,7 @@
           ; A glob cannot occur at idx 0, whose path element value is defined as "." above.
           (globbed-path-element? (.getName p idx))
           (let [base-dir (if (>= 1 idx) (->path ".")
-                                        (.subpath p 1 idx))]
+                             (.subpath p 1 idx))]
             {:base-dir        (.toFile base-dir)
              :oriented-as     :glob
              :path-spec       path-spec

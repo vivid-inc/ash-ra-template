@@ -75,7 +75,7 @@ Chondrichthyes research published in <(= (cite-dates publication-dates) )>.
          "April 5 was a most pleasant, memorable day."
          (art/render "<(= month )> <(= day )> was a most pleasant, memorable day."
                      {:bindings {'month "April"
-                                'day   5}})))
+                                 'day   5}})))
 
     (is (= "
 The natural number e is approximately 2.7182"
@@ -87,5 +87,5 @@ The natural number e is approximately 2.7182"
            (art/render "{| (def e 2.7182) |}
 The natural number e is approximately {|= e |}"
                        {:delimiters {:begin-forms "{|"
-                                    :end-forms   "|}"
-                                    :begin-eval  "{|="}})))))
+                                     :end-forms   "|}"
+                                     :begin-eval  "{|="}})))))

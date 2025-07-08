@@ -47,10 +47,10 @@
       (log/*warn-fn* "Warning: No ART templates to render.")
       (let [classpath (vivid.art.cli.classpath/assemble-classpath batch)]
         (with-custom-classloader classpath
-                                 (doseq [template-file templates]
-                                   (vivid.art.cli.exec/render-file template-file batch)))))))
+          (doseq [template-file templates]
+            (vivid.art.cli.exec/render-file template-file batch)))))))
 (s/fdef render-batch
-        :args (s/cat :batch (s/? :vivid.art.cli/batch)))
+  :args (s/cat :batch (s/? :vivid.art.cli/batch)))
 
 (defn render-batches
   "Render a collection of batches."

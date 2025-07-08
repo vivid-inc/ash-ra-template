@@ -64,4 +64,4 @@
   when evaluated, produces the template output."
   [token-stream]
   (let [result (reduce tk/apply-signal lenient-fsm token-stream)]
-      (:output result)))
+    (:output result)))

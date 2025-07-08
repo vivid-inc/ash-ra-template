@@ -51,11 +51,11 @@
   (binding [log/*info-fn* println
             log/*warn-fn* println]
     ; TODO Documentation: Clarify that specifying options will cause ART to ignore project settings.
-           (let [batches (if (coll? args)
-                           [(vivid.art.cli/batch-from-cli-args args)]
-                           (batches-from-project project))]
-                (vivid.art.cli.command/dispatch-command command batches)
-                (shutdown-agents))))
+    (let [batches (if (coll? args)
+                    [(vivid.art.cli/batch-from-cli-args args)]
+                    (batches-from-project project))]
+      (vivid.art.cli.command/dispatch-command command batches)
+      (shutdown-agents))))
 
 (defn usage []
   (let [options-summary (:summary (clojure.tools.cli/parse-opts [] usage/cli-options))]

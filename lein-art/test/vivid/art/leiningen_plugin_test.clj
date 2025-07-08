@@ -84,17 +84,17 @@
 
 ; TODO Rewrite
 #_(t/deftest lein-plugin-example-custom-options
-  (let [res (clojure.java.shell/sh "./test.sh" "lein" "do" "clean," "install," "art" "render"
-                                   :dir "../examples/custom-options")]
-    (t/is (= 0 (res :exit))
-          (pr-str res))))
+    (let [res (clojure.java.shell/sh "./test.sh" "lein" "do" "clean," "install," "art" "render"
+                                     :dir "../examples/custom-options")]
+      (t/is (= 0 (res :exit))
+            (pr-str res))))
 
 ; TODO Rewrite
 #_(t/deftest lein-plugin-example-multi-batch
-  (let [res (clojure.java.shell/sh "./test.sh" "lein" "art" "render"
-                                   :dir "../examples/multi-batch")]
-    (t/is (= 0 (res :exit))
-          (pr-str res))))
+    (let [res (clojure.java.shell/sh "./test.sh" "lein" "art" "render"
+                                     :dir "../examples/multi-batch")]
+      (t/is (= 0 (res :exit))
+            (pr-str res))))
 
 (t/deftest lein-plugin-example-readme-examples
   (all-invocation-patterns "../examples/readme-examples"

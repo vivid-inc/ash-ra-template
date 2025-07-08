@@ -29,8 +29,8 @@
     (are [expected template]
          (= expected (art/render template
                                  {:delimiters {:begin-forms "<("
-                                              :begin-eval  "<(="
-                                              :end-forms   ")>"}}))
+                                               :begin-eval  "<(="
+                                               :end-forms   ")>"}}))
       "plain text" "plain text"
       "juniper" "juni<()>per"
       "START 1234 END" "START <((def cnt 4)(doseq [i (range 1 (inc cnt))])><(=i)><())> END")))
@@ -54,7 +54,7 @@
     (are [expected template bindings]
          (= expected (art/render template
                                  {:delimiters vivid.art.delimiters/mustache
-                                 :bindings   bindings}))
+                                  :bindings   bindings}))
       "plain text" "plain text" {}
       "juniper" "juni{{}}per" {}
       "START 1234 END" "START {{numbers}} END" '{numbers 1234}))

@@ -46,7 +46,7 @@
     (doseq [target-dir (map first target-and-expected-dirs)]
       (delete-file-tree (str dir "/" target-dir) :silently))
     (let [exec-result (if (fn? command) (command p)
-                                        (apply clojure.java.shell/sh (concat command [:dir dir])))]
+                          (apply clojure.java.shell/sh (concat command [:dir dir])))]
       (doseq [[target-dir' expected-dir'] target-and-expected-dirs]
         (let [target-dir            (str dir "/" target-dir')
               expected-dir          (str dir "/" expected-dir')
@@ -73,10 +73,10 @@
 (t/deftest clj-tool-example-custom-options
   (invocation-pattern
    {:command (fn [_]
-                (let [exec-result-0 (apply clojure.java.shell/sh (concat ["lein" "do" "clean," "install"] [:dir "../examples/custom-options"]))]
-                     (if (not= 0 (exec-result-0 :exit))
-                       exec-result-0
-                       (apply clojure.java.shell/sh (concat ["clj" "-M:art" "render"] [:dir "../examples/custom-options"])))))
+               (let [exec-result-0 (apply clojure.java.shell/sh (concat ["lein" "do" "clean," "install"] [:dir "../examples/custom-options"]))]
+                 (if (not= 0 (exec-result-0 :exit))
+                   exec-result-0
+                   (apply clojure.java.shell/sh (concat ["clj" "-M:art" "render"] [:dir "../examples/custom-options"])))))
     :dir                      "../examples/custom-options"
     :target-and-expected-dirs [["out/cdn" "expected"]]}))
 

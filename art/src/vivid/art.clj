@@ -67,7 +67,7 @@
                                                new-context)}
         (farolero/handler-case (render*)
                                (:vivid.art/parse-error [_ details]
-                                (make-failure :parse-error details template)))))))
+                                                       (make-failure :parse-error details template)))))))
 
 ; TODO rg '[\(\\/]render ' -A 1 ; rg art/render
 ; TODO Update docs
