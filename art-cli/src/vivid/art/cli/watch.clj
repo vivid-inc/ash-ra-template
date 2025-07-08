@@ -68,7 +68,7 @@
       (when-not (noise-exception-types (type e))
         (log/*warn-fn* e)))))
 
-(defn ^DirectoryWatcher build-directory-watcher
+(defn build-directory-watcher ^DirectoryWatcher
   [listener-fn path]
   (-> (DirectoryWatcher/builder)
       (.path path)

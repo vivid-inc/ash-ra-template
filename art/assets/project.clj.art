@@ -60,15 +60,17 @@
                          ["cloverage"]
                          ["jar"]
                          ["install"]]
-            ; TODO clj-kondo doesn't gather dependency configurations, counter to my expectations:
-            ; $ lein clj-kondo --copy-configs --dependencies --lint "$(lein classpath)"
-            ; Reflection warning, /tmp/form-init8980745735929261178.clj:1:3390 - call to static method invokeStaticMethod on clojure.lang.Reflector can't be resolved (argument types: unknown, java.lang.String, unknown).
-            ; No configs copied.
+            "clj-kondo-configs" ["with-profile" "clojure-<%= (last clojure-versions) %>,clj-kondo" "run" "-m" "clj-kondo.main" "--"
+                         "--lint" "src:test"
+                         "--dependencies"
+                         "--copy-configs"
+                         "--skip-lint"]
             "clj-kondo" ["with-profile" "clojure-<%= (last clojure-versions) %>,clj-kondo" "run" "-m" "clj-kondo.main" "--"
                          "--lint" "src:test"
                          "--parallel"]
             "lint"      ["do"
                          ["cljfmt" "check"]
+                         ["clj-kondo-configs"]
                          ["clj-kondo"]
                          ["antq"]
                          ["nvd" "check"]]

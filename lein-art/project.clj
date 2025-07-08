@@ -33,12 +33,18 @@
                          ; TODO Fails, due perhaps in relation to :eval-in-leiningen ["cloverage"]
                          ["jar"]
                          ["install"]]
+            "clj-kondo-configs" ["with-profile" "clojure-1.12.1,clj-kondo" "run" "-m" "clj-kondo.main" "--"
+                         "--lint" "src:test"
+                         "--dependencies"
+                         "--copy-configs"
+                         "--skip-lint"]
             "clj-kondo" ["with-profile" "clojure-1.12.1,clj-kondo" "run" "-m" "clj-kondo.main" "--"
                          "--lint" "src:test"
                          "--parallel"]
             "gen"       ["art" "render"]
             "lint"      ["do"
                          ["cljfmt" "check"]
+                         ["clj-kondo-configs"]
                          ["clj-kondo"]
                          ["antq"]
                          ["nvd" "check"]]

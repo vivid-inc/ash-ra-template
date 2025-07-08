@@ -97,7 +97,7 @@
 ; - A directory that actually exists on the filesystem, relative to the current working directory.
 ; - A path to a single file.
 
-(defn ^Path ->path [p & ps] (Paths/get p (into-array String ps)))
+(defn ->path ^Path [p & ps] (Paths/get p (into-array String ps)))
 (def ^:const glob-special-characters #"(?<!\\)[\*\?\{\[]")
 (defn globbed-path-element? [p] (re-find glob-special-characters (.toString (.getFileName ^Path p))))
 

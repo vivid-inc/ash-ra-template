@@ -86,9 +86,9 @@
       (catch RuntimeException _
         nil))))
 
-(defn ^File resolve-as-file
+(defn resolve-as-file
   "Attempt to interpret a value as a java.io.File."
-  [path]
+  ^File [path]
   (cond
     (instance? File path) path
     (and (string? path) (seq (clojure.string/trim path))) (File. ^String path)

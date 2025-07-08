@@ -16,7 +16,9 @@
   (:require
    [clojure.test :refer [are deftest]]
    [farolero.core :as farolero]
+   [vivid.art.cli.args]
    [vivid.art.cli.debounce]
+   [vivid.art.cli.log]
    [vivid.art.cli.usage :refer [cli-options]]
    [vivid.art.cli.validate :as validate]))
 

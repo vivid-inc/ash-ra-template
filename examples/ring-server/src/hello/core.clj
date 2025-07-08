@@ -38,5 +38,5 @@
       (ring.middleware.params/wrap-params {:encoding "UTF-8"})))
 
 (defn -main
-      [& args]
+      [& _args]
       (ring.adapter.jetty/run-jetty app-handler {:port 3000}))

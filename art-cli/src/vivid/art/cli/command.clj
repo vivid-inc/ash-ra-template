@@ -15,11 +15,13 @@
 (ns ^:internal-api vivid.art.cli.command
   "CLI command parsing and dispatch."
   (:require
+   [clojure.pprint]
    [clojure.string]
    [farolero.core :as farolero]
    [vivid.art.cli :as art-cli]
    [vivid.art.cli.log :as log]
    [vivid.art.cli.messages :as messages]
+   [vivid.art.cli.usage]
    [vivid.art.cli.watch]))
 
 (defn dispatch-command [command' batches]

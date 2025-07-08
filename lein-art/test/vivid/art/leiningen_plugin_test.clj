@@ -17,6 +17,7 @@
 (ns vivid.art.leiningen-plugin-test
   (:require
    [clojure.java.io :as io]
+   [clojure.java.shell]
    [clojure.test :as t]
    [leiningen.art :as lein-art])
   (:import
