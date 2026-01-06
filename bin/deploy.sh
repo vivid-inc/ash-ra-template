@@ -24,6 +24,9 @@ set -o nounset
 set -o pipefail
 set -o xtrace
 
+# Aim for a clean build.
+rm -rf **/{.cpcache,out,target}
+
 export TZ=UTC
 for DIR in art art-cli clj-art lein-art
 do

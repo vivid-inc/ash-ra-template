@@ -22,7 +22,7 @@ Wait, I see it! Your destiny lies deep within the number <(= (mult mysterious-pr
 $ cat project.clj
 
 (defproject rndr "1.2.3"
-  :plugins [[net.vivid-inc/lein-art "0.7.2"]]
+  :plugins [[net.vivid-inc/lein-art "0.8.0"]]
   :art {:bindings   "{mysterious-primes [7 191]}"
         :templates  "oracle.art"
         :output-dir "."})
@@ -33,7 +33,7 @@ $ lein art render
 
 You can also add `lein-art` to your `~/.lein/profiles.clj`
 ```clojure
-{:user {:plugins [[net.vivid-inc/lein-art "0.7.2"]]}}
+{:user {:plugins [[net.vivid-inc/lein-art "0.8.0"]]}}
 ```
 You'll then be able to render ART templates using `lein` at the CLI anywhere you desire.
 ```sh
@@ -98,7 +98,7 @@ For the sake of completeness, its value is copy & pasted into the example below 
 ; Render all .art template files in the content/ directory to out/cdn/
 (defproject art-example-custom-options "0"
 
-  :plugins [[net.vivid-inc/lein-art "0.7.2"]]
+  :plugins [[net.vivid-inc/lein-art "0.8.0"]]
 
   ; Render all .art template files in the content/ directory to out/cdn/
   :art {:templates    "content"
@@ -161,7 +161,7 @@ $ cat project.clj
   :art {:templates    "resources"
         :output-dir   "target"}
 
-  :plugins [[net.vivid-inc/lein-art "0.7.2"]])  ; Render ART templates with lein-art
+  :plugins [[net.vivid-inc/lein-art "0.8.0"]])  ; Render ART templates with lein-art
 
 $ lein art watch
 Press CTRL-C to interrupt watch
@@ -183,7 +183,7 @@ __See also:__
 ### Configure multi-batch rendering in project.clj
 ```clojure
   ; Add the lein-art Leiningen plugin:
-  :plugins [[net.vivid-inc/lein-art "0.7.2"]]
+  :plugins [[net.vivid-inc/lein-art "0.8.0"]]
 
   ; ART render batches are defined here:
   :art [

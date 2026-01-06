@@ -12,7 +12,7 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(defproject net.vivid-inc/clj-art "0.7.2"
+(defproject net.vivid-inc/clj-art "0.8.0"
 
   :note "THIS FILE IS GENERATED AUTOMATICALLY FROM AN ART TEMPLATE BY bin/gen.sh"
   :description "Clojure tool for rendering Ash Ra .art templates"
@@ -21,7 +21,7 @@
             :url          "https://www.apache.org/licenses/LICENSE-2.0"}
   :scm {:dir  ".."
         :name "git"
-        :tag  "0.7.2"
+        :tag  "0.8.0"
         :url  "https://github.com/vivid-inc/ash-ra-template"}
   :url "https://github.com/vivid-inc/ash-ra-template"
 
@@ -49,7 +49,7 @@
               :output   "cloverage"                  ; "lein jar" destroys target/cloverage
               }
 
-  :dependencies [[net.vivid-inc/art-cli "0.7.2"]]
+  :dependencies [[net.vivid-inc/art-cli "0.8.0"]]
 
   :eftest {:capture-output? true}
 

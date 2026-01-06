@@ -1,10 +1,32 @@
-{ ; As reasonable, sort everything in ascending order alphanumerically, temporally, version-wise.
+{
+ ; A record of technological decisions.
+ ; All supported versions (resulting from these facts) are recorded in this file as facts used to generate project files, control testing, etc.
+ ; As reasonable, sort everything in ascending order: alphanumerically, temporally, version-wise.
+
+ ; Constraints on Clojure versions:
+ ; - Lower-bound of Clojure 1.9.0 for [spec](https://clojure.org/guides/spec).
+ ; - Lower-bound of Clojure 1.10.0, farolero's minimum supported version.
+ ; - Clojure 1.10's minimum Java version requirement is Java 8.
  clojure-versions  ["1.10.0"                                ; The earliest supported version of Clojure
                     "1.10.3"                                ; The most recent release of Clojure 1.10
                     "1.11.4"                                ; The most recent release of Clojure 1.11
                     "1.12.4"                                ; The most recent release of Clojure 1.12
                     ]
+
+ ; Constraints on Java versions:
+ ; - Lower-bound of Java 8, because it strikes a good balance between wide adoption and long-term stability.
+ ; - Java LTS releases, as these represent a stable target with wide adoption.
  java-versions     [8 11 17 21 25]
  javac-min-version "1.8"
+
+ ; Leiningen, the primary build tool.
+ ; Constraints on Leiningen version:
+ ; - Lower-bound of Leiningen 2.10.0. This is a reasonably recent version of Leiningen provided by CircleCI at the time of this writing.
+ ; - Use [`lein-sub`](https://github.com/kumarshantanu/lein-sub) to structure individual sub-projects.
  lein-version      "2.10.0"
- vivid-art-version "0.7.2"}
+
+ ; The version of Ash Ra Template.
+ ; The one-two combo of invoking `bin/gen.sh` followed by `bin/deploy.sh` will use this version:
+ vivid-art-version "0.8.0"
+
+ }

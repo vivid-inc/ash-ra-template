@@ -4,7 +4,7 @@
   <groupId>net.vivid-inc</groupId>
   <artifactId>lein-art</artifactId>
   <packaging>jar</packaging>
-  <version>0.7.2</version>
+  <version>0.8.0</version>
   <name>lein-art</name>
   <description>Leiningen plugin for rendering Ash Ra .art templates</description>
   <url>https://github.com/vivid-inc/ash-ra-template</url>
@@ -17,7 +17,7 @@
   </licenses>
   <scm>
     <url>https://github.com/vivid-inc/ash-ra-template</url>
-    <tag>0.7.2</tag>
+    <tag>0.8.0</tag>
   </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>
