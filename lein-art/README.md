@@ -65,14 +65,14 @@ supplied, ART will then expect to find rendering batches in `project.clj`.
 
 | `project.clj` | CLI argument | Parameters | Default | Explanation |
 | --- | --- | --- | --- | --- |
-| `:bindings` | `--bindings` | VAL | | Bindings made available to templates for symbol resolution |
-| `:delimiters` | `--delimiters` | VAL | `lispy` | Template delimiters |
+| `:bindings` | `--bindings` | VAL | | Bindings made available to templates for symbol resolution. |
+| `:delimiters` | `--delimiters` | VAL | `lispy` | Template delimiters. |
 | `:dependencies` | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. |
-| | `-h`, `--help` | | | Displays lovely help and then exits |
-| `:output-dir` | `--output-dir` | DIR | `.` | Write rendered files to DIR |
-| `:templates` | [FILES] | VAL | | Paths to ART template files |
-| `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `evaluate` | Stop the render dataflow on each template at an earlier phase |
-| `--watch-timeout-ms` | VAL | `500` | Trigger re-render once this timeout in milliseconds elapses, coalescing flurries of change to watched batches |
+| | `-h`, `--help` | | | Displays lovely help and then exits. |
+| `:output-dir` | `--output-dir` | DIR | `.` | Write rendered files to DIR. |
+| `:templates` | [FILES] | VAL | | Paths to ART template files. Accepts [PathMatcher globs](https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-). |
+| `:to-phase` | `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `evaluate` | Stop the render dataflow on each template at an earlier phase. |
+| `--watch-timeout-ms` | VAL | `500` | Trigger re-render once this timeout in milliseconds elapses, coalescing flurries of change to watched batches. |
 
 Depending on what types of values a particular option accepts and whether `lein-art` was invoked as a Leiningen configuration or from the CLI,
 ART attempts to interpret arguments in this order of precedence:

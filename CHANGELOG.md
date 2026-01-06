@@ -1,20 +1,20 @@
 # Ash Ra Template Changelog
 
 ## [0.7.2]
-_Unreleased_
+Released 2026-01-06.
 ### Added
 - Ability to specify template file paths using globs with Java's `java.nio.file.FileSystem::getPathMatcher` and its
   `glob:` syntax.
-- Clojure versions 1.11.4, 1.12.1 to the set of Clojure versions that ART is tested with.
+- Clojure versions 1.11.4, 1.12.4 to the set of Clojure versions that ART is tested with.
 - `version` CLI command that prints the name and version of the tool.
 ### Changed
-- BREAKING CHANGE: Function `(vivid.art/render)` has been renamed to `render-template-string`. In its place is
+- BREAKING CHANGE: Function `(vivid.art/render)` has been renamed to `render-template-string`. Taking its place is
   a protocol `vivid.art/Render` that defines two arities of `(render)`: One with a map of options and the other
   without. This newer `(render)` loses its variadic function signature (as a consequence of Clojure's technical
   constraint w.r.t. protocol definitions) and hence the convenient keyword arguments, while gaining the ability to
-  dispatch on the type of its template argument. Namespace `vivid.art` provides straightforward
-  implementations for `nil` and `String` -typed template arguments, while namespace `vivid.art.cli` adds `java.io.File`
-  and `java.nio.file.Path` types from which file content can be rendered.
+  dispatch on the type of its template argument. Namespace `vivid.art` provides straightforward implementations for
+  `nil` and `String` -typed template arguments, while namespace `vivid.art.cli` adds `java.io.File` and
+  `java.nio.file.Path` types from which file content can be rendered.
 - `clj-art` and `lein-art` are at parity in terms of CLI argument processing and definition of rendering batches in
   their project files `deps.edn` and `project.clj`.
   Their respective idiosyncrasies are noted in the automated tests and documentation.

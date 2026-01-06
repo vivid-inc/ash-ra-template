@@ -63,12 +63,13 @@ supplied, ART will then expect to find rendering batches in `deps.edn`.
 | Argument | Parameters | Default | Explanation |
 | --- | --- | --- | --- |
 | `--bindings` | VAL | | Bindings made available to templates for symbol resolution. Currently limited to a single usage in `clj-art`. |
-| `--delimiters` | VAL | `lispy` | Template delimiters |
+| `--delimiters` | VAL | `lispy` | Template delimiters. |
 | `--dependencies` | VAL | | Clojure deps map providing libs within the template evaluation environment. |
-| `-h`, `--help` | | | Displays lovely help and then exits |
-| `--output-dir` | DIR | `.` | Write rendered files to DIR |
-| `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `evaluate` | Stop the render dataflow on each template at an earlier phase |
-| `--watch-timeout-ms` | VAL | `500` | Trigger re-render once this timeout in milliseconds elapses, coalescing flurries of change to watched batches |
+| `-h`, `--help` | | | Displays lovely help and then exits. |
+| `--output-dir` | DIR | `.` | Write rendered files to DIR. |
+| `--templates` | [FILES] | VAL | | Paths to ART template files. Accepts [PathMatcher globs](https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-). |
+| `--to-phase` | One of: `parse`, `translate`, `enscript`, `evaluate` | `evaluate` | Stop the render dataflow on each template at an earlier phase. |
+| `--watch-timeout-ms` | VAL | `500` | Trigger re-render once this timeout in milliseconds elapses, coalescing flurries of change to watched batches. |
 
 Depending on what types of values a particular option accepts,
 ART attempts to interpret arguments in this order of precedence:
