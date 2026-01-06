@@ -86,5 +86,5 @@ Seeking to wield such expressive power in a general-purpose templating system, w
 
 ## License
 
-© Copyright 2025 Vivid Inc. and/or its affiliates.
+© Copyright 2026 Vivid Inc. and/or its affiliates.
 [Apache License 2.0](LICENSE.txt) licensed.

@@ -88,4 +88,5 @@
      (process project command args*)
      (:vivid.art.cli/error [_ details] (if (:show-usage details)
                                          (exit (or (:exit-status details) 1) (usage))
-                                         (exit 1 (messages/pp-str-error details)))))))
+                                         (exit 1 (messages/pp-str-error details))))
+     (::farolero/error [condition] (exit 1 (messages/pp-str-error condition))))))

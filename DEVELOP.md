@@ -46,6 +46,7 @@ In the automated tests, some values may appear nonsensical or even absurd, but w
 ## Along the path to ART version 1.0 and beyond
 
 ### Next:
+- Allow the batch specification `templates` argument to also accept quoted functions, in addition to stringified file paths. Fuctions will be called with the batch as their first argument and are expected to return a seq of render jobs.
 - `watch` command: Tolerate failure on the first full pass. This might be accomplished by first entering watch mode, then queueing a full render.
 - CLI option to either fail command by first attempting the entire batch then reporting exit code 
   (default, consistent with `watch`), or at first render error `--fail-fast` (applicable only for `render`, not `watch`).
@@ -110,7 +111,7 @@ In the automated tests, some values may appear nonsensical or even absurd, but w
 - AOT compilation.
 - Provide ability to compile the input template, perhaps re-writing `(render)` as a macro, or adding a `:compile` render option.
   - Useful when the same template is run many times, such as a webserver rendering responses based on a template.
-  - Produces a plain function. `(def page (vivid.art/renderc (slurp "index.html.art"))) (page p)`
+  - Produces a plain function. `(def page (vivid.art/render-compiled (slurp "index.html.art"))) (page p)`
 - Container image to run ART from your present CLI.
 - The purpose of ART is multi-fold: An ideal substrate for building a custom templating solution such as the constrained Jinja or something more flexible, and as a fully-featured templating system in its own right.
 - babashka, jank-lang.

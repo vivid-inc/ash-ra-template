@@ -336,5 +336,5 @@ Render an ART template that emits the value of the rendering context:
 
 ## License
 
-© Copyright 2025 Vivid Inc. and/or its affiliates.
+© Copyright 2026 Vivid Inc. and/or its affiliates.
 [Apache License 2.0](LICENSE.txt) licensed.

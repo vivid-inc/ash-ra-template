@@ -1,4 +1,4 @@
-; Copyright 2025 Vivid Inc. and/or its affiliates.
+; Copyright 2026 Vivid Inc. and/or its affiliates.
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License")
 ; you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@
                          ["cloverage"]
                          ["jar"]
                          ["install"]]
-            "clj-kondo" ["with-profile" "clojure-1.12.1,clj-kondo" "run" "-m" "clj-kondo.main" "--"]
+            "clj-kondo" ["with-profile" "clojure-1.12.4,clj-kondo" "run" "-m" "clj-kondo.main" "--"]
             "lint"      ["do"
                          ["cljfmt" "check"]
                          ;["clj-kondo" "--lint" "src:test"   ; ~#(clojure.string/join ":" (leiningen.core.classpath/get-classpath %))
@@ -83,7 +83,7 @@
              :clojure-1.10.0 {:dependencies [[org.clojure/clojure "1.10.0"]]}
              :clojure-1.10.3 {:dependencies [[org.clojure/clojure "1.10.3"]]}
              :clojure-1.11.4 {:dependencies [[org.clojure/clojure "1.11.4"]]}
-             :clojure-1.12.1 {:dependencies [[org.clojure/clojure "1.12.1"]]}
+             :clojure-1.12.4 {:dependencies [[org.clojure/clojure "1.12.4"]]}
 
              :deploy {:javac-options ["-target" "1.8" "-source" "1.8"]}
 

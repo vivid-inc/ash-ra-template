@@ -39,7 +39,7 @@
 ;
 
 (defn render-batch
-  "Scans :templates for files and directory sub-trees, renders all ART templates found
+  "Scans :templates for files and directory subtrees, renders all ART templates found
   within according to the batch settings. Fails fast in event of an error."
   [batch]
   (let [templates (:templates batch)]

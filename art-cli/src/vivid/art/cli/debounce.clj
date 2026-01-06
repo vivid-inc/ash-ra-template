@@ -44,6 +44,6 @@
         ; TODO Will destroy new tasks registered concurrently with the execution of this fn.
         (swap! tasks dissoc k)
 
-        ; TODO Don't allow for application to occur more than one at a time.
+        ; TODO Don't allow apply to occur more than one at a time.
         (apply (:f k) (:args k)))
       (recur))))
