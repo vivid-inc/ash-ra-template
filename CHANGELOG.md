@@ -2,6 +2,8 @@
 
 ## [0.8.0]
 _Unreleased_.
+### Fixed
+- `watch` CLI function debouncing.
 
 ## [0.7.2]
 Released 2026-01-06.

@@ -67,6 +67,7 @@ In the automated tests, some values may appear nonsensical or even absurd, but w
 - `vivid.art.cli.resolve/resolve-as-var` and `*-example-custom-options`
 - Ability to specify named batches, and run only those batches in a rendering run.
 - Extend vivid.art/Render protocol to handle Java `Reader` or `InputStream` types. See https://clojuredocs.org/clojure.java.io/reader
+- Add either the project configuration batch stanza or the CLI args to each stanza in the `config` command output. This will aid debugging.
 
 
 

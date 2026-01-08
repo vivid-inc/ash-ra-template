@@ -90,10 +90,10 @@
 (defn directory-handler-fn
   [batch ^File f]
   (fn [event-fn]
-    (let [path-str     (.toString f)
-          debounced-fn (fn [_] (debounce/debounce (:watch-timeout-ms batch) event-fn batch))]
+    (let [path-str           (.toString f)
+          debounced-event-fn #(debounce/debounce (:watch-timeout-ms batch) event-fn batch)]
       (log/*info-fn* "Watching" path-str)
-      (watch debounced-fn (.toPath f)))))
+      (watch debounced-event-fn (.toPath f)))))
 
 (defn file-handler-fn
   "io.methvin:directory-watcher only handles directories.
@@ -101,8 +101,8 @@
   ignoring all events except those that match the file path."
   [batch ^File f]
   (fn [event-fn]
-    (let [parent-dir (.getParentFile f)
-          path-str   (.toString f)
+    (let [parent-dir  (.getParentFile f)
+          path-str    (.toString f)
           my-event-fn (fn [event]
                         (when (Files/isSameFile (.toPath f) (:path event))
                           (debounce/debounce (:watch-timeout-ms batch) event-fn batch)))]
@@ -124,7 +124,7 @@
   (let [batch (merge batch-defaults
                      batch')]
     (reduce (fn [acc' template-info]
-              (let [path (:src-path template-info)
+              (let [path    (:src-path template-info)
                     handler (cond
                               (= (:oriented-as template-info) :directory) (directory-handler-fn batch path)
                               (= (:oriented-as template-info) :file) (file-handler-fn batch path)
@@ -135,9 +135,9 @@
 
 (defn watch-and-sleep!
   [handlers event-fn]
+  ; At start, run all batches once.
   (doseq [h handlers]
     (h event-fn))
-  (debounce/debounce-go-loop)
   (while true
     (Thread/sleep Long/MAX_VALUE)))
 
@@ -146,6 +146,10 @@
   Whenever a file system event occurs associated with a batch, calls
   event-fn with batch."
   [batches event-fn]
+  ; TODO batch->handlers runs the watcher threads as side-effect. Sequence:
+  ; 1. Run all batches at start.
+  ; 2. Start watch loops, sleep indefinitely on main thread.
+  ; 3. Signal CTRL-c to terminate all watch loops immediately.
   (let [handlers (reduce batch->handlers [] batches)]
     (if (seq handlers)
       (watch-and-sleep! handlers event-fn)
