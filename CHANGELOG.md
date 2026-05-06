@@ -3,6 +3,7 @@
 ## [0.8.0]
 _Unreleased_.
 ### Fixed
+- `(emit)` function is namespaced in `:enscript`ed output, enabling it to unambiguously co-exist with `(emit)` defined in other namespaces, for example in dependencies.
 - `watch` CLI function debouncing.
 
 ## [0.7.2]

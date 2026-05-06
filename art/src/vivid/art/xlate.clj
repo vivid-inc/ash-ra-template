@@ -20,19 +20,19 @@
 
 (defn echo
   "Writes an (emit) to the compiled code that echoes the plain string but with escaping."
-  [acc val]
+  [ns-sym acc val]
   (let [escaped (clojure.string/escape val {\" "\\\""
                                             \\ "\\\\"})]
-    (conj acc (str "(emit \"" escaped "\")"))))
+    (conj acc (str "(" ns-sym "/emit \"" escaped "\")"))))
 
 (defn eval
   "Writes an (emit) to the compiled code that outputs the result of evaluating the forms."
-  [acc expr]
-  (conj acc (str "(emit " expr " )")))
+  [ns-sym acc expr]
+  (conj acc (str "(" ns-sym "/emit " expr " )")))
 
 (defn forms
   "Echoes Clojure forms from the template to the compiled code."
-  [acc expr]
+  [_ns-sym acc expr]
   (conj acc expr))
 
 (def lenient-fsm-states
@@ -52,16 +52,18 @@
                       {::tk/on :vivid.art/end-forms    ::tk/to :echo}
                       {::tk/on ::tk/_                  ::tk/actions [forms]}]}])
 
-(def lenient-fsm
-  {::tk/states lenient-fsm-states
-   ::tk/action! (fn [{::tk/keys [action signal] :as fsm}]
-                  (update-in fsm [::tk/process :output] action signal))
-   ::tk/state   :echo
-   :output      []})
+(defn lenient-fsm
+  [cur-context-frame]
+  (let [ns-sym (get cur-context-frame :ns)]
+    {::tk/states lenient-fsm-states
+     ::tk/action! (fn [{::tk/keys [action signal] :as fsm}]
+                    (update-in fsm [::tk/process :output] (partial action ns-sym) signal))
+     ::tk/state   :echo
+     :output      []}))
 
 (defn translate
   "Translates a sequence of tokens into Clojure code that,
   when evaluated, produces the template output."
-  [token-stream]
-  (let [result (reduce tk/apply-signal lenient-fsm token-stream)]
+  [token-stream cur-context-frame]
+  (let [result (reduce tk/apply-signal (lenient-fsm cur-context-frame) token-stream)]
     (:output result)))

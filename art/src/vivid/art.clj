@@ -52,19 +52,19 @@
            delimiters default-delimiters
            to-phase   default-to-phase}}]
   (when template
-    (let [bindings    (merge (get vivid.art/*render-context* :bindings) bindings)
-          new-context (merge options
-                             {:bindings bindings
-                              :ns       (gensym 'vivid-art-user-)})
-          render*     #(cond-> template
-                         (to-phase? :parse     to-phase) (parse delimiters)
-                         (to-phase? :translate to-phase) (translate)
-                         (to-phase? :enscript  to-phase) (enscript bindings)
-                         (to-phase? :evaluate  to-phase) (evaluate))]
+    (let [bindings          (merge (get vivid.art/*render-context* :bindings) bindings)
+          new-context-frame (merge options
+                                   {:bindings bindings
+                                    :ns       (gensym 'vivid-art-user-)})
+                render*     #(cond-> template
+                               (to-phase? :parse     to-phase) (parse delimiters)
+                               (to-phase? :translate to-phase) (translate new-context-frame)
+                               (to-phase? :enscript  to-phase) (enscript bindings)
+                               (to-phase? :evaluate  to-phase) (evaluate))]
       ; TODO Document: Bindings are available in 2 places: In *render-context* as-is, but are also (pr-str)'ed in the document, which messes up functions and other such unprintable values.
       (with-bindings {#'vivid.art/*render-context*
                       (assemble-render-context vivid.art/*render-context*
-                                               new-context)}
+                                               new-context-frame)}
         (farolero/handler-case (render*)
                                (:vivid.art/parse-error [_ details]
                                                        (make-failure :parse-error details template)))))))
