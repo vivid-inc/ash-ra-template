@@ -15,6 +15,7 @@
 ; See https://clojure.org/guides/deps_and_cli
 
 (ns ^:internal-api vivid.art.clj-tool
+  "Internal API."
   (:require
    [clojure.edn]
    [clojure.java.io :as io]

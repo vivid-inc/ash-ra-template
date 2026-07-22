@@ -13,7 +13,7 @@
 ; limitations under the License.
 
 (ns ^:internal-api vivid.art.cli.files
-  "File and path handling common to this ART CLI library in general."
+  "Internal API. File and path handling common to this ART CLI library in general."
   (:require
    [clojure.java.io :as io]
    [clojure.string]

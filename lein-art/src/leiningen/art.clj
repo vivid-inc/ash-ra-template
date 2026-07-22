@@ -13,6 +13,7 @@
 ; limitations under the License.
 
 (ns ^:internal-api leiningen.art
+  "Internal API."
   (:require
    [clojure.string]
    [clojure.tools.cli]

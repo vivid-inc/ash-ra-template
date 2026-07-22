@@ -13,6 +13,7 @@
 ; limitations under the License.
 
 (ns ^:internal-api vivid.art.cli.watch
+  "Internal API."
   (:require
    [vivid.art.cli.debounce :as debounce]
    [vivid.art.cli.log :as log])

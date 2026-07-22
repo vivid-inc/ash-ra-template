@@ -13,6 +13,7 @@
 ; limitations under the License.
 
 (ns ^:internal-api vivid.art.cli.usage
+  "Internal API."
   (:require
    [clojure.string]
    [vivid.art]

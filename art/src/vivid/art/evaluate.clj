@@ -12,7 +12,8 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns ^:internal-api vivid.art.evaluate)
+(ns ^:internal-api vivid.art.evaluate
+  "Internal API.")
 
 (defn evaluate
   [code]

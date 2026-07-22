@@ -13,7 +13,7 @@
 ; limitations under the License.
 
 (ns ^:internal-api vivid.art.cli.validate
-  "Validation of individual options available in public API & CLI."
+  "Internal API. Validation of individual options available in public API & CLI."
   (:require
    [clojure.spec.alpha :as s]
    [clojure.string]

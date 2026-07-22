@@ -13,6 +13,7 @@
 ; limitations under the License.
 
 (ns ^:internal-api vivid.art.xlate
+  "Internal API."
   (:refer-clojure :exclude [eval])
   (:require
    [clojure.string]

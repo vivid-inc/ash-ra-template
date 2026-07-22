@@ -13,7 +13,7 @@
 ; limitations under the License.
 
 (ns ^:internal-api vivid.art.specs
-  "Clojure Spec definitions for Ash Ra Temple data structures.
+  "Internal API. Clojure Spec definitions for Ash Ra Temple data structures.
   All definitions exposed through ART's API plus all key
   definitions are namespaced."
   (:require

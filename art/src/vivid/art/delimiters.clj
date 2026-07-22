@@ -13,7 +13,7 @@
 ; limitations under the License.
 
 (ns ^:internal-api vivid.art.delimiters
-  "Definitions of template delimiter tags in the style of Ruby ERB
+  "Internal API. Definitions of template delimiter tags in the style of Ruby ERB
   and various other templating systems.")
 
 (def ^:const erb

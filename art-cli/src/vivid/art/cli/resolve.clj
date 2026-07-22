@@ -13,7 +13,7 @@
 ; limitations under the License.
 
 (ns ^:internal-api vivid.art.cli.resolve
-  "Resolvers of CLI option arguments.
+  "Internal API. Resolvers of CLI option arguments.
 
   If an argument doesn't appear to be resolvable according to the nature of
   a given resolver fn, it returns nil. Otherwise, these fns proceed with

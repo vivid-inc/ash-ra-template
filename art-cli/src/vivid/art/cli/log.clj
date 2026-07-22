@@ -13,7 +13,7 @@
 ; limitations under the License.
 
 (ns ^:internal-api vivid.art.cli.log
-  "Logging facility used by this library. Consumers of this library may bind
+  "Internal API. Logging facility used by this library. Consumers of this library may bind
   the logging fn vars to their extant logging functions.")
 
 (def mutex (Object.))

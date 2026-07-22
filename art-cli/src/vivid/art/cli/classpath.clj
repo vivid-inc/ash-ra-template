@@ -13,6 +13,7 @@
 ; limitations under the License.
 
 (ns ^:internal-api vivid.art.cli.classpath
+  "Internal API."
   (:require
    [cemerick.pomegranate :as pomegranate]
    [cemerick.pomegranate.aether :as aether]

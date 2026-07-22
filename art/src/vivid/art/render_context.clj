@@ -12,7 +12,8 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-(ns ^:internal-api vivid.art.render-context)
+(ns ^:internal-api vivid.art.render-context
+  "Internal API.")
 
 (defn assemble-render-context
   [outer-context new-context]

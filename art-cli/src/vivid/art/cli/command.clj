@@ -13,7 +13,7 @@
 ; limitations under the License.
 
 (ns ^:internal-api vivid.art.cli.command
-  "CLI command parsing and dispatch."
+  "Internal API. CLI command parsing and dispatch."
   (:require
    [clojure.pprint]
    [clojure.string]

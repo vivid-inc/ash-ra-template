@@ -13,7 +13,7 @@
 ; limitations under the License.
 
 (ns ^:internal-api vivid.art.cli.exec
-  "Non-lazily drives the rendering of batches."
+  "Internal API. Non-lazily drives the rendering of batches."
   (:require
    [clojure.java.io :as io]
    [clojure.pprint]

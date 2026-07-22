@@ -13,6 +13,7 @@
 ; limitations under the License.
 
 (ns ^:internal-api vivid.art.parse
+  "Internal API."
   (:require
    [clojure.spec.alpha :as s]
    [clojure.string :as str]
