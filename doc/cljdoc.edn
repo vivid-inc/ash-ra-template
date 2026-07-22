@@ -1,0 +1,24 @@
+; See https://github.com/cljdoc/cljdoc/blob/master/doc/userguide/for-library-authors.adoc#articles
+{;; Amalgamate APIs
+ :cljdoc/include-namespaces-from-dependencies
+ [net.vivid-inc/art
+  net.vivid-inc/art-cli
+  net.vivid-inc/clj-art
+  net.vivid-inc/lein-art]
+
+ :cljdoc.doc/tree
+ [["Introduction" {:file "README.md"}]
+  ["Chrestomathy" {:file "doc/chrestomathy.md"}]
+  ["Examples" {:file "examples/README.md"}]
+  ["Libraries"
+   ["art templating library" {:file "art/README.md"}]
+   ["art-cli CLI library" {:file "art-cli/README.md"}]
+   ["clj-art Clojure tool" {:file "cli-art/README.md"}]
+   ["lein-art Leiningen plugin" {:file "lein-art/README.md"}]]
+  ["Developer guide"
+   ["Developing Ash Ra Template" {:file "doc/DEVELOP.md"}]
+   ["How Ash Ra Template is tested" {:file "doc/QUALITY.md"}]
+   ["Developer's Certificate of Origin (DCO)" {:file "doc/DCO.txt"}]]
+  ["Changelog" {:file "CHANGELOG.md"}]
+  ["License" {:file "LICENSE.txt"}]
+  ["Copyright" {:file "doc/COPYRIGHT.md"}]]}

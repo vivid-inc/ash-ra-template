@@ -6,6 +6,7 @@ codecov.json
 *.iml
 .idea
 .lein-*
+.mise.toml
 .nrepl-history
 .nrepl-port
 target

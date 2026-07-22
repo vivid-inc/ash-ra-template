@@ -82,6 +82,8 @@
   (when (string? x)
     (try
       ; TODO Bind read-eval to false before using read-string ? https://stackoverflow.com/questions/16000306/how-to-safely-read-untrusted-clojure-code-not-just-some-serialized-data
+      ; TODO See https://clojuredocs.org/clojure.core/*read-eval*
+      ; TODO This disablement might apply more generally such as when (slurp) 'ing
       (edn/read-string x)
       (catch RuntimeException _
         nil))))

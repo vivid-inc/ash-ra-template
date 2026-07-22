@@ -65,9 +65,9 @@ Or, to render from a file:
 ## Contributing
 
 **Pull Requests** are welcome!
-We work with people offering PRs to revise and iterate leading to solutions in accord with project goals and [release criteria](QUALITY.md).
-Development topics and product roadmap are maintained in [DEVELOP.md](DEVELOP.md). 
-Commits must include Signed-off-by indicating acceptance of the [Developer's Certificate of Origin](DCO.txt).
+We work with people offering PRs to revise and iterate leading to solutions in accord with project goals and [release criteria](doc/QUALITY.md).
+Development topics and product roadmap are maintained in [doc/DEVELOP.md](doc/DEVELOP.md). 
+Commits must include Signed-off-by indicating acceptance of the [Developer's Certificate of Origin](doc/DCO.txt).
 Unproductive behavior such as unkindness or derailment is not tolerated.
 
 

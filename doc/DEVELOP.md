@@ -35,7 +35,7 @@ In the automated tests, some values may appear nonsensical or even absurd, but w
 
 ## Known defects and limitations
 - `:dependencies` in each ART batch linger in their parent classloader, accumulating and leaking with subsequent
-  batches. See [art-cli/src/vivid/art/cli/classpath.clj].
+  batches. See [art-cli/src/vivid/art/cli/classpath.clj]. Research unloading mechanisms like https://github.com/tonsky/clj-reload
 - Templates that generate clj functions larger than the 64KB limit fail, due to:
   https://github.com/clojure/clojure/blob/13a2f67b91ab81cd109ea3152fce1ae76d212453/src/jvm/clojure/asm/ByteVector.java#L242C21-L242C28
 - In nested rendering, passing a block whose contents when serialized contains Clojure forms will cause Clojure's
