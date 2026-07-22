@@ -63,6 +63,18 @@
   </dependencyManagement>
   <dependencies>
     <dependency>
+      <groupId>leiningen</groupId>
+      <artifactId>leiningen</artifactId>
+      <version>2.10.0</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>clojure</artifactId>
+          <groupId>org.clojure</groupId>
+        </exclusion>
+      </exclusions>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>net.vivid-inc</groupId>
       <artifactId>art-cli</artifactId>
       <version>0.7.2</version>
@@ -83,18 +95,6 @@
           <groupId>org.clojure</groupId>
         </exclusion>
       </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>leiningen</groupId>
-      <artifactId>leiningen</artifactId>
-      <version>2.10.0</version>
-      <exclusions>
-        <exclusion>
-          <artifactId>clojure</artifactId>
-          <groupId>org.clojure</groupId>
-        </exclusion>
-      </exclusions>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.clojure</groupId>

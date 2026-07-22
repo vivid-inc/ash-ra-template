@@ -1,0 +1,2 @@
+[tools]
+leiningen = "<%= (get vivid-art-facts 'lein-version) %>"

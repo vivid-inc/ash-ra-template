@@ -56,7 +56,8 @@
   ;            :output   "cloverage"                  ; "lein jar" destroys target/cloverage
   ;            }
 
-  :dependencies [[net.vivid-inc/art-cli   "0.7.2"]
+  :dependencies [[leiningen/leiningen     "2.10.0" :scope "provided"]
+                 [net.vivid-inc/art-cli   "0.7.2"]
                  [org.clojure/tools.cli   "1.1.230"]]
 
   :eftest {:capture-output? true}
@@ -113,8 +114,6 @@
                                     ;; https://github.com/jakemcc/lein-test-refresh
                                     [com.jakemccrary/lein-test-refresh "0.26.0"]]
 
-                   :test-refresh   {:quiet true}}
-
-             :provided {:dependencies [[leiningen "2.10.0"]]}}
+                   :test-refresh   {:quiet true}}}
 
   :repositories [["clojars" {:sign-releases false}]])
