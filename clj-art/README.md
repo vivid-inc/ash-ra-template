@@ -152,16 +152,15 @@ __See also:__
 
 ### Re-render templates whenever they change in a deps.edn project
 ```
-$ cat project.clj
-(defproject art-example--watch "0"
+$ cat deps.edn
+{:aliases {:art {:extra-deps {net.vivid-inc/clj-art {:mvn/version "0.8.0"}}
+                 :main-opts  ["-m" "vivid.art.clj-tool"]}}
 
-  ; ART template batch configuration
-  :art {:templates    "resources"
-        :output-dir   "target"}
+ ; Define ART rendering batches
+ :art [{:templates    "resources"
+        :output-dir   "target"}]}
 
-  :plugins [[net.vivid-inc/lein-art "0.8.0"]])  ; Render ART templates with lein-art
-
-$ lein art watch
+$ clj -M:art watch
 Press CTRL-C to interrupt watch
 Rendering ART resources/...
 ...
